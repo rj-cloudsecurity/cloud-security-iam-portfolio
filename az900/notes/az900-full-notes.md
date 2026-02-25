@@ -3,7 +3,7 @@
 ## Week 1: 23-2-2026
 
 - **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
-   - **Module:** Describe cloud computing
+   - **Module:** 1. Describe cloud computing
       - **Extra:** FreeCodeCamp AZ‑90
 
 **What is cloud computing**
@@ -28,7 +28,7 @@
 ---
    
 - **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
-   - **Module:** Describe the benefits of using cloud services
+   - **Module:** 2. Describe the benefits of using cloud services
       - **Extra:** FreeCodeCamp AZ‑90
    
 **Benefits of high availability and scalability in the cloud**
@@ -54,7 +54,7 @@
 ---
    
 - **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
-   - **Module:** Describe cloud service types
+   - **Module:** 3. Describe cloud service types
       - **Extra:** FreeCodeCamp AZ‑90
 
 **IaaS - Infrastructure as a Service**
@@ -137,7 +137,7 @@ Cloud computing draait om het leveren van IT‑diensten via het internet, zoals 
 ---
    
 - **Learning path:** Introduction to Cloud Infrastructure: Azure architecture & services
-   - **Module:** Describe the core architectural components of Azure
+   - **Module:** 1. Describe the core architectural components of Azure
       - **Extra:** FreeCodeCamp AZ‑90
 
 **What is Microsoft Azure**
@@ -218,7 +218,7 @@ Cloud computing draait om het leveren van IT‑diensten via het internet, zoals 
 ---
    
 - **Learning path:** Introduction to Cloud Infrastructure: Azure architecture & services
-   - **Module:** Describe Azure compute and networking services
+   - **Module:** 2. Describe Azure compute and networking services
       - **Extra:** FreeCodeCamp AZ‑90
 
 **Azure virtual machines**
