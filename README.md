@@ -1,14 +1,9 @@
 # Coud & Security Learning Repository
 
-This repository contains my study notes and hands-on exercises for multiple Microsoft cloud certifications. It supports my development in Cloud, Identity & Access Management (IAM), and Cloud Security.
-
----
+This repository contains my study notes and hands-on exercises for multiple Microsoft cloud certifications. It is designed to support my development in Cloud, Identity & Access Management (IAM), and Cloud Security.
 
 ## Purpose
-I use this repository to document what I learn while studying Azure fundamentals.  
-It helps me structure my knowledge, track progress, and prepare for future certifications such as AZ-104, MS-900, and SC-900.
-
----
+This repository serves as a central place to document what I learn while studying Microsoft cloud fundamentals. It helps me organize knowledge, track progress, and prepare for certifications such as AZ-900, AZ-104, MS-900, and SC-900.
 
 ## Repository Structure
 
