@@ -27,9 +27,9 @@
 
 ---
    
-### - **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
-###    - **Module:** Describe the benefits of using cloud services
-###       - **Extra:** FreeCodeCamp AZ‑90
+- **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
+   - **Module:** Describe the benefits of using cloud services
+      - **Extra:** FreeCodeCamp AZ‑90
    
 **Benefits of high availability and scalability in the cloud**
    - High availabilty: diensten blijven draaien doordat Azure meerdere datacenters gebruikt
