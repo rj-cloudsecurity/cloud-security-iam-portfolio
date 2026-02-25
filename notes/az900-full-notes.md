@@ -26,7 +26,7 @@
 
 ---
    
-- **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
+### - **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
    - **Module:** Describe the benefits of using cloud services
       - **Extra:** FreeCodeCamp AZ‑90
    
