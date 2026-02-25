@@ -1,49 +1,85 @@
 # AZ-900 Study Notes
 
-This repository contains my personal study notes for the Microsoft Azure Fundamentals (AZ-900) certification.  
-These notes reflect my learning journey toward a career in Cloud, Identity & Access Management (IAM), and Cloud Security.
+This repository contains my personal study notes and hands-on exercises for the Microsoft Azure Fundamentals (AZ-900) certification.  
+It reflects my learning journey toward a career in Cloud, Identity & Access Management (IAM), and Cloud Security.
 
 ---
 
 ## Purpose
 I use this repository to document what I learn while studying Azure fundamentals.  
-It helps me structure my knowledge, track progress, and prepare for future certifications such as AZ-104, SC-900, and SC-300.
+It helps me structure my knowledge, track progress, and prepare for future certifications such as AZ-104, MS-900, and SC-900.
 
 ---
 
-## Contents
-1. **Cloud computing**
-   - What is cloud computing
-   - Shared responsibility model
-   - Cloud Models
-   - Consumption-based model
-   - Shared Responsibility Model
+## Repository Structure
 
-2. **Benefits of using cloud services**
-   - High availability and scalability in the cloud
-   - Reliability and predictability in the cloud
-   - Security and governance in the cloud
-   - Manageability in the cloud
-
-3. **cloud service types**
-   - IaaS - Infrastructure as a Service
-   - PaaS - Platform as a Service
-   - SaaS - Software as a Service
-
+az900/
+  notes/
+    az900-full-notes.md
+  exercises/
+    create-azure-resource.md
+README.md
 
 ---
 
-## Notes Structure
-All detailed notes are stored in:
+## Notes Overview
 
-```
-/az900/notes/az900-full-notes.md
-```
+Detailed notes are stored in:
+
+- [notes AZ-900](/az900/notes/az900-full-notes.md)
 
 This file contains:
-- Definitions 
+- Definitions  
 - Summaries  
-- My own explanations  
+- Explanations in my own words  
+- Key concepts for the AZ-900 exam  
+
+---
+
+## Exercises
+
+Hands-on practice tasks to reinforce learning:
+
+- [Exercise – Create an Azure Resource](/az900/exercises/create-azure-resource.md)
+
+More exercises will be added as I progress.
+
+---
+
+## Topics Covered
+
+1. **Cloud computing**
+   - What is cloud computing  
+   - Shared responsibility model  
+   - Cloud deployment models  
+   - Consumption-based model  
+
+2. **Benefits of using cloud services**
+   - High availability & scalability  
+   - Reliability & predictability  
+   - Security & governance  
+   - Manageability  
+
+3. **Cloud service types**
+   - IaaS  
+   - PaaS  
+   - SaaS  
+   - Examples across compute, storage, networking, identity, monitoring  
+
+4. **Core Azure architectural components**
+   - Azure accounts  
+   - Azure regions & datacenters  
+   - Azure management infrastructure  
+   - Resource groups  
+   - [Exercise: Create an Azure Resource](/az900/exercises/create-azure-resource.md)
+
+5. **Azure compute & networking services**
+   - Virtual machines  
+   - Containers  
+   - Functions  
+   - App hosting options  
+   - Virtual networks  
+   - VPNs, ExpressRoute, DNS  
 
 ---
 
