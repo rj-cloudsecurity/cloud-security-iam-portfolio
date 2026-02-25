@@ -32,24 +32,24 @@
       - **Extra:** FreeCodeCamp AZ‑90
    
 **Benefits of high availability and scalability in the cloud**
-    • High availabilty: diensten blijven draaien doordat Azure meerdere datacenters gebruikt
-    • Scalability: automatisch meer of midner capaciteit gebruiken wanneer de vraag stijgt of daalt
-    • Vertical scaling: groter of kleiner maken van één machine
-    • Horizontal scaling: meer of minder machines toevoegen
+   - High availabilty: diensten blijven draaien doordat Azure meerdere datacenters gebruikt
+   - Scalability: automatisch meer of midner capaciteit gebruiken wanneer de vraag stijgt of daalt
+   - Vertical scaling: groter of kleiner maken van één machine
+   - Horizontal scaling: meer of minder machines toevoegen
 
 **Benefits of reliability and predictability in the cloud**
-    • Reliability: cloud blijft werken, zelfs als er iets uitvalt
-    • Predictability: vooraf goed te verwachten prestaties
-    • Performance: autoscaling en load balancing houden je app snel
-    • Cost: cloudkosten goed voorspellen en bijsturen met realtime inzicht en tools
+   - Reliability: cloud blijft werken, zelfs als er iets uitvalt
+   - Predictability: vooraf goed te verwachten prestaties
+   - Performance: autoscaling en load balancing houden je app snel
+   - Cost: cloudkosten goed voorspellen en bijsturen met realtime inzicht en tools
 
 **Benefits of security and governance in the cloud**
-    • Governance: policies en audits zorgen dat alles aan de regels voldoet
-    • Security: zelf de verantwoordelijkheid kiezen IaaS of PaaS/SaaS
+   - Governance: policies en audits zorgen dat alles aan de regels voldoet
+   - Security: zelf de verantwoordelijkheid kiezen IaaS of PaaS/SaaS
 
 **Benefits of manageability in the cloud**
-    • Of the cloud: Automatically scale resources, templates, health alerts
-    • In the cloud: webportal, CLI, API, Powershell
+   - Of the cloud: Automatically scale resources, templates, health alerts
+   - In the cloud: webportal, CLI, API, Powershell
 
 ---
    
@@ -59,22 +59,22 @@
       - **Extra:** FreeCodeCamp AZ‑90
 
 IaaS - Infrastructure as a Service
-    • Definitie: de infrastructuur (servers, storage, netwerk).
-    • Microsoft beheert: hardware, datacenter, netwerk, fysieke beveiliging.
-    • Klant beheert: OS, updates, apps, data, configuratie.
-    • Voorbeelden: Azure VM, Azure Storage, Azure Virtual Network.
+   - Definitie: de infrastructuur (servers, storage, netwerk).
+   - Microsoft beheert: hardware, datacenter, netwerk, fysieke beveiliging.
+   - Klant beheert: OS, updates, apps, data, configuratie.
+   - Voorbeelden: Azure VM, Azure Storage, Azure Virtual Network.
       
 PaaS - Platform as a Service
-    • Definitie: compleet platform (infrastructuur + OS + runtime)
-    • Microsoft beheert: hardware, netwerk, OS, updates, runtime
-    • Klant beheert: applicatie en data
-    • Voorbeelden: Azure App Service, Azure SQL Database, Azure Functions
+   - Definitie: compleet platform (infrastructuur + OS + runtime)
+   - Microsoft beheert: hardware, netwerk, OS, updates, runtime
+   - Klant beheert: applicatie en data
+   - Voorbeelden: Azure App Service, Azure SQL Database, Azure Functions
       
 SaaS - Software as a Service
-    • Definitie: kant‑en‑klare app via internet.
-    • Microsoft beheert: alles (infrastructuur, OS, app, updates).
-    • Klant beheert: instellingen en data.
-    • Voorbeelden: Microsoft 365, Outlook, Teams.
+   - Definitie: kant‑en‑klare app via internet.
+   - Microsoft beheert: alles (infrastructuur, OS, app, updates).
+   - Klant beheert: instellingen en data.
+   - Voorbeelden: Microsoft 365, Outlook, Teams.
 
 ---
 
