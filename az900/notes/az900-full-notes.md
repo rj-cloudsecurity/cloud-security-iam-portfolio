@@ -137,16 +137,16 @@ Cloud computing draait om het leveren van IT‑diensten via het internet, zoals 
 ---
 
 Scenario‑oefeningen
-    1. Wie is verantwoordelijk voor het patchen van een VM?		      Customer
-    2. Wie beheert de fysieke beveiliging van het datacenter?	      Microsoft
-    3. Wie bepaalt wie toegang heeft tot een Azure Storage Account?	Customer
-    4. Wie beheert de OS‑updates in PaaS?					               Microsoft
-    5. Wie beheert de data in SaaS?						                  Customer		
-    6. Wie beheert de firewallregels in een VNET?			            Customer
-    7. Wie beheert de hypervisor?						                  Microsoft
-    8. Wie beheert MFA‑instellingen?					                  Customer
-    9. Wie beheert encryptie van data at rest?				            Microsoft/Customer
-    10. Wie beheert de applicatiecode in App Service?		            Customer
+   - Wie is verantwoordelijk voor het patchen van een VM?		   Customer
+   - Wie beheert de fysieke beveiliging van het datacenter?	      Microsoft
+   - Wie bepaalt wie toegang heeft tot een Azure Storage Account?	Customer
+   - Wie beheert de OS‑updates in PaaS?					            Microsoft
+   - Wie beheert de data in SaaS?						               Customer		
+   - Wie beheert de firewallregels in een VNET?			            Customer
+   - Wie beheert de hypervisor?						                  Microsoft
+   - Wie beheert MFA‑instellingen?					                  Customer
+   - Wie beheert encryptie van data at rest?				            Microsoft/Customer
+   - Wie beheert de applicatiecode in App Service?		            Customer
 
 ---
    
