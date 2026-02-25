@@ -135,6 +135,20 @@ Cloud computing draait om het leveren van IT‑diensten via het internet, zoals 
 | Azure Policy             | Governance & regels afdwingen        | SaaS | Microsoft: service — Jij: policies maken |
 
 ---
+
+Scenario‑oefeningen
+    1. Wie is verantwoordelijk voor het patchen van een VM?		      Customer
+    2. Wie beheert de fysieke beveiliging van het datacenter?	      Microsoft
+    3. Wie bepaalt wie toegang heeft tot een Azure Storage Account?	Customer
+    4. Wie beheert de OS‑updates in PaaS?					               Microsoft
+    5. Wie beheert de data in SaaS?						                  Customer		
+    6. Wie beheert de firewallregels in een VNET?			            Customer
+    7. Wie beheert de hypervisor?						                  Microsoft
+    8. Wie beheert MFA‑instellingen?					                  Customer
+    9. Wie beheert encryptie van data at rest?				            Microsoft/Customer
+    10. Wie beheert de applicatiecode in App Service?		            Customer
+
+---
    
 - **Learning path:** Introduction to Cloud Infrastructure: Azure architecture & services
    - **Module:** 1. Describe the core architectural components of Azure
