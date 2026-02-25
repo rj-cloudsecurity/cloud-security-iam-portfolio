@@ -2,7 +2,7 @@
 
 ## Week 1: 23-2-2026
 
-- **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
+- **Learning path:** Part 1. Introduction to Cloud Infrastructure: Describe cloud concepts
    - **Module:** 1. Describe cloud computing
       - **Extra:** FreeCodeCamp AZ‑90
 
@@ -27,7 +27,7 @@
    - 
 ---
    
-- **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
+- **Learning path:** Part 1. Introduction to Cloud Infrastructure: Describe cloud concepts
    - **Module:** 2. Describe the benefits of using cloud services
       - **Extra:** FreeCodeCamp AZ‑90
    
@@ -53,7 +53,7 @@
 
 ---
    
-- **Learning path:** Introduction to Cloud Infrastructure: Describe cloud concepts
+- **Learning path:** Part 1. Introduction to Cloud Infrastructure: Describe cloud concepts
    - **Module:** 3. Describe cloud service types
       - **Extra:** FreeCodeCamp AZ‑90
 
@@ -150,7 +150,7 @@ Scenario‑oefeningen
 
 ---
    
-- **Learning path:** Introduction to Cloud Infrastructure: Azure architecture & services
+- **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
    - **Module:** 1. Describe the core architectural components of Azure
       - **Extra:** FreeCodeCamp AZ‑90
 
@@ -228,15 +228,40 @@ Scenario‑oefeningen
       - **Create an Azure resource**
            - [Create a resource exercise](/az900/exercises/create-azure-resource.md)
        
-      
 ---
    
-- **Learning path:** Introduction to Cloud Infrastructure: Azure architecture & services
+- **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
    - **Module:** 2. Describe Azure compute and networking services
       - **Extra:** FreeCodeCamp AZ‑90
 
 **Azure virtual machines**
-   -
+   - Create VMs in de cloud. IaaS zodat je totale controle hebt over de 'computer'. Het OS, custom software en custom hosting configs en daar verantwoordelijk          voor bent
+   - Kopen van hardware is niet nodig
+   - Gebruik van een image om meerdere VMs te configureren
+   - **Scale VMs in Azure**
+      - Single VMs voor testing, dev of kleine taken
+      - Group VMs voor high availability, scalability and redundancy. Of scale sets en availability sets
+   - **Virtual machine scale sets**
+      - Maak en manage een group van identieke, load-balanced VMs
+      - Manage, configure en update grote hoeveelheiden van VM's
+      - Gebruik van load balancers
+      - Automatisch schalen op basis van CPU, RAM, tijdschema’s
+   - **Virtual machine availability sets**
+      - altijd binnen 1 datacenter
+      - Update domain: Niet alle VMs worden tegelijk geupdatet, 30 min tussen updates
+      - Fault domain: Verdeeld VMs over 3 fault domain. Elk heeft zijn eigen power source en network switch
+   - **Examples of when to use VMs**
+      - Testing en Development: snel een OS en apps maken en verwijderen
+      - Running applications in the cloud: voor applicaties die grote fluctuaties hebben, starten en sluiten van VMs bespaard kosten
+      - Extending datacenter to the cloud: Vergroten van het on-premises netwerk
+      - Disaster recovery: wanneer je primaire datacenter niet werk kan een VM het werk tijdelijk overnemen
+      - Applicaties die niet geschikt zijn voor containers of PaaS‑diensten.
+   - **Move to the cloud with VMs**
+      - Lift and shift: Maken van een VM die identiek is aan the on-premises server. 
+   - **VM Resources**
+      - Size: doel, processor cores en RAM
+      - Storage disks: HDD of SSD etc
+      - Networking: virtual netwerk, public ip en port configuratie
 
 
 
