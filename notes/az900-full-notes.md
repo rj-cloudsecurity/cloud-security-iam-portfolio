@@ -77,3 +77,15 @@
 
 ---
 
+##**Compute**
+## Compute
+
+| Service                     | Wat doet het?                          | Type   | Wie beheert wat? |
+|-----------------------------|-----------------------------------------|--------|------------------|
+| Azure Virtual Machines      | Virtuele computers draaien              | IaaS   | Microsoft: hardware, netwerk — Jij: OS, updates, apps, data |
+| Azure App Service           | Webapps hosten zonder servers           | PaaS   | Microsoft: OS, runtime, scaling — Jij: code, configuratie |
+| Azure Functions             | Code uitvoeren zonder servers           | Serverless / PaaS | Microsoft: infra, scaling — Jij: functie‑code |
+| Azure Kubernetes Service    | Kubernetes clusters draaien             | PaaS   | Microsoft: control plane — Jij: nodes, containers |
+| Azure Container Instances   | Containers draaien zonder VM’s          | PaaS   | Microsoft: infra — Jij: container‑image |
+
+
