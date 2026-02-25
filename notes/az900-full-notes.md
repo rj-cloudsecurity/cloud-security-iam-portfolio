@@ -57,19 +57,19 @@
    - **Module:** Describe cloud service types
       - **Extra:** FreeCodeCamp AZ‑90
 
-IaaS - Infrastructure as a Service
+**IaaS - Infrastructure as a Service**
    - Definitie: de infrastructuur (servers, storage, netwerk).
    - Microsoft beheert: hardware, datacenter, netwerk, fysieke beveiliging.
    - Klant beheert: OS, updates, apps, data, configuratie.
    - Voorbeelden: Azure VM, Azure Storage, Azure Virtual Network.
       
-PaaS - Platform as a Service
+**PaaS - Platform as a Service**
    - Definitie: compleet platform (infrastructuur + OS + runtime)
    - Microsoft beheert: hardware, netwerk, OS, updates, runtime
    - Klant beheert: applicatie en data
    - Voorbeelden: Azure App Service, Azure SQL Database, Azure Functions
       
-SaaS - Software as a Service
+**SaaS - Software as a Service**
    - Definitie: kant‑en‑klare app via internet.
    - Microsoft beheert: alles (infrastructuur, OS, app, updates).
    - Klant beheert: instellingen en data.
