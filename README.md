@@ -66,6 +66,7 @@ More exercises will be added as I progress.
    - Azure management infrastructure  
    - Resource groups  
    - [Exercise: Create an Azure Resource](/az900/exercises/create-azure-resource.md)
+   - [Exercise: Create an Azure Virtual Machine](/az900/exercises/create-an-azure-virtual-machine.md)
 
 5. **Azure compute & networking services**
    - Virtual machines  
