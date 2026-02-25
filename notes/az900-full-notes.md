@@ -9,20 +9,20 @@
    - Leveren van computer services over internet, zoals: VM’s, storage, databases en networking
 
 **Shared responsibility model**
-    • Microsoft verantwoordlijk voor: alles wat fysiek is en beveiling van de cloud
-    • Klant verantwoordelijk voor: data, indentiteiten en apparaten
-    • Gedeelde verantwoordelijkeheid: afhankelijk van LaaS/PaaS/Saas
+   - Microsoft verantwoordlijk voor: alles wat fysiek is en beveiling van de cloud
+   - Klant verantwoordelijk voor: data, indentiteiten en apparaten
+   - Gedeelde verantwoordelijkeheid: afhankelijk van LaaS/PaaS/Saas
 
 **Cloud Models:**
-    • Private cloud: On premises met eigen datacentre, zelf beheer van hardware netwerk en beveiliging
-    • Public cloud: Cloud die door meerdere organisaties wordt gebruikt. (Azure, AWS)
-    • Hybrid cloud: Combinatie van private en public cloud
-    • Multi cloud: meerdere cloud provides tegelijk met Azure Arc
+   - Private cloud: On premises met eigen datacentre, zelf beheer van hardware netwerk en beveiliging
+   - Public cloud: Cloud die door meerdere organisaties wordt gebruikt. (Azure, AWS)
+   - Hybrid cloud: Combinatie van private en public cloud
+   - Multi cloud: meerdere cloud provides tegelijk met Azure Arc
 
 **Consumption-based model**
-    • CapEx: Eenmalige inverstering, vooraf betalen voor eigen datacenter en hardware
-    • OpEx: Doorlopende kosten, betalen per maand of gebruik
-    • Consumption-based model: Alleen betalen voor wat je gebruikt
+   - CapEx: Eenmalige inverstering, vooraf betalen voor eigen datacenter en hardware
+   - OpEx: Doorlopende kosten, betalen per maand of gebruik
+   - Consumption-based model: Alleen betalen voor wat je gebruikt
 
 ---
    
