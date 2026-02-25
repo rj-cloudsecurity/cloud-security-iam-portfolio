@@ -2,8 +2,8 @@
 
 ## Week 1: 23-2-2026
 Learning path: Introduction to Cloud Infrastructure: Describe cloud concepts
-	Module: Describe cloud computing
-		Extra: FreeCodeCamp AZ‑90
+	- Module: Describe cloud computing
+		- Extra: FreeCodeCamp AZ‑90
 
 **What is cloud computing**
    - What is cloud computing
