@@ -77,7 +77,6 @@
 
 ---
 
-##**Compute**
 ## Compute
 
 | Service                     | Wat doet het?                          | Type   | Wie beheert wat? |
@@ -87,5 +86,48 @@
 | Azure Functions             | Code uitvoeren zonder servers           | Serverless / PaaS | Microsoft: infra, scaling — Jij: functie‑code |
 | Azure Kubernetes Service    | Kubernetes clusters draaien             | PaaS   | Microsoft: control plane — Jij: nodes, containers |
 | Azure Container Instances   | Containers draaien zonder VM’s          | PaaS   | Microsoft: infra — Jij: container‑image |
+
+## Storage
+
+| Service               | Wat doet het?                               | Type | Wie beheert wat? |
+|-----------------------|----------------------------------------------|------|------------------|
+| Azure Storage Account | Blobs, files, queues, tables opslaan         | PaaS | Microsoft: platform — Jij: data, toegangsrechten |
+| Azure Disk Storage    | Virtuele harde schijven voor VM’s            | IaaS | Microsoft: fysieke disks — Jij: data |
+| Azure Backup          | Automatische back‑ups                        | SaaS | Microsoft: service — Jij: wat & hoe lang je back‑upt |
+
+## Databases
+
+| Service                          | Wat doet het?                        | Type | Wie beheert wat? |
+|----------------------------------|---------------------------------------|------|------------------|
+| Azure SQL Database               | Volledig beheerde SQL‑database        | PaaS | Microsoft: engine, updates — Jij: data & schema |
+| SQL Server op VM                 | SQL Server op jouw VM                 | IaaS | Microsoft: hardware — Jij: OS, SQL‑engine, updates |
+| Azure SQL Managed Instance       | Bijna volledige SQL Server, beheerd   | PaaS | Microsoft: engine, patches — Jij: data |
+| Cosmos DB                        | Wereldwijde NoSQL database            | PaaS | Microsoft: platform — Jij: data & queries |
+| Azure Database for MySQL/PostgreSQL | Beheerde MySQL/Postgres           | PaaS | Microsoft: engine — Jij: data |
+
+## Networking
+
+| Service            | Wat doet het?                         | Type | Wie beheert wat? |
+|--------------------|----------------------------------------|------|------------------|
+| Virtual Network    | Je eigen netwerk in Azure              | IaaS | Microsoft: fysieke infra — Jij: IP’s, subnets, NSG’s |
+| VPN Gateway        | On‑prem verbinden met Azure            | PaaS | Microsoft: appliance — Jij: configuratie |
+| Azure Firewall     | Beheerde firewall                      | PaaS | Microsoft: service — Jij: regels & policies |
+| Load Balancer      | Verkeer verdelen over VM’s             | IaaS | Microsoft: infra — Jij: LB‑regels |
+| Application Gateway| Webverkeer routeren (Layer 7)          | PaaS | Microsoft: platform — Jij: routing & regels |
+
+## Identity
+
+| Service                     | Wat doet het?                     | Type | Wie beheert wat? |
+|-----------------------------|------------------------------------|------|------------------|
+| Microsoft Entra ID          | Identity & access management       | SaaS | Microsoft: service — Jij: gebruikers, rollen, policies |
+| MFA / Conditional Access    | Extra beveiliging                  | SaaS | Microsoft: platform — Jij: instellingen |
+
+## Monitoring & Management
+
+| Service                  | Wat doet het?                       | Type | Wie beheert wat? |
+|--------------------------|--------------------------------------|------|------------------|
+| Azure Monitor            | Monitoring van resources             | SaaS | Microsoft: platform — Jij: alerts & dashboards |
+| Log Analytics Workspace  | Opslag + query’s voor logs           | PaaS | Microsoft: platform — Jij: data & queries |
+| Azure Policy             | Governance & regels afdwingen        | SaaS | Microsoft: service — Jij: policies maken |
 
 
