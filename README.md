@@ -26,7 +26,7 @@ README.md
 
 Detailed notes are stored in:
 
-- [notes AZ-900](/az900/notes/az900-full-notes.md)
+- [Notes AZ-900](/az900/notes/az900-full-notes.md)
 
 This file contains:
 - Definitions  
