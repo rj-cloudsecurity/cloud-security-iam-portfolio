@@ -34,8 +34,8 @@ This file contains:
 
 Hands-on practice tasks to reinforce learning:
 
-- [Exercise – Create an Azure Resource](/az900/exercises/create-azure-resource.md)
-- [Exercise: Create an Azure Virtual Machine](/az900/exercises/create-an-azure-virtual-machine.md)
+- [Exercise: Create an Azure Resource](/az900/exercises/1-create-azure-resource.md)
+- [Exercise: Create an Azure Virtual Machine](/az900/exercises/2-create-an-azure-virtual-machine.md)
 
 More exercises will be added as I progress.
 
@@ -66,7 +66,7 @@ More exercises will be added as I progress.
    - Azure regions & datacenters  
    - Azure management infrastructure  
    - Resource groups  
-   - [Exercise: Create an Azure Resource](/az900/exercises/create-azure-resource.md)
+   - [Exercise: Create an Azure Resource](/az900/exercises/1-create-azure-resource.md)
 
 5. **Azure compute & networking services**
    - Virtual machines  
