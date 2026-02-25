@@ -1,30 +1,29 @@
-AZ‑900
-
-Week 1: 23-2-2026
-Learning path: Introduction to Cloud Infrastructure: Describe cloud concepts
-	Module: Describe cloud computing
-		Extra: FreeCodeCamp AZ‑90
-
-
 # AZ-900 Study Notes
 
 ---
 
+## Week 1: 23-2-2026
+Learning path: Introduction to Cloud Infrastructure: Describe cloud concepts
+	Module: Describe cloud computing
+		Extra: FreeCodeCamp AZ‑90
 
-1. **Cloud computing**
+---
+
+
+**What is cloud computing**
    - What is cloud computing
    - Shared responsibility model
    - Cloud Models
    - Consumption-based model
    - Shared Responsibility Model
 
-2. **Benefits of using cloud services**
+**Benefits of using cloud services**
    - High availability and scalability in the cloud
    - Reliability and predictability in the cloud
    - Security and governance in the cloud
    - Manageability in the cloud
 
-3. **cloud service types**
+**cloud service types**
    - IaaS - Infrastructure as a Service
    - PaaS - Platform as a Service
    - SaaS - Software as a Service
