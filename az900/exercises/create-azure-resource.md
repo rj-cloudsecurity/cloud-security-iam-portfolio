@@ -15,7 +15,9 @@ Requesting a Cloud Shell.Succeeded.
 Connecting terminal...
 
   Your Cloud Shell session will be ephemeral so no files or system changes will persist beyond your current session.
-robert-jan [ ~ ]$ az group create \--name IntroAzureRG \--location "Central US"
+robert-jan [ ~ ]$ az group create \
+--name IntroAzureRG \
+--location "Central US"
 {
   "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG",
   "location": "centralus",
@@ -37,7 +39,15 @@ Connecting terminal...
 
 Your Cloud Shell session will be ephemeral so no files or system changes will persist beyond your current session.
 robert-jan [ ~ ]$ az vm create \
-  --resource-group IntroAzureRG \--name my-VM \--image Ubuntu2204 \--admin-username robert-jan \--admin-password Abc123456789! \--size Standard_D2s_v3 \--location westeurope \--public-ip-sku Standard \--nsg-rule NONE
+  --resource-group IntroAzureRG \
+--name my-VM \
+--image Ubuntu2204 \
+--admin-username robert-jan \
+--admin-password Abc123456789! \
+--size Standard_D2s_v3 \
+--location westeurope \
+--public-ip-sku Standard \
+--nsg-rule NONE
 The default value of '--size' will be changed to 'Standard_D2s_v5' from 'Standard_DS1_v2' in a future release.
 Selecting "uksouth" may reduce your costs. The region you've selected may cost more for the same services. You can disable this message in the future with the command "az config set core.display_region_identified=false". Learn more at https://go.microsoft.com/fwlink/?linkid=222571 
 
@@ -70,7 +80,10 @@ my-VM_disk1_15de01512b074201903571c3a95155cc  INTROAZURERG     westeurope  Micro
 ## Task 4 Cleanup
 
 ```bash
-robert-jan [ ~ ]$ az group delete \--name IntroAzureRG \--yes \--no-wait
+robert-jan [ ~ ]$ az group delete \
+--name IntroAzureRG \
+--yes \
+--no-wait
 ```
 
 ## Taks 5 Check 1
