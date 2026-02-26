@@ -264,15 +264,7 @@ Scenario‑oefeningen
       - Networking: virtual netwerk, public ip en port configuratie
 
  - **Create an Azure resource**
-      - [Create an Azure virtual machine](/az900/exercises/Create-an-Azure-virtual-machine.md)
-
-
-
-
-
-Exercise - Create an Azure virtual machine
-
-
+   - Merged with the later exercise in this module, Exercise - Create an Azure Virtual Machine and Configure network access.
 
 **Azure virtual desktop**
    -
@@ -298,7 +290,7 @@ Exercise - Create an Azure virtual machine
 
 
 **Exercise - Create an Azure Virtual Machine and Configure network access**
-   -
+   - [2-create-an-Azure-Virtual-Machine-and-Configure-network-access](/az900/exercises/2-create-an-Azure-Virtual-Machine-and-Configure-network-access.md)
 
 
 **Azure virtual private networks**
