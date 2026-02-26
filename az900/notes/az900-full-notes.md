@@ -264,10 +264,13 @@ Scenario‑oefeningen
       - Networking: virtual netwerk, public ip en port configuratie
 
  - **Create an Azure resource**
-   - Merged with the later exercise in this module, Exercise - Create an Azure Virtual Machine and Configure network access.
+   - Merged with the later exercise in this module.
 
 **Azure virtual desktop**
-   -
+   - Toegang vanaf elk OS, device en meeste browsers
+   - Alles op cloud, geen gegevens op personlijke devices
+   - Microsoft Entra ID, MFA en RBAC's Role-Based Access Control.
+   - Multi-session Windows 10/11: Met Enterprise multi-session, meerdere gebruikers tegelijk op 1 Virtual Desktop
 
 
 
