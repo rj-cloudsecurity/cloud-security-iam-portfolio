@@ -11,16 +11,12 @@ In deze oefening heb ik via de Azure Portal een nieuwe resource group aangemaakt
 ## Task 1 Resource Group, create, name, location
 
 ```bash
-Requesting a Cloud Shell.Succeeded. 
-Connecting terminal...
-
-  Your Cloud Shell session will be ephemeral so no files or system changes will persist beyond your current session.
 robert-jan [ ~ ]$ az group create \
   --name IntroAzureRG \
-  --location "Central US"
+  --location "westeurope"
 {
   "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG",
-  "location": "centralus",
+  "location": "westeurope",
   "managedBy": null,
   "name": "IntroAzureRG",
   "properties": {
@@ -34,16 +30,12 @@ robert-jan [ ~ ]$ az group create \
 ## Task 2 Deploy Virtual Machine
 
 ```bash
-Requesting a Cloud Shell.Succeeded. 
-Connecting terminal...
-
-Your Cloud Shell session will be ephemeral so no files or system changes will persist beyond your current session.
 robert-jan [ ~ ]$ az vm create \
   --resource-group IntroAzureRG \
   --name my-VM \
   --image Ubuntu2204 \
   --admin-username robert-jan \
-  --admin-password Abc123456789! \
+  --admin-password <"password"> \
   --size Standard_D2s_v3 \
   --location westeurope \
   --public-ip-sku Standard \
@@ -86,12 +78,12 @@ robert-jan [ ~ ]$ az group delete \
   --no-wait
 ```
 
-## Taks 5 Check 1
+## Task 5 Check 1
 ```bash
 robert-jan [ ~ ]$ az group show --name IntroAzureRG
 {
   "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG",
-  "location": "centralus",
+  "location": "westeurope",
   "managedBy": null,
   "name": "IntroAzureRG",
   "properties": {
@@ -99,7 +91,7 @@ robert-jan [ ~ ]$ az group show --name IntroAzureRG
   },
 ```
 
-## Taks 6 Check 2
+## Task 6 Check 2
 ```bash
 robert-jan [ ~ ]$ az group show --name IntroAzureRG
 (ResourceGroupNotFound) Resource group 'IntroAzureRG' could not be found.
