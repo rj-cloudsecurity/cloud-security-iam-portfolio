@@ -235,7 +235,7 @@ Scenario‑oefeningen
       - **Extra:** FreeCodeCamp AZ‑90
 
 **Azure virtual machines**
-   - Create VMs in de cloud. IaaS zodat je totale controle hebt over de 'computer'. Het OS, custom software en custom hosting configs en daar verantwoordelijk          voor bent
+   - Create VMs in de cloud. IaaS zodat je totale controle hebt over de 'computer'. Het OS, custom software en custom hosting configs en daar verantwoordelijk voor bent
    - Kopen van hardware is niet nodig
    - Gebruik van een image om meerdere VMs te configureren
    - **Scale VMs in Azure**
@@ -272,20 +272,37 @@ Scenario‑oefeningen
    - Microsoft Entra ID, MFA en RBAC's Role-Based Access Control.
    - Multi-session Windows 10/11: Met Enterprise multi-session, meerdere gebruikers tegelijk op 1 Virtual Desktop
 
-
-
 **Azure containers**
-   -
-
+   - ACI Azure Container Instances: snelste manier om één container te draaien zonder VM’s of clusterbeheer. PaaS.
+        - Korte workloads zoals scrips, API, batchjobs
+        - upload en direct runnen.
+   - ACA Azure Container Apps: PaaS‑oplossing zonder containerbeheer, met load balancing, autoscaling en ondersteuning voor microservices.
+   - AKS Azure Kubernetes Services: Kubernetes‑gebaseerde container orchestration voor grote containerplatformen en complexe workloads.
+   - Voorbeeld: Website, front end, back end, storage in 3 containers, afzonderlijk te schalen of updaten
 
 **Azure functions**
-   -
-
-
+   - Event-driven
+   - Serverless compute option
+   - Geen virtual machine of container
+   - Wordt gebruikt als reactie op een event. REST request, timer of bericht van een azure servcie.
+   - Taken van een paar seconde of minder
+   - Scale automatisch op basis van vraag
+   - Kosten alleen tijdens uitvoering voor CPU time
+   - Stateless (default) geen state, elke run start opnieuw
+   - Stateful: (Durable Function) bewaart state en kan voortgang onthouden   
 
 **Application hosting options**
-   -
-
+   - Azure App Service: PaaS voor de volgende types of app services. Bied auto scalling, high availability, load balacing, Github of Azure DevOps Integratie
+   
+   - Types of app services
+      - Web apps: ASP.NET, ASP.NET COre, Java, Ruby, Node.js, PHP of Python. Windows of Linux
+      - API apps: REST‑API’s die je in elke gewenste taal kunt bouwen, met volledige ondersteuning voor Swagger/OpenAPI.
+      - WebJobs: Run een program .exe, Java, PHP, Python or Node.js of een script .cmd, .bat, PowerShell or Bash. Ze kunnen gepland worden of reageren op triggers.
+      - Mobile apps: Back end for iOS en Android apps.
+           - Store data in cloud SQL database
+           - Gebruikers laten inloggen via MSA, Google, X, Facebook
+           - Push notifications
+           - Custom back-end in C# or Node.js
 
 
 **Azure virtual networking**
