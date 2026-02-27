@@ -77,7 +77,7 @@
 
 **Summary:**
 
-Cloud computing draait om het leveren van IT‑diensten via het internet, zoals virtuele machines, opslag, databases en complete applicaties. Je werkt daarbij met een shared responsibility‑model: Microsoft beheert de fysieke infrastructuur en beveiliging van de cloud, terwijl jij verantwoordelijk bent voor je eigen data, identiteiten en apparaten. Je kunt kiezen uit verschillende cloudmodellen zoals private, public, hybrid en multicloud, afhankelijk van hoeveel controle of flexibiliteit je nodig hebt. De cloud rekent meestal via een consumption‑based model, waarbij je alleen betaalt voor wat je gebruikt in plaats van grote investeringen vooraf. Het biedt daarnaast voordelen zoals hoge beschikbaarheid, automatische schaalbaarheid, betrouwbaarheid, voorspelbare kosten en sterke beveiliging en governance. Tot slot kun je kiezen uit IaaS, PaaS of SaaS, afhankelijk van hoeveel je zelf wilt beheren en hoeveel je door de provider laat doen.
+   Cloud computing draait om het leveren van IT‑diensten via het internet, zoals virtuele machines, opslag, databases en complete applicaties. Je werkt daarbij met een shared responsibility‑model: Microsoft beheert de fysieke infrastructuur en beveiliging van de cloud, terwijl jij verantwoordelijk bent voor je eigen data, identiteiten en apparaten. Je kunt kiezen uit verschillende cloudmodellen zoals private, public, hybrid en multicloud, afhankelijk van hoeveel controle of flexibiliteit je nodig hebt. De cloud rekent meestal via een consumption‑based model, waarbij je alleen betaalt voor wat je gebruikt in plaats van grote investeringen vooraf. Het biedt daarnaast voordelen zoals hoge beschikbaarheid, automatische schaalbaarheid, betrouwbaarheid, voorspelbare kosten en sterke beveiliging en governance. Tot slot kun je kiezen uit IaaS, PaaS of SaaS, afhankelijk van hoeveel je zelf wilt beheren en hoeveel je door de provider laat doen.
 
 ---
 
@@ -229,10 +229,10 @@ Scenario‑oefeningen
            - [Exercise 1 Create a resource exercise](/az900/exercises/1-create-azure-resource.md)
                     
 **Summary:**
-Azure bestaat uit een wereldwijd netwerk van datacenters waar Microsoft honderden cloudservices aanbiedt voor compute, storage, networking, databases, AI, security en identity, beschikbaar in IaaS, PaaS, SaaS en serverless.
-Je gebruikt Azure via een Azure account met 1 of meerdere subscriptions, waarin alle resources worden aangemaakt en beheerd. Je kunt met Azure werken via het Portal, PowerShell, Bash/CLI en interactieve command modi.
-De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regions, availability zones en region pairs voor hoge beschikbaarheid, herstel bij rampen en naleving van regionale regelgeving en wetgeving. Er zijn ook Sovereign Regions die volledig gescheiden zijn van de publieke cloud.
-Voor beheer gebruik je resources, resource groups, subscriptions en management groups. Recources zitten in 1 resource group, subscriptions bepalen kosten en toegang en management groups zorgen voor centraal beleid en governance over meerdere subscriptions heen.
+   - Azure bestaat uit een wereldwijd netwerk van datacenters waar Microsoft honderden cloudservices aanbiedt voor compute, storage, networking, databases, AI, security en identity, beschikbaar in IaaS, PaaS, SaaS en serverless.
+   - Je gebruikt Azure via een Azure account met 1 of meerdere subscriptions, waarin alle resources worden aangemaakt en beheerd. Je kunt met Azure werken via het Portal, PowerShell, Bash/CLI en interactieve command modi.
+   - De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regions, availability zones en region pairs voor hoge beschikbaarheid, herstel bij rampen en naleving van regionale regelgeving en wetgeving. Er zijn ook Sovereign Regions die volledig gescheiden zijn van de publieke cloud.
+   - Voor beheer gebruik je resources, resource groups, subscriptions en management groups. Recources zitten in 1 resource group, subscriptions bepalen kosten en toegang en management groups zorgen voor centraal beleid en governance over meerdere subscriptions heen.
 
 ---
    
@@ -330,10 +330,10 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Azure verkooptg een domeinnamen
 
 **Summary:**
-Azure bestaat uit een wereldwijd netwerk van datacenters die zijn georganiseerd in regions en availability zones voor hoge beschikbaarheid en bescherming tegen uitval. B
-innen Azure kun je applicaties hosten via containers (ACR, ACI, AKS), serverless functies met Azure Functions, of PaaS‑diensten zoals App Service voor webapps, API’s, mobile back‑ends en achtergrondtaken. 
-Azure‑netwerken verbinden resources met elkaar en met on‑premises via VNet‑peering, VPN‑tunnels of ExpressRoute, met opties voor routing, filtering en private of public endpoints. VPN‑gateways maken versleutelde verbindingen over het internet, terwijl ExpressRoute een privé, dedicated verbinding biedt met hogere stabiliteit en voorspelbaarheid. 
-Azure DNS beheert domeinnamen en DNS‑records via Microsoft’s wereldwijde infrastructuur, inclusief private zones en alias‑records die automatisch meeveranderen met Azure‑resources.
+    - Azure bestaat uit een wereldwijd netwerk van datacenters die zijn georganiseerd in regions en availability zones voor hoge beschikbaarheid en bescherming tegen uitval. 
+   - Binnen Azure kun je applicaties hosten via containers (ACR, ACI, AKS), serverless functies met Azure Functions, of PaaS‑diensten zoals App Service voor webapps, API’s, mobile back‑ends en achtergrondtaken. 
+   - Azure‑netwerken verbinden resources met elkaar en met on‑premises via VNet‑peering, VPN‑tunnels of ExpressRoute, met opties voor routing, filtering en private of public endpoints. VPN‑gateways maken versleutelde verbindingen over het internet, terwijl ExpressRoute een privé, dedicated verbinding biedt met hogere stabiliteit en voorspelbaarheid. 
+   - Azure DNS beheert domeinnamen en DNS‑records via Microsoft’s wereldwijde infrastructuur, inclusief private zones en alias‑records die automatisch meeveranderen met Azure‑resources.
 
 
 
