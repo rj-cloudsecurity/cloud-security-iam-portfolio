@@ -330,7 +330,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Azure verkooptg een domeinnamen
 
 **Summary:**
-    - Azure bestaat uit een wereldwijd netwerk van datacenters die zijn georganiseerd in regions en availability zones voor hoge beschikbaarheid en bescherming tegen uitval. 
+   - Azure bestaat uit een wereldwijd netwerk van datacenters die zijn georganiseerd in regions en availability zones voor hoge beschikbaarheid en bescherming tegen uitval. 
    - Binnen Azure kun je applicaties hosten via containers (ACR, ACI, AKS), serverless functies met Azure Functions, of PaaS‑diensten zoals App Service voor webapps, API’s, mobile back‑ends en achtergrondtaken. 
    - Azure‑netwerken verbinden resources met elkaar en met on‑premises via VNet‑peering, VPN‑tunnels of ExpressRoute, met opties voor routing, filtering en private of public endpoints. VPN‑gateways maken versleutelde verbindingen over het internet, terwijl ExpressRoute een privé, dedicated verbinding biedt met hogere stabiliteit en voorspelbaarheid. 
    - Azure DNS beheert domeinnamen en DNS‑records via Microsoft’s wereldwijde infrastructuur, inclusief private zones en alias‑records die automatisch meeveranderen met Azure‑resources.
