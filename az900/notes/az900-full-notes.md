@@ -24,9 +24,10 @@
    - CapEx: Eenmalige inverstering, vooraf betalen voor eigen datacenter en hardware
    - OpEx: Doorlopende kosten, betalen per maand of gebruik
    - Consumption-based model: Alleen betalen voor wat je gebruikt
-   - 
+
 ---
-   
+---
+
 - **Learning path:** Part 1. Introduction to Cloud Infrastructure: Describe cloud concepts
    - **Module:** 2. Describe the benefits of using cloud services
       - **Extra:** FreeCodeCamp AZ‑90
@@ -79,6 +80,7 @@
 
    Cloud computing draait om het leveren van IT‑diensten via het internet, zoals virtuele machines, opslag, databases en complete applicaties. Je werkt daarbij met een shared responsibility‑model: Microsoft beheert de fysieke infrastructuur en beveiliging van de cloud, terwijl jij verantwoordelijk bent voor je eigen data, identiteiten en apparaten. Je kunt kiezen uit verschillende cloudmodellen zoals private, public, hybrid en multicloud, afhankelijk van hoeveel controle of flexibiliteit je nodig hebt. De cloud rekent meestal via een consumption‑based model, waarbij je alleen betaalt voor wat je gebruikt in plaats van grote investeringen vooraf. Het biedt daarnaast voordelen zoals hoge beschikbaarheid, automatische schaalbaarheid, betrouwbaarheid, voorspelbare kosten en sterke beveiliging en governance. Tot slot kun je kiezen uit IaaS, PaaS of SaaS, afhankelijk van hoeveel je zelf wilt beheren en hoeveel je door de provider laat doen.
 
+---
 ---
 
 ## Compute
@@ -148,6 +150,7 @@ Scenario‑oefeningen
    - Wie beheert encryptie van data at rest?				            Microsoft/Customer
    - Wie beheert de applicatiecode in App Service?		            Customer
 
+---
 ---
    
 - **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
@@ -234,6 +237,7 @@ Scenario‑oefeningen
    - De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regions, availability zones en region pairs voor hoge beschikbaarheid, herstel bij rampen en naleving van regionale regelgeving en wetgeving. Er zijn ook Sovereign Regions die volledig gescheiden zijn van de publieke cloud.
    - Voor beheer gebruik je resources, resource groups, subscriptions en management groups. Recources zitten in 1 resource group, subscriptions bepalen kosten en toegang en management groups zorgen voor centraal beleid en governance over meerdere subscriptions heen.
 
+---
 ---
 
 - **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
