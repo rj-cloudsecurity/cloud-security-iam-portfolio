@@ -235,7 +235,55 @@ Scenario‑oefeningen
    - Voor beheer gebruik je resources, resource groups, subscriptions en management groups. Recources zitten in 1 resource group, subscriptions bepalen kosten en toegang en management groups zorgen voor centraal beleid en governance over meerdere subscriptions heen.
 
 ---
-   
+
+- **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
+   - **Module:** 2. Describe Azure compute and networking services
+      - **Extra:** FreeCodeCamp AZ‑90
+
+**Azure virtual machines**
+   - Create VMs in de cloud. IaaS zodat je totale controle hebt over de 'computer'. Het OS, custom software en custom hosting configs en daar verantwoordelijk voor bent
+   - Kopen van hardware is niet nodig
+   - Gebruik van een image om meerdere VMs te configureren
+   - **Scale VMs in Azure**
+      - Single VMs voor testing, dev of kleine taken
+      - Group VMs voor high availability, scalability and redundancy. Of scale sets en availability sets
+   - **Virtual machine scale sets**
+      - Maak en manage een group van identieke, load-balanced VMs
+      - Manage, configure en update grote hoeveelheiden van VM's
+      - Gebruik van load balancers
+      - Automatisch schalen op basis van CPU, RAM, tijdschema’s
+   - **Virtual machine availability sets**
+      - altijd binnen 1 datacenter
+      - Update domain: Niet alle VMs worden tegelijk geupdatet, 30 min tussen updates
+      - Fault domain: Verdeeld VMs over 3 fault domain. Elk heeft zijn eigen power source en network switch
+   - **Examples of when to use VMs**
+      - Testing en Development: snel een OS en apps maken en verwijderen
+      - Running applications in the cloud: voor applicaties die grote fluctuaties hebben, starten en sluiten van VMs bespaard kosten
+      - Extending datacenter to the cloud: Vergroten van het on-premises netwerk
+      - Disaster recovery: wanneer je primaire datacenter niet werk kan een VM het werk tijdelijk overnemen
+      - Applicaties die niet geschikt zijn voor containers of PaaS‑diensten.
+   - **Move to the cloud with VMs**
+      - Lift and shift: Maken van een VM die identiek is aan the on-premises server. 
+   - **VM Resources**
+      - Size: doel, processor cores en RAM
+      - Storage disks: HDD of SSD etc
+      - Networking: virtual netwerk, public ip en port configuratie
+
+ - **Create an Azure resource**
+   - Merged with the later exercise in this module.
+
+**Azure virtual desktop**
+   - Toegang vanaf elk OS, device en meeste browsers
+   - Alles op cloud, geen gegevens op personlijke devices
+   - Microsoft Entra ID, MFA en RBAC's Role-Based Access Control.
+   - Multi-session Windows 10/11: Met Enterprise multi-session, meerdere gebruikers tegelijk op 1 Virtual Desktop
+
+**Azure containers**
+   - ACI Azure Container Instances: snelste manier om één container te draaien zonder VM’s of clusterbeheer. PaaS.
+        - Korte workloads zoals scrips, API, batchjobs
+        - upload en direct runnen.
+   - ACA Azure Container Apps: PaaS‑oplossing zonder containerbeheer, met load balancing, autoscaling en ondersteuning voor microservices.
+     
 De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regions, availability aS‑oplossing zonder containerbeheer, met load balancing, autoscaling en ondersteuning voor microservices.
    - AKS Azure Kubernetes Services: Kubernetes‑gebaseerde container orchestration voor grote containerplatformen en complexe workloads.
    - Voorbeeld: Website, front end, back end, storage in 3 containers, afzonderlijk te schalen of updaten
