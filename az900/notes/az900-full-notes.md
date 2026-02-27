@@ -358,7 +358,6 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
         - Zone-redundant gateways: Gateways over meerdere availability zones
           
 **Azure ExpressRoute**
-   - 
    - Features and benefits of ExpressRoute
       - Priveconnectie naar microsoft cloudservices in je regio
       - Wereldwijde verbindingen tussen locaties via ExpressRoute Global Reach, ExpressRoute circuits koppelt
@@ -387,6 +386,69 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Azure‑netwerken verbinden resources met elkaar en met on‑premises via VNet‑peering, VPN‑tunnels of ExpressRoute, met opties voor routing, filtering en private of public endpoints. VPN‑gateways maken versleutelde verbindingen over het internet, terwijl ExpressRoute een privé, dedicated verbinding biedt met hogere stabiliteit en voorspelbaarheid. 
    - Azure DNS beheert domeinnamen en DNS‑records via Microsoft’s wereldwijde infrastructuur, inclusief private zones en alias‑records die automatisch meeveranderen met Azure‑resources.
 
+---
+---
+
+- **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
+   - **Module:** 3. Describe Azure storage services
+      - **Extra:** FreeCodeCamp AZ‑90
+
+**Azure storage accounts**
+   -
+
+**Azure storage redundancy**
+   -
+   
+**Azure storage services**
+   -
+
+**Exercise - Create a storage blob**
+   - [Exercise 3 Create a storage blob](/az900/exercises/3-Create-a-storage-blob.md)
+   
+**Identify Azure data migration options**
+   -
+
+**Identify Azure file movement options**
+   -
+
+**Summary:**
+
+---
+---
+
+- **Learning path:** Part 2. Introduction to Cloud Infrastructure: Azure architecture & services
+   - **Module:** 4. Describe Azure identity, access, and security
+      - **Extra:** FreeCodeCamp AZ‑90
+
+**Azure directory services**
+   -
+
+**Azure authentication methods**
+   -
+
+**Azure external identities**
+   -
+
+**Azure conditional access**
+   -
+
+**Azure role-based access control**
+   -
+
+**Azure Zero Trust model**
+   -
+   
+**Defense-in-depth**
+   -
+   
+**Microsoft Defender for Cloud**
+   -
+
+**Summary:**
+
+
+---
+---
 
 
 
@@ -398,8 +460,4 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
 
 
 
-
-
-
-
-
+-
