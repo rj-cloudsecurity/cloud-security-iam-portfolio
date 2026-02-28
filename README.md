@@ -2,7 +2,7 @@
 
 This repository contains my study notes and hands‑on exercises for multiple Microsoft cloud and security certifications. It supports my development in Cloud, Identity & Access Management (IAM), and Cloud Security.
 
-##Purpose
+## Purpose
 
 This repository is my central place to document what I learn while studying Microsoft cloud fundamentals and security concepts. It helps me:
   - Organize knowledge
