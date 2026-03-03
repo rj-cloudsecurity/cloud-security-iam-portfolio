@@ -429,7 +429,49 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
         - Replicatie naar secundaire regio is asynchroon, bij ramp een klein stuk data verloren RPO <15min
    
 **Azure storage services**
-   - 
+   - Azure Blobs: schaalbare object opslag voor tekst en binary data, incl big data analyse door Data Lake Storage Gen2
+   - Azure Files: beheerde file shares die je kunt gebruiken vanuit de cloud of on-premises
+   - Azure Queues: eenvoudige berichtenopslag voor communicatie tussen applicatieonderdelen
+   - Azure Disks: block-level opslag voor VMs
+   - Azure Tables: NoSQL opslag voor gestructureerde, niet relationele data
+     
+   - Benefits of Azure Storage
+        - Durable and highly available: Redundancy zodat data veilig is bij hardware- of regiostoringen. Kopieen tussen verschillende datacenters of geographical regions.
+        - Secure: data versleuteld met gedetailleerde toegang
+        - Scalable: voor grote hoeveelheden data en hoge performance
+        - Managed: Azure verzorgt hardware maintenance, updates en critical issues
+        - Accessible: Accessible wereldwijd over HTTP of HTTPS. .NET, Java, Node.js, Python, PHP, Ruby, Go, REST API. Scripting in Azure PowerShell of CLI. Visual solutions with Azure Portal en Azure Storage Explorer
+
+   - Azure Blobs
+        - Grote hoeveelheden ongestructeerde data, tekst, afbeeldingen, video's of logbestanden. Werelwijd te bereiken via HTTP(S) met tooals zoals REST API, Azure CLI, PowerShell of client-libraries voor o.a. .NET, Java Python en NOde.js.
+         - Verschillende tiers zodat je kosten kunt afstemmen op hoe vaak data wordt gebruikt:
+         - Hot: data die vaak wordt gelezen
+         - Cool: minder vaak gebruikt en minimaal 30 dagen blijft staan
+         - Cold: zelden gebruikt en minimaal 90 dagen blijft staan
+         - Archive: bijna nooit wordt gebruikt, minimaal 180 bewaart blijft. Goedkoop opslaag maar duur om terug te halen
+
+   - Azure Files
+      - Volledig beheerde files shares in de cloud via SMB of NFS. Tegelijk te gebruiken vanuit de cloud en on-premises. S
+      - MB shares werken op Windows, Linux en MacOS,
+      - NFS shares op Linux en macOS.
+      - Azure File Sync: SMB shares lokaal cachen voor snelle toegang
+      - Voordelen: gedeelde toegang, geen serverbeheer, scripting via PowerShell/CLI, hoge beschikbaarheid en compatibiliteit met bestaande applicaties
+
+   - Azure Queues
+      - Opslaan van grote aantallen berichten (miljoenen). Berichten kunnen tot 64 KB groot zijn.
+      - Wereldwijd te bereiken via HTTP(S)
+      - Taken asynchroon te verwerken, bijvoorbeeld in combinatie met Azure Functions die automatisch reageren wanneer een nieuw bericht binnenkomt.
+
+   - Azure Disks
+      - Beheerde block level schijven voor VMs. Werken als fysieke disks, maar volledig door Azure beheerd
+      - High availability, High reliability en eEasy provisioning.
+
+   - Azure Tables
+      - NoSQL opslag voor grote hoeveelheiden gestructureerde niet relationele data.
+      - Toegang via Azure en externe omgevingen
+      - Geschikt voor hybride of multicloud scenario's
+
+
 
 **Exercise - Create a storage blob**
    - [Exercise 3 Create a storage blob](/az900/exercises/3-Create-a-storage-blob.md)
