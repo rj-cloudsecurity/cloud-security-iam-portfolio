@@ -16,7 +16,7 @@ az interactive
 ```bash
 az>> az group create --name IntroAzureRG --location centralus
 {
-  "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG",
+  "id": "/subscriptions/<subscription-id>/resourceGroups/IntroAzureRG",
   "location": "centralus",
   "managedBy": null,
   "name": "IntroAzureRG",
@@ -48,7 +48,7 @@ az>> group delete --name IntroAzureRG --yes --no-wait
 ```bash
 az>> group create --name IntroAzureRG --location westeurope 
 {
-  "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG",
+  "id": "/subscriptions/<subscription-id>/resourceGroups/IntroAzureRG",
   "location": "westeurope",
   "managedBy": null,
   "name": "IntroAzureRG",
@@ -69,24 +69,24 @@ Selecting "uksouth" may reduce your costs. The region you've selected may cost
 
 {
   "fqdns": "",
-  "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG/providers/Microsoft.Compute/virtualMachines/my-vm",
+  "id": "/subscriptions/<subscription-id>/resourceGroups/IntroAzureRG/providers/Microsoft.Compute/virtualMachines/my-vm",
   "location": "westeurope",
-  "macAddress": "00-0D-3A-2F-91-4F",
+  "macAddress": "<mac-address>",
   "powerState": "VM running",
   "privateIpAddress": "10.0.0.4",
-  "publicIpAddress": "20.71.95.78",
+  "publicIpAddress": "<public-ip>",
   "resourceGroup": "IntroAzureRG"
 }
 ```
 
-## Task 3: Install Nginx
+## Task 3 Install Nginx
 
 ```bash
  az vm extension set --resource-group "IntroAzureRG" --vm-name my-vm -name customScript --publisher Microsoft.Azure.Extensions --version 2.1 --settings '{"fileUris":["https://raw.githubusercontent.com/MicrosoftDocs/mslearn-welcome-to-azure/master/configure-nginx.sh"]}' --protected-settings '{"commandToExecute": "./configure-nginx.sh"}'
 
 {               
   "autoUpgradeMinorVersion": true,
-  "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG/providers/Microsoft.Compute/virtualMachines/my-vm/extensions/customScript",
+  "id": "/subscriptions/<subscription-id>/resourceGroups/IntroAzureRG/providers/Microsoft.Compute/virtualMachines/my-vm/extensions/customScript",
   "location": "westeurope",
   "name": "customScript",
   "provisioningState": "Succeeded",
@@ -103,7 +103,7 @@ Selecting "uksouth" may reduce your costs. The region you've selected may cost
 }
 ```
 
-## Task 4: Access your web server (exiting interactive) 
+## Task 4 Access your web server (exiting interactive) 
 
 ```bash
 [ ~ ]$ IPADDRESS="$(az vm list-ip-addresses \
@@ -114,7 +114,7 @@ Selecting "uksouth" may reduce your costs. The region you've selected may cost
 robert-jan [ ~ ]$ curl --connect-timeout 5 http://$IPADDRESS
 curl: (28) Connection timed out after 5002 milliseconds
 robert-jan [ ~ ]$ echo $IPADDRESS
-20.71.95.78
+<public-ip>
 ```
 
 ## Task 5 List the current network security group rules
@@ -140,7 +140,7 @@ my-vmNSG
     "destinationPortRanges": [],
     "direction": "Inbound",
     "etag": "W/\"33ca56c4-d4c2-4ad4-9b03-b9ce0d902682\"",
-    "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG/providers/Microsoft.Network/networkSecurityGroups/my-vmNSG/securityRules/default-allow-ssh",
+    "id": "/subscriptions/<subscription-id>/resourceGroups/IntroAzureRG/providers/Microsoft.Network/networkSecurityGroups/my-vmNSG/securityRules/default-allow-ssh",
     "name": "default-allow-ssh",
     "priority": 1000,
     "protocol": "Tcp",
@@ -166,7 +166,7 @@ Name               Priority    Port    Access
 default-allow-ssh  1000        22      Allow
 ```
 
-## Task 6: Create the network security rule
+## Task 6 Create the network security rule
 
 ```bash
 [ ~ ]$ az network nsg rule create \
@@ -185,7 +185,7 @@ default-allow-ssh  1000        22      Allow
   "destinationPortRanges": [],
   "direction": "Inbound",
   "etag": "W/\"2ff2fcac-0960-42a8-89c6-a06c4e9702e3\"",
-  "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG/providers/Microsoft.Network/networkSecurityGroups/my-vmNSG/securityRules/allow-http",
+  "id": "/subscriptions/<subscription-id>/resourceGroups/IntroAzureRG/providers/Microsoft.Network/networkSecurityGroups/my-vmNSG/securityRules/allow-http",
   "name": "allow-http",
   "priority": 100,
   "protocol": "Tcp",
@@ -211,7 +211,7 @@ default-allow-ssh  1000        22      Allow
 allow-http         100         80      Allow
 ```
 
-## Task 7: Access your web server again
+## Task 7 Access your web server again
 
 ```bash
 [ ~ ]$ curl --connect-timeout 5 http://$IPADDRESS
@@ -221,7 +221,7 @@ allow-http         100         80      Allow
 Ik de browserpagina vernieuwd en kreeg ik direct toegang tot de webpagina.
 
 
-## Task 8: Clean up
+## Task 8 Clean up
 
 ```bash
 [ ~ ]$ az group delete \
