@@ -13,7 +13,7 @@ In deze oefening heb ik via de Azure Portal en CLI een nieuwe resource group aan
 ## Task 1 Resource Group, create, name, location
 
 ```bash
-robert-jan [ ~ ]$ az group create \
+<subscription-id> [ ~ ]$ az group create \
   --name IntroAzureRG \
   --location "westeurope"
 {
@@ -32,7 +32,7 @@ robert-jan [ ~ ]$ az group create \
 ## Task 2 Deploy Virtual Machine
 
 ```bash
-robert-jan [ ~ ]$ az vm create \
+<subscription-id> [ ~ ]$ az vm create \
   --resource-group IntroAzureRG \
   --name my-VM \
   --image Ubuntu2204 \
@@ -60,7 +60,7 @@ Selecting "uksouth" may reduce your costs. The region you've selected may cost
 ## Task 3 Verify Created Resources
 
 ```bash
-robert-jan [ ~ ]$ az resource list --resource-group IntroAzureRG --output table
+<subscription-id> [ ~ ]$ az resource list --resource-group IntroAzureRG --output table
 Name                                          ResourceGroup    Location    Type                                     Status
 --------------------------------------------  ---------------  ----------  ---------------------------------------  ---------
 my-VMNSG                                      IntroAzureRG     westeurope  Microsoft.Network/networkSecurityGroups  Succeeded
@@ -74,7 +74,7 @@ my-VM_disk1_15de01512b074201903571c3a95155cc  INTROAZURERG     westeurope  Micro
 ## Task 4 Cleanup
 
 ```bash
-robert-jan [ ~ ]$ az group delete \
+<subscription-id> [ ~ ]$ az group delete \
   --name IntroAzureRG \
   --yes \
   --no-wait
@@ -82,7 +82,7 @@ robert-jan [ ~ ]$ az group delete \
 
 ## Task 5 Check 1
 ```bash
-robert-jan [ ~ ]$ az group show --name IntroAzureRG
+<subscription-id> [ ~ ]$ az group show --name IntroAzureRG
 {
   "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/IntroAzureRG",
   "location": "westeurope",
@@ -95,7 +95,7 @@ robert-jan [ ~ ]$ az group show --name IntroAzureRG
 
 ## Task 6 Check 2
 ```bash
-robert-jan [ ~ ]$ az group show --name IntroAzureRG
+<subscription-id> [ ~ ]$ az group show --name IntroAzureRG
 (ResourceGroupNotFound) Resource group 'IntroAzureRG' could not be found.
 Code: ResourceGroupNotFound
 Message: Resource group 'IntroAzureRG' could not be found.
