@@ -6,7 +6,7 @@
 
 Deze oefening voer ik twee keer uit:
   - Eerst via de Azure Portal (UI)
-   -Daarna via de Azure CLI
+  - Daarna via de Azure CLI
 
 In deze oefening heb ik via de Azure Portal en CLI een nieuwe resource group aangemaakt en daarin een virtuele machine gedeployed. Het doel was om te zien hoe Azure automatisch alle benodigde onderdelen aanmaakt en groepeert, zoals netwerkinterfaces, disks en een virtual network. Na de deployment heb ik gecontroleerd welke resources waren aangemaakt en hoe deze binnen dezelfde resource group werden georganiseerd. Tot slot heb ik de volledige resource group verwijderd om alle resources in één keer op te schonen.
 
