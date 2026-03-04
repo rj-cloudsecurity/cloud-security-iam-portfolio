@@ -218,7 +218,7 @@ allow-http         100         80      Allow
 <html><body><h2>Welcome to Azure! My name is my-vm.</h2></body></html>
 ```
 
-Ik de browserpagina vernieuwd en kreeg ik direct toegang tot de webpagina.
+Ik heb de browserpagina vernieuwd en kreeg direct toegang tot de webpagina.
 
 
 ## Task 8 Clean up
