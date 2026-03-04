@@ -106,7 +106,7 @@ Selecting "uksouth" may reduce your costs. The region you've selected may cost
 ## Task 4: Access your web server (exiting interactive) 
 
 ```bash
-<subscription-id> [ ~ ]$ IPADDRESS="$(az vm list-ip-addresses \
+[ ~ ]$ IPADDRESS="$(az vm list-ip-addresses \
 > --resource-group "IntroAzureRG" \
 > --name my-vm \
 > --query "[].virtualMachine.network.publicIpAddresses[*].ipAddress" \
@@ -120,7 +120,7 @@ robert-jan [ ~ ]$ echo $IPADDRESS
 ## Task 5 List the current network security group rules
 
 ```bash
-<subscription-id>  [ ~ ]$ az network nsg list \
+[ ~ ]$ az network nsg list \
 > --resource-group "IntroAzureRG" \
 > --query '[].name' \
 > --output tsv
@@ -128,7 +128,7 @@ my-vmNSG
 ```
 
 ```bash
-<subscription-id> [ ~ ]$ az network nsg rule list \
+[ ~ ]$ az network nsg rule list \
 > --resource-group 'IntroAzureRG' \
 > --nsg-name my-vmNSG
 [
@@ -156,7 +156,7 @@ my-vmNSG
 ```
 
 ```bash
-<subscription-id>  [ ~ ]$ az network nsg rule list \
+[ ~ ]$ az network nsg rule list \
   --resource-group "IntroAzureRG" \
   --nsg-name my-vmNSG \
   --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
@@ -169,7 +169,7 @@ default-allow-ssh  1000        22      Allow
 ## Task 6: Create the network security rule
 
 ```bash
-<subscription-id> [ ~ ]$ az network nsg rule create \
+[ ~ ]$ az network nsg rule create \
   --resource-group "IntroAzureRG" \
   --nsg-name my-vmNSG \
   --name allow-http \
@@ -200,7 +200,7 @@ default-allow-ssh  1000        22      Allow
 ```
 
 ```bash
-<subscription-id> [ ~ ]$ az network nsg rule list \
+[ ~ ]$ az network nsg rule list \
   --resource-group "IntroAzureRG" \
   --nsg-name my-vmNSG \
   --query '[].{Name:name, Priority:priority, Port:destinationPortRange, Access:access}' \
@@ -214,7 +214,7 @@ allow-http         100         80      Allow
 ## Task 7: Access your web server again
 
 ```bash
-<subscription-id>  [ ~ ]$ curl --connect-timeout 5 http://$IPADDRESS
+[ ~ ]$ curl --connect-timeout 5 http://$IPADDRESS
 <html><body><h2>Welcome to Azure! My name is my-vm.</h2></body></html>
 ```
 
@@ -224,7 +224,7 @@ Ik de browserpagina vernieuwd en kreeg ik direct toegang tot de webpagina.
 ## Task 8: Clean up
 
 ```bash
-<subscription-id> [ ~ ]$ az group delete \
+[ ~ ]$ az group delete \
 > --name IntroAzureRG \
 > --yes \
 > --no-wait
