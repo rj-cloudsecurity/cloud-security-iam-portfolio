@@ -1,7 +1,5 @@
 ## Estimate workload costs by using the Pricing calculator
 
----
-
   - Learning Path: Describe Azure management and governance 
   - Module: 1. Describe cost management in Azure
 
