@@ -22,36 +22,36 @@ Hoewel de originele opdracht alleen via de Azure Portal wordt uitgevoerd, heb ik
 
 Resource group IntroAzureRG aangemaakt in region West Europe via de Azure Portal.
 
-## Task 2: Create a storage account
+  - Task 2: Create a storage account
 
 Storage account aangemaakt in resource group IntroAzureRG met de volgende instellingen:
   - tempstoragerj123
   - Performance: Standard
   - Redundancy: Locally redundant storage (LRS)
 
-## Task 3: Apply a read-only resource lock
+  - Task 3: Apply a read-only resource lock
 Read-only lock toegevoegd aan het storage account via Settings, Locks, +Add.
 
-## Task 4: Try to add a container (blocked by lock)
+  - Task 4: Try to add a container (blocked by lock)
 Geprobeerd een container aan te maken via Data storage, Container, + Container.
 Foutmelding ontvangen:
 Failed to create storage container.
 De read-only lock voorkomt alle create en update operaties op het storage account.
 
-## Task 5: Change lock type to Delete and create container
+  - Task 5: Change lock type to Delete and create container
 Lock type gewijzigd van Read-only naar Delete via Settings, Locks.
 Daarna container succesvol aangemaakt, de container verschijnt in de lijst.
 
-## Task 6: Try to delete the storage account (blocked by lock)
+  - Task 6: Try to delete the storage account (blocked by lock)
 Geprobeerd het storage account te verwijderen via Overview, Delete.
 Foutmelding ontvangen:
 Cannot delete resource because it has a delete lock.
 
-## Task 7: Remove the delete lock and delete the storage account
+  - Task 7: Remove the delete lock and delete the storage account
 Delete lock verwijderd via Settings, Locks, Delete.
 Daarna storage account verwijderd, Azure vraagt om de naam te bevestigen ter verificatie.
 
-## Task 8: Clean up
+  - Task 8: Clean up
 Resource group IntroAzureRG verwijderd via Resource groups, Delete resource group.
 
 ---
