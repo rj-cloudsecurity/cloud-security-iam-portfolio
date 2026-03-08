@@ -776,7 +776,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
       - **Extra:** FreeCodeCamp AZ‑90
 
 
-**Factors that can affect costs in Azure**
+**Describe factors that can affect costs in Azure**
    - Azure werkt met OpEx in plaats van CapEx, je betaald voor wat je gebruikt in plaats van vooraf te investeren in infrastructure
    - Factoren die kosten beïnvloeden:
       - Resource type: het type resource, de instellingen en de Azure region bepalen de kosten. Azure maakt metered instances aan die gebruik bijhouden en de factuur berekenen
@@ -804,17 +804,39 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
 **Explore the pricing calculator**
    - [Exercise 4 Estimate workload costs by using the Pricing calculator](/az900/exercises/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
 
+**Describe the Microsoft Cost Management tool**
+   - Cost Management helpt onverwachte Azure kosten te voorkomen en te beheren
+   - Functionaliteiten: kosten bekijken, alerts instellen en budgets maken
+   - Cost analysis: visueel overzicht van kosten per billing cylce, region of resource. Helpt spending trends te identificeren en maandelijkse, kwartaal of jaarlijkse kostentrends te schatten
+  
+   - Cost alerts: drie typen alerts:
+     - Budget alerts: melding wanneer spending de ingestelde limiet bereikt of overschrijdt, op basis van kosten of verbruik
+     - Credits alerts: melding bij 90% en 100% verbruik van Azure credit, alleen voor Enterprise Agreement klanten.
+      - Department spending quota alerts: melding wanneer een afdeling een ingesteld percentage van het quota bereikt, bijvoorbeeld 50% of 75%
+   
+   - Budgets: spending limiet instellen op basis van subscription, resource group of service type. Als de limiet bereikt wordt, wordt een alert getriggerd.
+  
+   - Geavanceerd gebruik: automatisch resources pauzeren of aanpassen wanneer het budget wordt overschreden
 
+**Describe the purpose of tags**
+   - Tags zijn metadata die je toevoegt aan Azure resources om ze te organiseren en te beheren
+   - Een tag bestaat uit een naam en een waarde, bijvoorbeeld Environment: Production
+   
+   - Waarvoor gebruik je tags voor:
+      - Resource management: resources vinden en beheren per workload, omgeving, afdeling of eigenaar
+      - Cost management: kosten rapporteren en toewijzen aan interne cost centers
+      - Operations management: resources groeperen op beschikbaarheidskritikaliteit voor SLA's
+      - Security: data classificeren op beveilingsniveau zoals public of confidential
+      - Governance en compliance: resources identificeren die voldoen aan regelgeving zoals ISO 27001
+      - Workload automatisering: resources taggen voor gebruik met tools zoals Azure DevOps
 
+   - Beheer van tags:
+      - Tags toevoegen via PowerShell, Azure CLI, ARM templates, REST API of de Portal
+      - Azure Policy gebruiken om tagging regels af te dwingen
+      - Resources erven tags niet automatisch van subscriptions of resource groups, elke laag heeft eigen tags
 
-
-
-
-
-
-
-
-
+   - Voorbeeld tag structuur:
+      - AppName, Costcenter, Owner, Environment, Impact
 
 ---
 ---
