@@ -896,7 +896,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Om een locked resource te wijzigen: eerst de lock verwijderen dan de wijziging doorvoeren, daarna optioneel de lock terugzetten.
 
 **Exercise 5.  Configure a resource lock**
-  - [Exercise 5 Configure a resource lock](/az900/exercises/5-Configure-a-resource-lock.md)
+  - [Exercise 5 Configure a resource lock](/az900/exercises/5-configure-a-resource-lock.md)
 
 
 
