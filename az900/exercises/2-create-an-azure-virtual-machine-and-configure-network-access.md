@@ -1,4 +1,4 @@
-# Create a Microsoft Azure Virtual Machine
+# Exercise 2. Create a Microsoft Azure Virtual Machine
 
 - Learning path: Introduction to Cloud Infrastructure: Azure architecture & services
 - Module: 2. Describe Azure Virtual Machine and Configure network access
