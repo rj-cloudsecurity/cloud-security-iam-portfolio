@@ -776,6 +776,46 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
       - **Extra:** FreeCodeCamp AZ‑90
 
 
+**Factors that can affect costs in Azure**
+   - Azure werkt met OpEx in plaats van CapEx, je betaald voor wat je gebruikt in plaats van vooraf te investeren in infrastructure
+   - Factoren die kosten beïnvloeden:
+      - Resource type: het type resource, de instellingen en de Azure region bepalen de kosten. Azure maakt metered instances aan die gebruik bijhouden en de factuur berekenen
+        - Storage account: kosten verschillen per type, performance tier, access tier, redundancy settings en region
+        - Virtual machines: kosten verschillen per OS licentie, processor, cores, storage en network interface, en per region
+
+   - Consumption: pay-as-you-go betekent betalen voor wat je gebruikt. Azure biedt ook reserved capacity met kortingen tot 72% bij commitment van 1 of 3 jaar. Bij een surge boven je reservering betaal je alleen het verschil vie pay-as-you-go
+
+   - Maintainance: recourses opruimen die niet meer nodig zijn. Als je een VM verwijdert worden bijbehorende recources zoals storage en networking niet automatisch verwijderd, dit kost onnodig geld
+
+   - Geography: kosten verschillen per region door verschillen in energie, arbeid en belastingen. Netwerkverkeer binnen Europa is goedkoper dan tussen continenten
+
+   - Network traffic: inbound data naar Azure datacenters is gratis. Outbound data wordt berekend op basis van billing zones, geografische groeperingen van Azure regions
+
+   - Subscribtion Type: type beinvloedt kosten. Een free trail van 12 maanden gratis toegang tot bepaalde services en credit voor de eerste 30 dagen
+
+   - Azure Marketplace: Third-party oplossingen en services kopen via Azure. Je betaalt zowel voor Azure services als voor third-party vendor. Alle oplossingen zijn gecertificieerd en compliant met Azure polices
+
+**Explore the pricing calculator**
+   - De pricing calculator geeft een geschatte kostprijs voor resources in Azure
+   - Je kunt individuele resources, complete oplossingen of voorbeeldscenario's doorrekenen
+   - De calculator is alleen informatief, er wordt niet aangemaakt en je wordt nergens voor gefactureerd
+   - Je kunt kosten berekenen voor compute, storage en networking inclusief storage type, access tier en redundancy
+
+**Explore the pricing calculator**
+   - [Exercise 4 Estimate workload costs by using the Pricing calculator](/az900/exercises/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
 ---
 ---
 
