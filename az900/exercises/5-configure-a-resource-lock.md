@@ -16,9 +16,9 @@ Hoewel de originele opdracht alleen via de Azure Portal wordt uitgevoerd, heb ik
 
 ---
 
-  - **Via de Azure Portal (UI)**
+## Via de Azure Portal (UI)
 
-## Task 1: Create a resource group
+  - Task 1: Create a resource group
 
 Resource group IntroAzureRG aangemaakt in region West Europe via de Azure Portal.
 
