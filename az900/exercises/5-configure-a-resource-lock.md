@@ -25,9 +25,9 @@ Resource group IntroAzureRG aangemaakt in region West Europe via de Azure Portal
   - Task 2: Create a storage account
 
 Storage account aangemaakt in resource group IntroAzureRG met de volgende instellingen:
-  - tempstoragerj123
-  - Performance: Standard
-  - Redundancy: Locally redundant storage (LRS)
+    - tempstoragerj123
+    - Performance: Standard
+    - Redundancy: Locally redundant storage (LRS)
 
   - Task 3: Apply a read-only resource lock
 Read-only lock toegevoegd aan het storage account via Settings, Locks, +Add.
