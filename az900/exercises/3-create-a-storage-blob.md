@@ -1,4 +1,4 @@
-## Create a storage blob
+## Exercise 4. Create a storage blob
 
   - Learning Path: Describe Azure architecture and services
   - Module: 3. Describe Azure storage services
