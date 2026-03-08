@@ -16,7 +16,7 @@ Hoewel de originele opdracht alleen via de Azure Portal wordt uitgevoerd, heb ik
 
 ---
 
-## Via de Azure Portal (UI)
+          - **Via de Azure Portal (UI)***
 
 ## Task 1: Create a resource group
 
