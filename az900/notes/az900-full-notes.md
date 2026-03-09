@@ -597,7 +597,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
       - Passwordless vervangt het password door something you have + something you are of something you know
       - Gebruikers zijn meer geneigd zich aan security regels te houden als het makkelijk en convenient is
       - Je device moet eerst geregistreerd worden voordat passwordless werkt, daarna weet Azure dat het device bij jou hoort
-      - Vorbeeld: je laptop is something you have, je PIN of fingerprint is something you know of something you are, samen authenticeer je zonder password
+      - voorbeeld: je laptop is something you have, je PIN of fingerprint is something you know of something you are, samen authenticeer je zonder password
       - Microsfot biedt 3 passwordless opties die integreren met Microsoft Entra ID
          - Windows Hello for Business
          - Microsoft Authenticator app
@@ -898,9 +898,6 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
 **Exercise 5.  Configure a resource lock**
   - [Exercise 5 Configure a resource lock](/az900/exercises/5-configure-a-resource-lock.md)
 
-
-
-
 **Describe the purpose of the Service Trust portal**
    - De Service Trust Portal is een portal van Microsoft met informatie over security, privacy en compliance practices
    - Bevat details over hoe Microsoft zijn cloud services en klantdata beschermt
@@ -911,7 +908,6 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
       - All Documents: centrale plek voor alle beschikbare documenten, minimaal 12 maanden beschikbaar na publicatie
 
 
-
 ---
 ---
 
@@ -919,6 +915,75 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
 - **Learning path:** Part 3. Describe Azure management and governance
    - **Module:** 3. Describe features and tools for managing and deploying Azure resources 
       - **Extra:** FreeCodeCamp AZ‑90
+
+**Describe tools for interacting with Azure**
+   - Azure biedt drie hoofdtools voor het beheren van je omgeving:
+      - Azure Portal
+      - Azure PowerShell
+      - Azure CLI
+
+   - What is the Azure portal?
+      - Web-based grafische interface voor het beheren van Azure subscriptions
+         - Dashboards aanmaken, resources beheren en deployements monitoren
+         - Resilient, aanwezig in elk Azure datacenter, geen downtime voor onderhoud
+           
+   - Azure Cloud Shell
+      - Browser-based shell zonder lokale installatie
+         - Automatisch geauthenticeerd via je Azure credentials
+         - Toegankelijk via Azure Portal
+           
+   - What is Azure PowerShell?
+      - Shell voor het uivoeren van cmdlets die de Auzre REST API aanroepen
+         - Geschikt voor losse taken en complexe geautomatiseerde workflows
+         - Scripts maken processen herhaalbaar en automatiseerbaar
+         - Beschikbaar op Windows, Linux en Mac
+
+   - What is the Azure CLI?
+      - Functioneel equivalent aan Azure PowerShell maar met Bash syntax
+           - Zelfde mogelijkheden als PowerShell, keuze hangt af van voorkeur voor syntax
+           - Beschikbaar op Windows, Linux en Mac
+
+**Describe the purpose of Azure Arc**
+   - Azure Arc breidt Azure beheer uit naar hybrid en multicloud omgevingen
+   - Maakt het mogelijk om non-Azure resources te beheren via Azure Resource Manager (ARM) alsof ze in Azure draaien
+     
+   - Wat kan Azure ARC:
+      - Servers, Kubernetes clusters, Azure data services, SQL Server en virtual machines buiten Azure centraal beheren
+      - Governance en compliance toepassen op on-premises en multicloud resources
+      - Bekende Azure services en tools gebruiken ongeacht waar de resources zich bevinden
+      - Traditioneel ITOps combineren met DevOps Practices
+
+**Describe Azure Resource Manager and Azure ARM templates**
+   - Azure Resource Manager (ARM) is de deployment en management service van Azure
+      - alle requests via Portal, CLI, Powershell of API gaan altijd via ARM
+   - ARM authenticeert en autoriseert elk request voordat het wordt uitgevoerd
+   
+   - ARM voordelen
+      - Infrastructure beheren via declarative JSON templates in plaats van scripts
+      - Resources als groep deployen, beheren en monitoren
+      - RBAC is natively geintegreerd
+      - Tags toepassen voor organisatie en kostenbeheer
+
+   - Infrastructure as Code (IaC): infrastructure beheren als code via herbruikbare templates en configuraties. ARM templates en Bicep zijn hier voorbeelden van
+
+   - Arm Templates
+      - JSON bestanden die declaratief beschrijven welke resources je wilt deployen
+      - Template wordt eerst geverifieerd voordat er iets wordt aangemaakt
+      - Resources worden parallel aangemaakt, 50 instances tegelijk in plaats van 1 voor 1
+      - Voordelen: declarative syntax, repeatable results, orchestration, modulaire bestanden en uitbreidbaar met PowerShell of Bash scripts
+
+   - Bicep:
+      - Alternatief voor ARM templates met eenvoudigere en beknoptere syntax
+      - Werkt ook declaratief en wordt door ARM gedeployed
+      - Idempotent, hetzelfde bestand meerdere keren deployen geeft altijd hetzelfde resultaat
+      - Ondersteunt direct alle nieuwe Azure resource types en API versies
+      - Modulair, code opsplitsen in herbruikbare modules
+
+**Summary**
+   - Azure biedt drie tools voor interactie met de omgeving: Azure Portal, Azure PowerShell (cmdlets via REST API) en Azure CLI( Bash syntax). Azure Cloud Shell is een browser-based shell die beide ondersteunt en automatisch is geauthenticeerd via je Azure credentials
+   - Azure Arc breidt Azure governance en beheer uit naar hybrid en multicloud omgevingen door non-Azure resources zoals servers, Kubernetes clusters en SQL Server te beheren via ARM alsof ze in Azure draaien.
+   - Azure Resource Manager (ARM) is de centrale management laag van Azure, alle requests via Portal, CLI, PowerShell of API gaan altijd via ARM. ARM authenticeert, autoriseert en voert requests uit. Infrastructure as Code via ARM templates (JSON) of Bicep maakt deployements declaratief, herhaalbaar en parallel. Bicep heeft eenvoudigere syntax en is idempotent, in de praktijk de voorkeurskeuze boven ARM templates
+
 
 ---
 ---
@@ -928,6 +993,49 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - **Module:** 4. Describe monitoring tools in Azure 
       - **Extra:** FreeCodeCamp AZ‑90
 
+
+**Describe the purpose of Azure Advisor**
+   - Analyseert je Azure resources en geeft gepersonaliseerde aanbevelingen om je omgeving te verbeteren
+   - Aanbevelingen zijn beschikbaar via de Azure Portal en API, met optionele notificaties
+   - Aanbevelingen kun je direct uitvoeren, uitstellen of negeren
+   - 5 categorieen:
+      - Reliability: continuiteit van business-critical applicaties verbeteren
+      - Security: threats en vulnerabilities detecteren
+      - Performance: snelheid van applicaties verbeteren
+      - Operational Excellence: proces- en workflow efficientie en deployment best practices
+      - Cost: Azure kosten optimaliseren en verlagen
+
+**Describe Azure Service Health**
+   - Azure Service Health houdt de status bij van zowel de globale Azure infrastructure als je eigen resources
+   - Combineert 3 services:
+      - Azure Status: globaal overzicht van alle Azure services en regio's, voor incidenten met brede impact
+      - Service Health: gefocust op de Azure services en regio's die jij gebruikt. Toont outages, planned maintenance en health advisories. Ondersteunt alerts op maat
+      - Resource Health: status van je individuele resources zoals een specifieke VM. Configureerbaar via Azure Monitor
+   - Historische alerts worden opgeslagen voor later onderzoek
+   - Bij een incident biedt Azure Service Health directe links naar support
+
+**Describe Azure Monitor**
+   - Azure Monitor is een platform voor het verzamelen, analyseren, visualiseren en reageren op data van Azure, on-premises en multicloud resources
+
+   - Azure Log Analytics:
+      - Tool in de Azure Portoal voor het schrijven en uitvoeren van log queries op Azure Monitor data
+      - Ondersteunt eenvoudige en complexe queries inclusief statistische analyse en visualisatie
+   - Azure Monitor Alerts:
+      - Automatische notificaties wanneer een ingestelde threshold wordt overschreden
+      - 2 types:
+         - metric-based alerts (numerieke waarden, near real time)
+         - Log-based alerts (complexe logica over meerdere bronner)
+      - Gebruikt action groups om te bepalen wie wordt genotificeerd en welke actie wordt ondernomen
+      - Azure Monitor, Service Health en Azure Advisor gebruiken alle drie action groups
+   - Application Insights:
+      - Azure Monitor feature voor het monitoren van web applicaties in Azure, on-premises of andere clouds
+      - Installatie van SDK of Application Insight agent
+      - Monitort: request rates, response times, failure rates, page views, user counts en performance counters
+      - Kan periodiek synthetic request sturen om de applicatie te monitoren tijdens periodes van lage activiteit    
+**Summary**
+   - Azure Advisor analyseert je resources en geeft gepersonaliseerde aanbevelingen in 5 categorieën: Reliability, Security, Performance, Operational Excellence en Cost. Aanbevelingen zijn direct uitvoerbaar, uitgesteld of negeren
+   - Azure Service Health combineert 3 services: Azure status (global overzicht), Service Health (jouw services en regio's) en Resource Health (individuele resources). Historische alerts worden opgeslagen en bij incidenten zijn er directe links naar support
+   - Azure Monitor verzamelt en analyseert data van Azure, on-premises en multicloud resources. Log Analytics biedt query mogelijkheden op die data. Monitor Alerts sturen notificaties via action groups bij overschreden thresholds, Metric-based voor near real time en log-based voor complexe logica. Application Insights monitort web applicaties inclusief request rates, response times en performance counters.
 
 ---
 ---
