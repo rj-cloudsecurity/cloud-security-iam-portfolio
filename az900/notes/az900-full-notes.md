@@ -1031,7 +1031,8 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
       - Azure Monitor feature voor het monitoren van web applicaties in Azure, on-premises of andere clouds
       - Installatie van SDK of Application Insight agent
       - Monitort: request rates, response times, failure rates, page views, user counts en performance counters
-      - Kan periodiek synthetic request sturen om de applicatie te monitoren tijdens periodes van lage activiteit    
+      - Kan periodiek synthetic request sturen om de applicatie te monitoren tijdens periodes van lage activiteit
+
 **Summary**
    - Azure Advisor analyseert je resources en geeft gepersonaliseerde aanbevelingen in 5 categorieën: Reliability, Security, Performance, Operational Excellence en Cost. Aanbevelingen zijn direct uitvoerbaar, uitgesteld of negeren
    - Azure Service Health combineert 3 services: Azure status (global overzicht), Service Health (jouw services en regio's) en Resource Health (individuele resources). Historische alerts worden opgeslagen en bij incidenten zijn er directe links naar support
