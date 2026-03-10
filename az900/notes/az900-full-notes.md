@@ -12,7 +12,7 @@
 **Shared responsibility model**
    - Microsoft verantwoordlijk voor: alles wat fysiek is en beveiling van de cloud
    - Klant verantwoordelijk voor: data, indentiteiten en apparaten
-   - Gedeelde verantwoordelijkeheid: afhankelijk van LaaS/PaaS/Saas
+   - Gedeelde verantwoordelijkeheid: afhankelijk van IaaS/PaaS/Saas
 
 **Cloud Models:**
    - Private cloud: On premises met eigen datacenter, zelf beheer van hardware netwerk en beveiliging
