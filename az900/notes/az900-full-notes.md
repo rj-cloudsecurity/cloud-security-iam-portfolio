@@ -274,7 +274,7 @@ Scenario‑oefeningen
       - Networking: virtual netwerk, public ip en port configuratie
 
  - **Create an Azure resource**
-   - Merged with the later exercise in this module.
+   - Microsoft merged this exercise with the later exercise in this module.
 
 **Azure virtual desktop**
    - Toegang vanaf elk OS, device en meeste browsers
