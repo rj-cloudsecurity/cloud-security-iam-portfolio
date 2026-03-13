@@ -14,7 +14,7 @@ Become an IAM Specialist / Cloud Security Engineer.
 ---
 
 ## Repository Structure
-
+```bash
 Current:
 cloud-security-iam-portfolio/
 ├── 01-az900/
@@ -43,7 +43,7 @@ Planned:
     ├── exam-prep/
     ├── exercises/
     └── notes/
-
+```
 
 ---
 
