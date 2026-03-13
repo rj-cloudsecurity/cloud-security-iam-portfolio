@@ -75,6 +75,7 @@ iam-cloud-security-study/
 
 ### 06 — SC-200: Security Operations Analyst Associate
 *Coming soon*
+
 ---
 
 ## Exercises
