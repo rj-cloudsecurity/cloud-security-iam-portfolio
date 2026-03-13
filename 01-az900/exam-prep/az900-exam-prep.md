@@ -15,8 +15,8 @@ All exercises completed three times via Portal, CLI and PowerShell.
 |----------|-------|
 | Microsoft Learn (official) | 70% |
 | Microsoft Learn (official) | 96% |
-| open-exam-prep.com | 86% |
-| open-exam-prep.com (200 questions) | 83% |
+| open-exam-prep.com | 83% |
+| open-exam-prep.com (200 questions) | 86% |
 | Custom practice exams | 93-96% |
 
 ## Study Approach
