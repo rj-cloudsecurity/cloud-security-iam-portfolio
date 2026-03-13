@@ -1,9 +1,9 @@
 # AZ-900 Exam Preparation
 
 ## Certification
-Microsoft Certified: Azure Fundamentals (AZ-900)
-Result: PASSED
-Date: March 12, 2026
+  - Microsoft Certified: Azure Fundamentals (AZ-900)
+  - Result: PASSED
+  - Date: March 12, 2026
 
 ## Study Method
 Studied all AZ-900 modules via Microsoft Learn and FreeCodeCamp.
