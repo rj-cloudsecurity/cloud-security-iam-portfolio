@@ -14,17 +14,36 @@ Become an IAM Specialist / Cloud Security Engineer.
 ---
 
 ## Repository Structure
-```
-iam-cloud-security-study/
+
+Current:
+cloud-security-iam-portfolio/
 ├── 01-az900/
-│   ├── notes/
+│   ├── exam-prep/
 │   ├── exercises/
-│   └── exam-prep/
+│   └── notes/
 ├── 02-ms900/
-    ├── notes/
+│   ├── exam-prep/
+│   ├── exercises/
+│   └── notes/
+
+Planned:
+├── 03-sc900/
+│   ├── exam-prep/
+│   ├── exercises/
+│   └── notes/
+├── 04-az104/
+│   ├── exam-prep/
+│   ├── exercises/
+│   └── notes/
+|── 05-sc300/
+|   ├── exam-prep/
+|   ├── exercises/
+|   └── notes/
+|── 05-sc200/
+    ├── exam-prep/
     ├── exercises/
-    └── exam-prep/
-```
+    └── notes/
+
 
 ---
 
