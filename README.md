@@ -1,4 +1,4 @@
-# IAM, Cloud & Security Study Repository
+# Cloud Security & IAM Portfolio
 
 A personal study repository documenting my learning journey toward a career in
 Identity & Access Management (IAM) and Cloud Security. This repository combines
