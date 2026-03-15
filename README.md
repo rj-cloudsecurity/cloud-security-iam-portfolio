@@ -65,7 +65,7 @@ Planned:
 - Azure management and governance
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
-- No hands-on exercises — SC-900 is theory only.
+[Full Notes](/01-sc900/notes/a\\sc900-full-notes.md)
 
 ### 03 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
 *Coming soon*
@@ -95,7 +95,7 @@ All hands-on exercises are completed three times:
 - [Exercise 5 — Configure a Resource Lock](/01-az900/exercises/5-configure-a-resource-lock.md)
 
 ### 02 — SC-900 Exercises
-*Coming soon*
+- No hands-on exercises — SC-900 is theory only.
 
 ### 03 — AB-900 Exercises
 *Coming soon*
