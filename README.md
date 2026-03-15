@@ -21,7 +21,6 @@ cloud-security-iam-portfolio/
 │   └── notes/
 ├── 02-sc900/
 │   ├── exam-prep/
-│   ├── exercises/
 │   └── notes/
 
 Planned:
@@ -66,7 +65,7 @@ Planned:
 - Azure management and governance
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
-*Coming soon*
+- No hands-on exercises — SC-900 is theory only.
 
 ### 03 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
 *Coming soon*
