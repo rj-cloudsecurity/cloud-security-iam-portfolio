@@ -65,7 +65,7 @@ Planned:
 - Azure management and governance
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
-[Full Notes](/01-sc900/notes/a\\sc900-full-notes.md)
+[Full Notes](/01-sc900/notes/sc900-full-notes.md)
 
 ### 03 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
 *Coming soon*
