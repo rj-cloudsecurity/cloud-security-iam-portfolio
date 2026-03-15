@@ -1,5 +1,4 @@
 # Cloud Security & IAM Portfolio
-
 A personal study repository documenting my learning journey toward a career in
 Identity & Access Management (IAM) and Cloud Security. This repository combines
 theory, hands-on exercises and exam preparation across multiple Microsoft
@@ -8,7 +7,6 @@ certifications.
 ---
 
 ## Goal
-
 Become an IAM Specialist / Cloud Security Engineer.
 
 ---
@@ -21,13 +19,13 @@ cloud-security-iam-portfolio/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
-├── 02-ms900/
+├── 02-sc900/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
 
 Planned:
-├── 03-sc900/
+├── 03-ab900/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
@@ -35,11 +33,11 @@ Planned:
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
-│── 05-sc300/
+├── 05-sc300/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
-│── 05-sc200/
+└── 06-sc200/
     ├── exam-prep/
     ├── exercises/
     └── notes/
@@ -48,30 +46,29 @@ Planned:
 ---
 
 ## Certifications & Progress
-
 | # | Certification | Status | Date |
 |---|--------------|--------|------|
 | 01 | AZ-900 – Azure Fundamentals | ✅ Passed | Mar 12, 2026 |
-| 02 | MS-900 – Microsoft 365 Fundamentals | 🔄 In progress | — |
-| 03 | SC-900 – Security, Compliance & Identity | 📅 Planned | — |
-| 04 | AZ-104 – Azure Administrator | 📅 Planned | — |
-| 05 | SC-300 – Identity & Access Administrator | 📅 Planned | — |
+| 02 | SC-900 – Security, Compliance & Identity Fundamentals | 🔄 In Progress | — |
+| 03 | AB-900 – Microsoft 365 Copilot and Agent Administration Fundamentals | 📅 Planned | — |
+| 04 | AZ-104 – Azure Administrator Associate | 📅 Planned | — |
+| 05 | SC-300 – Identity and Access Administrator Associate | 📅 Planned | — |
 | 06 | SC-200 – Security Operations Analyst Associate | 📅 Planned | — |
+
 ---
 
 ## Notes Overview
 
 ### 01 — AZ-900: Azure Fundamentals
 [Full Notes](/01-az900/notes/az900-full-notes.md)
-
 - Cloud concepts
 - Azure architecture and services
 - Azure management and governance
 
-### 02 — MS-900: Microsoft 365 Fundamentals
+### 02 — SC-900: Security, Compliance, and Identity Fundamentals
 *Coming soon*
 
-### 03 — SC-900: Security, Compliance, and Identity Fundamentals
+### 03 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
 *Coming soon*
 
 ### 04 — AZ-104: Azure Administrator Associate
@@ -86,7 +83,6 @@ Planned:
 ---
 
 ## Exercises
-
 All hands-on exercises are completed three times:
 - Via the Azure Portal (UI)
 - Via the Azure CLI (Bash)
@@ -99,10 +95,10 @@ All hands-on exercises are completed three times:
 - [Exercise 4 — Estimate Workload Costs using the Pricing Calculator](/01-az900/exercises/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
 - [Exercise 5 — Configure a Resource Lock](/01-az900/exercises/5-configure-a-resource-lock.md)
 
-### 02 — MS-900 Exercises
+### 02 — SC-900 Exercises
 *Coming soon*
 
-### 03 — SC-900 Exercises
+### 03 — AB-900 Exercises
 *Coming soon*
 
 ---
@@ -111,8 +107,8 @@ All hands-on exercises are completed three times:
 
 **Phase 1 — 0 to 3 months**
 - AZ-900 – Azure Fundamentals ✅
-- MS-900 – Microsoft 365 Fundamentals
-- SC-900 – Security, Compliance & Identity Fundamentals
+- SC-900 – Security, Compliance & Identity Fundamentals 🔄
+- AB-900 – Microsoft 365 Copilot and Agent Administration Fundamentals
 - PowerShell basics
 - IAM fundamentals
 
@@ -131,7 +127,6 @@ All hands-on exercises are completed three times:
 ---
 
 ## Technologies Used
-
 - Azure Portal
 - Azure CLI
 - PowerShell
@@ -141,5 +136,4 @@ All hands-on exercises are completed three times:
 ---
 
 ## Status
-
 Actively learning and updating.
