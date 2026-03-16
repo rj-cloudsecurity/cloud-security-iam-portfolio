@@ -97,8 +97,6 @@ All hands-on exercises are completed three times:
 
 ## Roadmap
 
-## Roadmap
-
 **Phase 1 — Fundamentals**
 - AZ-900 – Azure Fundamentals ✅
 - SC-900 – Security, Compliance & Identity Fundamentals 🔄
