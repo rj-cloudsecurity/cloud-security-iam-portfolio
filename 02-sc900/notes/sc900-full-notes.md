@@ -224,20 +224,58 @@
     - Federation: 2 verschillende identity providers vertrouwen elkaar om gebruikers over grenzen heen te authenticeren
 
 
-
-
 **Describe the concept of directory services and Active Directory**
 
+  - Een directory is een hierarchische structuur die informatie opslaat over objecten op een netwerk. Een directory service maakt die data beschikbaar voor users, administrators, services en applicaties
 
+  - Active Directory (AD)
+    - Set van directory services ontwikkeld door Microsoft voor on-premises domain-based networks
+    - Bekendste service: Active Directory Domain Services (AD DS)
+    - AD DS slaat informatie op over domain members zoals devices en users, verifieert credentials en definieert access rights
+    - Een server die AD DS draait is een domain controller (DC)
+    - Centraal component in organisaties met een on-premises IT infrastructure
+    - Beheert meedere on-premises componenten met 1 identity per user
+   
+  - Beperkingen van AD DS
+    - Ondersteunt geen mobile devices
+    - Ondersteunt geen SaaS applicaties
+    - Ondersteunt geen monderne authentication methoden
 
-
-
-
+  - Evolutie naar de cloud
+    - Door groei van cloud services, SaaS applicaties en personal devices ontstond de behoefte aan modern authentication
+    - Microsoft Entra ID (voorheen Azure AD) is het antwoord hierop
+    - Onderdeel van de Microsoft Entra family
+    - Biedt Identity as a Service IDaaS voor alle apps; zowel cloud als on-premises
 
 
 **Describe the concept of federation**
 
+  - Federartion maakt toegang mogelijk tot services over organisatie- domein grenzen heen door trust relationshops te configureren tussen identity providers. Geen aparte username en wachtwoord nodig per domein.
 
+  - Hoe het werkt
+    - Website in domain A gebruikt Identity Provides A (IdP-A)
+    - User in domain B authenticeert met Identity Provider B (IdP-B)
+    - IdP-A heeft een trust relationship geconfigureerd met IdP-B
+    - Website accepteert de authenticatie van de user via trust relationship tussen IdP-A en IdP-B
+
+  - Belangrijk:
+    - Trust is niet altijd bidirectioneel; Als IdP-A IdP-B vertrouwt betekent dat niet automatisch dat IdP-B IdP-A vertrouwt
+    - Moet apart geconfigureerd worden
+
+  - Voorbeelden
+    - B2B collaboration: inloggen met een account van een andere organisatie
+    - Social identity provider: inloggen met Google account op een exterene applicatie
+
+
+---
+
+
+  - **Learning Path 1:** Introduction to Security, Compliance, and Identity
+    - **Module 3:** 
+      - **Extra Sources:*FreeCodeCamp SC‑900*
+
+        
+**
 
 
 
