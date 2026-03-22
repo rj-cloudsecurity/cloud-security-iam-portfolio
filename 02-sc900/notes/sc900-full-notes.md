@@ -332,7 +332,7 @@
 
 **Describe hybrid identity**
 
-  - Veel organisaties gebruiken zowel on-premises als cloud applicaties. Users verwachten overal makkelijk toegang. Hyrid identity zorgt voor 1 enkele identity voor authenticatie en autorisatie, ongeacht waar de applicatie staat.
+  - Veel organisaties gebruiken zowel on-premises als cloud applicaties. Users verwachten overal makkelijk toegang. Hybrid identity zorgt voor 1 enkele identity voor authenticatie en autorisatie, ongeacht waar de applicatie staat.
   
   - Hybrid identity is accomplished through
     - Inter-directory provisioning: een identity aanmaken tussen twee verschillende directory servies; meest voorkomend scenario: user uit Active Directory provisioneren naar Microsoft Entra ID
@@ -344,7 +344,6 @@
     - Agent word on-premises of IaaS omgeving geinstalleerd
     - Provisioning configuratie wordt opgeslagen in Microsoft Entra ID
     - Gebruikt de SCIM specifatie; standaard voor het automatisch uitwisselen van user en group identity informatie tussen identity domains; wordt de de facto standaard voor provisioning
-
 
 
 **Describe external identities**
