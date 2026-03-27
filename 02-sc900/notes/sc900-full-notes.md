@@ -7,7 +7,7 @@
 
   - **Learning Path 1:** Introduction to Security, Compliance, and Identity
     - **Module 1:** Describe Security and Compliance Concepts
-      - **Extra Sources:*FreeCodeCamp SC‑900*
+      - Extra Sources:*FreeCodeCamp SC‑900 & John Savill's Technical Training*
 
         
 **Shared Responsibility Model**
@@ -146,7 +146,7 @@
 
   - **Learning Path 1:** Introduction to Security, Compliance, and Identity
     - **Module 2:** Describe identity concepts 
-      - **Extra Sources:*FreeCodeCamp SC‑900*
+      - Extra Sources:*FreeCodeCamp SC‑900 & John Savill's Technical Training*
 
         
 **Define authentication and authorization**
@@ -262,7 +262,7 @@
 
   - **Learning Path 2:** Introduction to Microsoft Entra
     - **Module 1:** Describe the function and identity types of Microsoft Entra ID 
-      - **Extra Sources:*FreeCodeCamp SC‑900*
+      - Extra Sources:*FreeCodeCamp SC‑900 & John Savill's Technical Training*
 
         
 **Describe Microsoft Entra ID**
@@ -362,7 +362,7 @@
 
   - **Learning Path 2:** Introduction to Microsoft Entra
     - **Module 2:** Describe the authentication capabilities of Microsoft Entra ID
-      - **Extra Sources:*FreeCodeCamp SC‑900*
+      - Extra Sources:*FreeCodeCamp SC‑900 & John Savill's Technical Training*
 
 
 **Describe authentication methods**
@@ -479,7 +479,7 @@
 
   - **Learning Path 2:** Introduction to Microsoft Entra
     - **Module 2:** Describe the authentication capabilities of Microsoft Entra ID
-      - **Extra Sources:*FreeCodeCamp SC‑900*
+      - Extra Sources:*FreeCodeCamp SC‑900 & John Savill's Technical Training*
 
 **Describe Conditional Access**
   - Conditional Access is een feature van Microsoft Entra ID die een extra beveilingslaag toevoegt voordat geauthenticeerde users toegang krijgen tot data of resources. Werkt via policies die signalen analyseren zoals user, locatie, device, applicatie en risico om automatisch toegangbeslissingen te nemen
