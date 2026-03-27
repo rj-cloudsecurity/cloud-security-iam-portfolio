@@ -624,7 +624,7 @@
 
 
   - **Learning Path 2:** Introduction to Microsoft Entra
-    - **Module 4:** Describe the identity protection and governance capabilities of Microsoft Entra 
+    - **Module 4:** Describe the identity protection and governance capabilities of Microsoft Entra
       - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
 
 **Describe Microsoft Entra ID Governance**
