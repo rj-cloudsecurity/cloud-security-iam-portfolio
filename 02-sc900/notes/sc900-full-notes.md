@@ -7,7 +7,7 @@
 
   - **Learning Path 1:** Introduction to Security, Compliance, and Identity
     - **Module 1:** Describe Security and Compliance Concepts
-      - Extra Sources:*FreeCodeCamp SC‑900 & John Savill's Technical Training*
+      - Extra Sources: *FreeCodeCamp SC‑900 & John Savill's Technical Training*
 
         
 **Shared Responsibility Model**
