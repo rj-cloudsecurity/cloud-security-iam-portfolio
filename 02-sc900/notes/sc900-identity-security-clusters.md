@@ -29,7 +29,7 @@
   - Combineren apps, groepen en rollen
   - Onderdeel van **Entitlement Management**
 
-### **Defender-producten**
+# **Defender-producten**
 
 ## **Defender for Cloud**
   - **Cloud Security Posture Management (CSPM)**
