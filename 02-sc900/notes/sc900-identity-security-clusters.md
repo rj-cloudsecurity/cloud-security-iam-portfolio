@@ -37,28 +37,28 @@
   - Threat protection voor Azure, Hybrid en multi-cloud workloads
   - Aanbevelingen, hardening en secure score voor workloads
 
-## **Defender for Cloud Apps (CASB)
+## **Defender for Cloud Apps (CASB)**
   - Detecteerd **Shadow IT**
   - App discovery
   - **Session control** voor real-time monitoring
   - Policies voor SaaS-applicaties
 
-## **Defender for Identity
+## **Defender for Identity**
   - Beschermt **on-premises Active Directory**
   - Detecteerd laterale beweging, Pass-the-Hash en Pass-the-Ticket
   - Analyseert AD-verkeer op verdachte patronen
 
-## **Defender for Endpoint
+## **Defender for Endpoint**
   - **Endpoint Detection & Response (EDR)
   - Beschermt Windows, macOS, Linux, iOS en Android
   - Detecteert en reageert op endpoint-dreigingen
     
-## **Identity Models
+## **Identity Models**
   - Password Hash Sync (PHS): synchroniseert wachtwoordhash naar Entra ID
   - Pass-Through Authentication (PTA): On-prem AD valideert wachtwoorden
   - Federation (ADFS): Externe identity provider verzorgt authenticatie
 
-## **Governance & Compliance
+## **Governance & Compliance**
   - Secure Score: meet security posture en geeft aanbevelingen
   - Compliance Manager: assessments, regulatory compliance en verbeteracties
   - Data Minimization: alleen data verzamelen die noodzakelijk is
