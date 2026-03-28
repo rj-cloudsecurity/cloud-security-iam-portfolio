@@ -628,49 +628,173 @@
       - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
 
 **Describe Microsoft Entra ID Governance**
+  - Identity governance oplossing die organisaties helpt de juiste mensen de juiste toegang te geven to de juiste resources; via AI-drivin insight, process automation en increased visibility
+  - 4 kernvragen
+    - Welke identities hebben toegang tot welke resources?
+    - Wat doen die identities met die toegang?
+    - Zijn er organizational controls voor toegangsbeheer?
+    - Kunnen auditors verifieren dat de controls werken?
 
+  - Identity lifecyle: Join, move en leave proces; digitale identity aanmaken, aanpassen en verwijderen op basis van HR signalen
+    - Inbound provisioning: automatisch user identities aanmaken vanuit HR systemen zoals Workday of SuccesFactors
+    - Lifecycle workflows: automatische taken bij key events zoals starten, van rol wisselen of vertrekken
+    - Automatic assignment policies: automatisch group membership, app roles en SharePoint roles aanpassen op basis van user attributen
+    - User provisioning: accounts aanmaken, updaten en verwijderen in andere applicaties
+   
+  - Access lifecyle: Beheren van toegang gedurende de gehele loopbaan van een user
+    - Dynamic groups: Attribute-based rules bepalen automatisch group membership
+    - Entitlement management: users kunnen toegang aanvragen via acces packages; separation of duties checks; recurring access reviews met AI-powered suggestions
 
-
-
-
+  - Privileged access lifecycle: Monitoring en beheer van administrative rights
+    - Microsoft Entra Privileged Identity Management (PIM): minimaliseert het aantal mensen met toegang tot resources in Microsoft Entra, Azure en andere Microsoft services; comprehensive governance controls
+   
+  - Identity governance for AI agents
+    - Agent identities: accounts in Microsoft Entra ID voor AI agents; zelfde governance als human identities; verantwoorlijke persoon houdt toezicht; toegang vervalt wanneer niet meer nodig
 
 
 **Describe access reviews**
+  - Microsoft Entra Access reviews helpen organisaties group membership, toegang tot enterprise applicaties en role assignments efficient te beheren. Regelmatige access reviews zorgen ervoor dat alleen de juiste mensen toegang hebben
+  - Use cases:
+    - Te veel users in privileged roles: controleren wie administrative access heeft en gasten of partners verwijderen die dat niet meer nodig hebben
+    - Business critical data access: users moeten peeriodiek bevestigen waarom ze toegang nodig hebben
+    - Policy exception list: uitzonderingen op policies beheren en aan auditors bewijzen dat deze regelmatig gereviewed worden
+    - Guest access in groups: group owners bevestigen of gasten nog legitieme toegang nodig hebben
+    - Recurring reviews: access reviews instellen op wekerlijkse, maandelijkse, kwartaallijkse of jaarlijkse basis
 
+  - Manage user and guest acces
+    - Users of decision makers kunnen gevraagd worden om toegang te bevestigen of te ontkennen
+    - Reviewers kijgen suggesties van Microsoft Entra ID
+    - Admins kunnen voortang bijhouden; geen toegangswijzigingen totdat review voltooid is
+    - Na afloop: handmatig of automatisch toegang verwijderen van users die het niet meer nodig hebben
+   
+  - Multi-stage access reviews
+    - Ondersteunt tot drie review stages met meerdere typen reviewers
+    - Zorgt voor compelexe workflows voor recertification en audit requirements
+    - Vermindert het aantal beslissingen per reviewer
 
-
-
-
+  - AI-Powered recommendations
+    - Analyseert signalen zoals sign-in activity, user-to-group affiliation en andere contextdate
+    - Suggereert of toegang goedgekeurd of geweigerd moet worden
+    - AI-identified peer outliers: users met afwijkende toegangspatronen krijgen extra aandacht
 
 
 **Describe entitlement management**
+  - Identity governance feature die organisaties helpt de identity en access lifecycle op schaal te beheren via automatisering van access request workflows, access assignments, reviews en expiration
 
+  - Uitdagingen die entitlement management oplost
+    - Users weten niet welke toegang ze nodig hebben of wie het moet goedkeuren
+    - Users houden toegang langer dan nodig
+    - Toegang voor externe users is moeilijk consistent te beheren
+   
+  - Capabilities
+    - Access packages delegeren aan non-administrators: packages bevatten resources die users kunnen aanvragen; managers definieren policies zoals wie kan aanvragen, wie goedkeurt en wanneer toegang verloopt
+    - External users beheren: automatisch uitgenodigd bij goedkeuren; B2B account automatisch verwijderd als toegang verloopt en geen andere packages meer actief zijn
+    - AI agent identities: entitlement management ondersteunt ook toegangsbeheer voor AI agents; sponsers zorgen dat toegang alleen actief is zolang nodig
+   
+  - Access packages: Bundle van alle resources die een user nodig heeft voor een project of taak:
+    - Security groups
+    - Microsoft 365 Groups
+    - Enterprise applications
+    - SharePoint Online sites
 
-
-
-
+  - Microsoft Entra terms of use: Informatie presenteren aan users voordat ze toegang krijgen tot data of een applicatie; voor legal of compliance requirements
+    - Use cases: voor toegang tot gevoelige data, op terugkerende basis, op basis van user attributen of voor alle users
+    - Gepresenteerd als PDF; ook op mobile devices
+    - Conditional Access policies vereisen acceptatie van terms of use voordat toegang verleend wordt
+    - Admins kunnen zien wie akkoord is gegaan en wie heeft geweigerd
 
 
 **Describe the capabilities of Privileged Identity Management**
+  - PIM is een service in Microsoft Entra ID voor het beheren, controleren en monitoren van toegang tot belangrijke resources in Microsoft Entra ID, Azure en andere Microsoft online services zoals Microsoft 365 en Intune.
+  - PIM kernmerken
+    - Just in time: privileged acces alleen wanneer nodig
+    - Time-bound: start- en einddatum voor toegang
+    - Approval-based: specifieke goedkeuring vereist voor activatie
+    - Visible: notificaties bij activatie van privileged roles
+    - Auditable: volleidge access history te downloaden
 
+  - Waarom PIM gebruiken
+    - Minimaliseert het aantal mensen met toegang tot gevoelige resources
+    - Beperkt risico van misbruik door time-limiting
+    - Vereist justification en MFA bij activatie van een role
+    - Biedt oversight over wat users doen met admin privileges
 
+  - Wat kun je beheren met PIM
+    - Microsoft Entra roles: built-in en custom roles voor Microsoft Entra ID en Microsoft 365
+    - Azure roles: RBAC roles voor management groups, subscriptions, resource groups en resources
+    - PIM for groups: just-in-time membership en ownership van groups; voor Microsoft Entra Roles, Azure roles, Azure SQL, Key Vault, Intune en non-Microsoft applicaties
+   
+  - General workflow
+    - Assign: Roles toewijzen aan users, groups, service principals of managed identities; eligible assignments vereisen activatie, active assignments niet; met scope en duration
+    - Activate: eligible users activeren de role voor een bepaalde duration met een reden
+    - Approve or Deny: delegated approvers ontvangen notificaties en keuren request goed of af
+    - Extend and renew: verlopen of bijne verlopen assignments kunnen verlengd of hernieuwd worden
 
-
+  - Audit
+    - Pim audit history toont alle role assignments en activaties van afgelopen 30 dagen voor alle privileged roles
 
 
 **Describe Microsoft Entra ID Protection**
+  - Helpt organisaties identity-based risks te detecteren, onderzoeken en remedieren; voor zwel user identities als workload identities. Risico;s kunnen doorgegeven worden aan Conditional Access voor toegangsbeslissingen of aan een SIEM tool voor verder onderzoek
 
+  - Detect risks: Microsoft analyseert dagelijks signalen van Microsoft Entra ID, Microsoft accounts en Xbox om risico gedrag te detecteren
+    - Sign-in risk: kans dat een authenticatieverzoek niet geautoriseerd is door de identity owner; voorbeelden: anonymous IP address, atypical travel, unfamiliar sign-in properties
+    - User risk: kans dat een identity of account gecompromitteerd is; voorbeelden: leaked credentials, suspicious sending patterns, user reported suspicious activity
+    - Belangrijk: ID Protection detecteert alleen risico's bij gebruik van correcte credentials; incorrecte credentials worden niet gemarkeerd
+   
+  - Investigate risks: 3 key reports voor administrators:
+    - Risk detections: elk gedetecteerd risico wordt gerapporteerd
+    - Risky sign-ins: sign-in waarbij 1 of meer risk detections zijn gerapporteerd
+    - Risky users: user met 1 of meer risky sign-ins of risk detections
+   
+  - Remediate
+    - Automatisch: risk-based Conditional Access policies dwingen controls af zoals strong authentication, MFA of secure password reset; bij succesvolle completion wordt het risico automatisch geremediated
+    - Handmatig: administrator reviewt risico's en kan dismiss, confirm safe of confrim compromise uitvoeren
 
-
+    - Export Data kan geexporteerd worden via Microsoft GRaph APIs naaR:
+      - SIEM tools
+      - Log Analytics workspace
+      - Storage account
+      - Event HUbs
 
 
 **Describe Microsoft Entra Verified ID**
+  - Managed verifiable credentials service gebaseerd op open standaarden. Automatiseert verificatie van identity credentials en maakt privacy-beschermde interactie mogelijk tussen oragnisaties en users
 
+  - Why do we need it?
+    - Moeilijk om digitale credentials cryptografisch beveiligd, privacy compiant en machine readable aan te bieden
+    - Gebrek aan controle over hoe identity data gebruikt en gedeeld wordt na het verstrekken
+   
+    - How it works
+      - Issuer: organisatie die claims bevestigt en digitaal gesigneerde credentials verstrekt; bijvoorbeeld een werkgever, universiteit of overheidsinstantie
+      - User: ontvangt en beheert credentials in een digital wallet; presenteert credentials aan de verifier; claims zijn cryptografisch gesigneerd met de private key van de user
+      - Verifier: vraagt bewijs op en verifieert of de claims voldoen aan de vereisten; bijvoorbeeld een werkgever of bank
 
+  - Verifiable data registry: Onderliggend netwerk dat fungeert als trust systeem; bevat metadata en public keys; verifier leest metadata om credentials te verifieren
+  - Microsoft Entra Verified ID: Gebruikt het did:web trust syteem waarbij de issuer's decentralized identifier (DID) gekoppeld is aan een web domein van de organisatie
 
+  - Account recorvery met Verified ID
+    - Helpt users toegang te herwinnen als alle authenticatiemethoden verloren zijn; anders dan SSPR vereist dit geen geregistreerde authenticatiemethode
+    - Process: identity verificatie via trusted third-party provider; government-issued ID valideren; verifiable credential in MIcrosoft Authenticator; Face Check via Azure AI matcht selfie met ID foto; Temporary Access Pass (TAP) om in te loggen en authenticatiemethoden opnieuw te registreren
+
+  - AI en verifiable credentials
+    - Bescherming tegen AI-generated deepfakes en identity fraud
+    - Verified ID bevestigt dat interacties echte, geverifieerde personen betreffen
 
 
 **Describe Microsoft Entra integration with Microsoft Security Copilot**
+  - Microsoft Security Copilot is een generative AI-powered security oplossing die AI en menselijke expertise combineert om administrators en security teams sneller en effectiever te laten reageren op aanvallen. Microsoft Entra is 1 van die plugins die Security Copilot van accurate informatie voorziet
+  - Wat security Copilot doet met Microsoft Entra
+    - Identity risks onderzoeken en oplossen
+    - Identities en toegang beoordelen met AI-driven inteliignce
+    - Sign-ins en risky users verkennen via natural language
+    - Gaps in access policies vinden
+    - Identity workflows generen
+    - Security best practices aanbevelen
+
+  - Standalone en embedded experiences
+    - Standalone: via securitycopilot.microsoft.com; natural language promts gebruiken voor identity-related onderzoeken; gebruikersinformatie opvragen, siky sign-ins bekijken, audit logs analyseren
+    - Embedded: ingebouwd in Microsoft Entra admin center workflows; bijvoorbeeld riksy users report in Identity Protection toont auotmiasch een Copilot samenvatting van het risiconiveau en aanbevelingen
 
 
 
