@@ -797,7 +797,14 @@
     - Embedded: ingebouwd in Microsoft Entra admin center workflows; bijvoorbeeld riksy users report in Identity Protection toont auotmiasch een Copilot samenvatting van het risiconiveau en aanbevelingen
 
 
-
+**Summary**
+  - ID Governance zorgt dat de juiste mensen de juiste toegang hebben via identity lifecycle (join,move,leave), access lifecycle (dynamic groups, entitlement management) en privileged acces lifecyle (PIM)
+  - Access reviews controleren periodiek wie nog toegang nodig heeft; ondersteunt multi-stage reviews en AI-powered aanbelevlingen
+  - Entitlement management automatiseert acces request workflows via access packages; beheert ook external users en AI agent identities; terms of use via Conditional Acces afdwingen
+  - PIM geeft just-in-time, time-bound en approval-based toegang tot privileged roles; auditable en vereist justification en MFA; werkt voor Microsoft Entra roles, Azure roles en groups
+  - ID Protection detecteert sign-in risk en user risk via dagelijkse signaalanalyse; drie reports: risk detections, risky sign-ins en risky users; automatische of handmatige remediation via Conditional Access; exporteerbaar naar SIEM
+  - Verified ID is een verifiable credentials service met issuer, user en verifier; gebruikt did:web trust syteem; ondersteunt account recovery via Face Check en Temporary Acces Pass
+  - Security Copilot integreert met Microsoft Entra voor AI-driven identity onderzoeken via standalone en embedded experiences; gespecialisserde agents voor access reviews, Conditional Access optimalisatie en identity risk management
 
 
 
