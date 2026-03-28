@@ -1,5 +1,8 @@
 # SC-900: Identity & Access Clusters
 
+  - Dit document bundelt de belangrijkste Microsoft securityproducten en Entra‑functies in duidelijke clusters. Veel diensten hebben overlappende namen en vergelijkbare rollen, waardoor ze lastig te onderscheiden zijn. Door ze te groeperen op functie binnen identity, access, governance en threat protection ontstaat een helder en snel te onthouden overzicht dat helpt bij het herkennen van examenvragen.
+  - Deze clusters sluiten goed aan bij een manier van leren die draait om verbanden leggen in plaats van losse definities onthouden, waardoor de structuur van Microsoft‑securitydiensten veel sneller blijft hangen.
+
 ## **Identity Protection**
   - Detecteert **risky sign-ins**
   - Detecteerd **risky users**
