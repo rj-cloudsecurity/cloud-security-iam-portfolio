@@ -16,7 +16,7 @@
 
 | Platform | Score | Notes |
 |----------|-------|-------|
-| Custom practice exam (Mid‑way baseline) | 56% | | Custom practice exam 1 | 56% | Accidentally covered all four parts (1, 2, 3 and 4) while only Part 1 and Part 2 had been studied. Score reflects incomplete preparation for Parts 3 and 4. | Triggered creation of the [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)|
+| Custom practice exam (Mid‑way baseline) | 56% | Accidentally covered all four parts (1, 2, 3 and 4) while only Part 1 and Part 2 had been studied. Score reflects incomplete preparation for Parts 3 and 4. Triggered creation of the [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)|
 | Custom practice exam 2 (Part 1 & 2 only) | 90% | Taken after completing Part 1 and Part 2.|
 
 ## Study Approach
