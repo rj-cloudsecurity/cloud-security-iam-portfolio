@@ -824,6 +824,27 @@
 
   - Use cases
     - Investigate and remediate security threats: complexe security alerts omzetten naar bruikbare samenvattingen met stap-voor-sap response guidance
+    - Build KQL queries or analyze suspicious scripts: technische taken uitvoeren via natural language zonder handmatig scripts te schrijven
+    - Understand risks and manage security posture: breed inzicht van de omgeving met geprioriteerde risico;s
+    - Troubleshoot IT issues faster: relevante informatie snel samenvatten en actionable insights geven
+    - Define and manage security policies: policies definieren, conflicten controleren en samenvatten
+    - Configure secure lifecycle workflows; groups aanmaken en access parameters instellen met stap-voor-stap guidance
+    - Develop reports for stakeholders: duidelijke rapporten genereren afgestemd op het publiek
+   
+  - Standalone en embedded experience
+    - Standalone: via de dedicated site; gebruikers communiceren via natural language in de promt bar; output als tekst, afbeeldingen of documenten
+    - Embedded: Copilot capabilities ingebouwd in Microsoft security producten zoals Microsoft Defender XDR; incident samenvatten, scripts analyseren, KQL queries genereren
+   
+  - Natural Language Processing (NLP)
+    - Gebouwd op Azure OpenAI Service met Large Language Models (LLMs)
+    - Kan menselijke taal lezen, begrijpen en verwerken
+    - LLMs geven brede algemene kennis maar zijn ook getraind op security specifieke bronnen
+
+  - Integration with security-specific sources
+    - Combineert LLMs met Microsofts global threat intelligence; meer dan 65 biljoen dagelijkse signalen
+    - Integreert via plug-ins met Microsoft security producten; non-Microsoft producten en open-source intelligence feeds
+    - Verbinding met organisatie knowledge bases voor meer context en relevante responses
+    - Jouw data wordt niet gebruikt om de AI modellen te trainen
 
 
 
