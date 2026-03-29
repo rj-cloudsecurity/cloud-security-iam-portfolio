@@ -10,13 +10,13 @@
   - Watching the FreeCodeCamp SC‑900 course
   - Watching John Savill's Technical Training SC‑900
   - Creating detailed notes in [Full Notes](/02-sc900/notes/sc900-full-notes.md)
-  - Building a product‑cluster overview in [Identity & Access Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
+  - Building a product‑cluster overview in [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
 
 ## Practice Assessment Progression
 
 | Platform | Score | Notes |
 |----------|-------|-------|
-| Custom practice exam (Mid‑way baseline) | 56% | Covers all SC-900 topics. Taken after completing Part 1 and Part 2 only. Triggered creation of the cluster overview.|
+| Custom practice exam (Mid‑way baseline) | 56% | Covers all SC-900 topics. Taken after completing Part 1 and Part 2 only. Triggered creation of the [cluster overview](/02-sc900/notes/sc900-identity-security-clusters.md)|
 | Custom practice exam 2 (Mid‑way baseline) | % | |
 
 ## Study Approach
