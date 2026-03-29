@@ -1005,6 +1005,32 @@
   - **Learning Path 3:** Introduction to Microsoft security solutions
     - **Module 2:** Describe core infrastructure security services in Azure 
       - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
+
+**Describe Azure DDoS protection**
+  - Distributed Denial of Service Attacks: een aanval probeert de resources van je applicaties en server te overbelasten zodat echte gebruikers er niet meer bij kunnen. de 3 meest voorkomende typen:
+    - Volumetric attacks: Overspoelen het netwerk met schijnbaar legitiem verkeer zodat echte traffic er niet doorheen komt
+    - Protocol attacks: Misbruiken zwakheden in layer 3 (network) en layer 4 (transport) protocollen om serverresources uit te putten
+    - Resource (application) layer attacks: richten zich op web application packets om datacommunicatie tussen hosts te verstoren
+
+  - What is Azure DDoS Protection?
+      - Azure DDoS Protection analyseert binnenkomend netwerkverkeer en filtert alles eruit dat op een aanval lijkt. Het beschermt op layer 3 en layer 4.
+      - Belangrijkste functies:
+        - Always-on traffic monitoring: 24/7 monitoring; bij detectie wordt aanvalsverkeer automatisch omgeleid en gefilterd, en word je binnen enkele minuten gewaarschuwd via Azure Monitor
+        - Adaptive real time tuning; leert jouw applicatieverkeer over tijd en pas het profiel automatisch aan
+        - Telemetry, monitoring en alerting; rijke telemetrie via Azure Monitor; integratie mogelijk met Azure Event Hubs, Azure Monitor logs en Azure Storage
+
+  - Tiers
+      - DDoS Network Protection: Uitgebreidere bescherming, automatisch afgestemd op Azure resources binnen een virtual network; inclusief extra services zoals DDoS rapid response support, cost protection en kortingen op WAF
+      - DDoS IP Protection: Pay-per-protected IP model; bevat dezelfde kern-engineeringfuncties maar zonder de extra value-addes services
+
+  - Waarom niet vertrouwen op standaard Azure infrastructurebescherming
+    - De standaard infrastructurebescerming heeft een hogere drempel dan de meeste applicaties aankunnen
+    - Biedt geen telemetry of alerting
+    - Azure DDoS Protection geeft dedicated monitoring met applicatiesspecifieke drempelwaarden en een profiel afgestemd op jouw verwachte traffic
+
+    - Voor bescherming op layer 7 (application layer) heb je aanvullend een Web Application Firewall (WAF) nodig
+   
+  
         
 
 
