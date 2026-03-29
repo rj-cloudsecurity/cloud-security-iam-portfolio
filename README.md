@@ -62,6 +62,7 @@ Planned:
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
 [Full Notes](/02-sc900/notes/sc900-full-notes.md)
+[identity security clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
 
 ### 03 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
 *Coming soon*
