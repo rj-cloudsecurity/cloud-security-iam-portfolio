@@ -8,6 +8,7 @@
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching the FreeCodeCamp SC‑900 course
+  - Watching John Savill's Technical Training SC‑900
   - Creating detailed notes in [Full Notes](/02-sc900/notes/sc900-full-notes.md)
   - Building a product‑cluster overview in [Identity & Access Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
 
