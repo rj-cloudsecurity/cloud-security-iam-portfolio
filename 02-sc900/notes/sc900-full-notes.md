@@ -1001,6 +1001,8 @@
       - Role Permissions worden per workspace ingesteld; Copilot gaat nooit verder dan de toegangsrechten van de gebruiker zelf
 
 
+---
+
 
   - **Learning Path 3:** Introduction to Microsoft security solutions
     - **Module 2:** Describe core infrastructure security services in Azure 
@@ -1053,6 +1055,162 @@
     - Azure Firewall geconfigureerd met resource specific structured logs voor IDPS, verstuurd naar een Log Analytics workspace
     - Gebruiker heeft zowel Security Copilot rol als de juiste Azure RBAC rollen
     - De Azure Firewall plugin in Security Copilot moet ingeschakeld zijn
+
+
+**Describe Web Application Firewall**
+  - Web applications zijn een veelvoorkomend doelwit voor aanvallen die bekende kwetsbaarheden misbruiken. Beveiliging via de applicatiecode zelf is lastig en vereist voortdurend onderhoud en patchin.
+
+  - WAF (Web Application Firewall) biedt gecentraliseerde bescherming van web applicaties tegen veelvoorkomende exploits en kwetsbaarheden. Voordelen van een gecentraliseerde WAF:
+  - Beveilignsbeheer is eenvoudider
+  - Snellere response op security threats
+  - Een bekende kwetsbaarheid hoef je maar op 1 plek te patchen in plaats van per individuele applicatie
+  - Beschermt tegen application-layer DDoS aanvalen zoals HTTPS Floods
+
+  - Vergelijk met Azure DDoS Protection: Azure DDoS Protection beschermt op network en transport layer (layer 3&4); Azure WAF beschermt op application layer (layer 7)
+
+  - Integration with Security Copilot
+    - Azure WAF is geintegreerd met Microsoft Security Copilot via de standalone experience
+    - Maakt diepgaand onderzoek van WAF events mogelijk via natural language prompts
+    - Kan WAF logs analyseren en gerelateerde attack vectors inzichtelijk maken binnen enkele minuten
+    - Geeft zicht op het threat landscape van jouw omgeving
+    - Vereeiste: de Azure WAF plugin Security Copilot moet ingeschakeld en geconfigureerd zijn
+
+
+**Describe network segmentation in Azure**
+  - Network segmentation is het opdelen van een netwerk in kleinere stukken, verglijkbaar met hoe een kantoor aparte ruimtes heeft per afdeling. De 3 hoofdredenen voor segmentatie:
+    - Groepen van gerelateerde resources die bij dezelfde workload horen
+    - Isolatie van resources
+    - Governance policies van de organisatie
+   
+  - Segmentatie ondersteunt het Zero Trust model en een Defense in depth strategie. Vanuit het principe assume breach is het kunnen isoleren van een aanvaller essentiel; als 1 segment gecompromitteerd is, voorkom je dat de aanval zich lateraal verspreidt door de rest van het netwerk
+
+  - Azure Virtual Network (VNet)
+    - Azure Virtual Network is de fundamentale bouwsteen voor een privenetwerk in Azure. Vergelijkbaar met een traditioneel on-premises netwerk, maar met de extra voordelen van Azure zoals schaalbaarheid, beschikbaarheid en isolatie
+      - Organisaties kunnen meerdere VNets aanmaken per regio per subscription
+      - Binnen elke VNet kunnen subnets (kleinere deelnetwerken) aangemaakt worden
+      - Standaard is er geen verkeer toegestaan tussen VNets of inkomend naar een VNet; comminicatie moet expliciet worden ingesteld
+      - Dit geeft meer controle over hoe Azure resources communiceren met andere resources, het internet en on-premises netwerken
+
+
+**Describe Azure Network Security Groups**
+  - Network security Groups (NSGs) filteren netwerkverkeer van en naar Azure Resources binnen een virtual network. Een NSG bestaat uit regels die bepalen welk verkeer wel of niet wordt doorgelaten
+    - Aan elke subnet en elke network interface van een VM kan 1 NSG gekoppeld worden
+    - Dezelfde NSG kan wel aan meerdere subnets en network interfaces gekoppeld worden
+
+  - Inbound en Outbound Security Rules
+    - NSG-regels worden geevalueerd op basis van prioriteit (lagere nummers eerst) aan de hand van 5 punten: source, source port, destination, destination port en protocol. De belangrijkste eigenschappen van een regel:
+      - Name; unieke beschrijvende naam (bv. AdminAccesOnlyFilter)
+      - Priority; lagere nummers worden eerst verwerkt; zodra een regels matcht stopt de verwerking
+      - Source/Destination; individueel IP-adress, Ip-range, service tag of application security group
+      - Protocol; TCP, UDP, ICMP of Any
+      - Direction; inbound of outbound
+      - Port range; individuele poort of reeks poorten
+      - Action; toestaan of weigeren
+     
+    - Standaard inbound rules (kunnen niet verwijderd worden, wel overschreven met hogere prioriteit)
+        - AllowVNetInBound; staat verkeer toe binnen het virtual network
+        - AllowAzureLoadBalancerInBound; staat verkeer toe van de Azure Load Balancer
+        - DenyAllInBound; weigert al het overige inkomende verkeer
+
+  | | **NSG** | **Azure Firewall** |
+|---|---|---|
+| Type | Distributed filtering | Centralized firewall-as-a-service |
+| Scope | Binnen één subscription/VNet | Meerdere subscriptions en VNets |
+| Bescherming | Network layer (traffic filtering) | Network én application level |
+
+- NSG en Azure Firewall vullen elkaar aan voor een sterke defense-in-depth strategie
+
+
+**Describe Azure Bastion**
+  - Traditioneel vereist remote toegang to VMs het openzetten van RDP en/of SSH poorten naar het internet. Dit creeert een groot aanvalsoppervlak; aanvallers scannen actief op open management ports en gebruiken gecompromitteerde VMs als springplank naar de rest van het netwerk.
+  - Azure Bastion lost dit op door een veilige, browsergebaseerde verbinding aan te bieden via de Azure portal, zonder dat VMs publiek bereikbaar hoeven te zijn.
+    - Fully managed PaaS service die je inricht binnen je virtual network
+    - Biedt RDP en SSH connectiviteit via TLS (Transport Layer Security) rechtstreeks vanuit de Azure portal
+    - VMs hebben geen public IP address nodig
+    - Geen speciale client software of agent vereist
+    - Deployment is per virtual network (niet per VM of subscription); werkt ook voor peered VNets
+   
+  - Key Benefits of Azure Bastion
+    - RDP/SSH direct in Azure portal; verbinding met 1 klik via een HTML5 gebaseerde webclient
+    - Verbinding via TLS; versleutelde verbinding die ook corporate firewalls veilig doortraverseert
+    - Geen publieke IP nodig; verbinding via prive IP van de VM
+    - Geen NSG beheer nodig; Azure Bastion subnet heeft geen NSGs nodig: intern gehardend door azure
+    - Bescherming tegen port scanning; VMs zijn niet zichtbaar op het internet
+    - Zero-day exploit bescherming; Azure beheert en update Bastion automatisch; je hoeft individuele VMs niet te harden
+
+
+**Describe Azure Key Vault**
+  - Een Cloud service voor het veilig opslaan en beheren van secrets; alles waar je toegang straks op wilt controleren, zoals API keys, wachtwoorden, certificataen en cryptografische sleutels.
+
+  - Azure Key Vault lost 3 problemen op:
+    - Secret management; veilig opslaan en beheren van tokens, wachtwoorden,API keys en andere secrets
+    - Key management; aanmaken en beheren van encryptiesleutels
+    - Certificate management; inrichten en beheren van SSL/TLS (secure Sockets Layer / Transport Layer Security) certificaten
+
+  - 2 service tiers:
+    - Standaard; oftware gebaseerde encryptie
+    - Premium; inclusief HSM (Hardware Security Module) - beschermde sleutels
+   
+  - Why use Key Vault?
+    - Centralize application secret; ontwikkelaars hoeven geen secrets meer in de applicatiecode op te slaan; de applicatie haalt secrets op via een Key Vault object identifier (URL)
+    - Securely store secrets and keys; toegang vereist authenticatie via Microsoft Entra en autorisatie via Azure RBAC of een Key Vault access policy; Microsoft heeft zelf geen toegang tot jouw data
+    - Monitor access and use; logging inschakelen per vault voor inzicht in wie wat benadert
+    - Simplified administration; inclusief automatische replicatie naar een secundaire regio voor high availability, beheer via portal/CLI/PowerShell, en automatisering van certificaatvernieuwing bij Public Certificate Authorities (CAs)
+    - Segregatie per applicatie; elke applicatie krijgt toegang to alleen zijn eigen vault en kan beperkt worden tot specifieke operaties
+   
+  **Summary**
+  - Azure biedt een gelaagd pakket aan netwerkbeveiligingsdiensten die samen een sterke **defense-in-depth** strategie vormen. Van bescherming tegen grootschalige aanvallen tot veilig beheer van applicatiegeheimen
+    - Azure DDoS protection; beschermt op ayer 3 & 4 tegen volumetric, protocol en application layer aanvallen via always-on monitoring en adaptive tuning
+    - Azure Firewall; centralized, statefull firewall-as-a-service met threat intelligence, SNAT/DNAT en filtering op netwerk- en applicatienivea
+    - WAF (Web Application Firewall); beschermt web applicaties op layer 7 tegen exploits en application-layer DDoS aanvallen zoals HTTP Floods
+    - Network Segmentation & VNets; opdelen van het netwrk in isoleerbare segmenten via Azure Virtual Networks (VNet) en subnets, ondersteunt het Zero Trust principe
+    - NSG (Network Security Groups); filterregels op subnet- VM-niveau op basis van prioriteit; werken complementair aan Azure Firewall
+    - Azure Bastion; veilige RDP (Remote Desktop Protocol) en SSH (Secure Shell) toegang to VMs via de Azure portal, zonder open poorten of public IP
+    - Azure Key Vault; centraal beheer van secrets, encryptiesleutels en SSL/TLS certificaten met toegangscontrole via Microsoft Entra En Azure RBAC
+   
+  
+    
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
