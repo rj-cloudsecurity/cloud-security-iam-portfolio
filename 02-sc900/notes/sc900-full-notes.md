@@ -383,6 +383,7 @@
   - Hybrid identity via Microsoft Entra Cloud Sync met SCIM; synchroniseert on-premises Active Directory naar cloud
   - External identities via B2B collaboration voor business gasten of CIAM voor consumer apps
 
+
 ---
 
 
@@ -418,8 +419,8 @@
   - Primary en secondary authentication
     - Primary: hoofdmethode bij inloggen
     - Secondary: aanvullende verificatie bij MFA of SSPR; niet alle methoden kunnen als primary gebruikt worden
-   
 
+   
   **Describe multifactor authentication**
   - MFA vereist meer dan 1 vorm van identificatie bij het inloggen. Verbetert de security van een identity aanzienlijk terwijl het eenvoudig blijft voor gebruikers
   - Three factors
@@ -1168,17 +1169,61 @@
     - Azure Bastion; veilige RDP (Remote Desktop Protocol) en SSH (Secure Shell) toegang to VMs via de Azure portal, zonder open poorten of public IP
     - Azure Key Vault; centraal beheer van secrets, encryptiesleutels en SSL/TLS certificaten met toegangscontrole via Microsoft Entra En Azure RBAC
    
-  
+
+ ---
+
+
+  - **Learning Path 3:** Introduction to Microsoft security solutions
+    - **Module 3:** Part 3: Describe the security management capabilities in Azure
+      - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
     
-    
-      
+**Describe Microsoft Defender for Cloud**
+  - Microsoft Defender for Cloud is een Cloud-Native Appication Protection Platform (CNAPP) dat cloud applicaties beschermt tegen cyberbedeigingen en kwetsbaarheden. Het combineert drie capabilities:
+    - DevSecOps: Integreert beveiliging vroeg in het ontwikkelproces; beheert security across multi-pipeline omgevingen via Deferder for DevOps
+    - CSPM (Cloud security Posture Management): Beoordeelt systemen automatisch op kwetsbaarheden en geeft prioriteit aan verbeteringen
+    - CWPP (Cloud Workload Protection Platform: Beschermt specifieke workloads zoals servers, containers, storage en databases; geeft direcht alerts bij dreigingen
+
+  - Defender for cloud integreert met Microsoft Secrurity Copilot voor het analyseren en oplossen van aanbevelingen via natural language, en geeft automatisch toegang tot Microsoft Defender XDR
 
 
+**Describe how security policies and initiatives improve cloud security posture**
+  - Defender for Cloud gebruikt policy definitions en security initiatives om de security posture te verbeteren:
+    - Azure Policy definition: Een regel over een specifieke security; kan built-in of custom zijn
+    - Security initiative: Een verzameling van policy definitions gegroepeerd rond 1 doel; vereenvoudigt beheer door policies samen te voegen als 1 item
+    - Policies en initiatives worden toegewezen aan een scope zoals management groups, subscriptions, resource groups of individuele recourses
+   
+  - Microsoft Cloud Security Benchmach (MCSB)
+    - De MCSB is een set van Microsoft-richtlijnen voor security en compliance, gebaseerd op frameworks van CIS (Center for Internet Security) en NIST (National Institute of Standards and Technology). Het is automatisch toegewezen als standaard initiative bij het inschakelen van Defender for Cloud. Belangrijkste onderdelen:
+      - ID: Unieke identifier per aanbevelingen
+      - Control Doman: High-level categorieen zoals network security; data protection, identity management en incident response
+      - Mapping to industry frameworks: Aanbevelingen zijn gekoppeld aan CIS, NIST en PCI DSS
+      - Azure/AWS Guidance; technische uitleg over hoe controls te implementeren per platform
+
+  - Security Recommendations
+    - Defender for Cloud analyseert continu resources en vergelijkt deze met de MCSB en gekozen initiatives
+    - Resources die niet voldoen aan een policy worden gepresenteerd als een recommendation
+    - Elke recommendation bevat een korte beschijving van het probleem, de remediation steps en getroffen resources
 
 
+**Describe Cloud security posture management**
+  - CSPM (Cloud security Posture Management) is 1 van de 3 hoofdpijlers van Defender for Cloud en biedt hardening guidance en zichtbaarheid in de huidige security situatie
+  - Secure Score
+    - Centrale feature van Deferder for Cloud die de huidige security posture weergeeeft als 1 score
+    - Defender for Cloud beoordeeld ontinu alle cloud resources op security issues en aggregeert dit to 1 score, hogere score = lager risico
+    - Automatisch beshcikbaar voor alle Defender for Cloud klanten, gebaseerd op de MCSB
 
-
-
+  - Hardening Recommandations
+    - Aanbevelingen op basis van geindentificeerde misconfigurations en kwetsbaarheden
+    - Gegroepeerd in Security controls; logische groepen van gerelateerde aanbevelingen die kwetsbare attack surfaces weergeven
+    - Score verbetert alleen als alle aaanbevelingen binnen 1 control voor een resource zijn opgelost
+   
+  - Integration with Microsoft Security Copilot
+    - Defender for Cloud embedt Security Coplit op de recommendations pagina
+    - Helpt security professionals bij het begrijpen van de contaxt van een aanbeveling, het implementeren, delegeren en remedieren van misconfigurations in code
+   
+  - Deferender CSPM Plan Options
+    - Foundational CSPM: Gratis en standaard ingeschakeld; inclusief asset discovery, continuous assement, security recommendations, MCSB compliance en secure score
+    - Defender CSPM plan: Betaalde uitbreiding met geavanceerde posture management en ondersteuning voor aanvullende benchmarks, reulagory standards en custom policies
 
 
 
