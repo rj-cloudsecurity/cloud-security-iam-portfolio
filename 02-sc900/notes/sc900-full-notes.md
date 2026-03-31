@@ -1174,7 +1174,7 @@
 
 
   - **Learning Path 3:** Introduction to Microsoft security solutions
-    - **Module 3:** Part 3: Describe the security management capabilities in Azure
+    - **Module 3:** Describe the security management capabilities in Azure
       - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
     
 **Describe Microsoft Defender for Cloud**
@@ -1260,16 +1260,90 @@
     - Stregthen cloud resource configurations; beveiliging IaC (Infrastructure as Code) templates om cloud misconfigurations te voorkomen voordat ze productie bereiken
     - Prioritize remediation of critical issues in code; koppelt cloud security inzichten aan code; developers krijgen prioriteit via Pull Request annotations en custom workflows in hun eigen tools
 
+**Summary**
+  - Microsoft Defender for Cloud is een CNAPP dat cloud-applicaties beschermt via drie pijlers: DevSecOps (beveiliging in het ontwikkelproces), CSPM (zichtbaarheid en hardening van security posture) en CWPP (bescherming van specifieke workloads)
+    - Security policies en initiatives; Defender for cloud gebruiktAzure Policy defninitions en security initiatives om security posture te verbeteren; het MCSB (Microsoft Cloud Security Benchmark) is het standaard ingebouwde initiative gebaseerd op CIS en NIST
+    - Secure Score; aggregeert alle security bevinden tot 1 score; hogere score = lager risico; verbetert alleen als alle aanbevelingen binnen 1 security control zijn opgelost
+    - CWPP / Defender Plans; specifieke plans per resource type zoals Defender for Servers, Defender for SQL, Defender for Kubernetes en meer; bieden enhanced features zoals EDR, vulnerabiity scanning, multicloud security en Just-in-Time toegang
+    - Defender for DevOps; beheert DevOps security across multi-pipeline omgevingen zoals Github en Azure DevOps; beschermt IaC templates en geeft developers prioriteit via Pull Request annotations
+      
   
  ---
 
 
   - **Learning Path 3:** Introduction to Microsoft security solutions
-    - **Module 3:** Part 4: Describe security capabilities of Microsoft Sentinel
+    - **Module 4:** Describe security capabilities of Microsoft Sentinel
       - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
 
 **Describe threat detection and mitigation capabilities in Microsoft Sentinel**
-  - 
+  - Microsoft Sentinel is een schaalbare, cloud-native SIEM (Security Information and Event Management) / SOAR (security Orchestration, Automation en Response) oplossing die security analystcs en threat intelligence levert across de hele organisatie. Het biedt 1 oplossing voor threat detection, investigation, response en proactive hunting.
+
+  - Collect Data at Scale
+    - Out-of-the-box data connectors; real-time integratie met Microsoft bronnen zoals Microsoft Entra ID, Azure Activity, Azure Storage en non Microsoft oplossingen
+    - Custom Connectors; maak je eigen connector als er geen bestaande oplossing beschikbaar is
+    - Data normalizations; via ASIM (Advanced Security Information Model) worden diverse databronnen genormaliseerd naar uniform formaat
+   
+  - Detect Threats
+    - Analytics; groepeert alerts in incidenten via ingebouwde of custom analytics rules; detecteert ook anomalieen in netwerkgedrag
+    - Mitre ATT&CK coverage; visualiseert de security status op basis van het MITRE ATT&CK framework
+    - Threat intelligence; integreert externe threat intelligence bronnen voor context bij response beslissingen
+    - Watchlists; correleer eigen data (bijv. lijst van high-value assets) met events in Sentinel
+    - Workbooks; Interactieve visuele rapporten via integratie met Azure Monitor Workbooks
+   
+  - Investigate Threats
+    - Incidents; case files met alle relevante evidence voor een specifiek onderzoek, gegenereerd door analytics rules of third-party alerts
+    - Hunts; proactief zoeken naar bedreigingen via MITRE- gebaseerde hunting queries, voordat een alert wordt getriggerd
+    - Notebooks; Jupyter notebooks via Azure Machine Learning voor geavanceerde analyses, custom visualisaties en integratie met externe databronnen
+   
+  - Respond to Incidents Rapidly
+    - Automation rules; Centraal beheer van incident handling via een set regels voor verschillende scenario's
+    - Playbook; geautomatiseerde remediation acties op basis van Azure Logic Apps; kunnen on-demand of automatisch uitgevoerd worden bij alerts of incidents
+   
+  - Enable Out-of-the-Box security content
+    - Content hub; centrale locatie voor het ontdekken en beheren van ingebouwde packaged solutions zoals data connectors, workboos, analytics rules, hunting queries, notebooks, watchlists en playbooks
+
+  - Microsoft Sentinel in the Microsoft Defender Portal
+    - Sentinel is toegankelijk via de Azure Portal of het Microsoft Defender Portal
+    - Het Microsoft unified security operations platform combineert Microsoft Sentinel, Microsoft Defender XDR en Microsoft Copilot in Defender voor geintegreerd incident management en advanced hunting
+
+
+**Describe Microsoft Sentinel integration with Microsoft Security Copilot**
+  - Microsoft Sentinel integreert met Microsoft Security Copilot via 2 plugins in het Copilot portal:
+
+  - Microsoft Sentinel Plugin (preview)
+    - Vereist een Sentinel-specifieke rol zoals Microsoft Sentinel Reader naast de Copilot rol
+    - Gebruiker configureert de Sentinel workspace, subscription name en resource group name
+    - Gericht op incidents en workspaces via ingebouwde of custom prompts
+    - Inclusief een promtbook voor incident investigation met prompts voor rapporten over speccifieke incidents, gerelateerde alers, reputation scores, users en devices
+   
+  - Natural Language to KQL Plugin (Preview)
+    - Converteert natural language vragen over threat hunting naar kant-en-klare KQL (Kusto Query Language) queries
+    - Queries kunnen automatisch uitgevoerd of verder aangepast worden
+    - Beschikbaar in standalone experience en de advanced hunting sectie van het Microsoft Defender portal
+   
+  - Microsoft Sentinel with Copilot in Defender
+    - Integratie beschikbaar via zowel de standalone als embedded experience in het Defender portal
+    - Microsoft Sentinel incidents zijn unified met Defender XDR incidents; Copilot kan gebruikt worden voor incident summary, guided responses en incident reports van Sentinel incidents
+   
+**Summary**
+  - Microsoft Sentinel is een cloud-native SIEM/SOAR oplossing die 1 geintegreerde aanpak biedt voor threat detection, investigation, response en proactive hunting across de hele organisatie
+    - Collect; data verzamelen via out-of-the-box connectors, custom connectors en genormaliseerd via ASIM
+    - Detect; threats detecteren via Analystics, MITRE ATT&CK coverage, threat intelligence, watchlists en workbooks
+    - Investigate; onderzoeken via incidents (case files), hunts (proactief zoeken) en Jupyter notebooks voor geavanceerde analyses
+    - Respond; automatisch reageren via automation rules en playbooks op basis van Azure Logic Apps
+    - Content hub; centrale locatie voor alle ingebouwde packaged solutions
+    - Integratie met Security Copilot; via 2 plugins:
+      - Microsoft Sentinel plugin (incidents en workspaces
+      - NL2KQL plugin (natural language naar KQL queries); unified met Defender XDR incidents in het defender portal
+
+        
+ ---
+
+
+  - **Learning Path 4:** 
+    - **Module 1:** 
+      - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
+
 
 
 
