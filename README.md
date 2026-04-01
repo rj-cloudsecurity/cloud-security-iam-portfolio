@@ -24,19 +24,18 @@ cloud-security-iam-portfolio/
 │   └── notes/
 
 Planned:
-├── 03-ab900/
+├── 03-az104/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
-├── 04-az104/
+├── 04-sc300/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
-├── 05-sc300/
+├── 05-ab900/
     ├── exam-prep/
     ├── exercises/
     └── notes/
-
 ```
 
 ---
@@ -46,14 +45,13 @@ Planned:
 |---|--------------|--------|------|
 | 01 | AZ-900 – Azure Fundamentals | ✅ Passed | Mar 12, 2026 |
 | 02 | SC-900 – Security, Compliance & Identity Fundamentals | 🔄 In Progress | — |
-| 03 | AB-900 – Microsoft 365 Copilot and Agent Administration Fundamentals | 📅 Planned | — |
-| 04 | AZ-104 – Azure Administrator Associate | 📅 Planned | — |
-| 05 | SC-300 – Identity and Access Administrator Associate | 📅 Planned | — |
+| 03 | AZ-104 – Azure Administrator Associate | 📅 Planned | — |
+| 04 | SC-300 – Identity and Access Administrator Associate | 📅 Planned | — |
+| 05 | AB-900 – Microsoft 365 Copilot and Agent Administration Fundamentals | 📅 Planned | — |
 
 ---
 
 ## Notes Overview
-
 ### 01 — AZ-900: Azure Fundamentals
 [Full Notes](/01-az900/notes/az900-full-notes.md)
 - Cloud concepts
@@ -62,15 +60,15 @@ Planned:
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
 - [Full Notes](/02-sc900/notes/sc900-full-notes.md)
-- [identity security clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
+- [Identity security clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
 
-### 03 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
+### 03 — AZ-104: Azure Administrator Associate
 *Coming soon*
 
-### 04 — AZ-104: Azure Administrator Associate
+### 04 — SC-300: Identity and Access Administrator Associate
 *Coming soon*
 
-### 05 — SC-300: Identity and Access Administrator Associate
+### 05 — AB-900: Microsoft 365 Copilot and Agent Administration Fundamentals
 *Coming soon*
 
 ---
@@ -91,24 +89,26 @@ All hands-on exercises are completed three times:
 ### 02 — SC-900 Exercises
 - No hands-on exercises — SC-900 is theory only.
 
-### 03 — AB-900 Exercises
+### 03 — AZ-104 Exercises
+*Coming soon*
+
+### 04 — SC-300 Exercises
 *Coming soon*
 
 ---
 
 ## Roadmap
-
 **Phase 1 — Fundamentals**
 - AZ-900 – Azure Fundamentals ✅
 - SC-900 – Security, Compliance & Identity Fundamentals 🔄
-- AB-900 – Microsoft 365 Copilot and Agent Administration Fundamentals
 
 **Phase 2 — Associate**
 - AZ-104 – Azure Administrator Associate
-
-**Phase 3 — IAM Specialist**
 - SC-300 – Identity and Access Administrator Associate
 - PowerShell & Microsoft Graph API
+
+**Phase 3 — Bonus**
+- AB-900 – Microsoft 365 Copilot and Agent Administration Fundamentals
 
 ---
 
