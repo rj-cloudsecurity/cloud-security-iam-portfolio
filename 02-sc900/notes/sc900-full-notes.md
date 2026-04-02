@@ -1418,10 +1418,58 @@
 
    
 **Describe Microsoft Defender for Identity**
+  - Microsoft Defender for Identity is een cloud-based security oplossing die signalen van on-premises identity infrastructure servers (domain controllers, AD FS en AD CS) gebruikt om dreigingen zoals privlege escalation en lateral movement te detecteren.
+
+  - Hoe het werkt:
+    - Sensors geinstalleerd op on-premises server lezen event logs en netwerkverkeer
+    - Alleen de geparseerde informatie wordt verstuurd naar de Defender for Identity cloud service
+    - Resultaten zijn zichtbaar in het Microsoft Defender portal
+   
+  - Vier kernfuncties
+    - Prevent: Beoordeelt proactief de identity posture en identificeert kwetsbare accounts met risicovolle lateral movement paths; inzichten beschikbaar via Microsoft Secure Score
+    - Detect: Bouwt een behavioral baseline per gebruiker en detecteert anomalieen via adaptive intelligence; identificeert dreigingen across de volledige cyberattack kill-chain:
+      - Reconnaissance: Detecteert pogingen om informatie te verzameln
+      - Compromised credentials: Detecteert brute force aanvallen en mislukte authenticaties
+      - Lateral movement: Detecteert pogingen om zijwaarts door het netwerk te bewegen
+      - Domain dominance: Detecteert aanvallers die controle krijgen over Active Directory
+    - Investigate: Vermindert alert ruis en biedt een real-time attack timeline voor gefocust onnderzoek
+    - Respond: Directe remediation acties op on-premises identiteiten zoals gebruiker uitschakelen in Active Directory of wachtwoord resetten
+   
+
+**Describe Microsoft Defender Vulnerability Management**
+  - Microsoft Defender Vulnerability Management biedt continue zichtbaarheid in assets, intelligente risicobeoordelingen en ingebouwde remediation tools voor Windows, macOS, Linux, Android, iOS en netwerkapparaten
+
+  - Continuous Asset Discovery and Monitoring: Ingebouwde en agentless scanners monitoren continu risico's, ook als apparaten niet verbonden zijn met het bedrijfsnetwerk:
+    - Software en kwetbaarheden: Inzicht in software inventory en wijzigingen zoals installaties en patches
+    - Network share assessment: Beoordeelt kwetsbare interne netwerk shares
+    - Browser extensions assessment: Overzicht van geinstalleerde browser extensies en bijbehorende risico's
+    - Digital certificates assessment: centraal overzicht van certificaten; identificeert verlopen of kwetsbare certificaten
+   
+  - Risk-based Intelligent Prioritization
+    - Combineert Microsoft threat intelligence, breach likelihood predictions en device assessments om de grootste kwetsbaarheden te prioriteren
+    - Focus op dreigingen die actief worden misbruikt en beschermt high-value assets
+    - Geeft inzicht in gerelateerde CVEs (Common Vulnerabilities and Exposures) en blootgestelde apparaten
+   
+  - Remediation en Tracking
+    - Remediation requests naar IT: maakt remediation taken aan in Microsoft Intune
+    - Block vulnerable applications: Blokkeert kwetsbare applicaties voor specifieke device groups
+    - Alternate mitigations: Inzicht in alternatieve mitigaties zoals configuratiewijzigingen
+    - Real-time Remediation status: Real-time monitoring van voortgang van remediation activiteiten
 
 
-
-
+**Describe Microsoft Defender Threat Intelligence**
+  - Microsoft Defender Threat Intelligence (defender TI verzamelt en verrijkt kritieke threat intelligence data en presenteert deze in een overzichtelijke interface. Analysts kunnen IOCs (Indicators Compromise) koppelen aan artikelen, actor profielen en kwetsbaarheden en samenwerken binnen hun tenant
+  - 4 hoofdfunctionaliteiten
+    - Threat Analystics: Rapporten over getrackte dreigingen met verdedigingsrichtlijnen en netwerktdata: dashboard verdeeld in 3 categorieen'
+      - Latest threats: Meest recent gepubliceerde dreigingsrapporten
+      - High-impact threats: Dreigingen met de meeste actieve en opgeloste alerts
+      - Hight exposure: Dreigingen waarvoor de organisatie het meest kwetsbaar is op basis van ernst van kwetsbaarheden en aantal blootgestelde apparaten
+    - Intel profiles: Definitieve bron van Microsft's kennis over getrackte threat actors, kwaadaardige tools en kwetsbaarheden; continu bijgewerkt door Microsoft's Threat Intelligence experts
+    - Inter Explorer: Analysts kunnen snel nieuwe artikelen scannen en zoeken op keyword, indicator of CVE-ID voor intelligence gathering, triage en incident response
+    - Intel Projects: organiseer IOCs en indicator of interest per onderzoek; inclusief geschiedenis, beschrijvingen en collaborators
+   
+ - Integration with Microsoft Security Copilot
+   - Via de Defender TI plugin levert Copilot informatie over threat activity groups, IOCs, tools en contextuele threat intelligence
 
 
 
