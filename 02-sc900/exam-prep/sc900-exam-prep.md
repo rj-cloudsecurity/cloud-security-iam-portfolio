@@ -14,7 +14,7 @@
 |----------|-------|-------|
 | Custom practice exam 1 (Parts 1 & 2) | 82% | Parts 3 & 4 not yet studied. Triggered creation of the [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)|
 | Custom practice exam 2 (Parts 1 & 2) | 90% | Retaken after creation of the clusters |
-| Custom practice exam 3 (All parts — exam style, harder and mixed question types) | 85% | 34/40. Weakest: Defender product distinctions, Azure RBAC vs Entra roles, statement questions.|
+| Custom practice exam 3 (All parts — exam style, harder and mixed question types) | 85% | Weakest: Defender product distinctions, Azure RBAC vs Entra roles, statement questions.|
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
   - Developed identity and security clusters to better distinguish similar products
