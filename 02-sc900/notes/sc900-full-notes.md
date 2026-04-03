@@ -1474,7 +1474,46 @@
      - Vulnerability impact assessment: Rapport over een bekende kwetsbaarheid inclusief oplossingsstappen
      - Threat actor profile: Rapport over een bekende threat actor inclusief verdedigingsaanbevelingen
    - Integratie beschikbaar via standalone embedded experience in het Microsoft Defender portal
-  
+
+
+**Describe Microsoft Security Exposure Management**
+  - Microsoft Security Exposure Management is een security oplossing in het Microsoft Defender portal die een unified view biedt van security posture across alle assets en workloads. Het verzamelt signalen van Defender for Endpoint, Defender for Cloud, Defender for Identity, Microsoft Entra ID en non-microsoft tools
+  - Attack Surface Management
+    - Enterprise Exposure Graph: Centrale map van alle assets, users en workloads inclusief misconfigurations, multicloud assets (Azure, AWS, GCP) en externe aanvalsoppervlakken; te bevragen voor threat hunting
+    - Attack Sufrace Map: Visuele weergave van de exposure graph; toont hoe assets verbonden izjn en welke risico's bestaan
+    - Attack Paths: Automatisch gegenereerde aanvalspaden die tonen hoe een aanvaller kwetsbaarheden aan elkaar kan koppelen om high-value asset te bereiken; choke points zijn knooppunten waar meerdere paden samenkomen; beveilig je 1 choke point dan blokkeer je meerdere aanvalsroute tegelijk
+   
+  - Critical Asset Management
+    - Identificeert en classificeert high-value assets zoals domain controllers, privileged accounts, databases en cloud resources
+    - Vooraf gedefinieerde classificaties en mogelijkheid voor custom classificaties via een query builder
+    - Asset criticality is zichtbaar in device inventory, advanced hunting en attack paths
+    - Metrics: meten exposure risk per area; verbeteren als aanbevelingen opgevolgd worden
+    - Recommendations: Afkomstig van Security Exposure Management, Microsoft Secure Score en Defender for Cloud; georganiseerd per attack surface (devices, cloud, identity, SaaS, Data)
+
+- Exposure Insights
+  - Security initiatives: Groeperen gerelateerde metrics en aanbevelingen per security area;
+      - 4 typen:
+        - Workload Initiatives; endpoint security, identity, cloud assets
+        - Horizontal threat initiatives; ransomware, business email compromise
+        - Threat analystics initatives; gebaseerd op real-world threat actors
+        - Zero Trust initiative; compliance met Zero Trust framework
+      - Metrics; meten exposure risk per area; verbeteren als aanbevelingen opgevolgd worden
+      - Recommendations; afkomstig van Security Exposure Management, Microsoft Secure Score en Defender for Cloud; georganiseerd per attack surface (devices, cloud, identity, SaaS, data)
+
+  - Microsoft Secure Score
+    - Numerieke meting van security posture, hogere score = betere bescherming
+    - 3 scores naast elkaar in het Defender portal
+      - Microsoft Secure Score; overall posture across identities, devices, SaaS en data
+      - Cloud Secure Score; cloud posture across Azure, AWS en GCP via Defender for Cloud
+      - Domain-specific scores; per individuele initiative zoals endpoint security of identity
+
+| | **Defender Vulnerability Management** | **Security Exposure Management** |
+|---|---|---|
+| **Focus** | Individuele CVEs en misconfigurations op endpoint niveau | Cross-workload aanvalsoppervlak en aanvalspaden |
+| **Vraag** | Welke kwetsbaarheden staan op dit device? | Welk pad kan een aanvaller nemen naar een critical asset? |
+| **Scope** | Endpoint en software laag | Endpoints, identities, cloud en SaaS samen |
+
+
 **Describe the Microsoft Defender portal**
   - The Microsoft Defender portal is een unified security operations platform dat SIEM, XDR, posture management en threat intelligence combineert in 1 centrale omgeving voor het voorkomen, detecteren, onderzoeken en reageren op dreigingen
     - Toegang vereists een passende rol zoals Global Administrator, Security Administrator, Security Operator of Security Reader in Microsoft Entra ID
