@@ -1,4 +1,5 @@
 # Cloud Security & IAM Portfolio
+
 A personal study repository documenting my learning journey toward a career in
 Identity & Access Management (IAM) and Cloud Security. This repository combines
 theory, hands-on exercises and exam preparation across multiple Microsoft
@@ -7,6 +8,7 @@ certifications.
 ---
 
 ## Goal
+
 Become an IAM Specialist / Cloud Security Engineer.
 
 ---
@@ -41,6 +43,7 @@ Planned:
 ---
 
 ## Certifications & Progress
+
 | # | Certification | Status | Date |
 |---|--------------|--------|------|
 | 01 | AZ-900 – Azure Fundamentals | ✅ Passed | Mar 12, 2026 |
@@ -51,17 +54,23 @@ Planned:
 
 ---
 
-## Notes Overview
+## Notes & Exam Prep Overview
+
 ### 01 — AZ-900: Azure Fundamentals
-[Learn Notes](/01-az900/notes/az900-learn-notes.md)
-- Cloud concepts
-- Azure architecture and services
-- Azure management and governance
+
+**Notes**
+- [Learn Notes](/01-az900/notes/az900-learn-notes.md) — Cloud concepts, Azure architecture and services, Azure management and governance
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
-- [Learn Notes](/02-sc900/notes/sc900-learn-notes.md)
-- [Identity security clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
-- [Abbreviations](/02-sc900/notes/sc900-abbreviations.md)
+
+**Notes**
+- [Learn Notes](/02-sc900/notes/sc900-learn-notes.md) — Full module notes from Microsoft Learn
+- [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md) — Microsoft security products grouped by function
+- [Abbreviations](/02-sc900/notes/sc900-abbreviations.md) — Quick reference for all SC-900 abbreviations
+
+**Exam Prep**
+- [Exam Preparation](/02-sc900/exam-prep/sc900-exam-prep.md) — Progress, scores and study approach
+- [Exam Strategy](/02-sc900/exam-prep/sc900-exam-strategy.md) — Red thread and domain overview for exam day
 
 ### 03 — AZ-104: Azure Administrator Associate
 *Coming soon*
@@ -75,6 +84,7 @@ Planned:
 ---
 
 ## Exercises
+
 All hands-on exercises are completed three times:
 - Via the Azure Portal (UI)
 - Via the Azure CLI (Bash)
@@ -99,6 +109,7 @@ All hands-on exercises are completed three times:
 ---
 
 ## Roadmap
+
 **Phase 1 — Fundamentals**
 - AZ-900 – Azure Fundamentals ✅
 - SC-900 – Security, Compliance & Identity Fundamentals 🔄
@@ -114,6 +125,7 @@ All hands-on exercises are completed three times:
 ---
 
 ## Technologies Used
+
 - Azure Portal
 - Azure CLI
 - PowerShell
@@ -123,4 +135,5 @@ All hands-on exercises are completed three times:
 ---
 
 ## Status
+
 Actively learning and updating.
