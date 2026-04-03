@@ -73,7 +73,7 @@ Planned:
 
 ### 01 — AZ-900: Azure Fundamentals
 **Notes**
-- [Learn Notes](/01-az900/notes/az900-learn-notes.md) — Cloud concepts, Azure architecture and services, Azure management and governance
+- [Learn Notes](/01-az900/notes/az900-learn-notes.md) — Full module notes from Microsoft Learn
 
 **Exam Prep**
 - [Exam Preparation](/01-az900/exam-prep/az900-exam-prep.md) — Progress, scores and study approach
