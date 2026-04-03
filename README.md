@@ -53,14 +53,15 @@ Planned:
 
 ## Notes Overview
 ### 01 — AZ-900: Azure Fundamentals
-[Full Notes](/01-az900/notes/az900-full-notes.md)
+[Learn Notes](/01-az900/notes/az900-learn-notes.md)
 - Cloud concepts
 - Azure architecture and services
 - Azure management and governance
 
 ### 02 — SC-900: Security, Compliance, and Identity Fundamentals
-- [Full Notes](/02-sc900/notes/sc900-full-notes.md)
+- [Learn Notes](/02-sc900/notes/sc900-learn-notes.md)
 - [Identity security clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
+- [Abbreviations](/02-sc900/notes/sc900-abbreviations.md)
 
 ### 03 — AZ-104: Azure Administrator Associate
 *Coming soon*
