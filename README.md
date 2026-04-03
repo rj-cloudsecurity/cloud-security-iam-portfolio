@@ -51,7 +51,25 @@ Planned:
 
 ---
 
-## Content Overview
+## Roadmap
+
+**Phase 1 — Fundamentals**
+- AZ-900 – Azure Fundamentals ✅
+- SC-900 – Security, Compliance & Identity Fundamentals 🔄
+
+**Phase 2 — Associate**
+- AZ-104 – Azure Administrator Associate
+- SC-300 – Identity and Access Administrator Associate
+- PowerShell & Microsoft Graph API
+
+**Phase 3 — After employment (to be determined)**
+- SC-200 – Microsoft Security Operations Analyst
+- AZ-500 – Azure Security Engineer Associate
+- MS-500 – Microsoft 365 Security Administrator
+
+---
+
+## Notes & Exam Prep
 
 ### 01 — AZ-900: Azure Fundamentals
 **Notes**
@@ -95,32 +113,16 @@ Planned:
 
 ---
 
-## Roadmap
-
-**Phase 1 — Fundamentals**
-- AZ-900 – Azure Fundamentals ✅
-- SC-900 – Security, Compliance & Identity Fundamentals 🔄
-
-**Phase 2 — Associate**
-- AZ-104 – Azure Administrator Associate
-- SC-300 – Identity and Access Administrator Associate
-- PowerShell & Microsoft Graph API
-
-**Phase 3 — After employment (to be determined)**
-- SC-200 – Microsoft Security Operations Analyst
-- AZ-500 – Azure Security Engineer Associate
-- MS-500 – Microsoft 365 Security Administrator
-
----
-
 ## Technologies Used
 - Azure Portal
 - Azure CLI
 - PowerShell
+- Microsoft Entra ID
+- Microsoft Learn
 - Markdown
 - GitHub
 
 ---
 
 ## Status
-Actively learning and updating.
+Actively studying toward SC-900 certification. Repository updated regularly.
