@@ -154,3 +154,96 @@ Deze clusters sluiten goed aan bij een manier van leren die draait om verbanden 
 ### Data Concepts
 - **Data Minimization** — alleen data verzamelen die noodzakelijk is
 - **Data Residency / Sovereignty** — waar data staat en wie erover mag beslissen
+
+---
+
+## Data Security & Compliance (Microsoft Purview)
+
+### Microsoft Priva
+- **Privacy Risk Management** — detecteert en remedieert data overexposure, data transfers en data minimization risico's
+- **Subject Rights Requests (DSR/DSAR)** — beheert verzoeken van individuen om hun persoonlijke data in te zien of te beheren
+
+### Data Classification
+- **SITs (Sensitive Information Types)** — patroonherkenning voor gevoelige data zoals creditcardnummers en BSN
+- **Trainable Classifiers** — AI/ML classificatie op basis van wat content is; pre-trained of custom via seeding
+- Inzichten via **Content Explorer** (snapshot) en **Activity Explorer** (gebruikersacties)
+
+### Sensitivity Labels
+- Customizable, persistent labels die meereizen met content
+- Kunnen encryptie, content markings en auto-labeling toepassen
+- Gepubliceerd via **label policies**; gerespecteerd door Microsoft 365 Copilot
+- Vier scopes: Files, Emails, Meetings en Groups & Sites
+
+### Data Loss Prevention (DLP)
+- Beschermt gevoelige data via deep content analysis across Microsoft 365, endpoints en AI interacties
+- Protective actions: policy tip, block met/zonder override, quarantine
+- **Endpoint DLP** — monitort activiteiten op Windows en macOS
+- **Alert Triage Agent** via Security Copilot
+
+### Adaptive Protection
+- Koppelt insider risk levels aan DLP, Data Lifecycle Management en Conditional Access
+- Drie niveaus: **Elevated** (sterkste controls), **Moderate** en **Minor** (policy tips)
+- Controls worden automatisch aangepast op basis van gedrag
+
+### Insider Risk Management
+- Detecteert interne risico's zoals data theft, leaks en security policy violations
+- Workflow: Policies → Alerts → Triage → Investigate → Action
+- Integreert met **Adaptive Protection**, **Communication Compliance** en **eDiscovery**
+
+### Data Security Posture Management (DSPM)
+- Unified view van data security landscape; beantwoordt wie, wat, waar en hoe
+- **AI observability** — monitort AI apps en agents op oversharing en exfiltration
+- One-click policies via **Objectives**; integreert met DLP en Insider Risk Management
+
+### Data Security Investigations
+- AI-powered onderzoeksoplossing voor data breaches en insider leaks
+- Drie AI capabilities: **vector search**, **categorization** en **examination**
+- Pay-as-you-go billing
+
+---
+
+## Compliance & Governance (Microsoft Purview)
+
+### Compliance Manager
+- Beoordeelt compliance via **controls**, **assessments**, **regulations** (360+ templates) en **improvement actions**
+- **Compliance score** = your points + Microsoft-managed points
+
+### Communication Compliance
+- Detecteert ongepaste berichten in Teams, Outlook, WhatsApp en AI interacties
+- Workflow: Configure → Investigate → Remediate → Maintain
+
+### eDiscovery
+- Identificeert en levert elektronisch bewijs voor juridische zaken
+- Premium features: review sets, OCR, conversation threading en decryption
+- Integreert met Insider Risk Management en Security Copilot
+
+### Audit
+- **Standard** — 180 dagen retentie, duizenden doorzoekbare events
+- **Premium** — tot 10 jaar retentie, intelligent insights, higher bandwidth
+
+### Data Lifecycle Management
+- **Retention policies** — site/mailbox niveau; instellingen reizen niet mee buiten container
+- **Retention labels** — item niveau; reizen wel mee binnen Microsoft 365 tenant
+- Ondersteunt **Adaptive Protection** en retentie van AI interacties
+
+### Records Management
+- High-value items beheren als **records** of **regulatory records**
+- **Regulatory records** kunnen niet verwijderd worden, zelfs niet door Global Admin
+- Ondersteunt **event-based retention**, **disposition reviews** en **file plan**
+
+---
+
+## Data Governance (Microsoft Purview Data Catalog)
+
+### Data Catalog Kernconcepten
+- **Governance domains** — organiseren data estate via business concepten zoals Finance of HR
+- **Data products** — bundelen gerelateerde data assets met context en use cases
+- **Glossary terms** — business begrippen met policies per governance domain
+- **CDEs (Critical Data Elements)** — groeperen belangrijke data-elementen voor standaardisatie
+- **OKRs** — koppelen data products aan zakelijke doelstellingen
+
+### Data Governance Rollen
+- **Data consumers** — vinden en gebruiken data
+- **Data owners** — beheren kwaliteit en toegang
+- **Data stewards** — borgen governance en vindbaarheid
+- **Central data office** — stellen policies vast
