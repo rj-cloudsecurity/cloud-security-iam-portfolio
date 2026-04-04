@@ -14,8 +14,10 @@
 |----------|-------|-------|
 | Custom practice exam 1 (Parts 1 & 2 — mid‑way baseline) | 82% | Parts 3 & 4 not yet studied. Triggered creation of the [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)|
 | Custom practice exam 2 (Parts 1 & 2 — post study) | 90% | Retaken after creation of the clusters.|
-| Custom practice exam 3 (All parts — exam style, harder and mixed question types) | 85% | 34/40. Weakest: LP3 — Defender product distinctions, Azure RBAC vs Entra roles; LP2 — statement questions.|
-| Custom practice exam 4 (All parts — exam style, harder and mixed question types) | 85% | 34/40. New question set with correct topic distribution matching official SC-900 exam weights. Weakest: LP2 — Conditional Access edge cases, PIM scope (non-Microsoft apps), Password Protection hybrid; LP4 — eDiscovery Standard vs Premium.|
+| | | *Previous exams felt too easy. From this point: exam-level difficulty with harder questions and mixed question types.* |
+| Custom practice exam 3 (All parts) | 85% | 34/40. Weakest: LP3 — Defender product distinctions, Azure RBAC vs Entra roles; LP2 — statement questions.|
+| Custom practice exam 4 (All parts) | 85% | 34/40. New question set with correct topic distribution matching official SC-900 exam weights. Weakest: LP2 — Conditional Access edge cases, PIM scope (non-Microsoft apps), Password Protection hybrid; LP4 — eDiscovery Standard vs Premium.|
+| Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Focused on previously incorrect topics across all exams. Correct topic distribution. Remaining misses: CSPM vs CWPP distinction, Sentinel automation rule + playbook combination, DLP vs Communication Compliance reviewer workflow.|
 
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
@@ -33,3 +35,8 @@
   - LP2 — PIM for Groups: just-in-time access to non-Microsoft applications via group membership
   - LP2 — Password Protection: on-premises hybrid deployment with proxy and DC agents
   - LP4 — eDiscovery: Standard vs Premium feature boundaries (review sets are Premium-only)
+
+## Next Focus Areas after targeted retake
+  - LP3 — CSPM vs CWPP: misconfigurations and Secure Score = CSPM; active runtime threats = CWPP
+  - LP3 — Sentinel: analytics rule detects → automation rule triggers → playbook executes (all three required)
+  - LP4 — DLP vs Communication Compliance: DLP blocks data; Communication Compliance routes to human reviewer
