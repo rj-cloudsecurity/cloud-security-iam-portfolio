@@ -25,18 +25,18 @@
   - Focused on risk‑based access, identity governance, and product comparisons
 
 ## Next Focus Areas after exam 3
-  - LP3 — Defender product line distinctions (scenario-based questions)
-  - LP3 — Defender for Identity vs Defender for Cloud Apps vs Defender for Endpoint
-  - LP2 — Azure RBAC vs Microsoft Entra roles: when each applies
-  - LP3 — Defender for Endpoint Plan 1 vs Plan 2 feature differences
+  - LP3 M5 — Defender product line distinctions (scenario-based questions)
+  - LP3 M5 — Defender for Identity vs Defender for Cloud Apps vs Defender for Endpoint
+  - LP2 M3 — Azure RBAC vs Microsoft Entra roles: when each applies
+  - LP3 M5 — Defender for Endpoint Plan 1 vs Plan 2 feature differences
 
 ## Next Focus Areas after exam 4
-  - LP2 — Conditional Access: break-glass account exclusions and workload identity scope
-  - LP2 — PIM for Groups: just-in-time access to non-Microsoft applications via group membership
-  - LP2 — Password Protection: on-premises hybrid deployment with proxy and DC agents
-  - LP4 — eDiscovery: Standard vs Premium feature boundaries (review sets are Premium-only)
+  - LP2 M3 — Conditional Access: break-glass account exclusions and workload identity scope
+  - LP2 M4 — PIM for Groups: just-in-time access to non-Microsoft applications via group membership
+  - LP2 M2 — Password Protection: on-premises hybrid deployment with proxy and DC agents
+  - LP4 M3 — eDiscovery: Standard vs Premium feature boundaries (review sets are Premium-only)
 
 ## Next Focus Areas after targeted retake
-  - LP3 — CSPM vs CWPP: misconfigurations and Secure Score = CSPM; active runtime threats = CWPP
-  - LP3 — Sentinel: analytics rule detects → automation rule triggers → playbook executes (all three required)
-  - LP4 — DLP vs Communication Compliance: DLP blocks data; Communication Compliance routes to human reviewer
+  - LP3 M3 — CSPM vs CWPP: misconfigurations and Secure Score = CSPM; active runtime threats = CWPP
+  - LP3 M4 — Sentinel: analytics rule detects → automation rule triggers → playbook executes (all three required)
+  - LP4 M2 — DLP vs Communication Compliance: DLP blocks data; Communication Compliance routes to human reviewer
