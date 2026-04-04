@@ -10,6 +10,7 @@
   - Watching John Savill's Technical Training SC‑900
   - Creating detailed notes in [Full Notes](/02-sc900/notes/sc900-full-notes.md)
   - Building a product‑cluster overview in [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
+  - Practicing with custom AI-generated exams (Claude, claude.ai) based on official SC-900 exam objectives
 
 ## Practice Assessment Progression
 | Platform | Score | Notes |
