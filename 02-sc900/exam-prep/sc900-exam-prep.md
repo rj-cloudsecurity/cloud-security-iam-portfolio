@@ -19,21 +19,18 @@
 | Custom practice exam 3 (All parts) | 85% | 34/40. Weakest: LP3 M5, LP2 M3.|
 | Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution from this point. Weakest: LP2 M3, LP2 M4, LP4 M3.|
 | Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
-## Study Approach
-  - Reviewed incorrect answers and grouped them by topic
-  - Developed identity and security clusters to better distinguish similar products
-  - Focused on risk‑based access, identity governance, and product comparisons
+
 
 ## Next Focus Areas after exam 3
+  - LP2 M3 — Azure RBAC vs Microsoft Entra roles: when each applies
   - LP3 M5 — Defender product line distinctions (scenario-based questions)
   - LP3 M5 — Defender for Identity vs Defender for Cloud Apps vs Defender for Endpoint
-  - LP2 M3 — Azure RBAC vs Microsoft Entra roles: when each applies
   - LP3 M5 — Defender for Endpoint Plan 1 vs Plan 2 feature differences
 
 ## Next Focus Areas after exam 4
+  - LP2 M2 — Password Protection: on-premises hybrid deployment with proxy and DC agents
   - LP2 M3 — Conditional Access: break-glass account exclusions and workload identity scope
   - LP2 M4 — PIM for Groups: just-in-time access to non-Microsoft applications via group membership
-  - LP2 M2 — Password Protection: on-premises hybrid deployment with proxy and DC agents
   - LP4 M3 — eDiscovery: Standard vs Premium feature boundaries (review sets are Premium-only)
 
 ## Next Focus Areas after targeted retake
