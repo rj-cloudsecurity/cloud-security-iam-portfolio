@@ -3,13 +3,14 @@
   - Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC‑900)
   - Result: In preparation
   - Date: TBD
+
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching the FreeCodeCamp SC‑900 course
   - Watching John Savill's Technical Training SC‑900
   - Creating detailed notes in [Full Notes](/02-sc900/notes/sc900-full-notes.md)
   - Building a product‑cluster overview in [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
-    
+
 ## Practice Assessment Progression
 | Platform | Score | Notes |
 |----------|-------|-------|
@@ -20,6 +21,10 @@
 | Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution from this point. Weakest: LP2 M3, LP2 M4, LP4 M3.|
 | Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
 
+## Study Approach
+  - Reviewed incorrect answers and grouped them by topic
+  - Developed identity and security clusters to better distinguish similar products
+  - Focused on risk‑based access, identity governance, and product comparisons
 
 ## Next Focus Areas after exam 3
   - LP2 M3 — Azure RBAC vs Microsoft Entra roles: when each applies
@@ -35,5 +40,3 @@
 
 ## Next Focus Areas after targeted retake
   - LP3 M3 — CSPM vs CWPP: misconfigurations and Secure Score = CSPM; active runtime threats = CWPP
-  - LP3 M4 — Sentinel: analytics rule detects → automation rule triggers → playbook executes (all three required)
-  - LP4 M2 — DLP vs Communication Compliance: DLP blocks data; Communication Compliance routes to human reviewer
