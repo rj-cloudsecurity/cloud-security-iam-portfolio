@@ -9,6 +9,7 @@
   - Watching John Savill's Technical Training SC‑900
   - Creating detailed notes in [Full Notes](/02-sc900/notes/sc900-full-notes.md)
   - Building a product‑cluster overview in [Identity & Security Clusters](/02-sc900/notes/sc900-identity-security-clusters.md)
+    
 ## Practice Assessment Progression
 | Platform | Score | Notes |
 |----------|-------|-------|
@@ -16,9 +17,8 @@
 | Custom practice exam 2 (Parts 1 & 2 — post study) | 90% | Retaken after creation of the clusters.|
 | | | *Previous exams felt too easy. From this point: exam-level difficulty with harder questions and mixed question types.* |
 | Custom practice exam 3 (All parts) | 85% | 34/40. Weakest: LP3 M5, LP2 M3.|
-| Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution. Weakest: LP2 M3, LP2 M4, LP4 M3.|
-| Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Correct topic distribution. Remaining misses: LP3 M3, LP3 M4, LP4 M3.|
-
+| Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution from this point. Weakest: LP2 M3, LP2 M4, LP4 M3.|
+| Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
   - Developed identity and security clusters to better distinguish similar products
