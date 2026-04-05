@@ -1240,7 +1240,7 @@
     - Defender for Cloud embedt Security Coplit op de recommendations pagina
     - Helpt security professionals bij het begrijpen van de contaxt van een aanbeveling, het implementeren, delegeren en remedieren van misconfigurations in code
    
-  - Deferender CSPM Plan Options
+  - Deferender CSPM (Cloud security Posture Management) Plan Options
     - Foundational CSPM: Gratis en standaard ingeschakeld; inclusief asset discovery, continuous assement, security recommendations, MCSB compliance en secure score
     - Defender CSPM plan: Betaalde uitbreiding met geavanceerde posture management en ondersteuning voor aanvullende benchmarks, reulagory standards en custom policies
 
