@@ -276,3 +276,99 @@ Organized by category for studying, followed by an alphabetical index for quick 
 | XDR | Extended Detection and Response |
 | ZAP | Zero-Hour Auto Purge |
 | ZTNA | Zero Trust Network Access |
+
+
+# SC-900: Must Know Abbreviations
+
+## Security Principles
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| CIA | Confidentiality, Integrity, Availability | The three core security principles. Confidentiality = data only accessible to authorized users. Integrity = data is accurate and unaltered. Availability = data accessible when needed. |
+| GRC | Governance, Risk and Compliance | Framework for managing organizational rules (Governance), identifying threats (Risk), and meeting legal requirements (Compliance). |
+| MCSB | Microsoft Cloud Security Benchmark | Default security initiative in Defender for Cloud based on CIS and NIST frameworks. Basis for Secure Score recommendations. |
+
+## Identity & Access Management
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| IAM | Identity and Access Management | The discipline of managing who has access to what. Microsoft Entra ID is Microsoft's IAM solution. |
+| MFA | Multifactor Authentication | Requires two or more verification factors: something you know, something you have, something you are. |
+| SSO | Single Sign-On | Log in once, access multiple applications without re-authenticating. |
+| RBAC | Role-Based Access Control | Assigns permissions via roles instead of directly to users. Microsoft Entra RBAC manages identity resources; Azure RBAC manages Azure resources — these are separate systems. |
+| JIT | Just-in-Time | Access is only granted when needed and for a limited time. Core principle of PIM. |
+| SSPR | Self-Service Password Reset | Allows users to reset their own password without helpdesk. Requires at least 2 verification methods. Admins cannot use security questions. |
+| PIM | Privileged Identity Management | Manages just-in-time, time-bound, approval-based access to privileged roles in Entra ID, Azure, and groups. |
+| B2B | Business-to-Business | Collaboration with external business partners who authenticate with their own organizational credentials and are invited as guests. |
+| CIAM | Customer Identity and Access Management | Identity management for consumer-facing apps. Users sign in with social identities like Google or Apple. Uses an external tenant. |
+| IdP | Identity Provider | A service that creates, manages, and verifies identities and issues tokens. Examples: Microsoft Entra ID, Google, Facebook. |
+| BYOD | Bring Your Own Device | Personal devices used to access corporate resources. Registered in Entra ID but not fully managed. |
+| SCIM | System for Cross-domain Identity Management | Standard protocol for automatically provisioning and synchronizing user identities between systems. Used by Microsoft Entra Cloud Sync. |
+| FIDO2 | Fast Identity Online 2 | Open standard for passwordless authentication via hardware security keys (USB, NFC). Phishing-resistant. |
+| CBA | Certificate-Based Authentication | Passwordless authentication using X.509 certificates directly against Microsoft Entra ID. Primary authentication method only. |
+
+## Microsoft Entra ID
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| AD | Active Directory | Microsoft's on-premises directory service for managing users, devices, and policies in a domain. |
+| AD DS | Active Directory Domain Services | The core AD service. Runs on domain controllers. Manages on-premises identities and access rights. |
+| BYOD | Bring Your Own Device | Personal devices registered in Entra ID without full organizational management. |
+| SSO | Single Sign-On | One login grants access to multiple apps via the identity provider. |
+
+## Azure Network Security
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| DDoS | Distributed Denial of Service | Attack that overwhelms a service with traffic to make it unavailable. Azure DDoS Protection defends at Layer 3 and 4. |
+| NSG | Network Security Group | Filters inbound and outbound network traffic for Azure resources using priority-based rules. Applied at subnet or NIC level. |
+| WAF | Web Application Firewall | Protects web applications at Layer 7 against exploits like SQL injection, XSS, and HTTP floods. |
+| VNet | Virtual Network | The fundamental building block for private networks in Azure. Resources within a VNet communicate privately. |
+| TLS | Transport Layer Security | Encrypts data in transit between client and server. Used by Azure Bastion, HTTPS, and email. |
+| RDP | Remote Desktop Protocol | Protocol for remote access to Windows machines. Azure Bastion provides RDP without exposing port 3389. |
+| SSH | Secure Shell | Protocol for remote access to Linux machines. Azure Bastion provides SSH without exposing port 22. |
+
+## Cloud Security
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| CSPM | Cloud Security Posture Management | Continuously assesses cloud resources for misconfigurations. Provides Secure Score and hardening recommendations. Part of Defender for Cloud. |
+| CWPP | Cloud Workload Protection Platform | Protects specific workloads (VMs, containers, databases) at runtime. Generates security alerts for active threats. Part of Defender for Cloud. |
+| CASB | Cloud Access Security Broker | Gatekeeper between users and cloud apps. Discovers shadow IT, assesses app risk, enforces policies. Part of Defender for Cloud Apps. |
+| SSPM | SaaS Security Posture Management | Assesses security configuration of connected SaaS apps (like Salesforce) against CIS standards. Feeds results to Secure Score. |
+| UEBA | User and Entity Behavior Analysis | Detects anomalous behavior patterns by analyzing how users and entities normally act. Part of Defender for Cloud Apps. |
+| EDR | Endpoint Detection and Response | Detects advanced attacks on endpoints in near real-time. Provides device timelines, advanced hunting, and response actions. Defender for Endpoint Plan 2 only. |
+| AIR | Automated Investigation and Remediation | Automatically investigates alerts and takes remediation actions without analyst involvement. Defender for Endpoint Plan 2 only. |
+| XDR | Extended Detection and Response | Unifies threat signals from endpoints, email, identity, and cloud apps into one platform. Microsoft Defender XDR. |
+| SIEM | Security Information and Event Management | Collects, normalizes, and analyzes security events for threat detection. Microsoft Sentinel. |
+| SOAR | Security Orchestration, Automation and Response | Automates incident response via playbooks. Combined with SIEM in Microsoft Sentinel. |
+| KQL | Kusto Query Language | Query language used in Microsoft Sentinel and Defender XDR for threat hunting and log analysis. |
+| SOC | Security Operations Center | The team responsible for monitoring, detecting, and responding to security threats. |
+| CVE | Common Vulnerability and Exposure | Standardized identifier for known security vulnerabilities. Used in Defender Vulnerability Management. |
+| IoC | Indicator of Compromise | Evidence that a system has been breached. Examples: malicious IP addresses, file hashes, domain names. |
+| ZAP | Zero-Hour Auto Purge | Retroactively removes malicious emails already delivered to Exchange Online mailboxes. Part of Defender for Office 365. |
+| ASIM | Advanced Security Information Model | Normalizes data from different sources into a unified format in Microsoft Sentinel. |
+
+## Microsoft Purview
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| DLP | Data Loss Prevention | Detects and prevents sensitive data from being shared outside the organization. Works across Microsoft 365, endpoints, and AI interactions. |
+| SIT | Sensitive Information Type | Pattern-based classifier that detects specific data like credit card numbers or SSNs using regex and supporting elements. |
+| DSR | Data Subject Request | A request from an individual to access, correct, or delete their personal data. Managed via Microsoft Priva. |
+| OCR | Optical Character Recognition | Extracts text from images in eDiscovery Premium, making scanned documents searchable. |
+| DSPM | Data Security Posture Management | Unified view of where sensitive data is, who has access, and how it is protected. Part of Microsoft Purview. |
+
+## Cloud Service Models
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| IaaS | Infrastructure as a Service | Customer manages OS, apps, and data. Microsoft manages hardware and network. Example: Azure VMs. |
+| PaaS | Platform as a Service | Customer manages apps and data. Microsoft manages OS and platform. Example: Azure App Service. |
+| SaaS | Software as a Service | Customer manages identities, data, and configuration. Microsoft manages everything else. Example: Microsoft 365. |
+
+## Security Copilot
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| SCU | Security Compute Unit | The billing unit for Microsoft Security Copilot capacity. Minimum 1, maximum 100 per workspace. |
+| LLM | Large Language Model | The AI model that powers Security Copilot's natural language understanding and generation. |
+| NLP | Natural Language Processing | Enables Security Copilot to understand and respond to human language prompts. |
+
+## Threat Intelligence
+| Abbreviation | Full Name | What it does |
+|---|---|---|
+| TTP | Tactics, Techniques and Procedures | Describes how attackers operate. Used in threat intelligence and MITRE ATT&CK framework. |
+| TI | Threat Intelligence | Information about known and emerging threats used to improve defenses. |
