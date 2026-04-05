@@ -22,7 +22,7 @@
 | Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution from this point. Weakest: LP2 M3, LP2 M4, LP4 M3.|
 | Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
 | open-exam-prep.com (35 questions) | 96% | Questions significantly easier and more conceptual than custom exams. Exam appears outdated — several questions outside current SC-900 objectives.|
-| Custom practice exam 6 (mixed question types) | 90% | 72/80. First exam with all four question types: multiple choice, true/false, matching, drop-down. Weakest: LP2 M1, LP3 M5, LP1 M1.|
+| Custom practice exam 6 (mixed question types, extra hard) | 90% | 72/80. First exam with all four question types: multiple choice, true/false, matching, drop-down. Weakest: LP2 M1, LP3 M5, LP1 M1.|
 
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
