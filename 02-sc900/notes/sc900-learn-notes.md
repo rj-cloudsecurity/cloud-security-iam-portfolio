@@ -31,9 +31,11 @@
 - [Module 4: Describe the Data Governance Solutions of Microsoft Purview](#module-4-describe-the-data-governance-solutions-of-microsoft-purview)
 
 ---
+---
 
-  - **Learning Path 1:** Introduction to Security, Compliance, and Identity
-    - ## **Module 1:** Describe Security and Compliance Concepts
+## Learning Path 1: Introduction to Security, Compliance, and Identity
+
+### Module 1: Describe Security and Compliance Concepts
         
 **Shared Responsibility Model**
   - On-premises: zelf verantwoordelijk voor alles, van gebouw tot de data.
