@@ -46,7 +46,5 @@
   - LP3 M4 — Sentinel: analytics rule detects → automation rule triggers → playbook executes (all three required)
   - LP4 M2 — DLP vs Communication Compliance: DLP blocks data; Communication Compliance routes to human reviewer
 
-  ## Next Focus Areas after exam 6
-  - LP1 M1 — Shared Responsibility: application code is always customer responsibility in all service models
-  - LP2 M1 — Managed Identities: FIDO2 = phishing-resistant hardware key; OATH = physical OTP token — do not confuse
- - LP3 M5 — Network infrastructure in IaaS is Microsoft responsibility, not customer
+## Next Focus Areas after exam 6
+  - LP2 M1 — Authentication methods: FIDO2 = phishing-resistant hardware key (USB/NFC); OATH hardware token = physical device generating time-based OTP every 30-60 seconds
