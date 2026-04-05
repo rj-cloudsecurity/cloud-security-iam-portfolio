@@ -22,6 +22,7 @@
 | Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution from this point. Weakest: LP2 M3, LP2 M4, LP4 M3.|
 | Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
 | open-exam-prep.com (35 questions) | 96% | Questions significantly easier and more conceptual than custom exams. Exam appears outdated — several questions outside current SC-900 objectives.|
+| Custom practice exam 6 (All parts — mixed question types) | 90% | 72/80. First exam with all four question types: multiple choice, true/false, matching, drop-down. Weakest: LP2 M1, LP3 M5, LP1 M1.|
 
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
@@ -44,3 +45,9 @@
   - LP3 M3 — CSPM vs CWPP: misconfigurations and Secure Score = CSPM; active runtime threats = CWPP
   - LP3 M4 — Sentinel: analytics rule detects → automation rule triggers → playbook executes (all three required)
   - LP4 M2 — DLP vs Communication Compliance: DLP blocks data; Communication Compliance routes to human reviewer
+
+  ## Next Focus Areas after exam 6
+  - LP1 M1 — Shared Responsibility: application code is always customer responsibility in all service models
+  - LP2 M1 — Managed Identities: FIDO2 = phishing-resistant hardware key; OATH = physical OTP token — do not confuse
+  - LP2 M3 — Conditional Access AND-logic: all assignments must be met simultaneously for policy to activate
+  - LP3 M5 — Network infrastructure in IaaS is Microsoft responsibility, not customer
