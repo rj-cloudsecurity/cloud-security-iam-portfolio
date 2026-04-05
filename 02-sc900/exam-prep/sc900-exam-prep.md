@@ -21,6 +21,7 @@
 | Custom practice exam 3 (All parts) | 85% | 34/40. Weakest: LP3 M5, LP2 M3.|
 | Custom practice exam 4 (All parts) | 85% | 34/40. Correct topic distribution from this point. Weakest: LP2 M3, LP2 M4, LP4 M3.|
 | Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
+| open-exam-prep.com (35 questions) | 96% | Questions significantly easier and more conceptual than custom exams. Exam appears outdated — several questions outside current SC-900 objectives.|
 
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
