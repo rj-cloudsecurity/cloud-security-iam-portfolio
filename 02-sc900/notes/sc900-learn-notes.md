@@ -5,10 +5,35 @@
 
 ---
 
-  - **Learning Path 1:** Introduction to Security, Compliance, and Identity
-    - **Module 1:** Describe Security and Compliance Concepts
-      - Extra Sources: FreeCodeCamp SC‑900 & John Savill's Technical Training
+## Inhoudsopgave
 
+### Learning Path 1: Introduction to Security, Compliance, and Identity
+- [Module 1: Describe Security and Compliance Concepts](#module-1-describe-security-and-compliance-concepts)
+- [Module 2: Describe Identity Concepts](#module-2-describe-identity-concepts)
+
+### Learning Path 2: Introduction to Microsoft Entra
+- [Module 1: Describe the Function and Identity Types of Microsoft Entra ID](#module-1-describe-the-function-and-identity-types-of-microsoft-entra-id)
+- [Module 2: Describe the Authentication Capabilities of Microsoft Entra ID](#module-2-describe-the-authentication-capabilities-of-microsoft-entra-id)
+- [Module 3: Describe Access Management Capabilities of Microsoft Entra](#module-3-describe-access-management-capabilities-of-microsoft-entra)
+- [Module 4: Describe the Identity Protection and Governance Capabilities of Microsoft Entra](#module-4-describe-the-identity-protection-and-governance-capabilities-of-microsoft-entra)
+
+### Learning Path 3: Introduction to Microsoft Security Solutions
+- [Module 1: Describe Microsoft Security Copilot](#module-1-describe-microsoft-security-copilot)
+- [Module 2: Describe Core Infrastructure Security Services in Azure](#module-2-describe-core-infrastructure-security-services-in-azure)
+- [Module 3: Describe the Security Management Capabilities in Azure](#module-3-describe-the-security-management-capabilities-in-azure)
+- [Module 4: Describe Security Capabilities of Microsoft Sentinel](#module-4-describe-security-capabilities-of-microsoft-sentinel)
+- [Module 5: Describe Threat Protection with Microsoft Defender XDR](#module-5-describe-threat-protection-with-microsoft-defender-xdr)
+
+### Learning Path 4: Introduction to Microsoft Priva and Microsoft Purview
+- [Module 1: Describe Microsoft's Service Trust Portal and Privacy Capabilities](#module-1-describe-microsofts-service-trust-portal-and-privacy-capabilities)
+- [Module 2: Describe the Data Security Solutions of Microsoft Purview](#module-2-describe-the-data-security-solutions-of-microsoft-purview)
+- [Module 3: Describe the Data Compliance Solutions of Microsoft Purview](#module-3-describe-the-data-compliance-solutions-of-microsoft-purview)
+- [Module 4: Describe the Data Governance Solutions of Microsoft Purview](#module-4-describe-the-data-governance-solutions-of-microsoft-purview)
+
+---
+
+  - **Learning Path 1:** Introduction to Security, Compliance, and Identity
+    - ## **Module 1:** Describe Security and Compliance Concepts
         
 **Shared Responsibility Model**
   - On-premises: zelf verantwoordelijk voor alles, van gebouw tot de data.
