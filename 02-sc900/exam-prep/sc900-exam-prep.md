@@ -23,6 +23,7 @@
 | Targeted retake — weak areas only (40 questions) | 92.5% | 37/40. Weakest: LP3 M3, LP3 M4, LP4 M3.|
 | open-exam-prep.com (35 questions) | 96% | Questions significantly easier and more conceptual than custom exams. Exam appears outdated — several questions outside current SC-900 objectives.|
 | Custom practice exam 6 (mixed question types & extra hard) | 90% | 72/80. First exam with all four question types: multiple choice, true/false, matching, drop-down. 3 lost points due to careless reading; morning exams recommended over late evening. Only real knowledge gap: FIDO2 vs OATH hardware token distinction. Weakest: LP2 M1, LP3 M5, LP1 M1.|
+| Custom practice exam 7 (Microsoft-style, mixed question types) | 92% | 59/64. Weakest: LP2 M1 — SCIM, Verified ID; LP3 M4 — Sentinel automation rules vs playbooks; LP3 M5 — Defender Vulnerability Management vs Defender for Endpoint.|
 
 ## Study Approach
   - Reviewed incorrect answers and grouped them by topic
@@ -48,3 +49,9 @@
 
 ## Next Focus Areas after exam 6
   - LP2 M1 — Authentication methods: FIDO2 = phishing-resistant hardware key (USB/NFC); OATH hardware token = physical device generating time-based OTP every 30-60 seconds
+
+## Next Focus Areas after exam 7
+  - LP2 M1 — Microsoft Entra Verified ID: cryptographically signed credentials stored in digital wallet using did:web trust system
+  - LP2 M1 — SCIM: standard protocol for automated identity provisioning and deprovisioning across systems
+  - LP3 M4 — Sentinel: automation rules trigger playbooks; playbooks execute the actual response actions — "execute" always = playbook
+  - LP3 M5 — Defender Vulnerability Management = CVEs and misconfigurations; Defender for Endpoint = EDR for active threats
