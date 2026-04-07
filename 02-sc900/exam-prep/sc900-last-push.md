@@ -133,7 +133,7 @@ Read this the morning before the real exam. Focus on the exam-style traps sectio
 - **Service principal** = identity for any registered application in Entra ID; credentials must be managed
 - **Managed identity** = credential-free service principal for Azure resources only; credentials managed automatically by Microsoft
 
-**Exam trap:** "allow an Azure VM to access storage without handling credentials" → managed identity. "Identity for an application" → service principal.
+"allow an Azure VM to access storage without handling credentials" → managed identity. "Identity for an application" → service principal.
 
 ---
 
@@ -148,7 +148,7 @@ Read this the morning before the real exam. Focus on the exam-style traps sectio
 | No content-based targeting | Data is not used for advertising |
 | Benefits to you | Data is used to improve your experience |
 
-**Exam trap:** "defines use and management of encryption keys" → Security, not Control.
+"defines use and management of encryption keys" → Security, not Control.
 
 ---
 
