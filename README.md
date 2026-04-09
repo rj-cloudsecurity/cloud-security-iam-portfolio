@@ -22,12 +22,11 @@ cloud-security-iam-portfolio/
 ├── 02-sc900/
 │   ├── exam-prep/
 │   └── notes/
-
-Planned:
 ├── 03-az104/
 │   ├── exam-prep/
 │   ├── exercises/
 │   └── notes/
+Planned:
 ├── 04-sc300/
 │   ├── exam-prep/
 │   ├── exercises/
