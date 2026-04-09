@@ -109,7 +109,7 @@ Planned:
 - [Exam Preparation](/03-az104/exam-prep/sc900-exam-prep.md) — *Coming soon*
 
 **Exercises**
-- [Exercise 1 — ](/03-az104/exercises/exercises-1.md) *Coming soon*
+- [Exercise 1](/03-az104/exercises/exercises-1.md) — *Coming soon*
 
 ### 04 — SC-300: Identity and Access Administrator Associate
 *Coming soon*
