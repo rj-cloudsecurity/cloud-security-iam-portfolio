@@ -2,7 +2,7 @@
 
 ## Certification
   - Microsoft Certified: Azure Fundamentals (AZ-900)
-  - Result: PASSED
+  - Result: Passed
   - Date: March 12, 2026
 
 ## Study Method
