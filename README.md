@@ -104,10 +104,10 @@ Planned:
 
 ### 03 — AZ-104: Azure Administrator Associate
 **Notes**
-- [Learn Notes](/03-az104/notes/sc900-learn-notes.md)  — Full module notes from Microsoft Learn
+- [Learn Notes](/03-az104/notes/az104-learn-notes.md)  — Full module notes from Microsoft Learn
 
 **Exam Prep**
-- [Exam Preparation](/03-az104/exam-prep/sc900-exam-prep.md) — Progress, scores and study approach
+- [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
 
 **Exercises**
 - [Exercise 1](/03-az104/exercises/1-create-and-deploy-an-azure-resource-manager.md) — *Coming soon*
