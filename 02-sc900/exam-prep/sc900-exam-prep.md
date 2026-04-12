@@ -2,7 +2,7 @@
 ## Certification
   - Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC‑900)
   - Result: Passed
-  - Date: 8-3-2026
+  - Date: April 8, 2026
 
 ## Study Method
   - Completing all Microsoft Learn modules
