@@ -112,6 +112,8 @@ Planned:
 **Exercises**
 - [Exercise 1](/03-az104/exercises/1-create-and-deploy-an-azure-resource-manager.md) — *Coming soon*
 
+---
+
 ### 04 — SC-300: Identity and Access Administrator Associate
 *Coming soon*
 
