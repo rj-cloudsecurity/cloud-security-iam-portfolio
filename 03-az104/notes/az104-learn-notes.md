@@ -119,7 +119,7 @@
       - kind
         
 **Exercise - Create and deploy an Azure Resource Manager template**
-- [Exercise 1](/03-az104/exercises/1-create-and-deploy-an-azure-resource-manager.md)
+- [Exercise 1 Create and deploy an Azure Resource Manager template](/03-az104/exercises/1-create-and-deploy-an-azure-resource-manager.md)
 
 **Add flexibility to your Azure Resource Manager template by using parameters and outputs**
 
