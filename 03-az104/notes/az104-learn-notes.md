@@ -62,12 +62,125 @@
   - Cloud Shell biedt mechanismen om bestanden tussen sessies te bewaren, en geeft toegang tot minimalistische versie van Visual Studio Code editor voor complexere bewerkingen
 
 
-
-
-
 ---
 
-## Learning Path 1: Prerequisites for Azure administrators
 
+## Learning Path 1: Prerequisites for Azure administrators
 ### Module 2: Deploy Azure infrastructure by using JSON ARM templates
+
+**Explore Azure Resource Manager template structure**
+  - Wat is infrastructure as code?
+    - Infrastructure as a code (IaC) betekent dat je je infrastructuur beschrijft via code, net zoals applicatiecode; opgeslagen en geversioneerd in dezelfde source repository.
+    - Voordelen: consistent configurations, improved scalability, faster deployments, better traceability
+   
+  - Wat is ARM template
+    - Arm templates zijn JSON-bestanden die de infrastructuur en configuratie voor een deployment definieren.
+    - Ze gebruiken declarative syntax; je beschrijft wat je wilt deployen, nie hoe. Dit staat tegenover imperative syntax. waarbij je elke stap handmatig specificeert
+   
+  - Benefits of using ARM templates
+    - ARM templates zijn idempotent: je kunt dezelfde template meerdere keren resources waar mogelijk parallel aan; sneller dan scripted deployments
+    - Ingebouwde validatie: de template wordt gecontroleerd voor de deployment start.
+    - Templates zijn op te splitsen in kleinere, herbruikbare componenten die je kunt linken of nesten
+    - Integreerbaar met CI/CD tools zoals Azure Pipelines en GitHub Actions
+   
+  - ARM template file structure
+| Element | Verplicht | Beschrijving |
+|---|---|---|
+| schema | Ja | Locatie van het JSON schema bestand |
+| contentVersion | Ja | Versienummer van de template (bijv. 1.0.0.0) |
+| apiProfile | Nee | Verzameling van API versions per resource type |
+| parameters | Nee | Waarden die je opgeeft tijdens deployment |
+| variables | Nee | Waarden om template expressions te vereenvoudigen |
+| functions | Nee | User-defined functions voor hergebruik binnen de template |
+| resources | Ja | De resources die je wilt deployen of updaten |
+| output | Nee | Waarden die worden teruggegeven na deployment |
+
+  - Deploy an ARM template to Azure
+    - 3 manieren:
+      - Deploy a local template
+      - Deploy a linked template
+      - Via een CI/CD pipeline
+    - Voor een lokale deployment heb je Azure CLI of Azure PowerShell nodig
+    - Stappen:
+      - Resource group aanmaken
+      - Deployment starten met:
+        - (CLI) az deployment group create
+        - PowerShell: New-AzResourceGroupDeployment
+
+  - Add resources to the template
+    - Resources voeg je toe via syntax {resource-provider}/{resource-type}
+      - bv Microsoft.Storage/storageAccounts
+    - Per resource type defineer je verplichte properties zoals
+      - type
+      - apiVersion
+      - Name
+      - Location
+      - sku
+      - kind
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
