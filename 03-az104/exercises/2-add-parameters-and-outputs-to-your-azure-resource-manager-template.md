@@ -7,7 +7,7 @@ In deze oefening voeg ik parameters en outputs toe aan de ARM template uit Exerc
 
 ---
 
-## Uitvoering — Azure PowerShell (VSCode terminal)
+## Uitvoering 1 — Azure PowerShell (VSCode terminal)
 
 ### Task 1 Resource Group aanmaken
 
@@ -120,6 +120,134 @@ In de Azure portal gecontroleerd onder **Resource groups > exercise1 > Deploymen
 
 ```powershell
 Remove-AzResourceGroup -Name exercise1 -Force -AsJob
+```
+
+---
+
+## Uitvoering 2 — Azure CLI (Konsole, KDE Neon Linux)
+
+### Task 1 Inloggen en Resource Group aanmaken
+
+```bash
+az login
+az group create --name exercise2 --location westeurope
+az configure --defaults group=exercise2
+```
+
+```json
+{
+  "id": "/subscriptions/69799361-14fa-4e9b-8b7f-e48e93f9e422/resourceGroups/exercise2",
+  "location": "westeurope",
+  "name": "exercise2",
+  "properties": {
+    "provisioningState": "Succeeded"
+  }
+}
+```
+
+### Task 2 storageName parameter deployen
+
+Eerste poging mislukt: `{your-unique-name}` letterlijk ingevoerd — Azure geeft een `AccountNameInvalid` fout. Oplossing: naam direct zonder accolades meegeven.
+
+```bash
+cd "/mnt/data/RJ/All My Files/Documents/Studies/IT/Identity & Access Management IAM & Cloud Security/Learn Exercises/az-104/exercise-1/"
+templateFile="azuredeploy.json"
+today=$(date +"%d-%b-%Y")
+DeploymentName="addnameparameter-"$today
+az deployment group create --name $DeploymentName --template-file $templateFile --parameters storageName=rjexercise2bash
+```
+
+```json
+{
+  "name": "addnameparameter-15-apr-2026",
+  "properties": {
+    "provisioningState": "Succeeded",
+    "timestamp": "2026-04-15T19:41:17.520613+00:00",
+    "parameters": {
+      "storageName": { "value": "rjexercise2bash" }
+    }
+  }
+}
+```
+
+### Task 3 storageSKU parameter met allowedValues
+
+**Deployment met geldige SKU (Standard_GRS):**
+
+```bash
+today=$(date +"%d-%b-%Y")
+DeploymentName="addSkuParameter-"$today
+az deployment group create --name $DeploymentName --template-file $templateFile --parameters storageSKU=Standard_GRS storageName=rjexercise2bash
+```
+
+```json
+{
+  "name": "addSkuParameter-15-apr-2026",
+  "properties": {
+    "provisioningState": "Succeeded",
+    "timestamp": "2026-04-15T20:00:07.901554+00:00",
+    "parameters": {
+      "storageName": { "value": "rjexercise2bash" },
+      "storageSKU": { "value": "Standard_GRS" }
+    }
+  }
+}
+```
+
+**Deployment met ongeldige SKU (Basic) — verwachte fout:**
+
+```bash
+today=$(date +"%d-%b-%Y")
+DeploymentName="addSkuParameter-"$today
+az deployment group create --name $DeploymentName --template-file $templateFile --parameters storageSKU=Basic storageName=rjexercise2bash
+```
+
+```json
+{
+  "code": "InvalidTemplate",
+  "message": "Deployment template validation failed: 'The provided value for the template parameter 'storageSKU' is not valid. The value 'Basic' is not part of the allowed value(s): Standard_LRS,Standard_GRS,Standard_RAGRS,Standard_ZRS,Premium_LRS,Premium_ZRS,Standard_GZRS,Standard_RAGZRS'."
+}
+```
+
+Deployment mislukt zoals verwacht — de `allowedValues` validatie werkt correct.
+
+### Task 4 Output deployen
+
+```bash
+today=$(date +"%d-%b-%Y")
+DeploymentName="addoutputs-"$today
+az deployment group create --name $DeploymentName --template-file $templateFile --parameters storageSKU=Standard_LRS storageName=rjexercise2bash
+```
+
+```json
+{
+  "name": "addoutputs-15-apr-2026",
+  "properties": {
+    "provisioningState": "Succeeded",
+    "timestamp": "2026-04-15T20:09:30.545257+00:00",
+    "outputs": {
+      "storageEndpoint": {
+        "type": "Object",
+        "value": {
+          "blob":  "https://rjexercise2bash.blob.core.windows.net/",
+          "dfs":   "https://rjexercise2bash.dfs.core.windows.net/",
+          "file":  "https://rjexercise2bash.file.core.windows.net/",
+          "queue": "https://rjexercise2bash.queue.core.windows.net/",
+          "table": "https://rjexercise2bash.table.core.windows.net/",
+          "web":   "https://rjexercise2bash.z6.web.core.windows.net/"
+        }
+      }
+    }
+  }
+}
+```
+
+In de Azure portal gecontroleerd onder **Resource groups > exercise2 > Deployments > addoutputs**: output zichtbaar.
+
+### Task 5 Clean up
+
+```bash
+az group delete --name exercise2 --yes --no-wait
 ```
 
 ---
