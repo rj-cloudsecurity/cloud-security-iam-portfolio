@@ -124,7 +124,7 @@ Remove-AzResourceGroup -Name exercise1 -Force -AsJob
 
 ---
 
-## Uitvoering 2 — Azure CLI (Konsole, KDE Neon Linux)
+## Uitvoering 2 — Azure CLI (VSCode terminal)
 
 ### Task 1 Inloggen en Resource Group aanmaken
 
