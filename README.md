@@ -110,7 +110,7 @@ Planned:
 - [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
 
 **Exercises**
-- [Exercise 1](/03-az104/exercises/1-create-and-deploy-an-azure-resource-manager.md) — *Coming soon*
+- [Exercise 1 Create and deploy an Azure Resource Manager template](/03-az104/exercises/1-create-and-deploy-an-azure-resource-manager.md)
 
 ---
 
