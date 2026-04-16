@@ -300,9 +300,26 @@
 
 
 
+**Configure and manage device registration**
+  - 3 manieren om devices te registreren in Microsoft Entra ID:
+
+| | Entra Registered | Entra Joined | Hybrid Entra Joined |
+|---|---|---|---|
+| Definitie | Persoonlijk device, geen org-account vereist voor inloggen | Alleen Entra ID, org-account vereist | On-premises AD + Entra ID |
+| Doelgroep | BYOD / mobiele devices | Cloud-only of hybrid orgs | Orgs met bestaande on-premises AD |
+| Device eigenaar | Gebruiker of org | Organisatie | Organisatie |
+| OS | Windows 10+, macOS, iOS, Android, Linux | Windows 10/11 (geen Home), Server 2019+, macOS 13+ | Windows 10/11, Server 2016/2019/2022 |
+| Beheer | MDM (Intune) | MDM (Intune) | Group Policy, Configuration Manager, Intune |
+| SSO | Cloud resources | Cloud + on-premises | Cloud + on-premises |
+
+  - Device writeback is niet meer ondersteund. Vervangen door Cloud Kerberos Trust voor on-premises SSO en Windows Hello for Business in hybrid omgevingen
+  - Dynamic membershpi in groepen en Conditional Access vereisen device identity via Entra ID
+  - MDM tools zoals Intune kunnen policies afdwingen: encryptie, wachtwoordcomplexiteit, software-updates
 
 
 
+**Manage licenses**
+  - 
 
 
 
