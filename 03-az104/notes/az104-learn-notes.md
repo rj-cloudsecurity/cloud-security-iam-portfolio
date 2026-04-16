@@ -236,8 +236,22 @@
     - Microsoft Entra Privilged Identity Management (PIM): extra beveiliging voor privileged users, permanent en tijdelijke admins, policy workflow voor gebruik en admin privileges
 
 
+**Examine Microsoft Entra Domain Services**
+  - Microsoft Entra Domain Services (AAD DS) biedt managed domain services in de cloud: Group Policy management, domain joining en Kerberos authenticatie; volleidg compatibel met on-premises AD DS, zonder zelf domain controllers te heoven deployen
+    - Vereist Entra ID P1 of P2. Kosten zijn per uur op basis van de grootte van de directory
+    - Alternatieven zonder AAD DS: site-to-side VPN naar on-premises AD DS, of replica domain controllers als VMs in Azure; beide duurder en meer beheer
 
-
+  - Voordelen:
+    - Geen beheer van domain controllers, updates of replicatie
+    - Geen Domain Admis of Enterprise Admins groepen nodig
+    - Bruikbaar als cloud-only service zonder on-premises AD DS
+    - Migratie van apps die LDAP, NTLM of Kerberos gebruiken naar de cloud zonder VPN
+   
+  - Berperkingen:
+    - Alleen het basis computer Active Directory object wordt ondersteund
+    - Schema uitbreiden is niet mogelijk
+    - OU-structuur is flat; geen nested OUs
+    - Ingebouwde GPOs zijn beschikbaar maar niet te targeten op OUs, geen WMI filter of security-group filtering
 
 
 
