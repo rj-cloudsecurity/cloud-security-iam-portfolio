@@ -319,9 +319,26 @@
 
 
 **Manage licenses**
-  - 
+  - Licenties voor Microsoft cloud services (Microsoft 365, EMS, Dynamics 365) worden beheerd via de Microsoft 365 admin center of PowerShell/Microsoft Graph API
+  - Group-based licensing voorkomt complexe per-user scripts; wijs een licentie toe aan een groep en Entra ID regelt automatisch toewijzing en intrekking bij membership changes. Wijzigingen zijn doorgaans binnen minuten effecties
+
+  - Vereisten:
+    - Entra ID Premium P1 of hoger, of Office365 Enterprise E3 of hoger
+    - Voldoende licenties voor alle unieke members in gelicentieerde groepen
+
+  - Belangerijke punten:
+    - Werkt met security groups: Zowel synced vanuit on-premises als cloud-only of dynamic groups
+    - Individuele service plans binnen een product kunnen uitgeschakeld worden per groep
+    - Een user kan licenties ontvangen via meerdere groepen en directe toewijzing; duplicatie licenties worden slechts 1 keer verbruikt
+    - Usage location moet ingesteld zijn op het user profiel; users zonder locatie erven de directory locatie
 
 
+**Exercise - Change group license assignments**
+- [Exercise 6 change group license assignments](/03-az104/exercises/6-change-group-license-assignments.md)
+
+
+**Exercise - Change user license assignments**
+- [Exercise 7 change user license assignments](/03-az104/exercises/7-change-user-license-assignments.md)
 
 
 
