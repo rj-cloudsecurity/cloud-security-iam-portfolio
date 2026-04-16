@@ -284,7 +284,19 @@
 
 
 **Create, configure, and manage groups**
-  - 
+  - 2 typen groepen:
+    - Security groups: Beheren toegang tot gedeelde resources. Members: users, devices, service principals. Vereist een Entra administrator.
+    - Microsoft 365 groups: Bieden samenwerking via gedeelde mailbox, calender, bestanden en SharePoint. Toegankelijk voor users en admins, ook voor externe gebruikers.
+
+  - 3 membership types:
+    - Assigned: Members worden handmatig toegevoegd en beheerd
+    - Dynamic User: Users worden automatisch toegevoegd/verwijderd op basis van device attributen. Alleen voor security groups; Microsoft 365 groups ondersteunen geen dynamic devices
+
+  - Dynamic membership vereist Entra ID P1 licentie (of Intune for Education voor device based rules)
+
+
+**Exercise - Add groups in Microsoft Entra ID**
+- [Exercise 5 Add groups in Microsoft Entra ID](/03-az104/exercises/5-add-groups-in-microsoft-entra-id.md)
 
 
 
