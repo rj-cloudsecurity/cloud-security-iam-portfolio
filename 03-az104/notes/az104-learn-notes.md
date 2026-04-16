@@ -336,6 +336,14 @@
 **Exercise - Change group license assignments**
 - [Exercise 6 change group license assignments](/03-az104/exercises/6-change-group-license-assignments.md)
 
+| Foutcode | Oorzaak |
+|---|---|
+| CountViolation | Niet genoeg licenties beschikbaar |
+| MutuallyExclusiveViolation | Conflicterende service plans die niet tegelijk toegewezen kunnen worden |
+| DependencyViolation | Service plan afhankelijk van een andere licentie die verwijderd wordt |
+| ProhibitedInUsageLocationViolation | Usage location niet ondersteund of niet ingesteld op de user |
+| LicenseAssignmentAttributeConcurrencyException | Gelijktijdige toewijzing van dezelfde licentie via meerdere groepen — Entra ID lost zelf op |
+
 
 **Exercise - Change user license assignments**
 - [Exercise 7 change user license assignments](/03-az104/exercises/7-change-user-license-assignments.md)
