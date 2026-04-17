@@ -467,6 +467,7 @@
     - Then block: Effect dat plaatsvindt als de conditie waar is
    
   - Anatomy van een policy definition (JSON elementen)
+    
 | Element | Verplicht | Beschrijving |
 |---|---|---|
 | displayName | Ja | Naam, max 128 tekens |
@@ -482,6 +483,7 @@
     - `anyOf`: Minimaal 1 conditie moet waar zijn (OR)
    
   - Effect types (then block):
+    
 | Effect | Type | Beschrijving |
 |---|---|---|
 | disabled | Synchroon | Policy gedeactiveerd |
