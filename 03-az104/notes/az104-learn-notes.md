@@ -559,7 +559,7 @@
 
 
 **Exercise - View activity logs for Azure RBAC changes**
-- [Exercise 9 View activity logs for Azure RBAC changes](/03-az104/exercises/9-view-activity-logs-for-azure-rbac-changes.md)
+- [Exercise 10 View activity logs for Azure RBAC changes](/03-az104/exercises/10-view-activity-logs-for-azure-rbac-changes.md)
 
 
 
