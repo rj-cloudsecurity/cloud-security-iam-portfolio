@@ -394,7 +394,67 @@
 
 
 ## Learning Path 2: Manage identities and governance in Azure
-### Module 3: Describe the core architectural components of Azure 
+### Module 3: Describe the core architectural components of Azure
+
+**What is Microsoft Azure**
+  - Azure is een continu uitbreidende set van cloud services voor het bouwen, beheren en deployen van applicaties op een wereldwijd netwerk
+  - Biedt honderden services: van VMs en managed databases tot AI, IoT, autoscaling en generative AI
+  - Migratie pad: bestaande apps op VMs → moderniseren naar managed services, autoscaling, event-driven architectuur
+  - Schalen op en af op basis van vraag; alleen betalen voor wat je gebruikt
+  - Kernprincipes: innovatie, unified platform management, security en betrouwbaarheid
+
+**Get started with Azure accounts**
+  - Een Azure subscription is nodig om services te gebruiken; 1 account kan meerdere subscriptions hebben (bv. dev, test, productie)
+  - Aanschaffen via Microsoft direct, Microsoft representative, of Cloud Solution Provider partner
+  - Free account: 12 maanden populaire services gratis, $200 credit voor 30 dagen, 65+ altijd gratis services, vereist creditcard
+  - Free student account: 12 maanden bepaalde services gratis, $100 credit voor 12 maanden, gratis developer tools, geen creditcard vereist
+
+**Describe Azure physical infrastructure**
+  - Azure datacenters zijn gegroepeerd in Regions en Availability Zones; je werkt nooit direct met individuele datacenters
+  - Region: geografisch gebied met 1 of meer datacenters, verbonden via low-latency netwerk
+  - Availability Zone: fysiek gescheiden datacenter binnen een regio, met eigen power, cooling en networking. Minimaal 3 per AZ-enabled regio
+  - Service categorieën voor Availability Zones:
+    - Zonal: gepind aan een specifieke zone (VMs, managed disks, IP adressen)
+    - Zone-redundant: automatisch gerepliceerd over zones (zone-redundant storage, SQL Database)
+    - Non-regional: altijd beschikbaar, resistent tegen zone- en regio-uitval
+  - Region Pairs:
+    - Meeste regio's zijn gekoppeld aan een andere regio binnen dezelfde geografie, minimaal 300 mijl afstand
+    - Bij uitval automatische failover naar paired region
+    - Updates worden 1 regio tegelijk uitgerold
+    - Data blijft binnen dezelfde geografie (uitzondering: Brazil South, gekoppeld aan South Central US)
+  - Sovereign Regions: geïsoleerde Azure instanties voor compliance of juridische doeleinden (US Gov, China)
+
+**Describe Azure management infrastructure**
+  - Hiërarchie van hoog naar laag:
+    - Management Groups
+    - Subscriptions
+    - Resource Groups
+    - Resources
+  - Resources en Resource Groups:
+    - Elke resource behoort aan exact 1 resource group
+    - Resource groups kunnen niet genest worden en niet hernoemd worden
+    - Acties op een resource group gelden voor alle resources erin, inclusief verwijderen en toegangsbeheer
+  - Subscriptions:
+    - Vereist voor toegang tot Azure; eenheid van beheer, billing en schaal
+    - 2 typen boundaries:
+      - Billing boundary: aparte factuur per subscription
+      - Access control boundary: aparte toegangsbeleid en spending limiets per subscription
+    - Redenen voor meerdere subscriptions: omgeving (dev/test/prod), teams, billing scheiding
+  - Management Groups:
+    - Subscriptions worden georganiseerd in management groups; policies en toegang worden geërfd door alle onderliggende subscriptions
+    - Maximaal 6 niveaus diep nestbaar, exclusief root en subscription niveau
+    - Maximaal 10.000 management groups per directory
+    - Elke management group en subscription heeft precies 1 parent
+    - Elke Entra tenant heeft 1 Tenant Root Group bovenaan
+
+
+
+---
+
+
+
+## Learning Path 2: Manage identities and governance in Azure
+### Module 4: Azure Policy initiatives 
 
 **Cloud Adoption Framework for Azure**
   - Het Cloud Adoption Framework (CAF) biedt end-to-end guidance voor cloud adoptie. Best practices, documentatie en tools voor cloud architects, IT experts en business leaders
@@ -533,6 +593,14 @@
   - Event-driven reacties:
     - Policy state changes worden via Azure Event Grid gepusht naar Event Handlers (Azure Functions, Logic Apps, webhooks). Geen polling nodig.
 
+
+
+---
+
+
+## Learning Path 2: Manage identities and governance in Azure
+### Module 5: Secure your Azure resources with Azure role-based access control (Azure RBAC)
+
 **What is Azure RBAC?**
   - Azure RBAC is een autorisatiesysteem gebouwd op Azure Resource Manager voor fine-grained access management van Azure resources. Toegang wordt verleend via role assignment.
     - 3 delen:
@@ -552,61 +620,22 @@
 - [Exercise 8 List access using Azure RBAC and the Azure portal](/03-az104/exercises/08-list-access-using-azure-rbac-and-the-azure-portal.md)
 
 
-
 **Exercise - Grant access using Azure RBAC and the Azure portal**
 - [Exercise 9 Grant access using Azure RBAC and the Azure portal](/03-az104/exercises/09-grant-access-using-azure-rbac-and-the-azure-portal.md)
-
 
 
 **Exercise - View activity logs for Azure RBAC changes**
 - [Exercise 10 View activity logs for Azure RBAC changes](/03-az104/exercises/10-view-activity-logs-for-azure-rbac-changes.md)
 
 
-
-
-
-  
-
----
-
-
-## Learning Path 2: Manage identities and governance in Azure
-### Module 4: Azure Policy initiatives 
-
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  
-  - 
-  - 
-  - 
-  - 
-  - 
-  -   
-
----
-
-
-
-## Learning Path 2: Manage identities and governance in Azure
-### Module 5: Secure your Azure resources with Azure role-based access control (Azure RBAC)
-
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  
-  - 
-  - 
-  - 
-  - 
-  - 
-  -   
+**Summary** Module 5 — Secure your Azure resources with Azure role-based access control (Azure RBAC)
+  - Azure RBAC is een autorisatiesysteem op Azure Resource Manager voor fine-grained toegangsbeheer via role assignments.
+    - Role assignment bestaat uit 3 elementen: security principal (who), role definition (what), scope (where)
+    - 4 built-in roles: Owner, Contributor, Reader, User Access Administrator
+    - Allow model — effectieve permissies = Actions minus NotActions
+    - Scopes erven van hoog naar laag: Management Group → Subscription → Resource Group → Resource
+    - Toegang beheren via Access control (IAM) in de Azure portal
+    - Wijzigingen worden gelogd in de Azure Activity Log
 
 
 
@@ -615,20 +644,34 @@
 
 
 ## Learning Path 2: Manage identities and governance in Azure
-### Module 5: Allow users to reset their password with Microsoft Entra self-service password rese
+### Module 6: Allow users to reset their password with Microsoft Entra self-service password rese
 
+**What is self-service password reset in Microsoft Entra ID?**
+  - SSPR stelt gebruikers in staat hun wachtwoord zelf te resetten zonder de helpdesk. Minder kosten, minder productiviteitsverlies
+  - 6 Authenticatiemethoden:
+    - Mobile app notification
+    - Mobile app code
+    - Email
+    - Mobile phone (niet aanbevolen, fraduleuze SMS mogelijk)
+    - Office phone
+    - Security questions (minst aanbevolen, aantwoorden kunnen bekend zijn bij anderen)
+   
+  - Belangrijke punten:
+    - Minimaal 2 methoden aanbevolen, waarvan mobile app notifcation of code als primaire methode
+    - Administor accounts: altijd methoden vereist, security questions niet beschikbaar
+    - Vereist Entra ID P1 of P2 (of Microsoft 365 Apps for business) voor niet-ingelogde gebruikers
+    - Password writeback naar on-premises AD vereist P1 of P2. Via Microsoft Entra Connect of cloud sync
+ 
+**Implement Microsoft Entra self-service password reset**
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  
-  - 
-  - 
-  - 
-  - 
-  - 
-  -   
 
+
+
+
+**Exercise - Set up self-service password reset**
+
+
+
+
+**Exercise - Customize directory branding**
 
