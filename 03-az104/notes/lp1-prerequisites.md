@@ -85,6 +85,7 @@
     - Integreerbaar met CI/CD tools zoals Azure Pipelines en GitHub Actions
    
   - ARM template file structure
+    
 | Element | Verplicht | Beschrijving |
 |---|---|---|
 | schema | Ja | Locatie van het JSON schema bestand |
