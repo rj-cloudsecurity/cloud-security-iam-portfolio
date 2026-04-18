@@ -1,8 +1,8 @@
 # AZ-104: Azure Administrator Associate
 ## Learning Path 1: Prerequisites for Azure administrators
 
-  - **Started:** 11-4-2026
-  - **Exam passed:** 
+  - **AZ-104 Started:** 11-4-2026
+  - **AZ-104 Exam passed:** 
 
   ---
 
