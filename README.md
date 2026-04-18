@@ -104,7 +104,12 @@ Planned:
 
 ### 03 — AZ-104: Azure Administrator Associate
 **Notes**
-- [Learn Notes](/03-az104/notes/az104-learn-notes.md)  — Full module notes from Microsoft Learn
+- [LP1 Prerequisites](/03-az104/notes/lp1-prerequisites.md) — Compleet
+- [LP2 Identities & Governance](/03-az104/notes/lp2-identities-governance.md) — Compleet
+- [LP3 Storage](/03-az104/notes/lp3-storage.md) — In progress
+- [LP4 Compute](/03-az104/notes/lp4-compute.md) — In progress
+- [LP5 Networking](/03-az104/notes/lp5-networking.md) — In progress
+- [LP6 Monitor & Backup](/03-az104/notes/lp6-monitor-backup.md) — In progress
 
 **Exam Prep**
 - [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
