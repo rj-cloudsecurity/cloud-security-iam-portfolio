@@ -3,7 +3,6 @@
   - Microsoft Certified: Microsoft Azure Administrator (AZ-104)
   - Result: 
   - Date: 
-
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching the FreeCodeCamp AZ‑104 course
@@ -14,3 +13,13 @@
 
 ## Practice Assessment Progression
 | Platform | Score | Notes |
+|----------|-------|-------|
+| Exam 1 — Official Microsoft Practice Assessment (baseline, no prior study) | 46% | 23/50. Weakest: Identities & Governance, Storage, Networking, Monitor & Backup.|
+| Exam 2 — Custom LP1 & LP2 | 70% | 14/20. Weakest: LP1 M2, LP2 M2, LP2 M3, LP2 M6.|
+
+## Next Focus Areas after Exam 2
+  - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
+  - LP2 M2 — Device registration: Entra Registered (BYOD) vs Entra Joined (org-owned)
+  - LP2 M2 — Custom security attributes: assignable to users and service principals only
+  - LP2 M3 — RBAC: synced users cannot have passwords reset directly in Entra ID
+  - LP2 M6 — SSPR: guests not supported; synced users require password writeback
