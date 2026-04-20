@@ -6,7 +6,7 @@
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching John Savill's Technical Training AZ-104
-  - Creating detailed notes in [Learn Notes](/03-az104/notes/az104-learn-notes.md)
+  - Creating detailed notes in [Learn Notes](/03-az104/notes/)
   - Practicing with custom AI-generated exams (claude.ai) based on official AZ-104 exam objectives
   - Practicing with the Official Microsoft Practice Assessment
 
