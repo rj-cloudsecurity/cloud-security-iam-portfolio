@@ -18,13 +18,22 @@
 ### Module 1: Configure storage accounts 
 
 **Implement Azure Storage**
+  - Azure Storage ondersteunt 3 categorieen data:
+    - Virtual machine data: Disks en files via Azure managed disks
+    - Unstructured data: Blob Storage en Data Lake Storage
+    - Structured data: Table Storage, Cosmos DB, Azure SQL Database
+  - Kenmerken: Duurzaan, veilig, massaal schaalbaar, wereldwijd toegankelijk via HTTP/HTTPS
+  - Ondersteunt SFTP (vereist hierarchical namespace), NFSv3, en Microsoft Entra autorisatie als standaard
+
+
+**Explore Azure Storage services**
   - Blob (Binary Large Object) Storage: Object storage voor ongestructeerde data (tekst, Binair). Ideaal voor: Afbeeldingen/documenten naar browsers serveren, streaming video/aduio, backup en archivering. Toegankeljk via HTTP/HTTPS, REST API, PowerShell, CLI of client libraries
   - Azure Files: Highly available network file shares via SMB of NFS protocol. Meerdere VMs kunnen dezelfde bestanden lezen en schrijven. Geschikt voor migratie van on-premises apps die file shares gebruiken.
   - Queue Storage: Berichten opslaan voor asynchrone verwerking. Max 64 KB per bericht, een queue kan miljoenen berichten bevatten.
   - Table Storage: Schemaless NoSQL key/attribute store voor gestructureerde, niet-relationele data. Goedkoper dan traditionele SQL voor vergelijkbare datavolumes. Maakt deel uit van Azure Cosmos DB
 
 
-**Explore Azure Storage services**
+**Determine storage account types**
   - Standard: Backed by HDD, laagste kosten per GB, geschikt voor bulk storage of infrequent access
   - Premium: Backed by SSD, consistent lage latency, geschikt voor I/O intensieve workloads zoals databases
 
@@ -40,7 +49,7 @@
   - Legacy account types GPv1, BlobStorage) worden niet meer aanbevolen. Upgrade naar General-purpose v2 via portal, CLI of PowerShell
       
 
-**Determine storage account types**
+**Determine replication strategies**
 
 | Strategie | Beschrijving | Durability | Lezen tijdens regio-uitval |
 |---|---|---|---|
@@ -60,38 +69,28 @@
 
   - Microsoft adviseert GZRS voor productie workloads die hoge beschikbaarheid én disaster recovery vereisen.
 
-
-
-  
-**Determine replication strategies**
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-
-
   
 **Access storage**
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Elk object in Azure Storage heeft een unieke URL: `//<storage-account-name>.<service>.core.windows.net/<container>/<object>`
+  - Standaard endpoints per service:
 
- 
+| Service | Endpoint |
+|---|---|
+| Blob | `//mystorageaccount.blob.core.windows.net` |
+| Table | `//mystorageaccount.table.core.windows.net` |
+| Queue | `//mystorageaccount.queue.core.windows.net` |
+| File | `//mystorageaccount.file.core.windows.net` |
+
+
+  - Custom Domain:
+    - Je kunt een custom domain koppelen aan je blob endpoint via een CNAME record in DNS
+    - Voorbeeld `blobs.contoso.com` - `contosoblobs.blob.core.windows.net`
+
 
 **Secure storage endpoints**
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Configureer via Firewalls and virtual networks in de Azure portal
+  - Service endpoints: publiek endpoint blijft actief, toegang beperkt to specifieke VNets
+  - Private endpoints: private IP uit VNET, verkeer via Microsoft backbone; aanbevolen voor productie
 
 
 ---
