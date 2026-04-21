@@ -283,6 +283,23 @@
 | Signature | `sig=...` | HMAC handtekening via SHA256, Base64 gecodeerd |
 
 
+**Determine Azure Storage encryption**
+  - Data wordt automatisch versleuteld bij schrijven en ontsleuteld bij lezen. Transparant voor gebruikers, geen code aanpassingen nodig
+  - Versleuteling via 256=bit AES. Kan niet uitgeschakeld worden op storage accounts
+  - Bij aanmaken van een storage account worden twee 512-bit access keys gegenereerd voor Shared Key autorisatie of SAS tokens
+  - Microsoft adviseert Azure Key Vault voor key management met automatische rotatie (bv. elke 90 dagen)
+
+  - Encryptie types:
+| Type | Beschrijving |
+|---|---|
+| Infrastructure encryption | Data dubbel versleuteld — op service niveau én infrastructure niveau, met twee verschillende algoritmes en keys |
+| Platform-managed keys (PMK) | Keys volledig beheerd door Azure — standaard instelling |
+| Customer-managed keys (CMK) | Keys beheerd door de klant via eigen Key Vault of HSM. BYOK (Bring Your Own Key) is een CMK scenario waarbij keys van buiten worden geïmporteerd |
+
+
+
+
+
   ---
 
 
