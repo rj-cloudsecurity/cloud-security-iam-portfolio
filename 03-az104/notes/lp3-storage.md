@@ -227,17 +227,47 @@
 ## Learning Path 3: Implement and manage storage in Azure
 ### Module 3: Configure Azure Storage security
 
+ **Review Azure Storage security strategies**
+   - Securty lagen:
+     - Encryption at rest: SSE met 256-bit AES, automiatisch voor alle data. VHDs versleuteld via Azure Disk Encryption (BitLocker voor Windows, dm-crypt voor Linux)
+     - Encryption in transit: Secure transfer required instelling, TLS 1.0 en 1.1 uitschakelen
+     - Encryption models: Server-side (service-managed keys, customer-managed keys via Key Vault, of customer-controlled hardware), of client-side encryptie
+     - RBAC: Toegang tot storage resources via role assignments
+     - Storage analytics: Logging voor tracing, gebruikerstrends en diagnose
+
+  - Autorisatiestrategieen:
+
+| Strategie | Beschrijving |
+|---|---|
+| Microsoft Entra ID | Aanbevolen — fine-grained access via RBAC voor blob, queue en table data |
+| Shared Key | Autorisatie via account access key (primary of secondary). Uitschakelen om Entra ID te verplichten |
+| Shared Access Signatures (SAS) | Tijdelijke gedelegeerde toegang tot specifieke resources met specifieke permissies |
+| Anonymous access | Standaard uitgeschakeld — aanbevolen uitgeschakeld te laten voor gevoelige data |
+
+
+**Create shared access signatures**
+  - SAS (shared access signature) is een URI (uniform resource identifier) die tijdelijke, beperkte toegang verleent tot Azure Storage resources zonder de account key te delen
+
+  - 3 typen SAS:
+    - User delegation SAS: Beveiligd met Microsoft Entra credentials, ondersteund voor Blob Storage en Data Lake Storage
+    - Account-level SAS: Toegang tot alles wat een service-level SAS kan, plus extra resources zoals file systems aanmaken
+    - Service-level SAS: Toegang tot specifieke resources in een storage account
+
+  - Stored access policy: Extra controlelaag bovenop service-level SAS, maakt het mogelijk permissies in te trekken zonder account keys te regenereren
+
+  - Best Practices
+    - Altijd HTTPS gebruiken voor aanmaken en distribueren
+    - Refereer waar mogelijk naar stored access policies
+    - Stel korte vervaltijden in voor ongeplande SAS
+    - Clients moeten SAS ruim voor vervaldatum vernieuwen
+    - Stel starttijd minimaal 15 minuten in het verleden vanwege clock skew
+    - Geef minimale permissies, alleen wat nodig is
+    - Valideer data geschreven via SAS voor gebruik
+    - SAS is niet altijd de juiste keuze. Overweeg een middle-tier service voor complexe scenario's
+
+   
+**Identify URI and SAS parameters**
   - 
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
 
 
 
