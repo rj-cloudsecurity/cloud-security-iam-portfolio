@@ -267,8 +267,20 @@
 
    
 **Identify URI and SAS parameters**
-  - 
+  - Een SAS URI bestaat uit de Azure Storage resource URI + een SAS token met parameters
 
+| Parameter | Voorbeeld | Beschrijving |
+|---|---|---|
+| Resource URI | `https://myaccount.blob.core.windows.net/` | Azure Storage endpoint |
+| Storage version | `sv=2015-04-05` | API versie die gebruikt wordt |
+| Storage service | `ss=bf` | Service waarop SAS van toepassing is (b=Blob, f=Files) |
+| Start time | `st=2015-04-29T22:18:26Z` | Optioneel — starttijd in UTC |
+| Expiry time | `se=2015-04-30T02:23:26Z` | Vervaltijd in UTC |
+| Resource | `sr=b` | Welke resource toegankelijk is |
+| Permissions | `sp=rw` | Permissies (r=read, w=write) |
+| IP range | `sip=168.1.5.60-168.1.5.70` | Toegestaan IP-bereik |
+| Protocol | `spr=https` | Toegestane protocollen |
+| Signature | `sig=...` | HMAC handtekening via SHA256, Base64 gecodeerd |
 
 
   ---
