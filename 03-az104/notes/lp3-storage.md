@@ -218,7 +218,7 @@
 
 **Exercise - Provide storage for the public website**
 
-- [Exercise 5 Add groups in Microsoft Entra ID](/03-az104/exercises/05-add-groups-in-microsoft-entra-id.md)
+- [Exercise 13 Provide storage for the public website](/03-az104/exercises/13-provide-storage-for-the public-website.md)
 
 
   ---
