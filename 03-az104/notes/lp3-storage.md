@@ -329,18 +329,114 @@
 
 
 ## Learning Path 3: Implement and manage storage in Azure
-### Module 4: Configure Azure Files 
+### Module 4: Configure Azure Files
+
+**Compare storage for file shares and blob data**
+  - Azure Files kenmerken:
+    - PaaS, serverless; geen VM of OS beheer nodig
+    - Max 100 TiB per share, max 4 TiB per bestand
+    - Toegankelijk via SMB, NFS en HTTP; Windows, Linux, macOS
+    - Integratie met Microsoft Entra ID en AD DS
+    - Snapshots, Azure Backup ondersteuning
+    - Data redundantie via storage account replicatie-instellingen
+
+| | Azure Files | Azure Blob Storage |
+|---|---|---|
+| Protocollen | SMB, NFS, REST | REST, client libraries |
+| Structuur | Hiërarchische mappenstructuur | Flat namespace |
+| Toegang | Via file shares, meerdere VMs | Via containers |
+| Ideaal voor | Lift-and-shift, gedeelde tools, config bestanden | Streaming, random access, massale ongestructureerde data |
 
 
-  - 
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
-  -  
 
+**Manage Azure file shares**
+  - Azure Files ondersteunt SMB en NFS; niet tegelijk op dezelfde share, wel in hetzelfde storage account
+  - SMB gebruikt poort 445; veel ISPs blokkeren dit voor on-premises verbindingen
+
+| Tier | Performance | Account type | Redundancy | Billing | Gebruik |
+|---|---|---|---|---|---|
+| Premium | SSD, lage latency | FileStorage | LRS, ZRS | Provisioned | High-performance, lage latency |
+| Transaction Optimized | HDD | GPv2 | LRS, GRS, ZRS, GZRS + RA varianten | Pay-as-you-go | Hoge transactievolumes |
+| Hot | HDD | GPv2 | LRS, GRS, ZRS, GZRS + RA varianten | Pay-as-you-go | Team shares, collaboratie |
+| Cool | HDD | GPv2 | LRS, GRS, ZRS, GZRS + RA varianten | Pay-as-you-go | Online archief en backup |
+
+| Methode | Beschrijving |
+|---|---|
+| Identity-based (SMB) | Via on-premises AD DS, Entra Domain Services of Entra Kerberos + Azure RBAC |
+| Access key | Statisch, volledige toegang — niet aanbevolen, bypass van toegangscontroles |
+| SAS token | Dynamisch, beperkte toegang — alleen voor REST API toegang vanuit code |
+
+
+
+**Create file share snapshots**
+  - Snapshots zjin incrementale, read-only point-in-time kopieen op share niveau
+  - Alleen wijzigingen sinds de laatste snapshot worden opgeslagen, bespaart tijd en kosten
+  - Max 200 snapshots per file share
+  - Snapshots blijven bestaan totdat ze verwijderd worden. Verwijderen van de sahre verwijdert ook alle snapshots
+  - Azure Backup kan snapshots leasen om onbedoelde verwijdering te voorkomen
+  - Herstel mogelijk op bestandsniveau, mapniveau of volledige share. Volledige herstel vereist alleen de laatste snapshot
+
+  - Gebruikt:
+    - Bescherming tegen applicatiefouten en datacorruptie
+    - Herstel na obedoelde verwijdering of wijziging
+    - Backup en recovery; snapshots op schema voor audittrail
+
+  - Snapshots kunnen geprogrammeerd worden via PowerShell en Azure CLI, geautomatiseerd via Azure Automation of GitHub Actions.
+
+
+
+**Implement soft delete for Azure Files**
+  - Implement soft delete for Azure Files
+    - Soft delete is ingeschakeld op storage account niveau
+    - Verwijderde bestanden/shares gaan naar een soft deleted state in plaats van permanent verwijderd te worden
+    - Retentieperiode instelbaar tussen 1 en 365 dagen
+    - Werkt voor zowel nieuwe als bestaande files shares
+   
+  - Gebruik:
+    - Herstel na onbedoelde verwijdering of corruptie
+    - Terugzetten naar bekende staat na mislukte upgrade
+    - Bescherming tegen ransomware
+    - Voldoen aan data retentievereisten
+    - Business continuity voor kritieke workloads
+
+
+**Use Azure Storage Explorer**
+  - Standalone applicatie voor Windows, macOS en Linux om Azure Storage te beheren
+  - Vereist zowel management (ARM) als data layer permissies; Entra ID permissies nodig voor storage account, containers en data
+
+  - Verbindingsopties:
+
+| Scenario | Beschrijving |
+|---|---|
+| Azure subscription | Beheer storage resources in je eigen subscription |
+| Local development storage | Beheer lokale storage via Azure Storage Emulator |
+| External storage | Verbinding via storage account naam, key en endpoints |
+| SAS (storage account) | Beheer storage resources van een andere subscription via SAS |
+| SAS (service) | Beheer specifieke service (blob container, queue, table) via SAS |
+
+  - Access keys:
+    - Elk storage account heeft 2 access keys. Zodat je 1 kunt regenereren terwijl de andere actief blijft
+    - Sla access keys veilig op en regenereer ze regelmatig
+    - Bij regenereren moeten alle applicaties die de key gebruiken worden bijgewerkt
+   
+
+  
+**Consider Azure File Sync**
+  - Azure File Sync synchroniseert on-premises Windows Server met Azure Files shares, Windows Server wordt een snelle cache van je Azure file shares
+  - Ondersteunt SMB, NFS en FTPS voor lokale toegang
+
+  - 5 componenten:
+    
+| Component | Beschrijving |
+|---|---|
+| Storage Sync Service | Primaire Azure resource voor sync beheer. Max 100 sync groups, max 99 geregistreerde servers |
+| Sync group | Synchronisatie-instelling met 1 cloud endpoint en max 50 server endpoints |
+| Cloud endpoint | De Azure file share in de sync group — max 1 per sync group |
+| Server endpoint | NTFS pad op een geregistreerde Windows Server — geen system volume |
+| Azure File Sync Agent | Achtergrondservice geïnstalleerd op elke Windows Server |
+
+  - Gebruik:
+    - Lift en shift van applicaties met toegang tussen Azure en on-premises'
+    - Branch offices backup via Azure File Sync
+    - Backup en disaster recovery. Azure backup werkt automatisch samen met File Sync
+    - Cloud tiering. Recent gebruitke data lokaal, oudere data naar Azure Files
