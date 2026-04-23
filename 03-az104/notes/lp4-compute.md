@@ -50,7 +50,21 @@
   - Storage kosten: Aparte gefactuurd van compute
   - Azure Hybrid Benefit: Bestaande licenties hergebruiken voor korting
 
+  - Betaalopties compute:
 
+| Optie | Beschrijving |
+|---|---|
+| Pay as you go | Per seconde, geen commitment, flexibel — geschikt voor korte of onvoorspelbare workloads |
+| Reserved VM Instances (RI) | 1 of 3 jaar vooraf betalen — tot 72% goedkoper dan pay-as-you-go, geschikt voor continue workloads |
 
+  - Disk types:
 
+| | Ultra disk | Premium SSD v2 | Premium SSD | Standard SSD | Standard HDD |
+|---|---|---|---|---|---|
+| Type | SSD | SSD | SSD | SSD | HDD |
+| Scenario | IO-intensief (SAP HANA, SQL, Oracle) | Productie, lage latency, hoge IOPS | Productie, performance-gevoelig | Web servers, dev/test | Backup, niet-kritiek |
+| Max disk size | 65.536 GiB | 65.536 GiB | 32.767 GiB | 32.767 GiB | 32.767 GiB |
+| Max throughput | 4.000 MB/s | 1.200 MB/s | 900 MB/s | 750 MB/s | 500 MB/s |
+| Max IOPS | 160.000 | 80.000 | 20.000 | 6.000 | 2.000 |
+| OS disk | Nee | Nee | Ja | Ja | Ja |
 
