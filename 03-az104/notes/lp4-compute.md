@@ -297,7 +297,8 @@
 ## Learning Path 4: Deploy and manage Azure compute resources
 ### Module 3: Configure Azure App Service plans
 
-
+**Implement Azure App Service plans**
+  - 
 
 
 
