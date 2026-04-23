@@ -221,7 +221,7 @@
 
 **Exercise - Provide storage for the public website**
 
-- [Exercise 13 Provide storage for the public website](/03-az104/exercises/13-provide-storage-for-the public-website.md)
+- [Exercise 13 Provide storage for the public website](/03-az104/exercises/13-provide-storage-for-the-public-website.md)
 
 
   ---
