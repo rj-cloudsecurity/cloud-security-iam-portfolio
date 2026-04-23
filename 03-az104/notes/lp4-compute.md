@@ -14,6 +14,7 @@
     - Operating system
    
   - VM naamconventie elementen:
+    
 | Element | Voorbeeld | Beschrijving |
 |---|---|---|
 | Environment | dev, prod, QA | Identificeert de omgeving |
@@ -23,6 +24,7 @@
 | Role | sql, web, messaging | Identificeert de rol |
 
   - VM grootte opties:
+    
 | Optie | Gebruik |
 |---|---|
 | General purpose | Balanced CPU/memory — dev/test, kleine databases, web servers |
@@ -33,6 +35,7 @@
 | High performance compute | Snelste CPU, optioneel high-throughput netwerk |
 
   - Kostenmodel:
+    
 | Resource | Kosten |
 |---|---|
 | Virtual network | Ja |
