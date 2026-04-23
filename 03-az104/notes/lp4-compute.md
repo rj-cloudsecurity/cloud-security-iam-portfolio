@@ -83,7 +83,7 @@
 | OS disk | Nee | Nee | Ja | Ja | Ja |
 
 
-- [Exercise 15 Create a VM using the Azure portal](/03-az104/exercises/15-create-a-vm-using-the-azure portal.md)
+- [Exercise 15 Create a VM using the Azure portal](/03-az104/exercises/15-create-a-vm-using-the-azure-portal.md)
 
 
 **Describe the options available to create and manage an Azure Virtual Machine**
@@ -245,7 +245,7 @@
 | Uniform | Alle VMs aangemaakt vanuit dezelfde base OS image en configuratie |
 | Flexible | VMs kunnen verschillende images, sizes of configuraties gebruiken binnen dezelfde scale set |
 
-    - Orchestration mode moet worden gekozen bij aanmaken van de scale set. Niet wijzigbaar achteraf
+  - Orchestration mode moet worden gekozen bij aanmaken van de scale set. Niet wijzigbaar achteraf
 
 
 **Create Virtual Machine Scale Sets**
