@@ -157,6 +157,162 @@
   - Opslag: Recovery Services vault. Backed by Azure Storage blobs. Hier definieer je welke machines worden gebackupt en wanneer snapshots worden gemaakt
 
 
+---
+
+
+## Learning Path 4: Deploy and manage Azure compute resources
+### Module 2: Configure virtual machine availability 
+
+**Plan for maintenance and downtime**
+  - 3 typen downtime waarvoor je moet plannen:
+
+| Type | Oorzaak | Azure reactie |
+|---|---|---|
+| Unplanned hardware maintenance | Azure detecteert dreigend hardware falen | Live Migration naar gezonde server — korte pauze, geen reboot |
+| Unexpected downtime | Onverwacht falen van hardware of infrastructuur (netwerk, disk, rack) | Automatische migratie naar gezonde server in hetzelfde datacenter — reboot, mogelijk verlies van temp drive |
+| Planned maintenance | Periodieke updates door Microsoft voor betrouwbaarheid, performance en security | Gepland, minimale impact |
+
+  - Microsoft update niet automatisch het VM OS of andere software. Dat is de verantwoordelijkheid van de administrator.
+
+
+**Create availability sets**
+  - Een availability set is een logische groepering van VMs die zorgt dat niet alle VMs tegelijk uitvallen bij hardware- of softwarestoringen
+  - Azure verdeelt VMs in een availability set ovre meerdere fysieke server, copute racks, storage units en netwerkswitches
+  - VMs in een availability set moeten dezelfde functionaliteit en software hebben
+  - Een VM kan alleen bij aanmaken aan een availability set worden toegevoegd. Wijzigen vereist verwijderen en opnieuw aanmaken
+
+  - Best practices:
+    - Plaats meerdere VMs in een availability set voor redundantie
+    - Elke applicatietier in een aparte availability set. Voorkomt single point of failure
+    - Combineer met Azure Load Balancer voor high availability en netwerkperformance
+    - Gebruik managed disks voor block-level storage
+   
+    - Availability sets beschermen niet tegn OS- of applicatiespecifieke fouten. Gebruik aanvullende backup en disaster recovery technieken
+
+
+**Review update domains and fault domains**
+  - Elke VM in een availability set wordt geplaatst in 1 update domain en 1 fault domain.
+  - Update Domains:
+    - Groep van nodes die tegelijk geupdated en herstart worden tijdesn planned maintenance
+    - Slects 1 update domain tegelijk herstart. Zorgt voor rolling updates zonder volledige downtime
+    - Instelbaar van 1 tot 20 bij aanmaken, standaard 5
+    - Aantal is niet wijzigbaar na aanmaken. Verwijder en hermaak de availability set
+   
+  - Fault domains:
+  - Groep van nodes die een fysieke eenheid van falen vertegenwoordigen. Denk aan een server rack met gedeelde power en netwerk
+  - Standaard 2 fault domains per availability set
+  - Beschermt tegen hardware failures, netwerkstoringen en stroomonderbrekingen door VMs over meerdere racks te spreiden
+
+**Review availability zones**
+  - Availability zones zijn fysiek gescheiden locaties binnen een Azure regio. Elk met eigen power, cooling en netwerk
+  - Minimaal 3 zones per enabled regio
+  - VMs verpreid over 3 zones = automatisch verspreid over 3 fault domains en 3 update domains
+
+| Categorie | Beschrijving | Voorbeelden |
+|---|---|---|
+| Zonal services | Resource gepind aan een specifieke zone | Azure VMs, managed disks |
+| Zone-redundant services | Platform repliceert automatisch over alle zones | Zone-redundant Storage, Azure SQL Database |
+
+  - Voor optimale business continuity: combineer availability zones met Azure Regional pairs
+
+
+**Compare vertical and horizontal scaling**
+  
+| | Vertical scaling (scale up/down) | Horizontal scaling (scale out/in) |
+|---|---|---|
+| Wat | VM grootte aanpassen | Aantal VMs aanpassen |
+| Voordeel | Eenvoudig, geen extra VMs nodig | Flexibeler, tot duizenden VMs |
+| Beperking | Afhankelijk van beschikbare hardware, regio-afhankelijk, vereist VM stop/herstart | Complexer te beheren |
+| Gebruik | Onder-benutting verminderen of piekbelasting opvangen | Wisselende workloads op grote schaal |
+
+  - Bij reprovisioning (VM vervangen door nieuwe). Plan voor service onderbreking en datamigratie.
+
+
+**Implement Azure Virtual Machine Scale Sets**
+  - VM Scale Sets deployen en beheren een set indentieke VMs met automatisch schalen op basis van vraag
+  - Geen pre-provisioning nodig. VMs worden automatisch toegevoegd of verwijderd
+  - Geschikt voor large-scale services, big data en containzerized workloads
+
+  - Kenmerken:
+    - Ondersteunt Azure Load Balancer (layer-4 traffic) en Azure Application Gateway (Layer-7, TLS/SSL termination)
+    - Bij uitval van 1 VM blijven andere VMs de applicatie bedienen
+    - Schalen kan handmatig, automatisch of een combinatie
+
+   - 2 orchestration modes:
+
+| Mode | Beschrijving |
+|---|---|
+| Uniform | Alle VMs aangemaakt vanuit dezelfde base OS image en configuratie |
+| Flexible | VMs kunnen verschillende images, sizes of configuraties gebruiken binnen dezelfde scale set |
+
+    - Orchestration mode moet worden gekozen bij aanmaken van de scale set. Niet wijzigbaar achteraf
+
+
+**Create Virtual Machine Scale Sets**
+  - Configuratie-instellingen bij aanmaken:
+    - Orchestration mode: Flexible (standaard en aanbevolen) of Uniform
+    - Image: Base OS of applicatie voor de VM
+    - VM Architecture: x64 (meest software compatibiliteit) of Arm64 (tot 50% betere price-performance)
+    - Size: Bepaalt CPU, memory en storage capaciteit
+   
+    - Advanced tab:
+      - Spreading algorithm: hoe VMs verdeeld worden over fault domains:
+        - Max spreading: VMs verspreid over zoveelmogelijk fault domains (aanbevolen)
+        - Fixed spreading: Altijd exact 5 fault domains. faalt als minder dan 5 beschikbaar zijn
+
+
+**Implement autoscale**
+  - Autoscaling verhoogt of verlaagt automatisch het aantal VM instances op basis van vraag. Minimaliseert kosten bij lage vraag, handhaaft performance bij hoge vraag
+
+  - Configuratieopties:
+    - Scale out: meer VM instances toevoegen bij consistent hoge load
+    - Scale in: VM instances verwijderen bij consistent lage load (bijv. 's avonds of weekenden), bespaart kosten
+    - Scheduled events: Automatisch schalen op vaste tijdstippen
+    - Threshold-based rules: autoscale regels op basis van performance drempelwaarden
+   
+  - Autoscaling vermindert managment overhead voor het monitoren en optimaliseren van applicatieprestaties
+
+**Configure autoscale**
+  - Scaling modes:
+    - Manual: vaste instance count instellen (0-1000), inclusief scale-in policiy (volgorde van verwijdering)
+    - Autoscalling: Automatisch schalen op schema of op basis van metrics
+
+    - Autoscale configuratie-instellinge:
+
+| Instelling | Beschrijving |
+|---|---|
+| Default instance count | Initieel aantal VMs bij deployment (0-1000) |
+| Instance limit | Minimum en maximum aantal instances voor de scaling condition |
+| Scale out | CPU drempel % voor scale-out + aantal instances om toe te voegen |
+| Scale in | CPU drempel % voor scale-in + aantal instances om te verwijderen |
+| Query duration | Tijdvenster waarin Autoscale terugkijkt voor gemiddeld metricgebruik |
+| Schedule | Start- en einddatum, herhaling op specifieke dagen |
+
+
+
+
+---
+
+
+## Learning Path 4: Deploy and manage Azure compute resources
+### Module 3: Configure Azure App Service plans
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
