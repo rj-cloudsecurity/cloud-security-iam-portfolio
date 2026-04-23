@@ -5,12 +5,15 @@
   - **AZ-104 Exam passed:** 
 
   ---
-  
+
 ## Inhoudsopgave
 
 ### Learning Path 3: Implement and manage storage in Azure
 
-- [Module 1: Configure storage accounts ](#module-1-Configure-storage-accounts)
+- [Module 1: Configure storage accounts](#module-1-configure-storage-accounts)
+- [Module 2: Configure Azure Blob Storage](#module-2-configure-azure-blob-storage)
+- [Module 3: Configure Azure Storage security](#module-3-configure-azure-storage-security)
+- [Module 4: Configure Azure Files](#module-4-configure-azure-files)
 
    ---
 
