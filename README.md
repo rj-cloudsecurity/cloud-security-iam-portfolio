@@ -116,22 +116,6 @@ Planned:
 
 **Exercises**
 - [Microsoft Learn Exercises](/03-az104/exercises/)
-- [Exercise 1 - Create and deploy an Azure Resource Manager template](/03-az104/exercises/01-create-and-deploy-an-azure-resource-manager.md)
-- [Exercise 2 Add parameters and outputs to your Azure Resource Manager template](/03-az104/exercises/02-add-parameters-and-outputs-to-your-azure-resource-manager-template.md)
-- [Exercise 3 Assign licenses to users](/03-az104/exercises/03-assign-licenses-to-users.md)
-- [Exercise 4 Restore or remove deleted users](/03-az104/exercises/04-restore-or-remove-deleted-users.md)
-- [Exercise 5 Add groups in Microsoft Entra ID](/03-az104/exercises/05-add-groups-in-microsoft-entra-id.md)
-- [Exercise 6 change group license assignments](/03-az104/exercises/06-change-group-license-assignments.md)
-- [Exercise 7 change user license assignments](/03-az104/exercises/07-change-user-license-assignments.md)
-- [Exercise 8 List access using Azure RBAC and the Azure portal](/03-az104/exercises/08-list-access-using-azure-rbac-and-the-azure-portal.md)
-- [Exercise 9 Grant access using Azure RBAC and the Azure portal](/03-az104/exercises/09-grant-access-using-azure-rbac-and-the-azure-portal.md)
-- [Exercise 10 View activity logs for Azure RBAC changes](/03-az104/exercises/10-view-activity-logs-for-azure-rbac-changes.md)
-- [Exercise 11 Set up Self-Service Password Reset](/03-az104/exercises/11-set-up-self-service-password-reset.md)
-- [Exercise 12 Customize Directory Branding](/03-az104/exercises/12-customize-directory-branding.md)
-- [Exercise 13 Provide Storage for the Public Website](/03-az104/exercises/13-provide-storage-for-the-public-website.md)
-- [Exercise 14 Manage Azure Storage](/03-az104/exercises/14-manage-azure-storage.md)
-- [Exercise 15 Create a VM using the Azure Portal](/03-az104/exercises/15-create-a-vm-using-the-azure-portal.md)
-
 
 ---
 
