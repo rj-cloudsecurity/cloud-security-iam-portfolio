@@ -115,6 +115,7 @@ Planned:
 - [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
 
 **Exercises**
+- [Exercises](/03-az104/exercises/)
 - [Exercise 1 - Create and deploy an Azure Resource Manager template](/03-az104/exercises/01-create-and-deploy-an-azure-resource-manager.md)
 - [Exercise 2 Add parameters and outputs to your Azure Resource Manager template](/03-az104/exercises/02-add-parameters-and-outputs-to-your-azure-resource-manager-template.md)
 - [Exercise 3 Assign licenses to users](/03-az104/exercises/03-assign-licenses-to-users.md)
