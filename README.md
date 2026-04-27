@@ -1,7 +1,7 @@
 # Cloud Security & IAM Portfolio
 A personal study repository documenting my learning journey toward a career in
 Identity & Access Management (IAM) and Cloud Security. This repository combines
-theory, hands-on exercises and exam preparation across multiple Microsoft
+theory, hands-on labs and exam preparation across multiple Microsoft
 certifications.
 
 ---
@@ -17,23 +17,23 @@ Current:
 cloud-security-iam-portfolio/
 ├── 01-az900/
 │   ├── exam-prep/
-│   ├── exercises/
+│   ├── labs/
 │   └── notes/
 ├── 02-sc900/
 │   ├── exam-prep/
 │   └── notes/
 ├── 03-az104/
 │   ├── exam-prep/
-│   ├── exercises/
+│   ├── labs/
 │   └── notes/
 Planned:
 ├── 04-sc300/
 │   ├── exam-prep/
-│   ├── exercises/
+│   ├── labs/
 │   └── notes/
 └── 05-sc200/
     ├── exam-prep/
-    ├── exercises/
+    ├── labs/
     └── notes/
 ```
 
@@ -77,12 +77,12 @@ Planned:
 **Exam Prep**
 - [Exam Preparation](/01-az900/exam-prep/az900-exam-prep.md) — Progress, scores and study approach
 
-**Exercises** — completed three times: Azure Portal, Azure CLI and PowerShell
-- [Exercise 1 — Create an Azure Resource](/01-az900/exercises/1-create-azure-resource.md)
-- [Exercise 2 — Create a Virtual Machine and Configure Network Access](/01-az900/exercises/2-create-an-azure-virtual-machine-and-configure-network-access.md)
-- [Exercise 3 — Create a Storage Blob](/01-az900/exercises/3-create-a-storage-blob.md)
-- [Exercise 4 — Estimate Workload Costs using the Pricing Calculator](/01-az900/exercises/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
-- [Exercise 5 — Configure a Resource Lock](/01-az900/exercises/5-configure-a-resource-lock.md)
+**Labs** — completed three times: Azure Portal, Azure CLI and PowerShell
+- [Lab 1 — Create an Azure Resource](/01-az900/labs/1-create-azure-resource.md)
+- [Lab 2 — Create a Virtual Machine and Configure Network Access](/01-az900/labs/2-create-an-azure-virtual-machine-and-configure-network-access.md)
+- [Lab 3 — Create a Storage Blob](/01-az900/labs/3-create-a-storage-blob.md)
+- [Lab 4 — Estimate Workload Costs using the Pricing Calculator](/01-az900/labs/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
+- [Lab 5 — Configure a Resource Lock](/01-az900/labs/5-configure-a-resource-lock.md)
 
 ---
 
@@ -97,8 +97,8 @@ Planned:
 - [Exam Strategy](/02-sc900/exam-prep/sc900-exam-strategy.md) — Quick reference for domains, products and comparisons for exam day
 - [Exam Last Push](/02-sc900/exam-prep/sc900-last-push.md) — Final study reference covering recurring weak areas, product distinctions, exam-style traps and wording pitfalls. Written the just before the exam.
 
-**Exercises**
-- No hands-on exercises — SC-900 is theory only.
+**Labs**
+- No hands-on labs — SC-900 is theory only.
 
 ---
 
@@ -114,8 +114,8 @@ Planned:
 **Exam Prep**
 - [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
 
-**Exercises**
-- [Microsoft Learn Exercises](/03-az104/exercises/)
+**Labs**
+- [Microsoft Learn Labs](/03-az104/labs/)
 
 ---
 
