@@ -120,8 +120,8 @@
       - sku
       - kind
         
-**Exercise - Create and deploy an Azure Resource Manager template**
-- [Exercise 1 Create and deploy an Azure Resource Manager template](/03-az104/exercises/01-create-and-deploy-an-azure-resource-manager.md)
+**Labs - Create and deploy an Azure Resource Manager template**
+- [Lab 1 Create and deploy an Azure Resource Manager template](/03-az104/labs/01-create-and-deploy-an-azure-resource-manager.md)
 
 **Add flexibility to your Azure Resource Manager template by using parameters and outputs**
   - ARM-template parameter
@@ -150,8 +150,8 @@
     - ARM templates zijn idempotent: opnieuw deployen naar dezelfde omgeving zonder wijzigingen heeft geen effect
     - Alleen gewijzigde waarden worden opnieuw deployed. Resources worden aangemaakt als ze nog niet bestaan, of bijgewerkt als er een wijziging is
 
-**Exercise - Add parameters and outputs to your Azure Resource Manager template**
-- [Exercise 2 Add parameters and outputs to your Azure Resource Manager template](/03-az104/exercises/02-add-parameters-and-outputs-to-your-azure-resource-manager-template.md)
+**Labs - Add parameters and outputs to your Azure Resource Manager template**
+- [Lab 2 Add parameters and outputs to your Azure Resource Manager template](/03-az104/Labs/02-add-parameters-and-outputs-to-your-azure-resource-manager-template.md)
 
 
 **Summary**
