@@ -83,7 +83,7 @@
 | OS disk | Nee | Nee | Ja | Ja | Ja |
 
 
-- [Exercise 15 Create a VM using the Azure portal](/03-az104/exercises/15-create-a-vm-using-the-azure-portal.md)
+- [Lab 15 Create a VM using the Azure portal](/03-az104/labs/15-create-a-vm-using-the-azure-portal.md)
 
 
 **Describe the options available to create and manage an Azure Virtual Machine**
@@ -550,7 +550,7 @@
 | Custom events en metrics | Eigen tracking algoritmes voor business events |
 
 
-- [Exercise 16 Implement Web Apps](/03-az104/exercises/16-implement-web-apps.md)
+- [Lab 16 Implement Web Apps](/03-az104/labs/16-implement-web-apps.md)
 
 
 **Summary**
@@ -653,7 +653,7 @@
 | Ideaal voor | Eenmalige taken | Microservices, snelle scaling | Complexe, langlopende applicaties |
 
 
-- [Exercise 17 Implement Container Instances](/03-az104/exercises/17-implementicontainer-instances.md)
+- [Lab 17 Implement Container Instances](/03-az104/labs/17-implementicontainer-instances.md)
  
 
 **Summary** 
