@@ -232,7 +232,7 @@ Scenario‑oefeningen
            - Maximaal 6 niveaus diep (root en subscriptions niet meegerekend)
            - Elke subscription of management group heeft slechts één parent
       - **Create an Azure resource**
-           - [Lab 1 Create a resource exercise](/az900/labs/1-create-azure-resource.md)
+           - [Lab 1 Create a resource exercise](/01-az900/labs/1-create-azure-resource.md)
                     
 **Summary:**
    - Azure bestaat uit een wereldwijd netwerk van datacenters waar Microsoft honderden cloudservices aanbiedt voor compute, storage, networking, databases, AI, security en identity, beschikbaar in IaaS, PaaS, SaaS en serverless.
@@ -343,7 +343,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Private endpoints bestaan alleen binnen het virtual network en hebben een private ip adres
 
 **Exercise - Create an Azure Virtual Machine and Configure network access**
-   - [Lab 2 Create an Azure Virtual Machine and Configure Network Access](/az900/labs/2-create-an-azure-virtual-machine-and-configure-network-access.md)
+   - [Lab 2 Create an Azure Virtual Machine and Configure Network Access](/01-az900/labs/2-create-an-azure-virtual-machine-and-configure-network-access.md)
 
 **Azure virtual private networks**
    - Een VPN maakt een versleutelde tunnel binnen een ander netwerk, meestal het internet. Meedere vertrouwde prive netwerken veilig met elkaar verbinden. Het is versleuteld waardoor er vertrouwelijke informatie veilig uitgewisselt kan worden
@@ -475,7 +475,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
       - Geschikt voor hybride of multicloud scenario's
 
 **Exercise - Create a storage blob**
-   - [Lab 3 Create a storage blob](/az900/labs/3-create-a-storage-blob.md)
+   - [Lab 3 Create a storage blob](/01-az900/labs/3-create-a-storage-blob.md)
    
 **Identify Azure data migration options**
    - Azure Migrate: centrale platform om workloads van on-premises naar Azure te verplaatsen. De plek waar je migratie kunt discover, assess en Migrate. Het ondersteunt servers, applicaties en databases
@@ -805,7 +805,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Je kunt kosten berekenen voor compute, storage en networking inclusief storage type, access tier en redundancy
 
 **Explore the pricing calculator**
-   - [Lab 4 Estimate workload costs by using the Pricing calculator](/az900/labs/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
+   - [Lab 4 Estimate workload costs by using the Pricing calculator](/01-az900/labs/4-estimate-workload-costs-by-using-the-pricing-calculator.md)
 
 **Describe the Microsoft Cost Management tool**
    - Cost Management helpt onverwachte Azure kosten te voorkomen en te beheren
@@ -899,7 +899,7 @@ De fysieke infrastructuur bestaat uit datacenters die zijn georganiseerd in regi
    - Om een locked resource te wijzigen: eerst de lock verwijderen dan de wijziging doorvoeren, daarna optioneel de lock terugzetten.
 
 **Exercise 5.  Configure a resource lock**
-  - [Lab 5 Configure a resource lock](/az900/labs/5-configure-a-resource-lock.md)
+  - [Lab 5 Configure a resource lock](/01-az900/labs/5-configure-a-resource-lock.md)
 
 **Describe the purpose of the Service Trust portal**
    - De Service Trust Portal is een portal van Microsoft met informatie over security, privacy en compliance practices
