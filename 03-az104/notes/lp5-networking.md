@@ -49,15 +49,62 @@
     - Azure Private Link: Private connectivity van VNet naar PaaS services zonder public internet
 
 
+**Create virtual networks**
+  - Defineer bij aanmaken een IP adresruimte die nog niet in gebruik is in je organisatie, of on-premises of in de cloud, niet beide
+  - Minimaal 1 subnet vereist. Elk subnet heeft een unieke, niet overlappend IP bereik binnen de VNet adresruimte
+  - Aanmaken via Azure portal: Subscription, resource group, naam en regio opgeven
+
+    
+**Plan IP addressing**
+  - Private IP: Communicatie binnen VNet en on-premises netwerk (via VPN Gateway of ExpressRoute)
+  - Public IP: Communicatie met internet en Azure publieke services
+
+  - Statisch vs dynamisch:
+    - Statisch: IP wijzigt niet, aanbevolen voor: DNS name resolution, IP-gebaseerde security modellen, TLS/SSL certificaten, firewall regels, Domain Controllers en DNS server
+    - Dynamishc: IP kan wijzigen, geschikt voor resources zonder vaste IP vereisting
+   
+    - Statisch en dynamisch toegewezen resources kunnen in aparte subnets worden geplaatst.
 
 
+**Create public IP addressing**
+  - Public IP adressen worden aangemaakt via de Azure portal en worden vaak gebruikt met load balancers
+
+  - Configuratie-instellingen:
+| Instelling | Beschrijving |
+|---|---|
+| IP Version | IPv4 of IPv6 — zelfde tarief |
+| SKU | Moet overeenkomen met de SKU van de Load Balancer |
+| Tier | Regional (traffic binnen VNet) of Cross-region (traffic over regionale backends) |
+| IP address assignment | Statisch — toegewezen bij aanmaken, vrijgegeven pas bij verwijderen van het resource |
 
 
+**Associate public IP addresses**
+  - Public IP adressen kunnen worden gekoppeld aan:
+
+| Resource | IP configuratie |
+|---|---|
+| Virtual machine | Network interface configuratie |
+| VPN Gateway, ExpressRoute Gateway, NAT Gateway | Gateway IP configuratie |
+| Public Load Balancer, Application Gateway, Azure Firewall, Route Server, API Management | Front-end configuratie |
+| Bastion host | Public IP configuratie |    
+
+  - Standard SKU kenmerken:
+    - Allocation: Statisch
+    - Security: Secure by default
+    - Zones: Nonzonal, zonal of zone-reduntant
 
 
+**Allocate or assign private IP addresses**
+  - Private IP adressen kunnen worden gekoppeld aan:
 
+| Resource | Private IP associatie | Dynamic | Static |
+|---|---|---|---|
+|Virtual machine|NIC|Ja|Ja|
+|Internal load balancer|Front-end configuratie|Ja|Ja|
+|Application gateway|Front-end configuratie|Ja|Ja|
 
-
+  - Dynamic: Azure wijst het eerstvolgende beschikbare IP toe. Standaard methode
+  - Static: Je kiest zelf een beschikbaar IP uit het subnet bereik
 
 
 
