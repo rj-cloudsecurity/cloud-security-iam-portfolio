@@ -111,4 +111,18 @@
   - [Lab 18 Create and Configure Virtual Networks](/03-az104/labs/18-create-and-configure-virtual-networks.md)
 
 
+
+---
+
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 1: Configure network security groups 
+
+
+**Implement network security groups**
+  - NSG: set security rules (Allow/Deny, Inbound/Outbount)
+  - Je koppelt een NSG aan 1 subnet of 1 NIC
+  - Een NSG zelf kan aan meerdere resources gekoppeld worden
+  - Subnet-NSG: Brede filtering bv. DMZ
+  - NIC-NSG: specifieker filtering per VM
+  - VM: Overview toont gekoppelde NSGs en regels
     
