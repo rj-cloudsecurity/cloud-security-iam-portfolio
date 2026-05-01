@@ -115,7 +115,7 @@
 ---
 
 ## Learning Path 5: Configure and manage virtual networks for Azure administrators
-### Module 1: Configure network security groups 
+### Module 2: Configure network security groups 
 
 
 **Implement network security groups**
@@ -125,4 +125,73 @@
   - Subnet-NSG: Brede filtering bv. DMZ
   - NIC-NSG: specifieker filtering per VM
   - VM: Overview toont gekoppelde NSGs en regels
+
+
+**Determine network security group rules**
+  - NSG's filteren inbound/outbound verkeer op subnets en entwork interaces
+  - Default rules (automatisch aangemaakt, niet verwijderbaar)
+
+  - Inbound:
+| Priority | Naam                            | Actie |
+|----------|---------------------------------|-------|
+| 65000    | AllowVnetInBound                | Allow |
+| 65001    | AllowAzureLoadBalancerInBound   | Allow |
+| 65500    | DenyAllInBound                  | Deny  |    
+
+
+  - Outbound:
+| Priority | Naam                    | Actie |
+|----------|-------------------------|-------|
+| 65000    | AllowVnetOutBound       | Allow |
+| 65001    | AllowInternetOutBound   | Allow |
+| 65500    | DenyAllOutBound         | Deny  |
+
+
+  - Custom rules:
+| Setting             | Opties                                  |
+|---------------------|-----------------------------------------|
+| Source/Destination  | Any, IP, Service Tag, ASG               |
+| Protocol            | TCP, UDP, ICMP, ESP, AH, Any            |
+| Action              | Allow / Deny                            |
+| Priority            | 100 – 4096 (lager = hogere prioriteit)  |
+
+
+  - Key points:
+    - Lage priority-waarde = hogere voorrang
+    - Default rules niet verwijderbaar, wel overriden met hogere priority
+    - ESP/AH alleen via JSON/PowerShel
+   
+  
+**Determine network security group effective rules**
+  - Verwerkingsvolgorde
+
+| Richting | Stap 1     | Stap 2     |
+|----------|------------|------------|
+| Inbound  | Subnet NSG | NIC NSG    |
+| Outbound | NIC NSG    | Subnet NSG |
+
+  - Elke NSG wordt onafhankelijk geevalueerd. Regels van subnet NSG en NIC NSG worden niet samengevoegd. Azure controleer ook intra-subnet traffic (verkeer tussen VM's binnen hetzelfde subnet)
+
+  - Overwegingen bij het maken van effective rules
+    - Geen NSG koppelen: Als je geen NSG koppelt aan een subnet of NIC, geldt de Azure default, all traffic allowed. Gebruik dit alleen als je geen controle nodig hebt op dat niveau
+    - Allow Rules op beide niveaus: Heb je een NSG op zowel subnet als NIC? Dan moet op BEIDE niveaus een allow rule aanwezig zijn. Ontbreekt de allow rule op 1 niveau -> traffic wordt denied, ook al staat het andere niveau open
+    - Intra-subnet traffic: Standaard kunnen VM's in hetzelfde subnet met elkaar communiceren. Wil je dit blokkeren? Maak een regel in de subnet NSG die all inbound en outbound traffic deniet
+    - Priority gaps: Gebruik stappen van 100. Zo kun je later regels tussenvoegen zonder bestaande regels te hernoemen of opnieuw te nummeren
+
+  - Troubleshooting / inzicht:
     
+| Tool                              | Functie                                                                                   |
+|-----------------------------------|-------------------------------------------------------------------------------------------|
+| Effective security rules (Portal) | Toont welke NSG-regels actief zijn per VM, subnet of NIC                                  |
+| Network Watcher                   | Gecombineerd overzicht van NSG rules én Virtual Network Manager security admin rules       |
+| IP flow verify                    | Test of specifiek verkeer allowed of denied wordt, gebaseerd op NSG én security admin rules |
+
+
+
+
+
+
+
+
+
+
