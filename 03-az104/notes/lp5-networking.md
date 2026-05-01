@@ -107,9 +107,7 @@
   - Static: Je kiest zelf een beschikbaar IP uit het subnet bereik
 
 
-
-
-
+- [Lab 18 Create and Configure Virtual Networks](/03-az104/labs/18-create-and-configure-virtual-networks.md)
 
 
     
