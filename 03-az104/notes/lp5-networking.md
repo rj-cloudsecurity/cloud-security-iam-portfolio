@@ -187,6 +187,87 @@
 | IP flow verify                    | Test of specifiek verkeer allowed of denied wordt, gebaseerd op NSG én security admin rules |
 
 
+**Create network security group rules**
+  - Configuratie-instellingen
+
+| Setting         | Beschrijving                                                        |
+|-----------------|---------------------------------------------------------------------|
+| **Source**      | Inbound traffic filter: Any, IP range, ASG, of Service Tag          |
+| **Destination** | Outbound traffic filter: Any, IP range, ASG, of Service Tag         |
+| **Service**     | Protocol + poort(bereik): voorgedefinieerd (RDP, SSH, HTTPS) of custom |
+| **Priority**    | 100–4096 — lager = hogere prioriteit                                |
+| **Action**      | Allow of Deny                                                       |
+
+  - Augmented security rules
+    - 1 regel met meerdere waarden in Source, Destination of Service. Minder regels, minder beheer
+   
+| Mogelijkheid          | Voorbeeld                                      |
+|-----------------------|------------------------------------------------|
+| Meerdere IP-adressen  | 10.0.0.1, 10.0.0.5, 10.1.0.0/24 in één rule   |
+| Meerdere poorten      | 80, 443, 8080, 8090 in één Service-veld        |
+| Mix van types         | Service Tag + ASG + IP in dezelfde regel       |
+
+  - Voordeel: voorkomt rule sprawl in enterprise-omgevingen met veel IP-ranges of services
+
+**Implement application security groups (ASGs)**
+  - ASG groeperen VM's logisch per workload/applicatielaag. Je gebruikt de ASG als source of destination in NSG-regels. Geen specifieke IP-adressen nodig
+
+  - Voordelen:
+
+  | Voordeel                    | Uitleg                                                        |
+|-----------------------------|---------------------------------------------------------------|
+| Geen IP-beheer              | Regels op groepsnaam, niet op IP — schaalt automatisch mee    |
+| Geen subnet-indeling vereist| VM's groeperen op functie, niet op netwerklocatie             |
+| Vereenvoudigde rules        | Één regel per ASG i.p.v. per VM                               |
+| Dynamisch                   | Nieuwe VM in ASG → regels gelden direct                       |
+| Workload-gebaseerd          | Logische indeling op applicatie, service of datalaag          |
+
+
+  - Praktijkvoorbeeld, online retailer:
+
+| Rule | Priority | Van                | Naar               | Poort      | Actie |
+|------|----------|--------------------|--------------------|------------|-------|
+| 1    | 100      | Internet           | Web servers (ASG)  | 80, 443    | Allow |
+| 2    | 110      | Web servers (ASG)  | App servers (ASG)  | 1433 (SQL) | Allow |
+| 3    | 120      | Any                | App servers (ASG)  | 80, 443    | Deny  |
+
+
+  - Rule 2 + 3 samen: alleen web server mogen de database bereiken
+  - ASG vs Service Tag
+    - ASG -> groepeert eigen VMs, beheert security policies per groep
+    - Service Tag -> vertegenwoordigt IP-prefixes van Azure-service (bv. AzureCloud), vereenvoudigt beheer van Azure-service adressen
+
+
+**Exercise - Implement virtual networking**
+  - [Lab 19 Implement virtual networking](/03-az104/labs/19-implement-virtual-networking.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
