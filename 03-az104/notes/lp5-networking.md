@@ -296,18 +296,54 @@
 
 
 
+**Configure Azure DNS to host your domain**
+  - Public DNS zone steps:
+    - Maak DNS zone aan in Azure (subcription, resource group, domeinnaam)
+    - Haal de 4 Azure DNS name server op uit het NS-record
+    - Update NS-records bij domain registrat -> Domain delegation (alle 4 name server verplicht, kan 10+ min duren)
+    - Verifieer via nslookup -type=SOA wideworldimports.com
+    - Voeg custom records toe. A-records (hostnaam -> IP) en CNAMEs (alias -> A-record
+   
+  - TTL = Tijd in seconden dat een record gecached blijft in DNS
+
+  - Private DNS zone steps:
+    - Maak private DNS zone aan (bv private.wideworldimports.com)
+    - Identificeer VNets waarvan VM's naamresolutie nodig hebben
+    - Koppel elk VNet via een Virtual network link
+   
+  - Niet zichtbaar op internet, geen domain registrat nodig. Puur voor interne VM-naamresolutie binnen VNets
+
+
+
+**Exercise - Create a DNS zone and an A record by using Azure DNS**
+  - [Lab 20 Create a DNS zone and an A record by using Azure DNS](/03-az104/labs/20-create-a-dns-zone-and-an-a-record-by-using-azure-dns.md)
+
+
+
+**Dynamically resolve resource name by using alias record**
+  - Alias Records in Azure DNS
+    - Een alias record koppelt een zone apex domein direct aan een Azure resource. Geen hardcoded IP nodig
+    - Zone APEX = hoogste niveau van je domein (bv wideworldimports.com), ook wel root apex of @. CNAME records worden niet ondersteund op zone apex niveau. Alias records wel
+    - Alias records kunnen verwijzen naar:
+      - Traffic Manager profile
+      - Azure CDN endpoints
+      - Public IP resource
+      - Front-door profile
+     
+    - Ondersteunde record types
+      - A, AAAAA, CNAME
+     
+    - Voordelen
+     - Geen dangling DNS records: Alias is gekoppeld aan lifecycle van Azure resource. Wijzigt het IP -> record wordt automatisch bijgewerkt
+     - Zone apex load balacing: Normaal niet mogelijk met A/CNAME, wel met alias records via Traffic Manager
+     - Automatische updates: IP-wijziging van de onderliggende resource wordt direct doorgevoerd in de DNS zone
 
 
 
 
 
-
-
-
-
-
-
-
+**Exercise - Create alias records for Azure DNS**
+  - [Lab 21 Create alias records for Azure DNS](/03-az104/labs/21-create-alias-records-for-azure-dns.md)
 
 
 
