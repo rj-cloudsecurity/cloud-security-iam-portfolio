@@ -244,6 +244,56 @@
 
 
 
+---
+
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 3: Host your domain on Azure DNS
+
+
+**What is Azure DNS?**
+  - Azure DNS is een hosting service voor DNS-domeinen, gebouwd op Azure Resource Manager
+
+  - DNS record types
+| Type  | Naam             | Gebruik                                          |
+|-------|------------------|--------------------------------------------------|
+| A     | Host record      | Domein/hostnaam → IPv4 adres                     |
+| AAAA  | Host record      | Domein/hostnaam → IPv6 adres                     |
+| CNAME | Canonical Name   | Alias van één domein naar ander domein           |
+| MX    | Mail exchange    | Mailverzoeken → mailserver                       |
+| TXT   | Text record      | Tekst koppelen aan domein (bijv. Microsoft 365)  |
+| NS    | Name server      | Automatisch aangemaakt bij nieuwe DNS zone       |
+| SOA   | Start of authority | Automatisch aangemaakt bij nieuwe DNS zone     |
+
+
+  - Azure DNS kenmerken
+| Eigenschap        | Detail                                      |
+|-------------------|---------------------------------------------|
+| Domein registreren| ❌ Niet mogelijk — via third-party registrar |
+| SOA               | Azure DNS fungeert als SOA voor het domein  |
+| DNSSEC            | ❌ Niet ondersteund                          |
+| Beheer            | Portal, PowerShell, CLI, REST API           |
+
+
+  - Public vs Private DNS
+| Eigenschap  | Public                  | Private                            |
+|-------------|-------------------------|------------------------------------|
+| Bereikbaar  | Vanaf internet          | Alleen vanuit gelinkte VNets       |
+| Gebruik     | Externe naamresolutie   | VM-naamresolutie binnen VNet       |
+| Split-horizon | —                     | ✅ Zelfde naam in public én private |
+
+
+  - Key points
+    - SOA + NS records worden automatisch aangemaakt bij nieuwe zone
+    - SOA en CNAME ondersteunen geen record sets
+    - Alias records sets verwijzen naar Azure-resources (Public IP, Traffic Manager, CDN(Content Delivery Network))
+
+
+
+
+
+
+
+
 
 
 
