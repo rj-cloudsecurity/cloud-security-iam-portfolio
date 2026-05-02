@@ -70,6 +70,7 @@
   - Public IP adressen worden aangemaakt via de Azure portal en worden vaak gebruikt met load balancers
 
   - Configuratie-instellingen:
+    
 | Instelling | Beschrijving |
 |---|---|
 | IP Version | IPv4 of IPv6 — zelfde tarief |
@@ -132,6 +133,7 @@
   - Default rules (automatisch aangemaakt, niet verwijderbaar)
 
   - Inbound:
+    
 | Priority | Naam                            | Actie |
 |----------|---------------------------------|-------|
 | 65000    | AllowVnetInBound                | Allow |
@@ -140,6 +142,7 @@
 
 
   - Outbound:
+    
 | Priority | Naam                    | Actie |
 |----------|-------------------------|-------|
 | 65000    | AllowVnetOutBound       | Allow |
@@ -148,6 +151,7 @@
 
 
   - Custom rules:
+    
 | Setting             | Opties                                  |
 |---------------------|-----------------------------------------|
 | Source/Destination  | Any, IP, Service Tag, ASG               |
@@ -254,6 +258,7 @@
   - Azure DNS is een hosting service voor DNS-domeinen, gebouwd op Azure Resource Manager
 
   - DNS record types
+    
 | Type  | Naam             | Gebruik                                          |
 |-------|------------------|--------------------------------------------------|
 | A     | Host record      | Domein/hostnaam → IPv4 adres                     |
@@ -266,6 +271,7 @@
 
 
   - Azure DNS kenmerken
+    
 | Eigenschap        | Detail                                      |
 |-------------------|---------------------------------------------|
 | Domein registreren| ❌ Niet mogelijk — via third-party registrar |
@@ -275,6 +281,7 @@
 
 
   - Public vs Private DNS
+    
 | Eigenschap  | Public                  | Private                            |
 |-------------|-------------------------|------------------------------------|
 | Bereikbaar  | Vanaf internet          | Alleen vanuit gelinkte VNets       |
