@@ -483,7 +483,7 @@
 
 
 **Exercise - Route traffic through the NVA**
-  - [Lab 25 Route traffic through the NVA](/03-az104/labs/24-route-traffic-through-the-nva.md)
+  - [Lab 25 Route traffic through the NVA](/03-az104/labs/25-route-traffic-through-the-nva.md)
 
 
 
