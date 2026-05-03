@@ -5,11 +5,17 @@
   - **AZ-104 Exam passed:**
 
 ---
-
 ## Inhoudsopgave
 
-### Learning Path 4: Configure and manage virtual networks for Azure administrators
-
+### Learning Path 5: Configure and manage virtual networks for Azure administrators
+- [Module 1: Configure virtual networks](#module-1-configure-virtual-networks)
+- [Module 2: Configure network security groups](#module-2-configure-network-security-groups)
+- [Module 3: Host your domain on Azure DNS](#module-3-host-your-domain-on-azure-dns)
+- [Module 4: Configure Azure Virtual Network peering](#module-4-configure-azure-virtual-network-peering)
+- [Module 5: Manage and control traffic flow in your Azure deployment with routes](#module-5-manage-and-control-traffic-flow-in-your-azure-deployment-with-routes)
+- [Module 6: Introduction to Azure Load Balancer](#module-6-introduction-to-azure-load-balancer)
+- [Module 7: Introduction to Azure Application Gateway](#module-7-introduction-to-azure-application-gateway)
+- [Module 8: Introduction to Azure Network Watcher](#module-8-introduction-to-azure-network-watcher)
 
 ---
 
@@ -487,43 +493,179 @@
 
 
 
+---
+
+
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 6: Introduction to Azure Load Balancer 
+
+**What is Azure Load Balancer?**
+  - Verdeelt inkomend netwerkverkeer gelijkmatig over meerdere VMs of VM Scale Set instances
+
+  - Twee mechanismen:
+    - Load-balancing rules: Bepalen hoe verkeer verdeeld wordt over de backend pool
+    - Health probes: Controleren of backend instances gezond zijn; ongezonde instances krijgen geen verkeer
+
+  - Twee typen:
+    - Public load balancer: Verdeelt internetverkeer naar VMs. Mapt public IP + poort naar private IP + poort van backend VMs. Kan ook outbound verbindingen verzorgen voor VMs
+    - Internal (private) load balancer: Verdeelt verkeer binnen een VNet of via VPN. Frontend IP nooit direct bereikbaar vanaf internet. Gebruikt voor LOB-applicaties, multi-tier apps en cross-premises scenario's
+   
+    - Wanneer welk type:
+   
+| Scenario                              | Type     |
+|---------------------------------------|----------|
+| Internetverkeer naar web servers      | Public   |
+| Frontend tier → backend tier (intern) | Internal |
+| On-premises → Azure VMs               | Internal |
+| LOB apps binnen Azure                 | Internal |
+
+  - Beide typen ondersteunen inbound én outbound, en schalen naar miljoenen TCP/UDP flows
+
+
+**How Azure Load Balancer works**
+  - Load Balancer werkt op OSI Layer 4 (transport layer). Beslissingen op basis van IP, poort en protocol, niet op basis van inhoud van het verkeer. Voor Layer 7 (HTTP-inhoud, URL-routing) heb je Azure Application Gateway nodig.
+
+  - Componenten
+      - Front-end IP: Het adres waarmee clients verbinding maken. Public IP = public load balancer, Private IP = internal load balancer. Meerdere front-end IPs mogelijk
+      - Load balancer rules: Koppelt front-end IP + poort aan backend pool. Gebruikt een five-tuple hash: source IP, source port, destination IP, destination port, protocol
+      - Back-end pool: Groep VMs of VM Scale Set instances. Load Balancer herconfigureert automatisch bij op- of afschalen
+      - Health probes: Controleert of backend instanes gezond zijn. Types: TCP, HTTP, HTTPS. Bij mislukte probe -> geen nieuwe verbindingen naar die instance, bestaande verbindingen blijven actief
+      - Session persistence (affinity): Standaard None (elke gezonde VM). Opties: Client IP (2-tuple) of Client IP + protocol (3-tuple) voor sticky sessions naar dezelfde backend instance
+      - HA ports: Regel met protocol `all` en poort `0`.  Load balancet alle TCP/UDP poorten tegelijk. Handig voor NVAs
+      - Inbound NAT rules: Combineert met load balancing voor directe toegang tot specifieke VMs, bijv. RDP via poort 3389
+      - Outbound rules: Configureert SNAT zodat backend VMs outbound naar internet kunnen communiceren
+
+
+**When to use Azure Load Balancer**
+  - Gebruik Load Balancer wanneer:
+    - Ultra-lage latency en hoge performance vereist zijn
+    - Je on-premises hardware load balancers vervang (zelfde Layer 4 functionaliteit)
+    - Multi-tier applicaties verkeer moeten verdelen tussen lagen
+    - Je inbound NAT nodig hebt voor RDP-toegang tot specifieke VMs
+
+  - Gebruik Load Balancer NIET wanneer
+    - Één enkele VM al voldoende is voor het verkeer
+    - Je web application firewall (WAF) functionaliteit nodig hebt
+   
+  - Vergelijking Azure load balancing oplossingen
+
+| Service             | Layer      | Scope     | Gebruik                                          |
+|---------------------|------------|-----------|--------------------------------------------------|
+| Load Balancer       | 4 (TCP/UDP)| Regionaal | Hoge performance, lage latency, miljoenen requests |
+| Application Gateway | 7 (HTTP/S) | Regionaal | URL-routing, TLS/SSL offload, WAF                |
+| Front Door          | 7 (HTTP/S) | Globaal   | Multi-region web apps, caching, WAF              |
+| Traffic Manager     | DNS        | Globaal   | DNS-gebaseerde routering tussen regio's          |
+
+  - Geheugensteuntje:
+    - Layer 4 + snel + TCP/UDP -> Load Balancer
+    - Layer 7 + één regio -> Application Gateway
+    - Layer 7 + meerdere regio's -> Front Door
+    - DNS-gebaseerd + globaal -> Traffic Manager
 
 
 
+---
 
 
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 7: Introduction to Azure Application Gateway 
 
 
+**What is Azure Application Gateway?**
+  - Layer 7 load balancer voor HTTP/S verkeer naar een pool van web servers (Azure VMs, VM Scale Sets, App Service, of on-premises)
+
+  - Kenmerken
+    - Protocollen: HTTP, HTTPS, HTTP/2, WebSocket
+    - Load balancing: round-robin met optionele session stickiness (zelfde client → zelfde backend server)
+    - WAF: beschermt tegen web application vulnerabilities
+    - TLS/SSL: end-to-end encryptie tussen client <-> gateway én gateway <-> backend
+    - Autoscaling: schaalt automatisch mee met verkeer
+    - Connection draining: verwijdert backend instances netjes tijdens onderhoud zonder actieve sessies te verbreken
+   
+  - Verschil met Load Balancer
+    - Load Balancer kijkt alleen naar IP/poort (Layer 4). Application Gateway kijkt naar de inhoud van het HTTP-verzoek (Layer 7). Bv. URL-pad, headers, hostnaam en kan op basis daarvan routeren
 
 
+**How Azure Application Gateway works**
+  - Componenten
+    - Front-end IP: Public, private of beide. Max één van elk
+    - Listeners: Ontvangt inkomend verkeer op combinatie van protocol, poort, host en IP. Twee types:
+      - Basic -> routeert op basis van URL-pad
+      - Multi-site -> routeert ook op basis van hostname
+
+  - Routing rules: Koppelt listener aan backend pool. Bepaalt routing op basis van hostname en URL-pad. Bevat ook HTTP settings (encryptie, session stickiness, health probes, timeouts)
+  - WAF: Optioneel, controleert requests op OWASP-bedreigingen vóór de listener. Beschermt tegen SQL injection, XSS, command injection etc. Gebruikt Core Rule Sets (CRS), Standaard CRS 3.1
+  - Back-end pool: VMs, VM Scale Sets, App Service of on-premises servers. TLS/SSL veriest een certificaat in de HTTP settings, behalve bij App Service (automatisch vertrouwd door Azure)
+
+  - Routing methoden
+    - Path-based routing: `/video/*` -> video-servers, `/images/*` -> image-servers
+    - Multi-site routing: Meerdere domeinen op 1 gateway via CNAMEs. `contoso.com` -> pool A, `fabrikam.com` -> pool B
+    - Overige features: HTTP-naar-HTTPS redirect, HTTP header rewrite, custom error pages
+   
+    - TLS/SSL termination
+      - Gateway decrypt verkeer met private key -> verwerkt het -> re-encrypt naar backend. Backend servers hoeven geen certificaten te beheren. Web servers zijn niet direct bereikbaar vanaf internet. Alleen de gateway is exposed op poort 80/443
+     
+    - Health probes
+      - HTTP response 200–399 = gezond. Geen probe geconfigureerd -> default wachttijd van 30 seconden
 
 
+**When to use Azure Application Gateway**
+  - Gebruik Application Gateway wanneer
+    - HTTP/S verkeer gerouteerd moet worden naar on-premises en Azure backend servers
+    - TLS/SSL termination nodig is om CPU-last op backend te verlagen
+    - WAF vereist is tegen XSS, SQL injection etc
+    - Session affinity nodig is (gebruikerssessie gebonden aan één backend server)
+   
+ - Gebruik Application Gateway NIET wanneer
+   - Weinig verkeer en bestaande infrastructuur voldoende is. Geen backend pool nodig
+  
+ - Vergelijking
+
+| Service             | Layer      | Scope     | Gebruik                                            |
+|---------------------|------------|-----------|----------------------------------------------------|
+| Load Balancer       | 4 (TCP/UDP)| Regionaal | Hoge performance, lage latency, miljoenen requests |
+| Application Gateway | 7 (HTTP/S) | Regionaal | URL-routing, TLS/SSL offload, WAF, session affinity|
+| Front Door          | 7 (HTTP/S) | Globaal   | Multi-region web apps, caching, WAF, fast failover |
+| Traffic Manager     | DNS        | Globaal   | DNS-gebaseerde routering, langzamere failover       |
 
 
+---
 
 
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 8: Introduction to Azure Network Watcher  
 
 
+**What is Azure Network Watcher?**
+  - Monitoring en diagnostics suite voor Azure IaaS resouces (VMs, VNets, Application Gateways, Load Balancers). Niet bedoeld voor PaaS of web analytics
+
+  - Drie categorieën:
+    - Monitoring:
+      - Topology: Visuele weergave van het volledige netwerk en resource-relaties over subscriptions en resource groups
+      - Connection monitor: End-to-end connectiviteitsmonitoring over tijd, ook voor hybrid scenarios
+        
+    - Network diagnostics:
+      - IP flow verify: Packet allowed/denied op VM-niveau + welke NSG-regel verantwoordelijk is
+      - NSG diagnostics: Zelfde als IP flow maar ook op VMSS en Application Gateway niveau; kan direct een nieuwe regel toevoegen
+      - Next hop: Controleert of verkeer correct gerouteerd wordt + geeft next hop type, IP en route table ID
+      - Effective security rules: Toont alle actieve NSG-regels op een NIC + subnet gecombineerd
+      - Connection troubleshoot: Eenmalige connectiviteitstest (vs. connection monitor = continu over tijd)
+      - Packet capture: Remote packet capture sessie op VM of VMSS
+      - VPN troubleshoot: Diagnostics voor VPN gateways en verbindingen
+   
+    - Traffic:
+      - Flow logs: Logt IP-verkeer via NSG of VNet naar Azure Storage
+      - Traffic analytics: Visualisatie van flow logs data
 
 
+**How Azure Network Watcher works**
+  - Gebruik Network Watcher voor:
+    - Connectiviteitsproblemen IaaS VMs: Bv PowerShell sessie werkt niet tussen twee VMs. Gebruik IP flow verify met source/destination IP, poort en protocol om te zien welke NSG-regel verkeer blokkeert
+    - VPN troubleshooting: Site-to-site VPN werkt niet. Gebruik VPN troubleshoot voor automatische diagnose van de gateway + suggesties voor oplossing. Beschikbaar via portal, PowerShell en CLI
+    - Cross-region latency bepalen: VMs in verschillende regio's laten pingen om latency te meten. Helpt beslissen of resources in 1 regio moeten staan of verspreid kunnen worden
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  - Gebruik Network Watcher NIET voor:
+    - PaaS services -> gebruik Azure status of Service Health dashboard
+    - Web analytics -> niet ondersteund
+    - Geavanceerde diagnostics -> third-party tools indien nodig
 
