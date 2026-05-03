@@ -340,30 +340,87 @@
 
 
 
-
-
 **Exercise - Create alias records for Azure DNS**
   - [Lab 21 Create alias records for Azure DNS](/03-az104/labs/21-create-alias-records-for-azure-dns.md)
 
 
 
 
+---
+
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 4: Configure Azure Virtual Network peering 
+
+
+**Determine Azure Virtual Network peering uses**
+  - VNet peering verbindt 2 VNets zodat ze als 1 netwerk functioneren. Verkeer blijft op de Azure Backbone. Geen publiek internet, gateway of encrypte vereist
+
+  - 2 types:
+    - Regional peering: VNets in dezelfde regio.
+    - Global peering: VNets in verschillende regio's. Global peering tussen verschillende Azure Governemnt cloud regio's is niet toegestaan
+   
+  - Peering is mogelijk over subscriptions en tenats heen. VNets blijven na peering gewoon separate resources
+
+  - Voordelen:
+    - Prive verbinden via Azure Backbone met lage latency en hoge bandbreedte. Geen downtime vereist bij aanmaken of verwijderen van peering. Data transfer mogelijk cross-subscription, cross-regio en cross-deployment model
+   
+  - Beperkingen:
+    - Overlappende address spaces: Peering mislukt; address spaces mogen niet overlappen
+    - Address space wijzigen: Peering eerst verwijderen, dan aanpassen, dan opnieuw aanmaken
+    - Basic Load Balancer: Werkt niet cross-region via peering; gebruik Standard Load Balancer
+    - DNS: Ingebouwde Azure naamresolutie werkt niet cross-VNet; gebruik Private DNS zones of Custom DNS server
+
+
+**Determine gateway transit and connectivity**
+  - Concept
+    - In een hub-en-spoke topologie kan 1 VPN gateway in het hub VNet gedeeld worden door alle gepeerde VNets. De spoke VNets gebruiken de gateway van het hub VNet als transit point. Geen eigen VPN gateway nodig
+   
+    - 4 peering-instellingen in de portal
+      - Traffic to remote virtual network: Bepaalt of verkeer van dit VNet naar het remote VNet mag stromen.
+      - Traffic forwarded from remote virtual network: Bepaalt of doorgestuurd verkeer (niet afkomstig van het remote VNet zelf) geaccepteerd wordt.
+      - Virtual network gateway or Route Server: Laat dit VNet de gateway van het remote VNet gebruiken
+     
+      - VPN Gateway, belangrijke punten:
+        - Een VNet kan maar 1 VPN gateway hebben
+        - Gateway transit werkt voor zowel regional als global peering
+        - Via gateway transit kan een spoke VNet communiceren met resources buiten de peering, zoals een on-premises netwerk (site-to-site), ander VNet (vnet-to-vnet) of VPN client (point-to-site)
+        - NSG-regels tussen gepeerde VNets kun je open of dicht zetten bij het configureren van de peering
+       
+      
+
+**Create virtual network peering**
+  - Vereisten
+    - Azure account moet de Network Contributor rol hebben (of custom rol met peering-rechten)
+    - 2 VNets vereist; het 2e VNet heet het remote network
+    - VM's kunnen pas communiseren nadat peering is ingesteld
+   
+  - Peering status
+   
+| Status    | Betekenis                                                              |
+|-----------|------------------------------------------------------------------------|
+| Initiated | Peering aangemaakt vanuit eerste VNet, tweede VNet nog niet geconfigureerd |
+| Connected | Beide kanten geconfigureerd — peering actief                           |
+
+
+  - Peering is pas succesvol als beide VNets de status Connected hebben
+
+  - Aanmaken
+    - Kan via Azure Portal, PowerShell of Azure CLI. In de portal: ga naar het VNet -> Settings -> Peering -> AD
 
 
 
+**Extend peering with user-defined routes and service chaining**
+  - VNet peering is non-transitief: Als A↔B en B↔C gepeerd zijn, kunnen A en C niet automatisch communiceren. Extra mechanismen zijn nodig
 
-
-
-
-
-
-
-
-
-
-
-
-
+  - Oplossingen:
+    - Hub-en-spoke: Hub VNet bevat centrale infrastructuur (NVA ofVPN gateway). Alle spoke VNets peeren met de hub; Verkeer loopt via de hub
+    - User-defined route (UDR): Handmatige routeringsregel waarbij de next hop het IP-aderes is van een VM in een gepeerd VNet, of een VPN gateway
+    - Service chaining: UDRs configureren die verkeer van het ene VNet via een virtual appliance of gateway in en een gepeerd VNet sturen. Combineert UDRs met hub-and-spoke
+    - Azure Virtual Network Manager: Beheert hub-and-spoke of mesh peering topologieen op schaal; automatiseert peering zonder handmatige configuratie per VNet
+   
+    
+**Exercise - Implement Intersite Connectivity**
+  - [Lab 22 Implement Intersite Connectivity](/03-az104/labs/22-implement-intersite-connectivity.md)
 
 
 
