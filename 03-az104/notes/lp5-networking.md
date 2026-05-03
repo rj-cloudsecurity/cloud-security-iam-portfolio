@@ -424,5 +424,106 @@
 
 
 
+---
+
+
+## Learning Path 5: Configure and manage virtual networks for Azure administrators
+### Module 5: Manage and control traffic flow in your Azure deployment with routes  
+
+
+**Identify routing capabilities of an Azure virtual network**
+  - System routes
+    - Automatisch aangemaakt per subnet; niet aanpasbaar, wel overridable met custom routes
+   
+| Address prefix                                          | Next hop type  |
+|---------------------------------------------------------|----------------|
+| VNet-specifiek                                          | Virtual network |
+| 0.0.0.0/0                                               | Internet        |
+| 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 100.64.0.0/10 | None        |
+
+
+  - Extra systeem routes worden automatisch aangemaakt bij : VNet peering, service chaining, virtual network gateway, service endpoints
+
+  - Custom routes, twee opties
+    - User-defined routes (URDR); override system routes. Mogelijk next hop types: Virtual appliance, Virtual Network gateway, Virtual network, Internet, None. Je kunt ook een service tag gebruiken als address prefix ipv een expliciet IP-bereik
+    - Border Gateway Protocol (GBP): Routeringsprotocol voor uitwisseling van routes tussen on-premises en Azure via ExpressRoute of VPN site-to-site
+   
+  - Route selectie en prioriteit
+    - Azure kiest altijd de longest prefix match (meest specifieke route). Bij gelijke prefix geldt deze volgorde:
+      - User-Defined routes
+      - BGP routes
+      - System routes
+
+
+**Exercise - Exercise - Create custom routes**
+  - [Lab 23 Create custom routes](/03-az104/labs/23-create-custom-routes.md)
+
+
+**What is an NVA?**
+  - Een NVA is een virtuele machine die netwerkverkeer inspecteert en beheert. Vergelijkbaar met een fysiek netwerkapparaat, maar als VM in Azure
+
+  - Voorbeelden van NVA-functies
+    - Firewall, WAN optimizer, load balancer, router, IDS/IPS, proxy, application-delivery controller, Aanbieders via Azure Marketplace: Cicso, Check Point, Barracuda, Sophos, SonicWall
+   
+  - Inzet
+    - NVAs worden typisch geplaatst in een perimeter subnet tussen internet en interne subnets. Met microsegmentation krijgt elke laag een eigen subnet en loopt al het verkeer via de NVA. Inspectie op OSI Layer 4 (en evel 7 voor application-awere NVAs)
+    - Sommige NVAs hebben meerdere network interfaces nodig: 1 voor management, de rest voor traffic processing. IP forwarding moet ingeschakeld zijn op de NIC
+   
+  - UDRs en NVAs
+    - Custom routes (UDR) zijn nodig om verkeer via de NVA te sturen. Standaard system routes doen dit niet automatisch. Elke route table kan aan meerdere subnets gekoppeld worden. Een subnet kan maar aan 1 route table gekoppeld zijn
+   
+  - High availability
+    - Een NVA is een single point of failure. Als de NVA uitvalt, valt communicatie weg. HA-architectuur is daarom essentieel bij NVA-deployments.
+
+
+
+**Exercise - Create an NVA and virtual machines**
+  - [Lab 24 Create an NVA and virtual machines](/03-az104/labs/24-create-an-nva-and-virtual-machines.md)
+
+
+
+**Exercise - Route traffic through the NVA**
+  - [Lab 25 Route traffic through the NVA](/03-az104/labs/24-route-traffic-through-the-nva.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
