@@ -122,13 +122,54 @@
     - SQL Server en SAP HANA in Azure VMs: 15 minuten RPO, Point-in-Time recorvery
 
 
+**Back up an Azure virtual machine by using Azure Backup**
+  - Recovery Sevices Vault
+    - Beheert en slaat backup data op. Geen eigen storage account nodig. Azure regelt dit automatisch. Fungeert ook als RBAC-grens voor toegangscontrole
+
+  - Snapshot consistentieniveaus
+    - Application consistent. Volledige VM inclusief geheugen en I/O via VSS. Hoogste niveau, Linux vereist custom pre/post scripts
+    - File system consistent: Snapshot zonder geheugeninhoud. Apps doen eigen cleanup bij opstart. Fallback als VSS faalt
+    - Crash consistent: VM was uit tijdens backup. Geen geheugen of I/O vastgelegd, geen garantie voor data-integriteit
+
+  - Backup process
+    - Backup gestart op basis van policy
+    - Backup extension geinstalleerd op VM (windows: VM Snapshot via VSS, Linux: VM SnapshotLInux)
+    - Snapshot gemaakt -> lokaal opgeslagen -> overgedragen naar vault
+    - Alleen gewijzigde blokken (delta) worden overgedragen
+    - Totale backup tijd < 24 uur voor dagelijkse policy
+   
+  - Extra opties
+    - Selective disk backup: Alleen subset van schijven backuppen
+    - CMK: Vault encryptie met customer-managed keys
+    - Einhanced soft delete: Beschermt tegen accidentele verwijdering en malware
+
+
+**Exercise: Create and configure virtual networks**
+  - [Lab 26 Create and configure virtual networks](/03-az104/labs/26-create-and-configure-virtual-networks.md)
 
 
 
+**Restore virtual machine data**
+  - Restore opties
+    - Create a new VM: Nieuwe VM aanmaken vanuit restore point.Moet in dezelfde regio als bron-VM
+    - Restore Disk: Schijf herstellen en gebruiken voor nieuwe VM of koppelen aan bestaande VM. Handig voor custom configuraties via template of PowerShell
+    - Replace existing: Schijf van bestaande VM vervangen. Azure maakt eerst snapshot van huidige staat. VM moet nog bestaan. Werkt niet als VM verwijderd is.
+    - Cross region restore: Restore naar paired secondary regio. Ondersteunt Create VM en REstore Disk, niet replace existing
+    - Cross Subscription Restore: Restore naar andere subscription binnen dezelfde tenant. Alleen voor managed VMs, niet voor snapshots of ADE-versleutelde VMs
+    - Cross Zonal Restore: Restore naar andere availability zone. Alleen voor managed VMs, vereist ZRS-enabled vault
+    - Selective disk restore: Subste van VM schijven herstellen
+   
+  - Individuele bestanden herstellen
+    - Mogelijk via iSCI initiator. Snapshot mounten op doelmachine en individuele bestanden kopieren
+   
+  - Encrypted VMs
+    - Werkt met Azure Disk Encryption + Key Vault
+    - Beperkingen: Geen file/folder-level restore (hele VM moet hersteld worden), geen Replace existing optie, geen certificate-based keys 
 
 
 
-
+**Exercise: Restore Azure virtual machine data**
+  - [Lab 27 Restore Azure virtual machine data](/03-az104/labs/27-restore-azure-virtual-machine-data.md)
 
 ---
 
