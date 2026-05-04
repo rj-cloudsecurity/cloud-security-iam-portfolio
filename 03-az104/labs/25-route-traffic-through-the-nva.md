@@ -1,4 +1,4 @@
-# Exercise 26: Route Traffic Through the NVA
+# Exercise 25: Route Traffic Through the NVA
 
 - **Learning Path 5:** Configure and manage virtual networks for Azure administrators
 - **Module 5:** Configure Azure Virtual Network routing
