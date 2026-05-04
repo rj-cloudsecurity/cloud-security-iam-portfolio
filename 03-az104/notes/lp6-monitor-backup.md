@@ -177,9 +177,28 @@
 ## Learning Path 6: Monitor and back up Azure resources
 ### Module 3: Monitor your Azure virtual machines with Azure Monitor 
 
+**Monitoring for Azure VMs**
+  - Azure monitor. 2 hoofdfuncties:
+    - Metrics: Numerieke waarden op vaste intervallen. Automatisch verzameld voor elke Azure VM, bewaard 93 dagen
+    - Logs: Vastgelegde systeemgebeurtenissen met timestamp. Niet standaard verzameld, moet geconfigureerd worden. Opgeslagen in Log Analytics workspace, query's via KQL (Kusto Query Language)
+   
+  - VM monitoring lagen
+    - Host VM -> Guest OS -> Client workloads -> Applicaties
+
+  - Host VM metrics
+    - Automatisch verzameld via Azure portal (Overview pagina): VM availability, CPU%, OS disk usage, Network operations, Disk operations/sec
+    - Metrics Explorer: Meer metrics plotten, trends vergelijken, alerts instellen, pinnen aan dashboards
+    - Recommended alert rules: Voorgedefinieerde alerts op CPU, geheugen, schijf, netwerk en VM availability. Instelbaar bij aanmaken of achteraf
+    - Activity logs: Automatisch bijgehouden (VM start, wijzigingen). Doorsturen mogelijk naar Log analystics (max 2 jaar), Azure Storage (goedkoop archief) of Event Hubs (buiten Azure)
+    - Boot Diagnostics: Screenshot en serial console logs voor troubleshooting van bootproblemen. Opgeslagen in managed storage account
+   
+    - Guest OS/client monitoring
+      - Vereist Azure Monitor Agent + DCR (Data Collection Rule). DCR bepaalt welke data verzameld wordt en waar het naartoe gaat
+    - VM insights
+      - Vereenvoudigt onboarding van Azure Monitor Agent. Biedt preconfigured DCR, trending, performance charts en workbooks voor Windows en Linux. Optioneel: process monitoring en dependency map
 
 
-
+**Monitor VM host data**
 
 
 
