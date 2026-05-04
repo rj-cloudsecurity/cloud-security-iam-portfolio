@@ -134,13 +134,6 @@ az backup protection backup-now \
 
 ---
 
-## Cleanup
-
-```bash
-az group delete --name ex25rg --no-wait
-```
-
----
 
 ## Key takeaways
 
