@@ -95,7 +95,31 @@
 ## Learning Path 6: Monitor and back up Azure resources
 ### Module 2: Protect your virtual machines by using Azure Backup 
 
+**Azure Backup features and scenarios**
+  - Azure Backup is een ingebouwde Azure service voor veilige backup van Azure en on-premises data zonder eigen backup infrastructuur te hoeven deployen
 
+  - Azure Backup vs Azure Site Recovery
+    - Azure Backup: Bewaart kopieen van data, terug in de tijd. Voor accidenteel dataveries, corruptie, ransomware
+    - Azure Site Recovery: Real-time replicatie en failover. Voor regio brede disaster
+
+  - Voordelen
+    - Zero-infrastructure: Geen backup server of storage beheer nodig
+    - Long-term retention: Jaren bewaren met automatische lifecycle management
+    - RBAC: Toegansbeheer per rol
+    - Encryptie: Automatisch met Microsoft-managed of customer-manager keys
+    - Geen internetverbinding vereist: Dataverkeer via Azure Backbone
+    - Soft Delete: 14 dagen extra bewaard na verwijdering
+   
+  - Replicatie opties:
+    - LRS: Noncritical scenarios
+    - GRS: Aanbevolen voor backup scenarios
+    - ZRS: High-availability scenarios
+   
+  - Ondersteunde scenarios
+    - Azure VMs: Windows en Linux
+    - On-premises: via MARS agent, MABS of DPM server
+    - Azure Files shares: Via snapshot management
+    - SQL Server en SAP HANA in Azure VMs: 15 minuten RPO, Point-in-Time recorvery
 
 
 
