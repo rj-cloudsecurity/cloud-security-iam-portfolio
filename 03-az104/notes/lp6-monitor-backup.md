@@ -199,12 +199,92 @@
 
 
 **Monitor VM host data**
+  - Zodra een VM aangemaakt wordt, begint Azure automatisch met verzamelen van basis metrics en activity logs
+
+  - Bij aanmaken VM instellen
+    - Recommended alert rules: Inschakelen via Monitoring tab bij aanmaken. Alert op CPU, geheugen, schijf, netwerk en VM availability. Notificaties via email
+    - Boot diagnostics: Inschakelen via "Enable with managed storage account (recommended)". Niet verwarren met OS guest diagnostics (LAD is geprecated)
+   
+  - Beschikbare monitoring na aanmaken
+    - Platform metrics (Monitoring tab -> Overview) VM availability, CPU%, Disk bytes, Network, Disk operations/sec automatisch verzameld, Direct beschikbaar
+   
+    - Activity log: Via linker navigatiemenu -> Activity log. Ook opvraagbaar via PowerShell of CLI
+
+  - Boot diagnostics: Via Help -> Boot diagnostics:
+    - Screenshot: Startup screenshot van de hypervisor
+    - Serial log: Log van de bootsequentie
+   
+  - Guest OS metrics worden nog niet verzameld, doorvoor is VM insights + DCR nodig
+
+
+**Use Metrics Explorer to view detailed host metrics**
+  - Metrics Explorer maakt aangepaste metics-grafieken voor VM host metrics, meer detail dan de ingebouwde grafieken
+
+  - Openen via
+    - VM -> linker menu -> Metrics
+    - VM -> Overview -> Monitoring tab -> See all Metrics
+    - Azure Monitor -> linker menu -> Metrics
+
+  - Configuratie-opties
+    - Scope: VM naam (vooringevuld), uitbreidbaar met andere VMs van hetzelfde type en locatie
+    - Metric Namespace: Meestal 1 namespace per resource type. Storage accounts hebben aparte namespaces per service (files, tables, blobs queues)
+    - Metric: Keuze uit alle beschikbare metrics binnen de namespace
+    - Aggregation: Count, Average, Maximum, Minimum, Sum
+    - Tijdsbereik: 30 minuten t/m 30 dagen of custom. Granulariteit: 1 minuut t/m 1 maand
+   
+    - Voorbeeld: CPU + Inbound Flows grafiek
+      - Open Metrics Explorer
+      - Metric: Percentage CPU -> Aggregations: Max
+      - Add metric -> Inbound Flows -> Aggregation: avg
+      - Tijdsbereik: Last 30 mins
+    - Resultaat: Gecombineerde grafiek die toont hoe inkomend verkeer de CPU beinvloedt
 
 
 
+**Collect client performance counters by using VM insights**
+  - VM Insights
+    - VM insights is een Azure Monitor feature die client-monitoring van een VM snel inschakelt, geen handmatige configuratie van agent, DCR of workbooks nodig
+   
+  - Wat VM insights doet
+    - Installeert Azure Monitor Agent op de VM
+    - Maakt een DCR aan die client performance data verzamelt en naar Log Analytics workspace stuurt
+    - Presenteert data in voorgeconfigureerde workbooks
+
+  - Inschakelen
+    - Portal -> VM -> Monitoring -> Insights -> Enable -> Configure. Duurt 5-10 min voor installatie, daarna nog 5-10 min voor data beschikbaar is
+   
+    - Na installatie verificeren via VM -> Overview -> Properties tab -> Extensions + applications
+   
+  - Data bekijken
+    - VM insights stuurt metrics naar Azure Monitor Logs. Niet naar Metrics Explorer. Bekijken via VM -> Monitoring -> Insights:
+      - Performance tab: Prebuilt workbook met performance charts. Aanpasbaar via Time range en aggregaties
+      - Map tab (optioneel: Visualiseert VM-dependencies: Actieve processen en netwerkverbingen over een tijdsperiode
+     
+  - Processes and dependencies (ap) staan standaard op disabled, handmatig in te schakelen bij het aanmaken van de DCR
 
 
 
+**Collect VM client event logs**
+  - VM insights verzamelt performance data, maar voor root cause analyse heb je log data nodig. Hiervoor maak je een eigen DCR aan
+
+  - Benodigdheden
+    - Data Collection Endpoint: Ontvangt de log data
+    - Data Collection Rule (DCR): Bepaalt welke data verzameld wordt en waar het naartoe gaat
+    - Log Analytics workspace: Opslag en query's via KQL
+
+  - DCR aanmaken, stappen
+     - Azure Monitor -> Settings -> Data Collection Endpoints -> Create `linux-logs-endpoint`
+     - Azure Monitor -> Settings -> Data Collection Rules -> Create
+     - Basics: naam, subscription, resource group, regio, platform type (Linux)
+     - Resources: VM toevoegen + data collection endpoint koppelen
+     - Collect and deliver: data source type -> Linux Syslog -> destination -> Log Analytics workspace
+
+  - Key points
+    - 1 DCR kan gekoppeld worden aan meerdere VMs in een subscription
+    - Meerdere DCRs mogelijk voor verschillende data types van verschillende VMs
+    - VM insights DCR = performance counters; eigen DCR = log data
+    - Log data bewaard in Log Analytics workspace, niet in Metrics Explorer
+      
 
 
 
