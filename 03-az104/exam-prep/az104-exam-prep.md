@@ -74,8 +74,4 @@ Containers (ACI vs ACA vs App Service) fully resolved — zero errors in Exam 6.
 **Consistent error pattern:**
 ARM template deployment scope remains the single most persistent gap — appearing after Exams 2, 4, 5, and 6. Availability zone vs availability set is a second recurring gap. Both involve choosing between two options that are close but differ on one specific scope or protection level detail.
 
-**Recurring weak areas:**
-ARM template deployment scope (subscription vs management group) and availability zone vs availability set require deliberate review before the real exam.
 
-**Progress trend:**
-46% (baseline) → 73–94% (custom exams). Custom exam scores are consistently higher than the official Microsoft assessment due to question familiarity and reduced edge case coverage. The official assessment remains the most reliable indicator of exam readiness.
