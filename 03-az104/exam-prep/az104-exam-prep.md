@@ -47,3 +47,14 @@
   - LP4 M5 — Containers: ACA for scale-to-zero and event-driven microservices, not App Service (recurring)
   - LP5 M3 — Load balancer: five-tuple hash for even traffic distribution; session persistence causes uneven distribution
   - LP6 M2 — Monitoring: Azure Network Watcher for network health, not Azure Monitor
+
+## Recurring Patterns and Observations
+
+**Consistent error pattern:**
+Answers tend to be confused between two options that look similar. Modify vs Append. Network Watcher vs Azure Monitor. ACA vs App Service. Session persistence vs five-tuple hash. The pattern is always two answers that both sound logical but differ on one specific detail.
+
+**Strongest areas:**
+Storage is now solid — Exam 5 had zero storage errors. Identity fundamentals are also strong: SSPR, RBAC roles, groups, and licensing are consistently correct.
+
+**Recurring weak areas to focus on:**
+Containers (ACI vs ACA vs App Service) and Networking are the two domains costing the most points and are heavily represented on the real exam.
