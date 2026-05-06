@@ -176,3 +176,31 @@
 - Werkt alleen op block blobs (niet page blobs, niet append blobs)
 - Access tracking inschakelen vereist voor regels op basis van laatste toegang
 - Tiers: Hot → Cool → Cold → Archive (alleen in deze richting automatisch)
+
+## ARM Deployment Scope
+Onthoud de hiërarchie — deploy altijd één niveau boven wat je wilt aanmaken of aanspreken:
+Tenant → Management Group → Subscription → Resource Group → Resource
+
+## Sleutelwoorden in examenvragen
+
+| Sleutelwoord in de vraag | Antwoord |
+|---|---|
+| Minimizes administrative effort | App Service, ACA — nooit AKS of VMs |
+| Minimizes cost | Goedkoopste tier die voldoet — niet overdimensioneren |
+| Least privilege | Meest specifieke rol op laagste scope — nooit Owner of Global Admin |
+| Without requiring a failover | RA-GRS of RA-GZRS |
+| Automatically | Dynamic groups, lifecycle management, Modify policy, autoscale |
+| Prevent accidental deletion | Delete lock |
+| Encrypted connection to on-premises | VPN gateway |
+| Scale to zero | ACA |
+| Short-lived isolated task | ACI |
+| Custom domain + autoscale + Docker | App Service |
+| Even traffic distribution | Five-tuple hash |
+| Same server every request | Session persistence |
+| POSIX ACLs / Data Lake | Hierarchical namespace |
+| Network health monitoring | Network Watcher |
+| Underutilized VMs | Azure Advisor Cost |
+| Temporary external access to storage | SAS token |
+| Datacenter failure protection | Availability zone |
+| Rack failure protection | Availability set |
+
