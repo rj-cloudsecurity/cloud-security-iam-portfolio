@@ -15,14 +15,10 @@
 |----------|-------|-------|
 |*Baseline, no prior study*  |
 | Exam 1 — Official Microsoft Practice Assessment | 46% | 23/50. Weakest: LP2 M1, LP2 M2, LP2 M4, LP3 M1, LP3 M2, LP4 M1, LP5 M1.|
-
-| Platform | Score | Notes |
 |----------|-------|-------|
 |*Interim assessments, taken during study to track progress per learning path* | |
 | Exam 2 — Custom LP1 & LP2 | 70% | 14/20. Weakest: LP1 M2, LP2 M2, LP2 M3, LP2 M6.|
 | Exam 3 — Custom LP1 & LP2 (mixed question types) | 90% | 37/41. Weakest: LP2 M2, LP2 M4, LP3 M2.|
-
-| Platform | Score | Notes |
 |----------|-------|-------|
 |*From this point: full exam coverage across all learning paths*|||
 | Exam 4 — Custom, multiple choice only | 73% | 22/30. Weakest: LP3 M2, LP4 M5, LP5 M1, LP6 M3.|
