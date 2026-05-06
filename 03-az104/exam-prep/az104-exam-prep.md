@@ -17,6 +17,7 @@
 | Exam 2 — Custom LP1 & LP2 | 70% | 14/20. Weakest: LP1 M2, LP2 M2, LP2 M3, LP2 M6.|
 | Exam 3 — Custom LP1 & LP2 (mixed question types) | 90% | 37/41. Weakest: LP2 M2, LP2 M4, LP3 M2.|
 | Exam 4 — Custom LP1 t/m LP6 (all learning paths) | 73% | 22/30. Weakest: LP3 M2, LP4 M5, LP5 M1, LP6 M3.|
+| Exam 5 — Custom LP1 t/m LP6 (all learning paths) | 87% | 27/31. Weakest: LP2 M3, LP4 M5, LP5 M3, LP6 M2.|
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -39,3 +40,9 @@
   - LP5 M1 — Networking: P2S VPN client must be reinstalled after VNet peering is configured
   - LP5 M2 — DNS: virtual network link with auto-registration enabled for automatic hostname registration in private DNS zones
   - LP6 M3 — Backup: default VM backup retention is 30 days; soft delete retention is 14 days
+
+## Next Focus Areas after Exam 5
+  - LP2 M3 — RBAC: deny assignments always override allow assignments, even Owner role
+  - LP4 M5 — Containers: ACA for scale-to-zero and event-driven microservices, not App Service (recurring)
+  - LP5 M3 — Load balancer: five-tuple hash for even traffic distribution; session persistence causes uneven distribution
+  - LP6 M2 — Monitoring: Azure Network Watcher for network health, not Azure Monitor
