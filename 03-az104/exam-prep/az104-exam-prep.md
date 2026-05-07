@@ -2,7 +2,7 @@
 ## Certification
   - Microsoft Certified: Microsoft Azure Administrator (AZ-104)
   - Result: In preparation
-  - Date:
+  - Date: Expected June 2026
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching John Savill's Technical Training AZ-104
@@ -22,6 +22,9 @@
 | Exam 4 — Custom full exam (LP1–LP6) | 73% | 22/30. Weakest: LP3 M2, LP4 M5, LP5 M1, LP6 M3.|
 | Exam 5 — Custom full exam (LP1–LP6) | 87% | 27/31. Weakest: LP2 M3, LP4 M5, LP5 M3, LP6 M2.|
 | Exam 6 — Custom full exam (LP1–LP6), harder difficulty | 94% | 34/36. Weakest: LP1 M2, LP4 M2.|
+| | | *Official Microsoft assessments* |
+| Exam 7 — Official Microsoft Practice Assessment | 60% | 30/50. Weakest: LP4 M3, LP4 M4, LP4 M5, LP5 M1, LP5 M2, LP6 M2.|
+| Exam 8 — Official Microsoft Practice Assessment | 70% | 35/50. Weakest: LP4 M2, LP4 M3, LP4 M4, LP5 M1, LP5 M2, LP6 M2, LP6 M3.|
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -74,4 +77,46 @@ Containers (ACI vs ACA vs App Service) fully resolved — zero errors in Exam 6.
 **Consistent error pattern:**
 ARM template deployment scope remains the single most persistent gap — appearing after Exams 2, 4, 5, and 6. Availability zone vs availability set is a second recurring gap. Both involve choosing between two options that are close but differ on one specific scope or protection level detail.
 
+**Progress trend:**
+46% (baseline) → 73–94% (custom exams). Custom exam scores are consistently higher than the official Microsoft assessment due to question familiarity and reduced edge case coverage. The official assessment remains the most reliable indicator of exam readiness.
 
+## Next Focus Areas after Exam 7
+  - LP4 M3 — App Service: scale up to Standard/Premium before autoscale can be configured
+  - LP4 M4 — App Service: Publish → Docker Container for container images, not Runtime stack
+  - LP4 M5 — Containers: event-driven trigger for Service Bus scaling in ACA, not HTTP (recurring)
+  - LP5 M1 — Networking: NSG must be in same region as the subnet it is associated with
+  - LP5 M2 — DNS: Azure Private DNS zone for multiple VNets with custom domain; Azure-provided only supports single VNet
+  - LP6 M2 — Monitoring: summarize operator for aggregation in KQL; alert state is always manually set
+
+## Recurring Patterns and Observations after Exam 7
+
+**Improvements since Exam 6:**
+Identity & Governance zero errors. Storage improving. ARM template scope no longer an issue.
+
+**Consistent error pattern:**
+Compute (LP4) is now the single weakest domain — errors concentrated in UI/configuration details rather than deep technical concepts. App Service tiers, scale up vs scale out, Publish vs Runtime stack, container scaling triggers. These are memorization gaps, not understanding gaps.
+
+**Progress trend:**
+46% → 60% → 70% on official Microsoft assessments. Consistent +10% improvement per official attempt.
+
+## Next Focus Areas after Exam 8
+  - LP4 M2 — Compute: VM Scale Set configured under Availability options, not Management
+  - LP4 M3 — App Service: scale up = bigger tier; scale out = more instances; Basic does not support autoscale
+  - LP4 M4 — App Service: Application Logging Blob for retention over 7 days; Warning severity includes Warning/Error/Critical only; Verbose = most detailed level
+  - LP4 M5 — Containers: ACI for short isolated tasks (recurring fourth time)
+  - LP5 M2 — DNS: virtual network link required for private DNS zone registration (recurring)
+  - LP6 M3 — Backup: Site Recovery failover status must be Failover committed before reprotection
+
+## Recurring Patterns and Observations after Exam 8
+
+**Improvements since Exam 7:**
+Networking DNS improving. Storage zero errors. Identity zero errors consistently.
+
+**Consistent error pattern:**
+LP4 Compute remains the most persistent weak domain across all exams. Errors are not about understanding — they are about specific UI details, configuration terminology and tier limitations that require deliberate memorization.
+
+**Recurring weak areas:**
+LP4 Compute (Availability options, App Service tiers, scale up vs scale out, container scaling triggers) and LP5 Networking (NSG region constraints, DNS zone selection) continue to cost the most points on the official assessment.
+
+**Progress trend:**
+46% → 60% → 70% on official Microsoft assessments. Consistent improvement of approximately 10% per official attempt.
