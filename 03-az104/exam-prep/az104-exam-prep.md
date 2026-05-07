@@ -25,6 +25,7 @@
 | | | *Official Microsoft assessments* |
 | Exam 7 — Official Microsoft Practice Assessment | 60% | 30/50. Weakest: LP4 M3, LP4 M4, LP4 M5, LP5 M1, LP5 M2, LP6 M2.|
 | Exam 8 — Official Microsoft Practice Assessment | 70% | 35/50. Weakest: LP4 M2, LP4 M3, LP4 M4, LP5 M1, LP5 M2, LP6 M2, LP6 M3.|
+| Exam 9 — Official Microsoft Practice Assessment | 80% | 40/50. Weakest: LP5 M1, LP6 M2, LP6 M3.|
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -120,3 +121,21 @@ LP4 Compute (Availability options, App Service tiers, scale up vs scale out, con
 
 **Progress trend:**
 46% → 60% → 70% on official Microsoft assessments. Consistent improvement of approximately 10% per official attempt.
+
+## Next Focus Areas after Exam 9
+  - LP5 M1 — Networking: effective routes on NIC to verify peering routing path, not Network Watcher next hop (recurring)
+  - LP5 M1 — Networking: NSG associates with subnets and NICs only — not VNets; NSG must be same region as subnet
+  - LP6 M2 — Monitoring: action group must be created first before alert processing rules; action group defines notification target
+  - LP6 M3 — Backup: vault credentials must be downloaded and server registered before backup policy can be configured
+  - LP6 M3 — Backup: Site Recovery failover status must be Failover committed before reprotection (recurring)
+
+## Recurring Patterns and Observations after Exam 9
+
+**Improvements since Exam 8:**
+Compute errors significantly reduced — App Service tiers, scale up vs scale out, Docker Publish setting all correct. Containers correct. Identity & Governance zero errors. Storage zero errors.
+
+**Consistent error pattern:**
+Networking and Monitor & Backup remain the two weak domains. Networking errors now focus on routing diagnostics (effective routes vs next hop) rather than basic NSG and DNS. Monitor & Backup errors focus on correct sequence of actions and specific tool selection.
+
+**Progress trend:**
+46% → 60% → 70% → 80% on official Microsoft assessments. Consistent +10% improvement per official attempt. Target for next attempt: 85%+.
