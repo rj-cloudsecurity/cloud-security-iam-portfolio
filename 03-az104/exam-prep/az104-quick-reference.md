@@ -45,6 +45,15 @@
 - Vereist: identity-based access inschakelen op de file share instellingen
 - SAS tokens bieden geen domeinintegratie — gebruik identity-based access voor AD DS/Entra authenticatie
 
+## Storage Toegang — Vergelijking
+| | Access key | Azure role | SAS token | Conditional Access |
+|---|---|---|---|---|
+| Scope | Heel storage account | Specifieke rol op gekozen scope | Specifieke resource of container | Aanmelding — niet storage specifiek |
+| Expiry | Geen | Geen | Instelbaar | Niet van toepassing |
+| Intrekken | Key regenereren | Role assignment verwijderen | Token laten verlopen of stored access policy intrekken | Policy wijzigen |
+| Gebruik | Legacy apps zonder Entra ID | Gebruikers en moderne apps via Entra ID | Tijdelijke externe toegang | Toegangscontrole op basis van signalen |
+| Least privilege | Nee | Ja | Ja | Niet van toepassing op storage data |
+
 ## NSG Associatie
 - Subnets ✓
 - Network interfaces (NICs) ✓
@@ -121,13 +130,14 @@ Tenant → Management Group → Subscription → Resource Group → Resource
 - Voor een Docker image: altijd Publish → Docker Container instellen
 
 ## App Service — Diagnostic Logging Severity
-| Level | Wat |
+| Level | Wat het logt |
 |---|---|
 | Verbose | Alles — elke detailstap |
 | Information | Normale operatie |
 | Warning | Onverwacht maar niet kritiek |
 | Error | Fouten die actie vereisen |
-| Critical | Ernstige fouten |
+| Critical | Ernstige fouten — applicatie kan niet doorgaan |
+
 - "Warnings or higher" = Warning + Error + Critical
 - Application Logging Blob = bewaring langer dan 7 dagen
 - Application Logging FileSystem = maximaal 7 dagen
@@ -181,10 +191,12 @@ Tenant → Management Group → Subscription → Resource Group → Resource
 - Instant Restore snapshots: instelbaar (standaard 5 dagen)
 
 ## Azure Site Recovery — Failover Statussen
-1. Starting failover
-2. Committing failover
-3. **Failover committed** ← status vereist vóór reprotection
-4. Reprotect (replicatie omdraaien naar primaire regio)
+| Stap | Status |
+|---|---|
+| 1 | Starting failover |
+| 2 | Committing failover |
+| 3 | **Failover committed** ← vereist vóór reprotection |
+| 4 | Reprotect — replicatie omdraaien naar primaire regio |
 
 ## Azure Monitor — Limieten
 - Shared dashboard: maximaal 30 dagen data
@@ -195,16 +207,57 @@ Tenant → Management Group → Subscription → Resource Group → Resource
 - Action groups kunnen acties uitvoeren maar wijzigen de alert state niet
 
 ## KQL Operators
-| Operator | Wat het doet |
-|---|---|
-| where | Filtert rijen op conditie |
-| summarize | Groepeert en aggregeert — gebruik voor "aggregate by column" |
-| project | Selecteert en hernoemt kolommen |
-| extend | Voegt berekende kolommen toe |
-| order by | Sorteert resultaten |
-| distinct | Unieke waarden |
+| Operator | Wat het doet | Voorbeeld |
+|---|---|---|
+| `where` | Filtert rijen op conditie | `where Computer == "VM1"` |
+| `summarize` | Groepeert en aggregeert — gebruik voor "aggregate by column" | `summarize count() by Account` |
+| `project` | Selecteert en hernoemt kolommen | `project Account, TimeGenerated` |
+| `extend` | Voegt berekende kolommen toe | `extend Duration = EndTime - StartTime` |
+| `order by` | Sorteert resultaten | `order by TimeGenerated desc` |
+| `take` | Neemt N rijen | `take 10` |
+| `distinct` | Unieke waarden | `distinct Account` |
 
 ## VM Extensies
 | Extensie | Doel |
 |---|---|
-| Azure Monitor agent | Verzamelt logs
+| Azure Monitor agent | Verzamelt logs en metrics, stuurt naar Log Analytics workspace |
+| Custom Script Extension | Voert scripts uit na deployment — software installeren, configuratie |
+| DSC extension | Desired State Configuration — afdwingen van configuratiestatus |
+| VMAccess extension | Toegangsherstel — wachtwoord resetten, SSH key vervangen |
+| BGInfo extension | Toont systeeminformatie op het bureaublad van Windows VMs |
+
+## Azure Advisor Categorieën
+| Categorie | Gebruik |
+|---|---|
+| Cost | Underutilized VMs, kostenbesparing |
+| Performance | Applicaties sneller maken |
+| Reliability | High availability verbeteren |
+| Security | Beveiligingsproblemen |
+| Operational Excellence | Processen en workflows |
+
+## Delete Locks — Wel/Niet
+| Resource | Delete lock mogelijk |
+|---|---|
+| Subscriptions | Ja |
+| Resource groups | Ja |
+| Individuele resources (VMs, storage accounts) | Ja |
+| Management groups | Nee |
+| Storage account data (blobs, files) | Nee — gebruik immutability policy |
+
+## Sidecar Pattern
+- Sidecar container = hulpcontainer naast hoofdcontainer voor doorlopende taken
+- Init container = eenmalige initialisatie vóór hoofdcontainer start
+
+## SSL Certificaat bij Resource Group Verplaatsing
+- SSL certificaat kan niet direct worden verplaatst
+- Verwijder uit bron RG → verplaats alle andere resources → upload opnieuw in doel RG
+
+## P2S VPN na VNet Peering
+- P2S VPN client moet worden herinstalleerd na het configureren van VNet peering
+- Routes worden bij installatie gecached — herinstallatie downloadt nieuwe routes
+
+## DNS — Overzicht
+| Optie | Gebruik |
+|---|---|
+| Azure-provided name resolution | Alleen binnen één VNet, geen custom domeinnamen |
+| Azure Private DNS zone
