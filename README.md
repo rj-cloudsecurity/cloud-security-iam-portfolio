@@ -59,9 +59,8 @@ Planned:
 **Phase 2 — Associate**
 - AZ-104 – Azure Administrator Associate 🔄
 - SC-300 – Identity and Access Administrator Associate
-- PowerShell & Microsoft Graph API
 
-**Phase 3 — After employment (to be determined)**
+**Phase 3 — Next Steps**
 - SC-200 – Microsoft Security Operations Analyst
 - AZ-500 – Azure Security Engineer Associate
 - MS-500 – Microsoft 365 Security Administrator
