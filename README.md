@@ -107,9 +107,9 @@ Planned:
 - [LP1 Prerequisites](/03-az104/notes/lp1-prerequisites.md) — Complete
 - [LP2 Identities & Governance](/03-az104/notes/lp2-identities-governance.md) — Complete
 - [LP3 Storage](/03-az104/notes/lp3-storage.md) — Complete
-- [LP4 Compute](/03-az104/notes/lp4-compute.md) — In progress
-- [LP5 Networking](/03-az104/notes/lp5-networking.md) — In progress
-- [LP6 Monitor & Backup](/03-az104/notes/lp6-monitor-backup.md) — In progress
+- [LP4 Compute](/03-az104/notes/lp4-compute.md) — Complete
+- [LP5 Networking](/03-az104/notes/lp5-networking.md) — Complete
+- [LP6 Monitor & Backup](/03-az104/notes/lp6-monitor-backup.md) — Complete
 
 **Exam Prep**
 - [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
