@@ -10,6 +10,14 @@
 | 22 | SSH |
 | 5671 | AMQP — Azure Service Bus / health data |
 
+## Storage Access Tiers
+| Tier | Minimum opslag | Retrieval | Gebruik |
+|---|---|---|---|
+| Hot | Geen | Snel | Frequent accessed |
+| Cool | 30 dagen | Snel | Infrequent, goedkoper dan Hot |
+| Cold | 90 dagen | Snel | Infrequent, goedkoper dan Cool |
+| Archive | 180 dagen | Uren (rehydration) | Zelden accessed |
+
 ## Rehydration uit Archive
 | Prioriteit | Tijd |
 |---|---|
@@ -31,11 +39,18 @@
 - Blob versioning op destination ✓
 - Change feed op source ✓ (niet destination)
 
+## Identity-based Access — Azure Files
+- Alleen file shares ondersteunen identity-based access via Microsoft Entra Kerberos
+- Blob, Queue en Table gebruiken REST API — geen Kerberos ondersteuning
+- Vereist: identity-based access inschakelen op de file share instellingen
+- SAS tokens bieden geen domeinintegratie — gebruik identity-based access voor AD DS/Entra authenticatie
+
 ## NSG Associatie
 - Subnets ✓
 - Network interfaces (NICs) ✓
 - VNets ✗
 - VMs ✗ (via NIC, niet direct)
+- NSG moet in dezelfde regio zijn als het subnet waaraan het wordt gekoppeld
 
 ## NSG Traffic evaluatie
 - Inbound: Subnet NSG eerst → NIC NSG
@@ -49,6 +64,8 @@
 | Contributor | Ja | Nee |
 | Reader | Nee (alleen lezen) | Nee |
 | User Access Administrator | Nee | Ja |
+| Cost Management Contributor | Nee | Nee — alleen kosten bekijken en budgets beheren |
+| Storage Account Contributor | Ja — storage accounts + access keys | Nee |
 
 ## Deny Assignments
 - Deny overschrijft altijd allow — ook Owner rol
@@ -63,6 +80,14 @@
 | DeployIfNotExists | Asynchroon | Deployt template als resource niet bestaat |
 | AuditIfNotExists | Asynchroon | Audit als gerelateerde resource ontbreekt |
 
+## Azure Policy Definitie Secties
+| Sectie | Inhoud |
+|---|---|
+| policyRule | If/then logica — conditie en effect |
+| parameters | Variabelen voor herbruikbaarheid |
+| mode | Welke resources worden geëvalueerd (All of Indexed) |
+| metadata | Beschrijvende informatie + RemediationDescription veld |
+
 ## ARM Template Deployment Scopes
 | Scope | Gebruik |
 |---|---|
@@ -71,21 +96,55 @@
 | Management group | Meerdere subscriptions |
 | Tenant | Alles |
 
+## ARM Deployment Scope — Ezelsbruggetje
+Onthoud de hiërarchie — deploy altijd één niveau boven wat je wilt aanmaken of aanspreken:
+Tenant → Management Group → Subscription → Resource Group → Resource
+
 ## App Service Tiers — Key Features
 | Tier | Custom domain | Deployment slots | Autoscale |
 |---|---|---|---|
 | Free F1 | Nee | Nee | Nee |
-| Basic B1 | Ja | Nee | Handmatig |
+| Basic B1 | Ja | Nee | Handmatig (scale up/down only) |
 | Standard S1 | Ja | 5 | Ja |
-| Premium P1V3 | Ja | 20 | Ja + Elastic |
+| Premium P1V3 | Ja | 20 | Ja + Elastic + Automatic scaling |
+
+## App Service — Scale up vs Scale out
+| | Scale up | Scale out |
+|---|---|---|
+| Wat | Grotere tier — meer CPU/geheugen/features | Meer instances van dezelfde tier |
+| Wanneer | App heeft meer resources nodig per instance | App heeft meer capaciteit nodig door meer verkeer |
+| Autoscale vereist | Eerst scale up naar Standard of hoger | Dan autoscale regels instellen |
+
+## App Service — Publish instelling
+- **Code** → kies Runtime stack (.NET, Node.js, Python etc.)
+- **Docker Container** → Runtime stack niet beschikbaar — runtime zit in de container
+- Voor een Docker image: altijd Publish → Docker Container instellen
+
+## App Service — Diagnostic Logging Severity
+| Level | Wat |
+|---|---|
+| Verbose | Alles — elke detailstap |
+| Information | Normale operatie |
+| Warning | Onverwacht maar niet kritiek |
+| Error | Fouten die actie vereisen |
+| Critical | Ernstige fouten |
+- "Warnings or higher" = Warning + Error + Critical
+- Application Logging Blob = bewaring langer dan 7 dagen
+- Application Logging FileSystem = maximaal 7 dagen
 
 ## Container Services Vergelijking
-| Service | Gebruik | Scale to zero | Kubernetes API |
-|---|---|---|---|
-| ACI | Korte geïsoleerde taken | Nee | Nee |
-| App Service | Docker web apps, autoscaling op HTTP | Nee | Nee |
-| ACA | Serverless microservices, event-driven | Ja | Nee |
-| AKS | Complexe orchestratie, volledige controle | Nee | Ja |
+| Service | Gebruik | Scale to zero | Kubernetes API | Scaling trigger |
+|---|---|---|---|---|
+| ACI | Korte geïsoleerde taken | Nee | Nee | Handmatig |
+| App Service | Docker web apps, autoscaling op HTTP | Nee | Nee | HTTP / CPU / schema |
+| ACA | Serverless microservices, event-driven | Ja | Nee | HTTP / event-driven / CPU |
+| AKS | Complexe orchestratie, volledige controle | Nee | Ja | Kubernetes HPA |
+
+## ACA Scaling Triggers
+- **HTTP** — schaalt op inkomend HTTP verkeer
+- **Event-driven** — schaalt op basis van externe events zoals Azure Service Bus queue length
+- **CPU/Memory** — schaalt op resource gebruik
+- Voor Service Bus: altijd event-driven, niet HTTP
 
 ## Persistent Storage in Containers
 - ACI persistent storage = Azure File share (niet blob)
@@ -98,6 +157,10 @@
 | Availability zone | Volledige datacenter failure |
 | VM Scale Set | Schalen op vraag |
 | Site Recovery | Regio-brede disaster |
+
+## VM Scale Set — Configuratie
+- Instellen via: Availability options (niet Management) bij aanmaken VM
+- Orchestration modes: Uniform (zelfde image) of Flexible (aanbevolen, verschillende images)
 
 ## Availability Set Defaults
 - Update domains: 5 (niet wijzigbaar na aanmaken)
@@ -117,90 +180,31 @@
 - Soft delete retention: 14 dagen
 - Instant Restore snapshots: instelbaar (standaard 5 dagen)
 
+## Azure Site Recovery — Failover Statussen
+1. Starting failover
+2. Committing failover
+3. **Failover committed** ← status vereist vóór reprotection
+4. Reprotect (replicatie omdraaien naar primaire regio)
+
 ## Azure Monitor — Limieten
 - Shared dashboard: maximaal 30 dagen data
 
-## Azure Advisor Categorieën
-| Categorie | Gebruik |
+## Azure Monitor — Alert States
+- New, Acknowledged, Closed
+- Altijd handmatig ingesteld — nooit automatisch gewijzigd door het systeem
+- Action groups kunnen acties uitvoeren maar wijzigen de alert state niet
+
+## KQL Operators
+| Operator | Wat het doet |
 |---|---|
-| Cost | Underutilized VMs, kostenbesparing |
-| Performance | Applicaties sneller maken |
-| Reliability | High availability verbeteren |
-| Security | Beveiligingsproblemen |
-| Operational Excellence | Processen en workflows |
+| where | Filtert rijen op conditie |
+| summarize | Groepeert en aggregeert — gebruik voor "aggregate by column" |
+| project | Selecteert en hernoemt kolommen |
+| extend | Voegt berekende kolommen toe |
+| order by | Sorteert resultaten |
+| distinct | Unieke waarden |
 
-## Delete Locks — Wel/Niet
-| Resource | Delete lock mogelijk |
+## VM Extensies
+| Extensie | Doel |
 |---|---|
-| Subscriptions | Ja |
-| Resource groups | Ja |
-| Individuele resources (VMs, storage accounts) | Ja |
-| Management groups | Nee |
-| Storage account data (blobs, files) | Nee — gebruik immutability policy |
-
-## Sidecar Pattern
-- Sidecar container = hulpcontainer naast hoofdcontainer voor doorlopende taken
-- Init container = eenmalige initialisatie vóór hoofdcontainer start
-
-## SSL Certificaat bij Resource Group Verplaatsing
-- SSL certificaat kan niet direct worden verplaatst
-- Verwijder uit bron RG → verplaats alle andere resources → upload opnieuw in doel RG
-
-## P2S VPN na VNet Peering
-- P2S VPN client moet worden herinstalleerd na het configureren van VNet peering
-- Routes worden bij installatie gecached — herinstallatie downloadt nieuwe routes
-
-## Private DNS Zone
-- Virtual network link aanmaken met auto-registration enabled
-- Auto-registration werkt met zowel statische als dynamische IP adressen
-
-## Network Watcher
-- Één instantie per regio (niet per VNet)
-- Voor netwerk health monitoring: Network Watcher (niet Azure Monitor)
-- Packet capture vereist: AzureNetworkWatcherExtension installeren op VM
-
-## SAS Token vs Access Key
-| | SAS Token | Access Key |
-|---|---|---|
-| Scope | Specifieke resource of container | Heel storage account |
-| Expiry | Instelbaar | Geen expiry |
-| Gebruik | Tijdelijke externe toegang | Volledige interne toegang |
-
-## SSPR
-- Guests: niet ondersteund in resource tenant
-- Synced users: ondersteund met password writeback via Entra Connect
-- Cloud-only users: altijd ondersteund
-- Minimum licentie: Entra ID P1
-
-## Lifecycle Management
-- Werkt alleen op block blobs (niet page blobs, niet append blobs)
-- Access tracking inschakelen vereist voor regels op basis van laatste toegang
-- Tiers: Hot → Cool → Cold → Archive (alleen in deze richting automatisch)
-
-## ARM Deployment Scope
-Onthoud de hiërarchie — deploy altijd één niveau boven wat je wilt aanmaken of aanspreken:
-Tenant → Management Group → Subscription → Resource Group → Resource
-
-## Sleutelwoorden in examenvragen
-
-| Sleutelwoord in de vraag | Antwoord |
-|---|---|
-| Minimizes administrative effort | App Service, ACA — nooit AKS of VMs |
-| Minimizes cost | Goedkoopste tier die voldoet — niet overdimensioneren |
-| Least privilege | Meest specifieke rol op laagste scope — nooit Owner of Global Admin |
-| Without requiring a failover | RA-GRS of RA-GZRS |
-| Automatically | Dynamic groups, lifecycle management, Modify policy, autoscale |
-| Prevent accidental deletion | Delete lock |
-| Encrypted connection to on-premises | VPN gateway |
-| Scale to zero | ACA |
-| Short-lived isolated task | ACI |
-| Custom domain + autoscale + Docker | App Service |
-| Even traffic distribution | Five-tuple hash |
-| Same server every request | Session persistence |
-| POSIX ACLs / Data Lake | Hierarchical namespace |
-| Network health monitoring | Network Watcher |
-| Underutilized VMs | Azure Advisor Cost |
-| Temporary external access to storage | SAS token |
-| Datacenter failure protection | Availability zone |
-| Rack failure protection | Availability set |
-
+| Azure Monitor agent | Verzamelt logs
