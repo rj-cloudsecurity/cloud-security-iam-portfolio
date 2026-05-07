@@ -68,7 +68,7 @@ Planned:
 
 ---
 
-## Notes & Exam Prep
+## Notes, Labs & Exam Prep
 
 ### 01 — AZ-900: Azure Fundamentals
 **Notes**
