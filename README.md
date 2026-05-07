@@ -113,9 +113,12 @@ Planned:
 
 **Exam Prep**
 - [Exam Preparation](/03-az104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
+- [Quick Reference](/03-az104/exam-prep/az104-quick-reference.md) — Key facts, comparisons and exam keywords
+
 
 **Labs** — 27 hands-on labs completed via Microsoft Learn  
 - [View all 27 labs](/03-az104/labs/)
+
 ---
 
 ### 04 — SC-300: Identity and Access Administrator Associate
