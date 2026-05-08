@@ -402,6 +402,25 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 - Ondersteunt resumable transfers
 - Ondersteunt blob en file storage
 
+## Network Watcher — IP Flow Verify vs Flow Logs
+| Tool | Gebruik | Administratieve inspanning |
+|---|---|---|
+| IP flow verify | Directe NSG check voor specifiek verkeer — geeft direct antwoord welke NSG blokkeert | Minimaal |
+| NSG/VNet flow logs | Logt al het IP verkeer door NSG — vereist handmatige analyse achteraf | Hoog |
+- Voor "identify whether NSG is blocking" = altijd IP flow verify
+
+## Azure Monitor — Alert Rule vs Alert Processing Rule
+| | Alert rule | Alert processing rule |
+|---|---|---|
+| Doel | Detecteert event en triggert | Verwerkt/suppressed bestaande alerts |
+| Notificatie | Via gekoppelde action group | Nee — geen notificatiemechanisme |
+| Voor email bij event | Ja — alert rule + action group | Nee |
+
+## Budget Alert — Vereiste Stappen
+1. Action group aanmaken van type Runbook met Stop VM actie
+2. Budget settings wijzigen in Cost Management + Billing — drempel instellen en action group koppelen
+- Beide stappen zijn vereist — budget is de trigger, action group is de actie
+
 ## Sleutelwoorden in examenvragen
 | Sleutelwoord in de vraag | Antwoord |
 |---|---|
