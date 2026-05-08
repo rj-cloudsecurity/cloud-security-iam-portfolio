@@ -2,7 +2,7 @@
 ## Certification
   - Microsoft Certified: Microsoft Azure Administrator (AZ-104)
   - Result: In preparation
-  - Date: Expected June 2026
+  - Date: Expected May 2026
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching John Savill's Technical Training AZ-104
@@ -26,6 +26,7 @@
 | Exam 7 — Official Microsoft Practice Assessment | 60% | 30/50. Weakest: LP4 M3, LP4 M4, LP4 M5, LP5 M1, LP5 M2, LP6 M2.|
 | Exam 8 — Official Microsoft Practice Assessment | 70% | 35/50. Weakest: LP4 M2, LP4 M3, LP4 M4, LP5 M1, LP5 M2, LP6 M2, LP6 M3.|
 | Exam 9 — Official Microsoft Practice Assessment | 80% | 40/50. Weakest: LP5 M1, LP6 M2, LP6 M3.|
+| Exam 10 — Official Microsoft Practice Assessment | 88% | 44/50. Weakest: LP4 M5, LP5 M1, LP6 M3.|
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -139,3 +140,22 @@ Networking and Monitor & Backup remain the two weak domains. Networking errors n
 
 **Progress trend:**
 46% → 60% → 70% → 80% on official Microsoft assessments. Consistent +10% improvement per official attempt. Target for next attempt: 85%+.
+
+## Next Focus Areas after Exam 10
+  - LP4 M5 — Containers: App Service for Docker with custom domain + autoscale, not ACI (recurring fifth time)
+  - LP5 M1 — Networking: VPN gateway for encrypted on-premises connection, not private endpoint (recurring)
+  - LP5 M1 — Networking: port 443 = HTTPS, port 3389 = RDP, port 587 = SMTP relay
+  - LP5 M1 — Networking: netstat -an to check listening ports, not Test-NetConnection
+  - LP6 M3 — Backup: MARS agent for files/folders on individual server; MABS for central workload backup
+  - LP6 M3 — Backup: three steps required before deleting Recovery Services vault
+
+## Recurring Patterns and Observations after Exam 10
+
+**Improvements since Exam 9:**
+Monitor & Backup significantly improved. Identity & Governance zero errors. Storage zero errors. Networking routing diagnostics (effective routes) now correct.
+
+**Consistent error pattern:**
+LP4 M5 Containers remains the single most persistent error across all exams — App Service vs ACI for Docker web apps has appeared as a focus area after Exams 4, 5, 7, 8, and 10. LP5 Networking errors now concentrated in specific details: VPN gateway vs private endpoint, port numbers, and diagnostic commands.
+
+**Progress trend:**
+46% → 60% → 70% → 80% → 88% on official Microsoft assessments. Consistent improvement per official attempt. Real exam target: 700/1000 (≈70%). Current preparation level exceeds passing threshold.
