@@ -27,6 +27,7 @@
 | Exam 8 — Official Microsoft Practice Assessment | 70% | 35/50. Weakest: LP4 M2, LP4 M3, LP4 M4, LP5 M1, LP5 M2, LP6 M2, LP6 M3.|
 | Exam 9 — Official Microsoft Practice Assessment | 80% | 40/50. Weakest: LP5 M1, LP6 M2, LP6 M3.|
 | Exam 10 — Official Microsoft Practice Assessment | 88% | 44/50. Weakest: LP4 M5, LP5 M1, LP6 M3.|
+| Exam 11 — Official Microsoft Practice Assessment | 90% | 45/50. Weakest: LP3 M2, LP4 M4, LP5 M3, LP6 M2.|
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -159,3 +160,20 @@ LP4 M5 Containers remains the single most persistent error across all exams — 
 
 **Progress trend:**
 46% → 60% → 70% → 80% → 88% on official Microsoft assessments. Consistent improvement per official attempt. Real exam target: 700/1000 (≈70%). Current preparation level exceeds passing threshold.
+
+## Next Focus Areas after Exam 11
+  - LP3 M2 — Storage: Data Lake Gen2 requires premium block blobs or standard GPv2 — premium file shares not supported (recurring)
+  - LP4 M4 — App Service: Application Logging Blob required for warnings or higher — not Detailed Error Message (recurring)
+  - LP5 M3 — Load balancer: session persistence requires Client IP AND Protocol together; IP flow verify for NSG troubleshooting, not VNet flow logs
+  - LP6 M2 — Monitoring: alert rule detects event + action group sends notification; alert processing rule is not a notification mechanism; budget settings must be modified to link action group to cost threshold
+
+## Recurring Patterns and Observations after Exam 11
+
+**Improvements since Exam 10:**
+Containers resolved — App Service vs ACI now consistently correct. Networking port numbers correct. MARS vs MABS correct. NSG region constraints correct.
+
+**Consistent error pattern:**
+Errors now concentrated in subtle configuration details: which specific logging type to enable, when to use IP flow verify vs flow logs, and the distinction between alert rule, action group, and alert processing rule. These are all cases where two options sound correct but differ on one specific functional detail.
+
+**Progress trend:**
+46% → 60% → 70% → 80% → 88% → 90% on official Microsoft assessments. Microsoft assessment now shows "Congratulations, you passed all the sections." Real exam scheduled — preparation level exceeds passing threshold.
