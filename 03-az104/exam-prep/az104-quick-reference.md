@@ -212,6 +212,7 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | VM Scale Set (Virtual Machine Scale Set) | Schalen op vraag |
 | Site Recovery | Regio-brede disaster |
 
+
 ## VM Scale Set (Virtual Machine Scale Set) — Configuratie
 - Instellen via: Availability options (niet Management) bij aanmaken VM
 - Orchestration modes: Uniform (zelfde image) of Flexible (aanbevolen, verschillende images)
