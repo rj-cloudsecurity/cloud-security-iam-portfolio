@@ -12,120 +12,9 @@
 | 587 | SMTP relay (Simple Mail Transfer Protocol) — outbound email via authenticated SMTP |
 | 25 | SMTP (Simple Mail Transfer Protocol) — mail traffic (niet authenticated) |
 
-## Storage Access Tiers
-| Tier | Minimum opslag | Retrieval | Gebruik |
-|---|---|---|---|
-| Hot | Geen | Snel | Frequent accessed |
-| Cool | 30 dagen | Snel | Infrequent, goedkoper dan Hot |
-| Cold | 90 dagen | Snel | Infrequent, goedkoper dan Cool |
-| Archive | 180 dagen | Uren (rehydration) | Zelden accessed |
+---
 
-## Rehydration uit Archive
-| Prioriteit | Tijd |
-|---|---|
-| Standard | Tot 15 uur |
-| High | Binnen 1 uur (objecten onder 10 GB) |
-
-## Storage Redundancy
-| Type | Beschrijving | Zone spreiding | Secundaire regio | Direct leestoegang secundair |
-|---|---|---|---|---|
-| LRS (Locally Redundant Storage) | 3 kopieën in 1 datacenter | Nee | Nee | Nee |
-| ZRS (Zone Redundant Storage) | 3 kopieën over 3 zones | Ja | Nee | Nee |
-| GRS (Geo Redundant Storage) | LRS + secundaire regio | Nee | Ja | Nee |
-| RA-GRS (Read-Access Geo Redundant Storage) | GRS + leestoegang | Nee | Ja | Ja |
-| GZRS (Geo Zone Redundant Storage) | ZRS + secundaire regio | Ja | Ja | Nee |
-| RA-GZRS (Read-Access Geo Zone Redundant Storage) | GZRS + leestoegang | Ja | Ja | Ja |
-
-## Storage Account Types — Volledig Overzicht
-| Type | Ondersteunde services | Redundancy opties |
-|---|---|---|
-| Standard general-purpose v2 | Blob, Queue, Table, Azure Files, Data Lake Storage | LRS, ZRS, GRS, RA-GRS, GZRS, RA-GZRS |
-| Premium block blobs | Blob Storage (inclusief Data Lake Storage) | LRS, ZRS |
-| Premium file shares | Azure Files | LRS, ZRS |
-| Premium page blobs | Page blobs only | LRS, ZRS |
-
-## Storage Account Types — ZRS Live Migration
-- Live migration naar ZRS mogelijk vanuit: LRS of GRS
-- Live migration naar ZRS NIET mogelijk vanuit: RA-GRS (eerst omzetten naar LRS of GRS)
-- General-purpose V1 en BlobStorage ondersteunen ZRS niet — alleen GPv2, FileStorage en BlockBlobStorage
-
-## Object Replicatie Vereisten
-- Blob versioning op source ✓
-- Blob versioning op destination ✓
-- Change feed op source ✓ (niet destination)
-
-## Identity-based Access — Azure Files
-- Alleen file shares ondersteunen identity-based access via Microsoft Entra Kerberos
-- Blob, Queue en Table gebruiken REST API (Representational State Transfer Application Programming Interface) — geen Kerberos ondersteuning
-- Vereist: identity-based access inschakelen op de file share instellingen
-- SAS (Shared Access Signature) tokens bieden geen domeinintegratie — gebruik identity-based access voor AD DS (Active Directory Domain Services)/Entra authenticatie
-
-## Storage Toegang — Vergelijking
-| | Access key | Azure role | SAS token (Shared Access Signature) | Conditional Access |
-|---|---|---|---|---|
-| Scope | Heel storage account | Specifieke rol op gekozen scope | Specifieke resource of container | Aanmelding — niet storage specifiek |
-| Expiry | Geen | Geen | Instelbaar | Niet van toepassing |
-| Intrekken | Key regenereren | Role assignment verwijderen | Token laten verlopen of stored access policy intrekken | Policy wijzigen |
-| Gebruik | Legacy apps zonder Entra ID | Gebruikers en moderne apps via Entra ID | Tijdelijke externe toegang | Toegangscontrole op basis van signalen |
-| Least privilege | Nee | Ja | Ja | Niet van toepassing op storage data |
-
-## Azure Backup Vault vs Recovery Services Vault
-| | Azure Backup Vault | Recovery Services Vault |
-|---|---|---|
-| Nieuwer/ouder | Nieuwer | Ouder |
-| Azure Blobs | ✓ | ✗ |
-| Azure Disks | ✓ | ✗ |
-| PostgreSQL | ✓ | ✗ |
-| Azure VMs | ✗ | ✓ |
-| Azure Files | ✗ | ✓ |
-| SQL in Azure VM | ✗ | ✓ |
-| Site Recovery | ✗ | ✓ |
-| On-premises (MARS/MABS) | ✗ | ✓ |
-| Container Instances | ✗ | ✗ |
-| App Service | ✗ | ✗ — eigen ingebouwde backup |
-
-## Recovery Services Vault — Regio Vereiste
-- Vault en VM moeten in dezelfde regio zijn
-- Resource group locatie is irrelevant — alleen resource locatie telt
-- Verschillende resource groups of OS types zijn toegestaan als regio overeenkomt
-
-## NSG (Network Security Group) Associatie
-- Subnets ✓
-- Network interfaces (NICs — Network Interface Cards) ✓
-- VNets (Virtual Networks) ✗
-- VMs (Virtual Machines) ✗ (via NIC, niet direct)
-- NSG moet in dezelfde regio zijn als het subnet waaraan het wordt gekoppeld
-
-## Network Interface (NIC — Network Interface Card)
-- Virtuele netwerkkaart van een VM (Virtual Machine)
-- Elke VM heeft minimaal één NIC
-- NIC heeft een privé IP (Internet Protocol) adres en een koppeling aan een subnet
-- NSG koppel je aan subnet of NIC — niet aan VNet
-- VM met twee subnets = twee NICs aanmaken en koppelen
-- NIC moet in dezelfde regio en subscription zijn als de VM waaraan het wordt gekoppeld
-
-## NSG Traffic evaluatie
-- Inbound: Subnet NSG eerst → NIC NSG
-- Outbound: NIC NSG eerst → Subnet NSG
-- Beide moeten toestaan anders geblokkeerd
-
-## NSG Default Rules
-- Inbound: VNet verkeer toegestaan, internet geblokkeerd tenzij expliciete Allow regel
-- Outbound: al het verkeer toegestaan
-- Default rules kunnen niet worden verwijderd maar kunnen worden overschreven met hogere prioriteit
-
-## ASG (Application Security Group)
-- Groepeert network interfaces van meerdere VMs
-- Gebruik als bron of doel in NSG regel
-- Alle NICs in de ASG moeten in hetzelfde VNet zitten
-- Minimale NSG regels — één regel voor de groep i.p.v. één per VM
-- Voor "fewest number of NSG rules" = altijd ASG
-
-## Publiek IP Adres Types
-| Type | Gedrag bij VM stop/deallocate |
-|---|---|
-| Dynamisch publiek IP | Wordt vrijgegeven — nieuw IP bij opnieuw starten |
-| Statisch publiek IP | Blijft altijd hetzelfde — ook na stop/deallocate |
+## IDENTITIES & GOVERNANCE
 
 ## RBAC (Role-Based Access Control) Rollen
 | Rol | Resources beheren | Rollen toewijzen |
@@ -137,6 +26,23 @@
 | Cost Management Contributor | Nee | Nee — alleen kosten bekijken en budgets beheren |
 | Storage Account Contributor | Ja — storage accounts + access keys | Nee |
 | Resource Policy Contributor | Nee | Nee — alleen policy definitions en assignments beheren |
+
+## Entra ID Licenties vs Rollen
+- Rol = wat je mag doen (lezen, schrijven, beheren resources)
+- Licentie = welke features beschikbaar zijn (SSPR, Conditional Access, PIM)
+- P1 licentie toewijzen = via Licenses blade in Entra ID
+- Rol toewijzen geeft geen toegang tot premium features
+- Sleutelwoord "Premium P1 features" = licentie toewijzen, niet rol
+
+## Hybrid Entra ID — Attributen Aanpassen
+- Users gesynchroniseerd vanuit Windows Server AD: Job Info attributen (Department, Job Title) NIET aanpasbaar in Entra ID — moet in on-premises AD
+- UsageLocation: altijd aanpasbaar in Entra ID voor alle users ongeacht source
+- Cloud-only users: alle attributen aanpasbaar in Entra ID
+
+## Microsoft 365 Groepen vs Security Groepen — Expiration Policy
+- Expiration policy (automatisch verwijderen na X dagen) = alleen Microsoft 365 groepen
+- Security groepen ondersteunen geen expiration policy
+- Zowel assigned als dynamic Microsoft 365 groepen ondersteunen expiration
 
 ## Traffic Analytics — Vereiste Rollen
 - Vereist Azure RBAC rol op subscription scope
@@ -189,6 +95,110 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 - Gebruik Azure Key Vault + access policy om wachtwoorden op te slaan
 - ARM template verwijst naar Key Vault secret tijdens deployment
 
+## Delete Locks — Wel/Niet
+| Resource | Delete lock mogelijk |
+|---|---|
+| Subscriptions | Ja |
+| Resource groups (RGs) | Ja |
+| Individuele resources (VMs, storage accounts) | Ja |
+| Management groups | Nee |
+| Storage account data (blobs, files) | Nee — gebruik immutability policy |
+
+## Custom Domain Verificatie in Microsoft Entra ID
+- Verificatie vereist een DNS record bij je domeinprovider
+- Twee opties: TXT record (aanbevolen) of MX record
+- Azure geeft je een verificatiecode die je als TXT of MX record toevoegt
+- A record = IP adres koppeling — niet voor verificatie
+- SOA = zone informatie — automatisch aangemaakt, niet aanpasbaar
+- RRSIG = DNSSEC handtekening — niet relevant voor Entra verificatie
+
+## Budget Alert — Vereiste Stappen
+1. Action group aanmaken van type Runbook met Stop VM actie
+2. Budget settings wijzigen in Cost Management + Billing — drempel instellen en action group koppelen
+- Beide stappen zijn vereist — budget is de trigger, action group is de actie
+
+---
+
+## STORAGE
+
+## Storage Access Tiers
+| Tier | Minimum opslag | Retrieval | Gebruik |
+|---|---|---|---|
+| Hot | Geen | Snel | Frequent accessed |
+| Cool | 30 dagen | Snel | Infrequent, goedkoper dan Hot |
+| Cold | 90 dagen | Snel | Infrequent, goedkoper dan Cool |
+| Archive | 180 dagen | Uren (rehydration) | Zelden accessed |
+
+## Rehydration uit Archive
+| Prioriteit | Tijd |
+|---|---|
+| Standard | Tot 15 uur |
+| High | Binnen 1 uur (objecten onder 10 GB) |
+
+## Storage Redundancy
+| Type | Beschrijving | Zone spreiding | Secundaire regio | Direct leestoegang secundair |
+|---|---|---|---|---|
+| LRS (Locally Redundant Storage) | 3 kopieën in 1 datacenter | Nee | Nee | Nee |
+| ZRS (Zone Redundant Storage) | 3 kopieën over 3 zones | Ja | Nee | Nee |
+| GRS (Geo Redundant Storage) | LRS + secundaire regio | Nee | Ja | Nee |
+| RA-GRS (Read-Access Geo Redundant Storage) | GRS + leestoegang | Nee | Ja | Ja |
+| GZRS (Geo Zone Redundant Storage) | ZRS + secundaire regio | Ja | Ja | Nee |
+| RA-GZRS (Read-Access Geo Zone Redundant Storage) | GZRS + leestoegang | Ja | Ja | Ja |
+
+## Storage Account Types — Volledig Overzicht
+| Type | Ondersteunde services | Redundancy opties |
+|---|---|---|
+| Standard general-purpose v2 | Blob, Queue, Table, Azure Files, Data Lake Storage | LRS, ZRS, GRS, RA-GRS, GZRS, RA-GZRS |
+| Premium block blobs | Blob Storage (inclusief Data Lake Storage) | LRS, ZRS |
+| Premium file shares | Azure Files | LRS, ZRS |
+| Premium page blobs | Page blobs only | LRS, ZRS |
+
+## Storage Account Types — ZRS Live Migration
+- Live migration naar ZRS mogelijk vanuit: LRS of GRS
+- Live migration naar ZRS NIET mogelijk vanuit: RA-GRS (eerst omzetten naar LRS of GRS)
+- General-purpose V1 en BlobStorage ondersteunen ZRS niet — alleen GPv2, FileStorage en BlockBlobStorage
+
+## Object Replicatie Vereisten
+- Blob versioning op source ✓
+- Blob versioning op destination ✓
+- Change feed op source ✓ (niet destination)
+
+## Identity-based Access — Azure Files
+- Alleen file shares ondersteunen identity-based access via Microsoft Entra Kerberos
+- Blob, Queue en Table gebruiken REST API — geen Kerberos ondersteuning
+- Vereist: identity-based access inschakelen op de file share instellingen
+- SAS tokens bieden geen domeinintegratie — gebruik identity-based access voor AD DS/Entra authenticatie
+
+## Storage Toegang — Vergelijking
+| | Access key | Azure role | SAS token | Conditional Access |
+|---|---|---|---|---|
+| Scope | Heel storage account | Specifieke rol op gekozen scope | Specifieke resource of container | Aanmelding — niet storage specifiek |
+| Expiry | Geen | Geen | Instelbaar | Niet van toepassing |
+| Intrekken | Key regenereren | Role assignment verwijderen | Token laten verlopen | Policy wijzigen |
+| Gebruik | Legacy apps zonder Entra ID | Gebruikers en moderne apps via Entra ID | Tijdelijke externe toegang | Toegangscontrole op basis van signalen |
+| Least privilege | Nee | Ja | Ja | Niet van toepassing op storage data |
+
+## Lifecycle Management
+- Werkt alleen op block blobs (niet page blobs, niet append blobs)
+- Access tracking inschakelen vereist voor regels op basis van laatste toegang
+- Tiers: Hot → Cool → Cold → Archive (alleen in deze richting automatisch)
+
+## AzCopy
+- `azcopy copy` — eenmalige kopie van bron naar doel
+- `azcopy sync` — synchroniseert inclusief verwijderingen — gevaarlijk voor migratie
+- Ondersteunt blob en file storage
+- Ondersteunde OS: Windows, Linux en macOS
+- Authenticatie: Microsoft Entra ID of SAS token — geen Kerberos, API key of Microsoft Authenticator
+
+## DNS Zone Migratie
+- DNS zone file importeren: Azure CLI of Azure Portal
+- Azure PowerShell = niet ondersteund voor zone file import
+- Cloud Shell = uitvoeringsomgeving voor CLI, geen zelfstandige tool
+
+---
+
+## COMPUTE
+
 ## App Service Tiers — Volledig Overzicht
 | Tier | Max instances | Storage | Custom domain | Slots | Autoscale |
 |---|---|---|---|---|---|
@@ -208,11 +218,12 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | Node.js | Windows en Linux |
 | Java | Windows en Linux |
 - Eén App Service plan per OS — ASP.NET + PHP vereist twee plannen
+- Meerdere web apps kunnen één App Service plan delen in dezelfde regio
 
 ## App Service — Scale up vs Scale out
 | | Scale up | Scale out |
 |---|---|---|
-| Wat | Grotere tier — meer CPU (Central Processing Unit)/geheugen/features | Meer instances van dezelfde tier |
+| Wat | Grotere tier — meer CPU/geheugen/features | Meer instances van dezelfde tier |
 | Wanneer | App heeft meer resources nodig per instance | App heeft meer capaciteit nodig door meer verkeer |
 | Autoscale vereist | Eerst scale up naar Standard of hoger | Dan autoscale regels instellen |
 
@@ -245,21 +256,13 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | ACI (Azure Container Instances) | Korte geïsoleerde taken | Nee | Nee | Handmatig |
 | App Service | Docker web apps, autoscaling op HTTP | Nee | Nee | HTTP / CPU / schema |
 | ACA (Azure Container Apps) | Serverless microservices, event-driven | Ja | Nee | HTTP / event-driven / CPU |
-| AKS (Azure Kubernetes Service) | Complexe orchestratie, volledige controle | Nee | Ja | Kubernetes HPA (Horizontal Pod Autoscaler) |
+| AKS (Azure Kubernetes Service) | Complexe orchestratie, volledige controle | Nee | Ja | Kubernetes HPA |
 
 ## ACA (Azure Container Apps) Scaling Triggers
 - **HTTP** — schaalt op inkomend HTTP verkeer
 - **Event-driven** — schaalt op basis van externe events zoals Azure Service Bus queue length
 - **CPU/Memory** — schaalt op resource gebruik
 - Voor Service Bus: altijd event-driven, niet HTTP
-
-## VM Scale Set Orchestration Modes
-| Mode | Gebruik |
-|---|---|
-| Uniform | Large-scale stateless workloads, alle VMs identiek, snelste uitrol |
-| Flexible | Meer controle over individuele VMs, verschillende configuraties mogelijk |
-- Sleutelwoord "large-scale stateless" + "as quickly as possible" = Uniform
-- Orchestration mode kan niet worden gewijzigd na aanmaken
 
 ## Sidecar Pattern
 - Sidecar container = hulpcontainer naast hoofdcontainer voor doorlopende taken
@@ -269,8 +272,16 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 - Voor "automatisch cache refreshen" = sidecar
 
 ## Persistent Storage in Containers
-- ACI (Azure Container Instances) persistent storage = Azure File share (niet blob)
-- Container op meerdere nodes = Azure Files/SMB (Server Message Block)
+- ACI persistent storage = Azure File share (niet blob)
+- Container op meerdere nodes = Azure Files/SMB
+
+## VM Scale Set Orchestration Modes
+| Mode | Gebruik |
+|---|---|
+| Uniform | Large-scale stateless workloads, alle VMs identiek, snelste uitrol |
+| Flexible | Meer controle over individuele VMs, verschillende configuraties mogelijk |
+- Sleutelwoord "large-scale stateless" + "as quickly as possible" = Uniform
+- Orchestration mode kan niet worden gewijzigd na aanmaken
 
 ## Availability Opties VMs (Virtual Machines)
 | Optie | Beschermt tegen | SLA |
@@ -278,7 +289,7 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | Enkele VM Premium SSD | — | 99.9% |
 | Availability set | Rack failures binnen datacenter | 99.95% |
 | Availability zone | Volledige datacenter failure | 99.99% |
-| VM Scale Set (Virtual Machine Scale Set) | Schalen op vraag | — |
+| VM Scale Set | Schalen op vraag | — |
 | Site Recovery | Regio-brede disaster | — |
 
 ## Availability Set — Update vs Fault Domains
@@ -286,14 +297,14 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 - Fault domains: beschermen tegen unplanned hardware failure — rack niveau
 - Planned maintenance vereist meerdere update domains
 - Datacenter failure vereist availability zones, niet availability sets
-
-## VM Scale Set (Virtual Machine Scale Set) — Configuratie
-- Instellen via: Availability options (niet Management) bij aanmaken VM
-- Orchestration modes: Uniform (zelfde image) of Flexible (aanbevolen, verschillende images)
+- Fault domains = 1 vereist ook update domains = 1 — anders foutmelding van Azure
 
 ## Availability Set Defaults
 - Update domains: 5 (niet wijzigbaar na aanmaken)
 - Fault domains: 2 (niet wijzigbaar na aanmaken)
+
+## VM Scale Set — Configuratie
+- Instellen via: Availability options (niet Management) bij aanmaken VM
 
 ## VM Tijdelijke Disk
 - Windows VMs: tijdelijke disk = drive D
@@ -301,20 +312,234 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 - Data op tijdelijke disk gaat verloren bij redeploy of host failure
 - Data op drive C (Windows) of OS disk blijft behouden na redeploy
 
-## Disk Types — OS (Operating System) Disk Ondersteuning
+## Disk Types — OS Disk Ondersteuning
 | Type | OS disk mogelijk |
 |---|---|
 | Ultra disk | Nee |
-| Premium SSD (Solid State Drive) v2 | Nee |
+| Premium SSD v2 | Nee |
 | Premium SSD | Ja |
 | Standard SSD | Ja |
-| Standard HDD (Hard Disk Drive) | Ja |
+| Standard HDD | Ja |
 
-## Azure Backup
-- Default VM backup retention: 30 dagen
-- Soft delete retention: 14 dagen
-- Instant Restore snapshots: instelbaar (standaard 5 dagen)
-- Backup werkt ook als VM gestopt/deallocated is — snapshots van disks
+## VM Extensies
+| Extensie | Doel |
+|---|---|
+| Azure Monitor agent | Verzamelt logs en metrics, stuurt naar Log Analytics workspace |
+| Custom Script Extension | Voert scripts uit na deployment — software installeren, configuratie |
+| DSC extension | Afdwingen van configuratiestatus |
+| VMAccess extension | Toegangsherstel — wachtwoord resetten, SSH key vervangen |
+| BGInfo extension | Toont systeeminformatie op het bureaublad van Windows VMs |
+
+---
+
+## NETWORKING
+
+## NSG (Network Security Group) Associatie
+- Subnets ✓
+- Network interfaces (NICs) ✓
+- VNets ✗
+- VMs ✗ (via NIC, niet direct)
+- NSG moet in dezelfde regio zijn als het subnet waaraan het wordt gekoppeld
+
+## NSG Traffic evaluatie
+- Inbound: Subnet NSG eerst → NIC NSG
+- Outbound: NIC NSG eerst → Subnet NSG
+- Beide moeten toestaan anders geblokkeerd
+
+## NSG Default Rules
+- Inbound: VNet verkeer toegestaan, internet geblokkeerd tenzij expliciete Allow regel
+- Outbound: al het verkeer toegestaan
+- Default rules kunnen niet worden verwijderd maar kunnen worden overschreven met hogere prioriteit
+
+## Network Interface (NIC)
+- Virtuele netwerkkaart van een VM
+- Elke VM heeft minimaal één NIC
+- NIC heeft een privé IP adres en een koppeling aan een subnet
+- NSG koppel je aan subnet of NIC — niet aan VNet
+- VM met twee subnets = twee NICs aanmaken en koppelen
+- NIC moet in dezelfde regio en subscription zijn als de VM
+
+## ASG (Application Security Group)
+- Groepeert network interfaces van meerdere VMs
+- Gebruik als bron of doel in NSG regel
+- Alle NICs in de ASG moeten in hetzelfde VNet zitten
+- Minimale NSG regels — één regel voor de groep i.p.v. één per VM
+- Voor "fewest number of NSG rules" = altijd ASG
+
+## Publiek IP Adres Types
+| Type | Gedrag bij VM stop/deallocate |
+|---|---|
+| Dynamisch publiek IP | Wordt vrijgegeven — nieuw IP bij opnieuw starten |
+| Statisch publiek IP | Blijft altijd hetzelfde — ook na stop/deallocate |
+
+## P2S (Point-to-Site) VPN na VNet Peering
+- P2S VPN client moet worden herinstalleerd na het configureren van VNet peering
+- Routes worden bij installatie gecached — herinstallatie downloadt nieuwe routes
+- Elke topologiewijziging vereist herinstallatie van VPN client
+
+## VNet Peering — Disconnected Status
+- Disconnected = één van de peering links is verwijderd
+- Oplossing: verwijder de disconnected peer en maak opnieuw aan
+- Adres space wijzigen of subnet verwijderen lost disconnected status niet op
+
+## DNS (Domain Name System) — Overzicht
+| Optie | Gebruik |
+|---|---|
+| Azure-provided name resolution | Alleen binnen één VNet, geen custom domeinnamen |
+| Azure Private DNS zone | Meerdere VNets, custom domeinnamen, minimale beheerinspanning |
+| Azure Public DNS zone | Publiek toegankelijke domeinen |
+| DNS server op VM | Werkt maar veel beheer — nooit de juiste keuze als Private DNS zone beschikbaar is |
+| Azure DNS Private Resolver | Proxy voor queries tussen on-premises en Azure DNS |
+
+## DNS Record Types
+| Type | Wat het doet | Gebruik |
+|---|---|---|
+| A | Domeinnaam → IPv4 adres | Directe IP koppeling |
+| AAAA | Domeinnaam → IPv6 adres | IPv6 |
+| CNAME | Domeinnaam → andere domeinnaam | Aliassen — blijft geldig als IP wijzigt |
+| MX | Mail exchange | Email routing |
+| TXT | Tekst informatie | Domeinverificatie, SPF records |
+| SOA | Zone informatie | Automatisch aangemaakt |
+| SRV | Service locatie — poort en protocol | VoIP, SIP |
+| NS | Name server records | Delegatie naar DNS servers |
+
+## Private DNS Zone
+- Virtual network link aanmaken met auto-registration enabled voor automatische registratie
+- Auto-registration werkt met zowel statische als dynamische IP adressen
+- DNS Private Resolver ≠ virtual network link — zijn twee verschillende dingen
+
+## Load Balancer — NAT rule vs Load balancing rule
+| | Load balancing rule | Inbound NAT rule |
+|---|---|---|
+| Doel | Verdelen over alle VMs in pool | Doorsturen naar één specifieke VM |
+| Gebruik | HTTP/HTTPS traffic verdeling | RDP/SSH naar specifieke VM |
+| Sleutelwoord | "distribute traffic" | "forward to VM1 only" |
+
+## Load Balancer — Backend Pool Vereisten
+- VM zonder public IP kan worden toegevoegd aan backend pool
+- VM in stopped state kan worden toegevoegd aan backend pool
+- Public IP SKU van VM moet overeenkomen met SKU van load balancer
+- Basic IP op VM + Standard load balancer = niet compatibel — verwijder IP of upgrade naar Standard
+- Geen IP = altijd goed, verkeerd SKU = altijd fout
+
+## Internal vs Public Load Balancer
+- Internal (private) load balancer: verdeelt traffic binnen VNet
+- Public load balancer: verdeelt internet traffic naar VMs
+- Internal load balancer Standard SKU: kan VMs in verschillende subnets van hetzelfde VNet load balancen
+- Load balancer kan geen VMs in verschillende VNets load balancen
+
+## Internal Load Balancer — Backend Pool Regels
+- VMs moeten in hetzelfde VNet zitten als de load balancer
+- Verschillende subnets binnen hetzelfde VNet = toegestaan (Standard SKU)
+- Verschillende availability sets = toegestaan (Standard SKU)
+- Verschillende VNets = niet toegestaan
+- Subnet in load balancer config = frontend subnet, geen beperking op backend VMs
+
+## Application Gateway vs Load Balancer
+| | Load Balancer | Application Gateway |
+|---|---|---|
+| Laag | Layer 4 (TCP/UDP) | Layer 7 (HTTP/HTTPS) |
+| SSL termination | Nee | Ja |
+| WAF | Nee | Ja (WAF tier) |
+| SQL injection bescherming | Nee | Ja (WAF tier) |
+| Routing op URL pad | Nee | Ja |
+
+## Internal vs Public Load Balancer — Gebruik
+| | Internal Load Balancer | Public Load Balancer |
+|---|---|---|
+| Traffic | Binnen VNet tussen tiers | Van internet naar VMs |
+| Toegankelijk van internet | Nee | Ja |
+| Sleutelwoord | "between tiers", "not accessible from internet" | "internet traffic", "public endpoint" |
+
+## Load Balancer — Troubleshooting
+| Probleem | Oplossing |
+|---|---|
+| VMs niet bereikbaar | Check health probe configuratie |
+| VMs reageren niet op probe | Zorg dat VMs reageren op de geconfigureerde poort |
+| Traffic bereikt VMs niet | Verify NSG rules staan inbound traffic toe |
+| SKU mismatch | Load balancer en public IP moeten zelfde SKU hebben |
+| Ongelijke traffic verdeling | Change distribution mode naar five-tuple hash |
+| Users verliezen sessiedata | Stel session persistence in op Client IP + Protocol |
+
+## Load Balancer — Session Persistence vs Connectivity
+- Session persistence oplossing: alleen als users naar verschillende servers worden gerouteerd
+- Connectivity issues oplossing: health probe, NSG rules, VM poort response
+- Session persistence verandert routing maar lost geen bereikbaarheidsproblemen op
+
+## Network Watcher — Diagnostische Tools
+| Tool | Gebruik |
+|---|---|
+| Packet capture | Legt alle netwerk packets vast — inhoudelijk inspecteren, max 5 uur |
+| Next hop | Identificeert de volgende routing hop voor één specifiek pakket |
+| Effective routes | Toont alle actieve routes op een NIC — gebruik voor peering verificatie |
+| Connection troubleshoot | Valideert bereikbaarheid — toont geen routing beslissingen |
+| Connection monitor | Monitort bereikbaarheid en latency (RTT) continu over tijd |
+| IP flow verify | Controleert of een pakket wordt toegestaan of geblokkeerd door NSG |
+
+## Network Watcher — Algemeen
+- Één instantie per regio (niet per VNet)
+- Voor netwerk health monitoring: Network Watcher (niet Azure Monitor)
+- Packet capture vereist: AzureNetworkWatcherExtension installeren op VM
+
+## Network Watcher — IP Flow Verify vs Flow Logs
+| Tool | Gebruik | Administratieve inspanning |
+|---|---|---|
+| IP flow verify | Directe NSG check — geeft direct antwoord welke NSG blokkeert | Minimaal |
+| NSG/VNet flow logs | Logt al het IP verkeer — vereist handmatige analyse achteraf | Hoog |
+
+## Azure Monitor Network Insights vs Network Watcher
+| | Network Insights | Network Watcher |
+|---|---|---|
+| Gebruik | Gecentraliseerd overzicht alle netwerkresources | Diagnostiek van individuele resources |
+| Configuratie | Geen | Extensie soms vereist |
+| Schaal | Subscription-breed | Per resource |
+| Sleutelwoord | "centralized console", "hundreds of resources" | "troubleshoot", "diagnose", "packet capture" |
+
+## Netwerk Diagnostiek Commands
+| Command | Gebruik |
+|---|---|
+| `netstat -an` | Toont alle luisterende poorten en actieve verbindingen |
+| `Test-NetConnection` | PowerShell — test TCP verbinding of ping naar host |
+| `ping` | ICMP test — controleert bereikbaarheid |
+| `tracert` / `traceroute` | Toont routing pad naar doel |
+| `nslookup` | DNS lookup — naam naar IP resolutie |
+| `nbtstat -c` | NetBIOS name cache — legacy Windows naming |
+| `ipconfig` | IP configuratie van network interfaces |
+
+## Azure Bastion
+- Verbindt via privé IP — geen publiek IP vereist op de VM
+- Werkt binnen hetzelfde VNet of via VNet peering
+- Zonder peering = geen verbinding naar andere VNets
+- Jij → internet → Portal → Bastion → privé IP → VM
+- Sleutelwoord "connect without exposing RDP/SSH" = Azure Bastion
+
+## SSL (Secure Sockets Layer) Certificaat bij Resource Group Verplaatsing
+- SSL certificaat kan niet direct worden verplaatst
+- Verwijder uit bron RG → verplaats alle andere resources → upload opnieuw in doel RG
+
+---
+
+## MONITOR & BACKUP
+
+## Azure Backup Vault vs Recovery Services Vault
+| | Azure Backup Vault | Recovery Services Vault |
+|---|---|---|
+| Nieuwer/ouder | Nieuwer | Ouder |
+| Azure Blobs | ✓ | ✗ |
+| Azure Disks | ✓ | ✗ |
+| PostgreSQL | ✓ | ✗ |
+| Azure VMs | ✗ | ✓ |
+| Azure Files | ✗ | ✓ |
+| SQL in Azure VM | ✗ | ✓ |
+| Site Recovery | ✗ | ✓ |
+| On-premises (MARS/MABS) | ✗ | ✓ |
+| Container Instances | ✗ | ✗ |
+| App Service | ✗ | ✗ — eigen ingebouwde backup |
+
+## Recovery Services Vault — Regio Vereiste
+- Vault en VM moeten in dezelfde regio zijn
+- Resource group locatie is irrelevant — alleen resource locatie telt
+- Verschillende resource groups of OS types zijn toegestaan als regio overeenkomt
 
 ## Azure Backup — Eerste Inrichting Volgorde
 1. Recovery Services vault aanmaken
@@ -322,7 +547,14 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 3. Resources koppelen aan policy en beschermen
 - Vault moet eerst bestaan voordat policy kan worden aangemaakt
 
-## Azure Backup — MARS (Microsoft Azure Recovery Services) Agent Registratie Volgorde
+## Azure Backup
+- Default VM backup retention: 30 dagen
+- Soft delete retention: 14 dagen
+- Instant Restore snapshots: instelbaar (standaard 5 dagen)
+- Backup werkt ook als VM gestopt/deallocated is — snapshots van disks
+- Auto-shutdown heeft geen invloed op backup schedule
+
+## Azure Backup — MARS Agent Registratie Volgorde
 1. Recovery Services vault aanmaken
 2. MARS agent installeren op on-premises server
 3. **Vault credentials downloaden en server registreren** ← eerst dit
@@ -332,8 +564,8 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 ## Azure Backup Agents — Vergelijking
 | Agent/Tool | Gebruik |
 |---|---|
-| MARS agent (Microsoft Azure Recovery Services) | Files, folders en system state op individuele Windows server |
-| MABS (Microsoft Azure Backup Server) | Centrale backup van workloads — SQL, SharePoint, Hyper-V, meerdere machines |
+| MARS agent | Files, folders en system state op individuele Windows server |
+| MABS | Centrale backup van workloads — SQL, SharePoint, Hyper-V, meerdere machines |
 | Site Recovery Provider | Disaster recovery / replicatie via Azure Site Recovery |
 | Azure Connected Machine agent | Azure Arc — on-premises servers via Azure beheren |
 
@@ -353,15 +585,22 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | 3 | **Failover committed** ← vereist vóór reprotection |
 | 4 | Reprotect — replicatie omdraaien naar primaire regio |
 
-## Azure Site Recovery — Failover Stappen bij Echte Uitval
-1. Verify VM health en protection status
-2. Run failover
-3. Reprotect VM in secondary region
-- Test failover = alleen voor drills, niet voor echte uitval
-- Failback = pas na herstel primary region
+## Azure Site Recovery — Volledige Lifecycle
+**Setup fase (eenmalig):**
+1. Initiate replication — replicatie instellen van primary naar secondary
 
-## Azure Monitor — Limieten
-- Shared dashboard: maximaal 30 dagen data
+**Disaster Recovery drill (periodiek):**
+2. Run test failover — testen of failover werkt zonder productie te beïnvloeden
+3. Clean up test failover — testomgeving opruimen
+
+**Echte failover (bij uitval):**
+4. Verify VM health — controleer of VMs healthy en protected zijn
+5. Run failover — VMs aanmaken in secondary region
+6. Reprotect — replicatierichting omdraaien (secondary → primary)
+
+**Herstel primary region:**
+7. Run failback — terugschakelen naar primary region
+8. Reprotect again — replicatierichting weer omdraaien (primary → secondary)
 
 ## Azure Monitor — Alert States
 - New, Acknowledged, Closed
@@ -380,13 +619,8 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 - Action groups: één per unieke set ontvangers
 - Meerdere alert rules kunnen dezelfde action group delen
 
-## Azure Monitor Network Insights vs Network Watcher
-| | Network Insights | Network Watcher |
-|---|---|---|
-| Gebruik | Gecentraliseerd overzicht alle netwerkresources | Diagnostiek van individuele resources |
-| Configuratie | Geen | Extensie soms vereist |
-| Schaal | Subscription-breed | Per resource |
-| Sleutelwoord | "centralized console", "hundreds of resources" | "troubleshoot", "diagnose", "packet capture" |
+## Azure Monitor — Limieten
+- Shared dashboard: maximaal 30 dagen data
 
 ## KQL (Kusto Query Language) Operators
 | Operator | Wat het doet | Voorbeeld |
@@ -400,15 +634,6 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | `distinct` | Unieke waarden | `distinct Account` |
 | `search in (TableName) "value"` | Zoekt specifieke waarde in specifieke tabel | `search in (EventLogs) "error"` |
 
-## VM Extensies
-| Extensie | Doel |
-|---|---|
-| Azure Monitor agent | Verzamelt logs en metrics, stuurt naar Log Analytics workspace |
-| Custom Script Extension | Voert scripts uit na deployment — software installeren, configuratie |
-| DSC (Desired State Configuration) extension | Afdwingen van configuratiestatus |
-| VMAccess extension | Toegangsherstel — wachtwoord resetten, SSH key vervangen |
-| BGInfo extension | Toont systeeminformatie op het bureaublad van Windows VMs |
-
 ## Azure Advisor Categorieën
 | Categorie | Gebruik |
 |---|---|
@@ -418,175 +643,13 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | Security | Beveiligingsproblemen |
 | Operational Excellence | Processen en workflows |
 
-## Delete Locks — Wel/Niet
-| Resource | Delete lock mogelijk |
-|---|---|
-| Subscriptions | Ja |
-| Resource groups (RGs) | Ja |
-| Individuele resources (VMs, storage accounts) | Ja |
-| Management groups | Nee |
-| Storage account data (blobs, files) | Nee — gebruik immutability policy |
+## Azure Advisor — Unattached Disks
+- Azure Advisor Cost = identificeert unattached disks en geeft aanbevelingen
+- Voor het examen: Advisor voor unattached disks, niet Azure Monitor of Billing Administrator
 
-## SSL (Secure Sockets Layer) Certificaat bij Resource Group Verplaatsing
-- SSL certificaat kan niet direct worden verplaatst
-- Verwijder uit bron RG → verplaats alle andere resources → upload opnieuw in doel RG
+---
 
-## P2S (Point-to-Site) VPN na VNet Peering
-- P2S VPN client moet worden herinstalleerd na het configureren van VNet peering
-- Routes worden bij installatie gecached — herinstallatie downloadt nieuwe routes
-
-## Load Balancer — NAT rule vs Load balancing rule
-| | Load balancing rule | Inbound NAT rule |
-|---|---|---|
-| Doel | Verdelen over alle VMs in pool | Doorsturen naar één specifieke VM |
-| Gebruik | HTTP/HTTPS traffic verdeling | RDP/SSH naar specifieke VM |
-| Sleutelwoord | "distribute traffic" | "forward to VM1 only" |
-
-## Load Balancer — Backend Pool Vereisten
-- VM zonder public IP kan worden toegevoegd aan backend pool
-- VM in stopped state kan worden toegevoegd aan backend pool
-- Public IP SKU van VM moet overeenkomen met SKU van load balancer
-- TD4 met Basic public IP kan niet aan Standard load balancer — verwijder IP of upgrade naar Standard
-
-## DNS (Domain Name System) — Overzicht
-| Optie | Gebruik |
-|---|---|
-| Azure-provided name resolution | Alleen binnen één VNet, geen custom domeinnamen |
-| Azure Private DNS zone | Meerdere VNets, custom domeinnamen, minimale beheerinspanning |
-| Azure Public DNS zone | Publiek toegankelijke domeinen |
-| DNS server op VM | Werkt maar veel beheer — nooit de juiste keuze als Private DNS zone beschikbaar is |
-| Azure DNS Private Resolver | Proxy voor queries tussen on-premises en Azure DNS |
-
-## DNS Record Types
-| Type | Wat het doet | Gebruik |
-|---|---|---|
-| A | Domeinnaam → IPv4 (Internet Protocol version 4) adres | Directe IP koppeling |
-| AAAA | Domeinnaam → IPv6 (Internet Protocol version 6) adres | IPv6 |
-| CNAME (Canonical Name) | Domeinnaam → andere domeinnaam | Aliassen — blijft geldig als IP wijzigt |
-| MX (Mail Exchange) | Mail exchange | Email routing |
-| TXT (Text) | Tekst informatie | Domeinverificatie, SPF (Sender Policy Framework) records |
-| SOA (Start of Authority) | Zone informatie | Automatisch aangemaakt |
-| SRV (Service) | Service locatie — poort en protocol | VoIP (Voice over IP), SIP (Session Initiation Protocol) |
-| NS (Name Server) | Name server records | Delegatie naar DNS servers |
-
-## Custom Domain Verificatie in Microsoft Entra ID
-- Verificatie vereist een DNS record bij je domeinprovider
-- Twee opties: TXT record (aanbevolen) of MX record
-- Azure geeft je een verificatiecode die je als TXT of MX record toevoegt
-- A record = IP adres koppeling — niet voor verificatie
-- SOA = zone informatie — automatisch aangemaakt, niet aanpasbaar
-- RRSIG = DNSSEC handtekening — niet relevant voor Entra verificatie
-
-## Private DNS Zone
-- Virtual network link aanmaken met auto-registration enabled voor automatische registratie
-- Auto-registration werkt met zowel statische als dynamische IP adressen
-- DNS Private Resolver ≠ virtual network link — zijn twee verschillende dingen
-
-## VNet Peering — Disconnected Status
-- Disconnected = één van de peering links is verwijderd
-- Oplossing: verwijder de disconnected peer en maak opnieuw aan
-- Adres space wijzigen of subnet verwijderen lost disconnected status niet op
-
-## Network Watcher — Diagnostische Tools
-| Tool | Gebruik |
-|---|---|
-| Packet capture | Legt alle netwerk packets vast — inhoudelijk inspecteren, max 5 uur |
-| Next hop | Identificeert de volgende routing hop voor één specifiek pakket |
-| Effective routes | Toont alle actieve routes op een NIC — gebruik voor peering verificatie |
-| Connection troubleshoot | Valideert bereikbaarheid — toont geen routing beslissingen |
-| Connection monitor | Monitort bereikbaarheid en latency (RTT) continu over tijd |
-| IP flow verify | Controleert of een pakket wordt toegestaan of geblokkeerd door NSG |
-
-## Network Watcher — Algemeen
-- Één instantie per regio (niet per VNet)
-- Voor netwerk health monitoring: Network Watcher (niet Azure Monitor)
-- Packet capture vereist: AzureNetworkWatcherExtension installeren op VM
-- Network In/Out metrics tonen volume maar niet inhoud van verkeer
-
-## Network Watcher — IP Flow Verify vs Flow Logs
-| Tool | Gebruik | Administratieve inspanning |
-|---|---|---|
-| IP flow verify | Directe NSG check voor specifiek verkeer — geeft direct antwoord welke NSG blokkeert | Minimaal |
-| NSG/VNet flow logs | Logt al het IP verkeer door NSG — vereist handmatige analyse achteraf | Hoog |
-- Voor "identify whether NSG is blocking" = altijd IP flow verify
-
-## Netwerk Diagnostiek Commands
-| Command | Gebruik |
-|---|---|
-| `netstat -an` | Toont alle luisterende poorten en actieve verbindingen |
-| `Test-NetConnection` | PowerShell — test TCP (Transmission Control Protocol) verbinding of ping naar host |
-| `ping` | ICMP (Internet Control Message Protocol) test — controleert bereikbaarheid |
-| `tracert` / `traceroute` | Toont routing pad naar doel |
-| `nslookup` | DNS lookup — naam naar IP resolutie |
-| `nbtstat -c` | NBT (NetBIOS over TCP/IP) name cache — legacy Windows naming |
-| `ipconfig` | IP configuratie van network interfaces |
-
-## Load Balancer — Troubleshooting
-| Probleem | Oplossing |
-|---|---|
-| VMs niet bereikbaar | Check health probe configuratie |
-| VMs reageren niet op probe | Zorg dat VMs reageren op de geconfigureerde poort |
-| Traffic bereikt VMs niet | Verify NSG rules staan inbound traffic toe |
-| SKU (Stock Keeping Unit) mismatch | Load balancer en public IP moeten zelfde SKU hebben (Standard/Basic) |
-| Ongelijke traffic verdeling | Change distribution mode naar five-tuple hash |
-| Users verliezen sessiedata | Stel session persistence in op Client IP + Protocol |
-
-## Load Balancer — Session Persistence vs Connectivity
-- Session persistence oplossing: alleen als users naar verschillende servers worden gerouteerd
-- Connectivity issues oplossing: health probe, NSG rules, VM poort response
-- Session persistence verandert routing maar lost geen bereikbaarheidsproblemen op
-
-## Internal vs Public Load Balancer
-- Internal (private) load balancer: verdeelt traffic binnen VNet
-- Public load balancer: verdeelt internet traffic naar VMs
-- Internal load balancer Standard SKU: kan VMs in verschillende subnets van hetzelfde VNet load balancen
-- Load balancer kan geen VMs in verschillende VNets load balancen
-
-## Application Gateway vs Load Balancer
-| | Load Balancer | Application Gateway |
-|---|---|---|
-| Laag | Layer 4 (TCP/UDP) | Layer 7 (HTTP/HTTPS) |
-| SSL termination | Nee | Ja |
-| WAF | Nee | Ja (WAF tier) |
-| SQL injection bescherming | Nee | Ja (WAF tier) |
-| Routing op URL pad | Nee | Ja |
-
-## Lifecycle Management
-- Werkt alleen op block blobs (niet page blobs, niet append blobs)
-- Access tracking inschakelen vereist voor regels op basis van laatste toegang
-- Tiers: Hot → Cool → Cold → Archive (alleen in deze richting automatisch)
-
-## AzCopy
-- `azcopy copy` — eenmalige kopie van bron naar doel
-- `azcopy sync` — synchroniseert inclusief verwijderingen — gevaarlijk voor migratie
-- Ondersteunt resumable transfers
-- Ondersteunt blob en file storage
-- Ondersteunde OS: Windows, Linux en macOS
-- Authenticatie: Microsoft Entra ID of SAS token
-
-## Azure Monitor — Alert Rule vs Alert Processing Rule
-| | Alert rule | Alert processing rule |
-|---|---|---|
-| Doel | Detecteert event en triggert | Verwerkt/suppressed bestaande alerts |
-| Notificatie | Via gekoppelde action group | Nee — geen notificatiemechanisme |
-| Voor email bij event | Ja — alert rule + action group | Nee |
-
-## Budget Alert — Vereiste Stappen
-1. Action group aanmaken van type Runbook met Stop VM actie
-2. Budget settings wijzigen in Cost Management + Billing — drempel instellen en action group koppelen
-- Beide stappen zijn vereist — budget is de trigger, action group is de actie
-
-## Hybrid Entra ID — Attributen Aanpassen
-- Users gesynchroniseerd vanuit Windows Server AD: Job Info attributen (Department, Job Title) NIET aanpasbaar in Entra ID — moet in on-premises AD
-- UsageLocation: altijd aanpasbaar in Entra ID voor alle users ongeacht source
-- Cloud-only users: alle attributen aanpasbaar in Entra ID
-
-## Microsoft 365 Groepen vs Security Groepen — Expiration Policy
-- Expiration policy (automatisch verwijderen na X dagen) = alleen Microsoft 365 groepen
-- Security groepen ondersteunen geen expiration policy
-- Zowel assigned als dynamic Microsoft 365 groepen ondersteunen expiration
-
-## Sleutelwoorden in examenvragen
+## SLEUTELWOORDEN IN EXAMENVRAGEN
 | Sleutelwoord in de vraag | Antwoord |
 |---|---|
 | Minimizes administrative effort | App Service, ACA — nooit AKS of VMs |
@@ -595,16 +658,16 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | Without requiring a failover | RA-GRS of RA-GZRS |
 | Automatically | Dynamic groups, lifecycle management, Modify policy, autoscale |
 | Prevent accidental deletion | Delete lock |
-| Encrypted connection to on-premises | VPN (Virtual Private Network) gateway |
-| Scale to zero | ACA (Azure Container Apps) |
-| Short-lived isolated task | ACI (Azure Container Instances) |
+| Encrypted connection to on-premises | VPN gateway |
+| Scale to zero | ACA |
+| Short-lived isolated task | ACI |
 | Custom domain + autoscale + Docker | App Service |
 | Even traffic distribution / connection timeouts | Five-tuple hash |
 | Same server every request / session data loss | Session persistence Client IP + Protocol |
-| POSIX (Portable Operating System Interface) ACLs / Data Lake | Hierarchical namespace |
+| POSIX ACLs / Data Lake | Hierarchical namespace |
 | Network health monitoring | Network Watcher |
 | Underutilized VMs / unattached disks | Azure Advisor Cost |
-| Temporary external access to storage | SAS (Shared Access Signature) token |
+| Temporary external access to storage | SAS token |
 | Datacenter failure protection / 99.99% SLA | Availability zone |
 | Rack failure protection / 99.95% SLA | Availability set |
 | Service Bus queue scaling | Event-driven trigger in ACA |
@@ -619,15 +682,14 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | Monitor RTT latency between VMs | Connection monitor in Network Watcher |
 | Centralized console network monitoring | Azure Monitor Network Insights |
 | Intermittent connectivity load balancer | Health probe + SKU matching |
-| Session data loss / same server | Session persistence Client IP + Protocol |
 | RDP to specific VM via load balancer | Inbound NAT rule |
 | Register on-premises server with vault | Download vault credentials and register server first |
 | Refresh cache in container app | Sidecar container |
 | Pass array inline in ARM deployment | --parameters switch in deployment command |
 | Check listening ports on server | netstat -an |
-| Fewest NSG rules for subset of VMs | ASG (Application Security Group) |
-| Back up files/folders on single server | MARS (Microsoft Azure Recovery Services) agent |
-| Central backup of workloads/multiple machines | MABS (Microsoft Azure Backup Server) |
+| Fewest NSG rules for subset of VMs | ASG |
+| Back up files/folders on single server | MARS agent |
+| Central backup of workloads/multiple machines | MABS |
 | Store password securely in ARM template | Azure Key Vault + access policy |
 | Large-scale stateless workloads VM scale set | Uniform orchestration mode |
 | Enable Traffic Analytics | Owner, Contributor of Network Contributor rol |
@@ -637,3 +699,7 @@ Tenant → Management Group → Subscription → Resource Group (RG) → Resourc
 | Mount file share from Azure and on-premises | Azure Files |
 | Auto-delete group after X days | Microsoft 365 group met expiration policy |
 | Modify Department attribute synced user | Moet in on-premises AD — niet in Entra ID |
+| Traffic between internal tiers verdelen | Internal Load Balancer |
+| Premium P1 features toewijzen | Licenses blade in Entra ID — niet rol toewijzen |
+| Connect to VM without exposing RDP/SSH | Azure Bastion |
+| Backup VM regardless of running state | Azure Backup — werkt altijd, ook bij stopped VM |
