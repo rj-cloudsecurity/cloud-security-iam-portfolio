@@ -49,6 +49,8 @@
 | Password Administrator | Wachtwoorden resetten |
 | Guest Inviter | Gastgebruikers uitnodigen |
 | License Administrator | Licenties toewijzen |
+| Authentication Policy Administrator | SSPR configureren |
+| Cloud Device Administrator | Devices beheren — GEEN groepen |
 
 ## Entra ID vs Azure RBAC
 - **Entra ID rollen** = directory/tenant beheren
@@ -60,16 +62,30 @@
 - Rol toewijzen geeft geen toegang tot premium features
 - "Premium P1 features" = Licenses blade, niet Directory roles
 - Admin group ≠ Application Administrator rol — expliciet toewijzen
+- Licentie verwijderen van user die via groep licentie heeft = user uit groep verwijderen
+- Nested groepen erven geen licenties — alleen directe leden
+
+## SSPR — Wie kan configureren
+- Global Administrator ✓
+- Authentication Policy Administrator ✓
+- Password Administrator ✗
+- User Administrator ✗
+- Security Administrator ✗
+- Admins gebruiken altijd two-gate policy — geen security questions
 
 ## Hybrid Entra ID — Attributen Aanpassen
 - Gesynchroniseerd vanuit Windows Server AD: Department/Job Title NIET aanpasbaar in Entra ID — moet in on-premises AD
 - UsageLocation: altijd aanpasbaar in Entra ID
 - Cloud-only users: alle attributen aanpasbaar
 
+## Guest Users
+- UPN formaat: user_domain.com#EXT#@tenant.com
+- Guest users kunnen geen SSPR gebruiken in resource tenant
+- Sleutelwoord "only invite fabrikam.com" = External collaboration settings → Collaboration restrictions
+
 ## Traffic Analytics — Vereiste Rollen
 - Owner, Contributor of Network Contributor op subscription scope
 - Reader, Security Operator = onvoldoende om in te schakelen
-- Reader kan wel visualisaties bekijken als al ingeschakeld
 
 ## Deny Assignments
 - Deny overschrijft altijd allow — ook Owner rol
@@ -83,6 +99,7 @@
 | Modify | Synchroon | Voegt tags/properties toe automatisch |
 | DeployIfNotExists | Asynchroon | Deployt template als resource ontbreekt |
 | AuditIfNotExists | Asynchroon | Audit als gerelateerde resource ontbreekt |
+| Disabled | — | Policy uitgeschakeld — geen enforcement |
 
 ## ARM Template Deployment Scopes
 | Scope | Gebruik |
@@ -92,8 +109,11 @@
 | Management group | Meerdere subscriptions |
 | Tenant | Alles |
 
-## ARM Template — Wachtwoorden
-- Nooit plain text — gebruik Azure Key Vault + access policy
+## ARM Template
+- Nooit wachtwoorden plain text — gebruik Azure Key Vault + access policy
+- Custom deployment: alleen Subscription, Resource Group, Location aanpasbaar
+- copy element = meerdere instances van dezelfde resource deployen
+- targetScope in Bicep = bepaalt waar resources worden gedeployed
 
 ## Delete Locks
 | Resource | Delete lock mogelijk |
@@ -128,21 +148,22 @@
 | Hot | Geen | Snel |
 | Cool | 30 dagen | Snel |
 | Cold | 90 dagen | Snel |
-| Archive | 180 dagen | Uren |
+| Archive | 180 dagen | Uren — offline, niet toegankelijk zonder rehydratie |
 
 ## Rehydration uit Archive
 - Standard: tot 15 uur
 - High: binnen 1 uur (onder 10 GB)
+- Archive = offline = NIET toegankelijk — eerst rehydreren naar Hot of Cool
 
 ## Storage Redundancy
-| Type | Zone spreiding | Secundaire regio | Leestoegang secundair | Sync/Async |
-|---|---|---|---|---|
-| LRS | Nee | Nee | Nee | Synchroon |
-| ZRS | Ja | Nee | Nee | Synchroon |
-| GRS | Nee | Ja | Nee | Primair sync, secundair async |
-| RA-GRS | Nee | Ja | Ja | Primair sync, secundair async |
-| GZRS | Ja | Ja | Nee | Primair sync, secundair async |
-| RA-GZRS | Ja | Ja | Ja | Primair sync, secundair async |
+| Type | Zone spreiding | Secundaire regio | Leestoegang secundair |
+|---|---|---|---|
+| LRS | Nee | Nee | Nee |
+| ZRS | Ja | Nee | Nee |
+| GRS | Nee | Ja | Nee |
+| RA-GRS | Nee | Ja | Ja |
+| GZRS | Ja | Ja | Nee |
+| RA-GZRS | Ja | Ja | Ja |
 
 ## Storage Account Types
 | Type | Ondersteunde services | Redundancy |
@@ -163,17 +184,22 @@
 | SKU/replicatie | LRS |
 | networkAcls defaultAction | Allow |
 
-**Ezelsbruggetje:** alles staat standaard open en onveilig behalve HTTPS. Als een vereiste vraagt om iets te blokkeren moet het expliciet in de template staan. Als één property ontbreekt of fout is = **No**.
+**Ezelsbruggetje:** alles staat standaard open en onveilig behalve HTTPS. Als één property ontbreekt of fout is = **No**.
 
 ## Storage Replicatie — Sleutelregel
 - "Replicatie naar andere regio + minimale kosten" = **Standard_GRS**
 - ZRS = alleen zone redundantie, GEEN secundaire regio
-- Synchroon = LRS of ZRS
-- Asynchroon naar secundaire regio = alles met G ervoor
+- "Compliance / sensitive data" encryptie = customer-managed keys in Key Vault
+- "Minimize costs" encryptie = Microsoft-managed keys
+
+## Object Replicatie Vereisten
+- Blob versioning op source ✓
+- Blob versioning op destination ✓
+- Change feed op source ✓
 
 ## Azure Import/Export — Volledige Volgorde
-1. Dataset CSV aanmaken — welke bestanden
-2. Driveset CSV aanmaken — welke schijven
+1. Dataset CSV aanmaken
+2. Driveset CSV aanmaken
 3. WAImportExport.exe uitvoeren → journal file
 4. Import job aanmaken in Azure Portal
 5. Schijven opsturen
@@ -185,10 +211,24 @@
 3. Sync group aanmaken + cloud endpoint
 4. Server endpoint aanmaken
 
+## Azure File Sync — Regels
+- Één cloud endpoint per sync group
+- Één server endpoint per server per sync group
+- Nooit overschrijven bij conflict — conflict naam aanmaken
+- Maximum 100 conflict bestanden per bestand
+
 ## AzCopy
 - Ondersteunt: blob en file storage
 - OS: Windows, Linux, macOS
-- Authenticatie: Entra ID of SAS token — geen Kerberos of Microsoft Authenticator
+- Authenticatie: Entra ID of SAS token
+- make = container aanmaken
+- copy = bestanden kopiëren
+- sync = synchroniseren inclusief verwijderingen
+
+## Storage Account Firewall
+1. Public network access → Selected networks instellen
+2. Specifiek IP adres toevoegen
+- Beide stappen vereist
 
 ---
 
@@ -213,11 +253,16 @@
 | Node.js | Windows en Linux |
 | Java | Windows en Linux |
 
-- Eén plan per OS — ASP.NET + PHP = twee plannen
-- Meerdere web apps delen één plan in dezelfde regio
-- Verschillende regio's = apart plan per regio
+- Eén plan per OS
 - Deployment slots vereist Standard of hoger
 - Swap staging ↔ production = snelste manier om te reverten
+- Scale up naar Standard eerst, dan autoscale rules instellen
+
+## App Service — Logging
+| Type | Wat |
+|---|---|
+| Web Server Logging | HTTP requests — method, URI, client IP, port, user agent, response code |
+| Application Logging | Applicatie errors, debug info |
 
 ## Container Services
 | Service | Gebruik | Scale to zero | Scaling trigger |
@@ -227,9 +272,20 @@
 | ACA | Serverless microservices | Ja | HTTP / event-driven / CPU |
 | AKS | Complexe orchestratie | Nee | Kubernetes HPA |
 
+## ACR (Azure Container Registry) Tiers
+| Tier | Private endpoints | Geo-replication |
+|---|---|---|
+| Basic | Nee | Nee |
+| Standard | Nee | Nee |
+| Premium | Ja | Ja |
+
+- Content trust = signed images
+- ACR Tasks = automatisch rebuilden bij base image update
+
 ## VM Scale Set Orchestration Modes
 - Uniform = large-scale stateless, snelste uitrol
 - Flexible = stateful, verschillende VM types
+- Orchestration mode kan niet worden gewijzigd na aanmaken
 
 ## Availability Opties VMs
 | Optie | Beschermt tegen | SLA |
@@ -238,22 +294,27 @@
 | Availability set | Rack failures | 99.95% |
 | Availability zone | Datacenter failure | 99.99% |
 
-- Update domains = planned maintenance
-- Fault domains = unplanned hardware failure
-- Één zone = één fysieke locatie, niet meerdere datacenters
+## VM Wijzigingen — Downtime of Niet
+| Wijziging | Downtime? |
+|---|---|
+| VM size wijzigen | Ja |
+| NIC loshalen | Ja |
+| Nieuwe disk toevoegen | Nee |
+| DSC extension toevoegen | Nee |
+| Verplaatsen naar andere resource group | Nee |
 
 ## VM Tijdelijke Disk
 - Windows: drive D — gaat verloren bij redeploy
 - Linux: /dev/sdb — gaat verloren bij redeploy
 
-## Disk Types — OS Disk
-| Type | OS disk |
-|---|---|
-| Ultra disk | Nee |
-| Premium SSD v2 | Nee |
-| Premium SSD | Ja |
-| Standard SSD | Ja |
-| Standard HDD | Ja |
+## Site Recovery — Vereiste voor AZ verplaatsing
+- VM moet managed disks gebruiken
+- Unmanaged disks = niet mogelijk
+
+## Hyper-V Replicatie naar Azure — Vereiste Resources
+1. Recovery Services Vault
+2. Hyper-V site
+3. Replication Policy
 
 ---
 
@@ -264,42 +325,62 @@
 - Outbound: NIC NSG eerst → Subnet NSG
 - Inbound internet = geblokkeerd by default
 - Inbound VNet = toegestaan by default
-- Toegang beperken = altijd NSG, niet route tables of address spaces
+- Beide NSGs moeten toestaan anders geblokkeerd
 - NSG koppelen aan: subnet of NIC — niet aan VNet of VM direct
 
 ## ASG (Application Security Group)
 - Groepeert NICs van meerdere VMs
 - Alle NICs moeten in hetzelfde VNet zitten
 - "Fewest NSG rules" = altijd ASG
+- ASG koppelen aan NIC — niet aan VM direct of subnet
 
 ## VNet Peering
-- Peering is **niet transitief** — Spoke1 kan niet via Hub naar Spoke2
-- Gateway transit = alleen voor VPN/ExpressRoute naar on-premises
+- Peering is **niet transitief**
+- Gateway transit = VPN/ExpressRoute naar on-premises via hub gateway
 - Disconnected = verwijder peer en maak opnieuw aan
 - P2S VPN client herinstalleren na elke topologiewijziging
+- Overlappende address spaces = peering niet mogelijk
+
+## Route Table — Next Hop Types
+| Type | Gebruik |
+|---|---|
+| Virtual appliance | Aangepast IP adres opgeven — NVA, firewall |
+| Internet | Publiek internet |
+| Virtual network gateway | VPN/ExpressRoute |
+| Virtual network | Binnen hetzelfde VNet |
+| None | Traffic droppen |
 
 ## DNS Record Types
 | Type | Gebruik |
 |---|---|
 | A | Domeinnaam → IPv4 |
 | AAAA | Domeinnaam → IPv6 |
-| CNAME | Alias — blijft geldig als IP wijzigt |
+| CNAME | Alias |
 | MX | Email routing |
 | TXT | Domeinverificatie |
 | NS | Delegatie naar DNS servers |
 | SOA | Automatisch aangemaakt |
 
+## Private DNS Zone
+- Virtual network link aanmaken met auto-registration = VMs automatisch registreren
+- DNS Private Resolver = proxy voor on-premises naar Azure DNS — NIET voor auto-registration
+- Locatie DNS zone irrelevant — alleen VNet link telt
+
 ## Load Balancer — Backend Pool
 - VM zonder public IP → mag erin ✓
 - VM stopped → mag erin ✓
 - Basic IP + Standard LB → niet compatibel ✗
-- Geen IP = altijd goed, verkeerd SKU = altijd fout
+- Standard public IP = altijd Static
 
 ## Load Balancer — Regels
 | Regel | Gebruik |
 |---|---|
 | Load balancing rule | Verdelen over alle VMs |
 | Inbound NAT rule | Doorsturen naar één specifieke VM |
+
+## Load Balancer — Troubleshooting
+- Connectivity issues = health probe + NSG rules + VM port response
+- Session persistence = Client IP + Protocol
 
 ## Application Gateway vs Load Balancer
 | | Load Balancer | Application Gateway |
@@ -308,21 +389,29 @@
 | SSL termination | Nee | Ja |
 | WAF / SQL injection | Nee | Ja (WAF tier) |
 
+## On-premises via VPN load balancen
+- Internal Load Balancer of Application Gateway (intern geconfigureerd)
+- Public Load Balancer = alleen internet traffic
+
 ## Azure Bastion
 - Verbindt via privé IP
 - Werkt binnen hetzelfde VNet of via VNet peering
 - Zonder peering = geen verbinding naar andere VNets
-- Jij → internet → Portal → Bastion → privé IP → VM
+- AzureBastionSubnet vereist — minimaal /26
 
 ## Network Watcher Tools
 | Tool | Gebruik |
 |---|---|
 | IP flow verify | Blokkeert NSG dit pakket? |
-| Next hop | Wat is de volgende hop? |
-| Effective routes | Waarom werkt peering niet? |
-| Packet capture | Opnemen packets (max 5 uur) |
+| Next hop | Wat is de volgende hop voor één pakket? |
+| Effective routes | Alle actieve routes op NIC — gebruik voor peering verificatie |
+| Packet capture | Opnemen packets (max 5 uur) — vereist AzureNetworkWatcherExtension |
 | Connection monitor | RTT latency monitoren |
 | Network Insights | Overzicht alle netwerkresources |
+
+## Service Endpoint
+- Directe verbinding van VNet naar Azure service via Azure backbone
+- Sleutelwoord "traverse through Azure backbone" = Service endpoint
 
 ---
 
@@ -340,26 +429,68 @@
 - Werkt altijd — ook bij stopped/deallocated VM
 - Vault en VM in dezelfde regio
 - Volgorde: Vault → Policy → Koppelen
+- Default retention: 30 dagen
+- Soft delete retention: 14 dagen
+
+## MARS Agent — Volgorde
+1. Recovery Services vault aanmaken
+2. MARS agent installeren
+3. **Vault credentials downloaden en server registreren** ← eerst dit
+4. Backup policy configureren
+5. Backup starten
+
+## Recovery Services Vault Verwijderen
+1. Stop backup van alle protected items
+2. Disable soft delete
+3. Permanently remove all items in soft delete state
+4. Dan pas vault verwijderen
+- VM verwijderen = NIET vereist
+
+## Azure Backup — Pre-Check Statussen
+| Status | Oorzaak |
+|---|---|
+| Warning | VM Agent niet up to date |
+| Critical | NSG blokkeert Azure Backup communicatie |
+
+## Azure Backup — Restore Opties
+- Create new VM
+- Restore Disk
+- Replace existing disk — VM moet nog bestaan, disk blijft in RG na restore
+- File Recovery — alleen naar zelfde of compatibele OS versie
 
 ## Site Recovery — Volledige Lifecycle
 **Setup:** Initiate replication
-
 **Drill:** Test failover → Clean up
-
 **Echte failover:** Verify → Failover → Reprotect
-
 **Herstel:** Failback → Reprotect again
 
 ## Azure Monitor
 - Alert rules: één per signal
 - Action groups: één per unieke set ontvangers
+- Alert state = altijd handmatig — nooit automatisch
 - Shared dashboard: max 30 dagen data
+- **Action group EERST aanmaken, dan alert rule**
+
+## Azure Monitor Agent vs Performance Diagnostics
+| Agent | Wat | Doorlopend? |
+|---|---|---|
+| Azure Monitor Agent | Logs en metrics verzamelen | Ja |
+| Network Watcher Agent | Packet capture | Ja |
+| Performance Diagnostics | VM performance diagnose | Nee — eenmalig |
+
+## Application Insights Features
+| Feature | Gebruik |
+|---|---|
+| Funnels | Doorloopt gebruiker het hele proces? |
+| Retention | Komen gebruikers terug? |
+| User Flows | Welk pad nemen gebruikers? |
+| Impact | Hoe beïnvloeden laadtijden conversie? |
 
 ## KQL Operators
 | Operator | Gebruik |
 |---|---|
 | where | Filtert rijen |
-| summarize | Aggregeert — "aggregate by column" |
+| summarize | Aggregeert |
 | project | Selecteert kolommen |
 | extend | Voegt kolommen toe |
 | search in (Table) "value" | Zoekt in specifieke tabel |
@@ -399,3 +530,17 @@
 | Service Bus queue scaling | Event-driven trigger in ACA |
 | Verify custom domain in Entra ID | TXT of MX record |
 | Auto-delete group after X days | Microsoft 365 group expiration policy |
+| Specify next hop IP address | Virtual appliance |
+| Traverse through Azure backbone | Service endpoint |
+| Signed container images | Content trust in ACR |
+| Private endpoints ACR | Premium tier vereist |
+| Geo-replication ACR | Premium tier vereist |
+| On-premises via VPN load balancen | Internal LB of Application Gateway |
+| Packet capture vereist | AzureNetworkWatcherExtension installeren |
+| trace web requests performance | Application Insights Profiler |
+| ITSM integratie Service Manager | IT Service Management Connector (ITSMC) |
+| Privé verbinding Azure Monitor | AMPLS |
+| Retain logs specific period | Log Analytics workspace settings |
+| Auto-register VMs in private DNS | Virtual network link met auto-registration |
+| Web server logs HTTP requests | Web Server Logging |
+| App errors debug logs | Application Logging |
