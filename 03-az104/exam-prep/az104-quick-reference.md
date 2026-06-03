@@ -278,12 +278,12 @@
 | Application Logging | Applicatie errors, debug info |
 
 ## Container Services
-| Service | Gebruik | Scale to zero | Scaling trigger |
-|---|---|---|---|
-| ACI | Korte geïsoleerde taken | Nee | Handmatig |
-| App Service | Docker web apps | Nee | HTTP / CPU |
-| ACA | Serverless microservices | Ja | HTTP / event-driven / CPU |
-| AKS | Complexe orchestratie | Nee | Kubernetes HPA |
+| Service | Volledig | Gebruik | Scale to zero | Scaling trigger |
+|---|---|---|---|---|
+| ACI | Azure Container Instances | Korte geïsoleerde taken | Nee | Handmatig |
+| App Service | Azure App Service | Docker web apps | Nee | HTTP / CPU |
+| ACA | Azure Container Apps | Serverless microservices | Ja | HTTP / event-driven / CPU |
+| AKS | Azure Kubernetes Service | Complexe orchestratie | Nee | Kubernetes HPA |
 
 ## ACR (Azure Container Registry) Tiers
 | Tier | Private endpoints | Geo-replication |
