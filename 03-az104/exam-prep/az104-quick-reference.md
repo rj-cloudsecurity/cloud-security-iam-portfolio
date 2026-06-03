@@ -1,5 +1,3 @@
-# AZ-104 Quick Reference — Key Facts
-
 ## Poorten
 | Poort | Protocol/Gebruik |
 |---|---|
@@ -165,6 +163,14 @@
 | GZRS | Ja | Ja | Nee |
 | RA-GZRS | Ja | Ja | Ja |
 
+## Storage Redundancy — Copies
+| Type | Copies primair | Copies secundair | Totaal |
+|---|---|---|---|
+| LRS | 3 | 0 | 3 |
+| ZRS | 3 | 0 | 3 |
+| GRS | 3 | 3 | 6 |
+| GZRS | 3 | 3 | 6 |
+
 ## Storage Account Types
 | Type | Ondersteunde services | Redundancy |
 |---|---|---|
@@ -196,6 +202,7 @@
 - Blob versioning op source ✓
 - Blob versioning op destination ✓
 - Change feed op source ✓
+- Beide accounts: General Purpose v2 of Premium block blob
 
 ## Azure Import/Export — Volledige Volgorde
 1. Dataset CSV aanmaken
@@ -215,6 +222,7 @@
 - Één cloud endpoint per sync group
 - Één server endpoint per server per sync group
 - Nooit overschrijven bij conflict — conflict naam aanmaken
+- Conflictnaam formaat: bestandsnaam-endpointnaam.extensie
 - Maximum 100 conflict bestanden per bestand
 
 ## AzCopy
@@ -224,11 +232,16 @@
 - make = container aanmaken
 - copy = bestanden kopiëren
 - sync = synchroniseren inclusief verwijderingen
+- Syntax: azcopy copy [source] [destination] [flags]
+- --recursive = inclusief subdirectories
 
 ## Storage Account Firewall
 1. Public network access → Selected networks instellen
 2. Specifiek IP adres toevoegen
 - Beide stappen vereist
+
+## Log Analytics Workspace voor Backup Reports
+- Regio maakt niet uit — elke workspace bruikbaar ongeacht locatie
 
 ---
 
@@ -316,6 +329,10 @@
 2. Hyper-V site
 3. Replication Policy
 
+## VM Scripts
+- Eenmalig bij deployment → Custom Script Extension
+- Consistent blijven + compliance → DSC extension
+
 ---
 
 ## NETWORKING
@@ -327,6 +344,7 @@
 - Inbound VNet = toegestaan by default
 - Beide NSGs moeten toestaan anders geblokkeerd
 - NSG koppelen aan: subnet of NIC — niet aan VNet of VM direct
+- NSG regio = zelfde regio als subnet/NIC
 
 ## ASG (Application Security Group)
 - Groepeert NICs van meerdere VMs
@@ -336,10 +354,29 @@
 
 ## VNet Peering
 - Peering is **niet transitief**
+- Peering is **niet automatisch bidirectioneel** — twee peerings nodig (A→B én B→A)
 - Gateway transit = VPN/ExpressRoute naar on-premises via hub gateway
 - Disconnected = verwijder peer en maak opnieuw aan
+- Nieuw address space toegevoegd = Sync the peering
 - P2S VPN client herinstalleren na elke topologiewijziging
 - Overlappende address spaces = peering niet mogelijk
+
+## Gateway Transit
+- Hub heeft VPN Gateway → zet "allow gateway transit" aan op Hub
+- Spoke wil gateway gebruiken → zet "use remote gateway" aan op Spoke
+- VNet kan maar één VPN Gateway hebben
+- Gateway transit werkt ook cross-regio
+- GatewaySubnet vereist minimaal /27
+
+## NVA (Network Virtual Appliance)
+- VM die werkt als firewall/router
+- Vereist UDR om verkeer erdoorheen te sturen
+- Voor high availability: meerdere NVAs achter load balancer
+- Microsegmentatie = apart subnet voor firewall
+
+## VPN Types
+- Site-to-site = heel kantoor → Azure (één VPN apparaat voor iedereen)
+- Point-to-site = één laptop → Azure (per persoon)
 
 ## Route Table — Next Hop Types
 | Type | Gebruik |
@@ -349,6 +386,12 @@
 | Virtual network gateway | VPN/ExpressRoute |
 | Virtual network | Binnen hetzelfde VNet |
 | None | Traffic droppen |
+
+## Route Prioriteit
+1. User-defined routes (hoogste prioriteit)
+2. BGP routes
+3. System routes
+- Langste prefix wint — /24 wint van /16
 
 ## DNS Record Types
 | Type | Gebruik |
@@ -361,10 +404,20 @@
 | NS | Delegatie naar DNS servers |
 | SOA | Automatisch aangemaakt |
 
+## Custom Domain in Azure DNS — Volgorde
+1. Maak Azure public DNS zone aan
+2. Kopieer de 4 NS records van Azure
+3. Plak die NS records bij je domeinregistrar
+
+## Subdomain Delegatie
+- Subdomain delegeren naar andere zone → NS record aanmaken in parent zone
+
 ## Private DNS Zone
 - Virtual network link aanmaken met auto-registration = VMs automatisch registreren
 - DNS Private Resolver = proxy voor on-premises naar Azure DNS — NIET voor auto-registration
 - Locatie DNS zone irrelevant — alleen VNet link telt
+- VNet kan maar één registration zone hebben
+- Private DNS zone kan meerdere registration VNets hebben
 
 ## Load Balancer — Backend Pool
 - VM zonder public IP → mag erin ✓
@@ -382,12 +435,21 @@
 - Connectivity issues = health probe + NSG rules + VM port response
 - Session persistence = Client IP + Protocol
 
-## Application Gateway vs Load Balancer
-| | Load Balancer | Application Gateway |
-|---|---|---|
-| Laag | Layer 4 | Layer 7 |
-| SSL termination | Nee | Ja |
-| WAF / SQL injection | Nee | Ja (WAF tier) |
+## Load Balancer vs Application Gateway vs Front Door vs Traffic Manager
+| | Load Balancer | Application Gateway | Front Door | Traffic Manager |
+|---|---|---|---|---|
+| Laag | Layer 4 | Layer 7 | Layer 7 | DNS |
+| Scope | Regionaal | Regionaal | Globaal | Globaal |
+| SSL termination | Nee | Ja | Ja | Nee |
+| WAF | Nee | Ja | Ja | Nee |
+| Path-based routing | Nee | Ja | Ja | Nee |
+| Caching | Nee | Nee | Ja | Nee |
+
+## Application Gateway Extra
+- Path-based routing = URL pad → verschillende backend pools
+- Multi-site routing = meerdere domeinen op één gateway via CNAME
+- Connection draining = graceful removal van backend server
+- Health probe = HTTP 200-399 = gezond
 
 ## On-premises via VPN load balancen
 - Internal Load Balancer of Application Gateway (intern geconfigureerd)
@@ -402,12 +464,22 @@
 ## Network Watcher Tools
 | Tool | Gebruik |
 |---|---|
-| IP flow verify | Blokkeert NSG dit pakket? |
+| IP flow verify | Blokkeert NSG dit pakket? Welke regel? |
+| NSG diagnostics | Uitgebreider IP flow verify — ook scale sets en app gateway |
 | Next hop | Wat is de volgende hop voor één pakket? |
-| Effective routes | Alle actieve routes op NIC — gebruik voor peering verificatie |
+| Effective security rules | Alle actieve NSG regels op NIC — subnet + NIC gecombineerd |
 | Packet capture | Opnemen packets (max 5 uur) — vereist AzureNetworkWatcherExtension |
-| Connection monitor | RTT latency monitoren |
-| Network Insights | Overzicht alle netwerkresources |
+| Connection monitor | Doorlopend latency monitoren |
+| Connection troubleshoot | Eenmalige connectiviteitstest |
+| VPN troubleshoot | VPN gateway problemen diagnosticeren |
+| Flow logs | IP verkeer loggen naar storage |
+| Traffic analytics | Flow logs visualiseren |
+| Topology | Visueel overzicht hele netwerk |
+
+## Network Watcher — Wanneer Niet
+- Niet voor PaaS services
+- Niet voor web analytics
+- Gebruik Azure Service Health voor platform problemen
 
 ## Service Endpoint
 - Directe verbinding van VNet naar Azure service via Azure backbone
@@ -431,6 +503,8 @@
 - Volgorde: Vault → Policy → Koppelen
 - Default retention: 30 dagen
 - Soft delete retention: 14 dagen
+- Blob containers = NIET te backuppen via Azure Backup
+- Azure SQL Database = NIET te backuppen via Azure Backup
 
 ## MARS Agent — Volgorde
 1. Recovery Services vault aanmaken
@@ -464,6 +538,11 @@
 **Echte failover:** Verify → Failover → Reprotect
 **Herstel:** Failback → Reprotect again
 
+## Site Recovery — RSV Locatie
+- RSV moet in de **secundaire** regio staan
+- Recovery plan = hoe failover verloopt
+- Replication policy = hoe data gekopieerd wordt
+
 ## Azure Monitor
 - Alert rules: één per signal
 - Action groups: één per unieke set ontvangers
@@ -485,6 +564,7 @@
 | Retention | Komen gebruikers terug? |
 | User Flows | Welk pad nemen gebruikers? |
 | Impact | Hoe beïnvloeden laadtijden conversie? |
+| Profiler | Trace web requests — welke code is traag? |
 
 ## KQL Operators
 | Operator | Gebruik |
@@ -537,10 +617,24 @@
 | Geo-replication ACR | Premium tier vereist |
 | On-premises via VPN load balancen | Internal LB of Application Gateway |
 | Packet capture vereist | AzureNetworkWatcherExtension installeren |
-| trace web requests performance | Application Insights Profiler |
+| Trace web requests performance | Application Insights Profiler |
 | ITSM integratie Service Manager | IT Service Management Connector (ITSMC) |
 | Privé verbinding Azure Monitor | AMPLS |
 | Retain logs specific period | Log Analytics workspace settings |
 | Auto-register VMs in private DNS | Virtual network link met auto-registration |
 | Web server logs HTTP requests | Web Server Logging |
 | App errors debug logs | Application Logging |
+| Path-based routing URL | Application Gateway |
+| Meerdere domeinen één gateway | Application Gateway multi-site |
+| Eenmalig VM performance diagnose | Performance Diagnostics |
+| Continu latency monitoren | Connection monitor |
+| VPN problemen diagnosticeren | VPN troubleshoot |
+| NSG blokkeert welke regel | IP flow verify |
+| Verkeer door firewall sturen | NVA + UDR |
+| Scripts eenmalig bij deployment | Custom Script Extension |
+| Scripts consistent + compliance | DSC extension |
+| Subdomain delegeren | NS record in parent zone |
+| Over internet kopiëren naar blob | Azure Storage Explorer |
+| Replicatie zelf regio kiezen | Object replication |
+| Replicatie automatisch paired region | GRS |
+| System Center Service Manager alert | ITSMC |
