@@ -37,7 +37,7 @@
 | Tutorials Dojo Section-Based — Implement and Manage Virtual Networking | 83% | 24/29. |
 | Tutorials Dojo Section-Based — Monitor and Maintain Azure Resources | 87% | 13/15. |
 | | | *Tutorials Dojo Timed Mode* |
-| Tutorials Dojo Timed Mode Set 4 | 73% | 61/83. Weakest: Networking 63%, Storage 71%, Governance 76%. Veel herkende vragen. |
+| Tutorials Dojo Timed Mode Set 4 | 73% | 61/83. Weakest: Networking 63%, Storage 71%, Governance 76%. |
 | Tutorials Dojo Timed Mode Set 2 | 79% | 54/68. Weakest: Compute 64%, Networking 64%. Fouten: proximity placement group regio, Bicep scope, DSC vs Custom Script, ACR Tasks. |
 | Tutorials Dojo Timed Mode Set 3 | 86% | 63/73. Weakest: Monitor 75%, Governance 81%, Compute 80%. Fouten: P2S VPN gateway type, policy exclusion, Logic App Operator rol, ConvertTo-Json, managed identities ontvangen geen email. |
 
