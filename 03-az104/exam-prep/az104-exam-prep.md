@@ -40,6 +40,10 @@
 | Tutorials Dojo Timed Mode Set 4 | 73% | 61/83. Weakest: Networking 63%, Storage 71%, Governance 76%. Veel herkende vragen. |
 | Tutorials Dojo Timed Mode Set 2 | 79% | 54/68. Weakest: Compute 64%, Networking 64%. Fouten: proximity placement group regio, Bicep scope, DSC vs Custom Script, ACR Tasks. |
 | Tutorials Dojo Timed Mode Set 3 | 86% | 63/73. Weakest: Governance 81%, Compute 80%, Monitor 75%. Fouten: P2S VPN gateway type, policy exclusion, Logic App Operator rol, ConvertTo-Json, managed identities ontvangen geen email. |
+| | | *DNS oefensessies — gericht op zwakke punten* |
+| DNS oefensessie 1 | 75% | 15/20. Fouten: CNAME vs A op apex, auto-registration limiet per VNet, regio private DNS zone, zone niet gelinkt als oorzaak publiek IP, A record vs MX. |
+| DNS oefensessie 2 | 85% | 17/20. Fouten: apex zonder ALIAS/ANAME, regio private DNS zone, custom DNS server als oorzaak publiek IP. |
+| DNS oefensessie 3 | 90% | 18/20. Fouten: auto-registration meerdere VNets, VNet niet gelinkt aan zone. |
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -177,3 +181,20 @@ Section-based scores hoog (83–100%). Timed mode scores lager (73–86%) deels 
 Volgordevragen en "welk tool voor welk doel" blijven moeilijk. PowerShell cmdlets. Policy exclusion logica.
 **Progress trend:**
 46% → 60% → 70% → 80% → 88% → 90% on official Microsoft assessments. Tutorials Dojo Timed Mode: 73% → 79% → 86%.
+
+## Next Focus Areas — DNS
+  - Private DNS zone linken aan VNet verplicht voor resolution; VNet peering is niet genoeg
+  - Apex zonder ALIAS/ANAME = A record + TXT; CNAME nooit op apex
+  - Custom domain verificatie = altijd TXT record asuid als eerste stap
+  - Auto-registration = maximaal één zone per VNet; één zone mag meerdere VNets hebben
+  - Regio maakt niet uit bij private DNS zones
+  - DNS Private Resolver voor on-premises → Azure private zone resolution
+  - Custom DNS server moet forwarden naar 168.63.129.16 voor Azure private DNS
+  - Public DNS zone kan nooit gelinkt worden aan VNet
+
+## DNS Oefensessie Voortgang
+| Sessie | Score | Fouten |
+|---|---|---|
+| Sessie 1 | 75% | Apex, auto-registration, regio, zone niet gelinkt, A vs MX |
+| Sessie 2 | 85% | Apex, regio, custom DNS server |
+| Sessie 3 | 90% | Auto-registration meerdere VNets, VNet niet gelinkt |
