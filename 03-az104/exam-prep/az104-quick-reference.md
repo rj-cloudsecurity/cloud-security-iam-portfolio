@@ -404,6 +404,55 @@
 | NS | Delegatie naar DNS servers |
 | SOA | Automatisch aangemaakt |
 
+## DNS Records — Uitgebreide Uitleg
+
+**A record**
+Wijst een hostname naar een IP adres.
+Gebruik: elke hostname die naar een IP moet wijzen.
+Ezelsbruggetje: A = Adres → IP.
+
+**CNAME record**
+Wijst een naam naar een andere naam (alias).
+Gebruik: subdomeinen zoals www.contoso.com → contoso.azurewebsites.net.
+Mag NOOIT op de apex (root) van een domein.
+Ezelsbruggetje: CNAME = Canonical Name → andere naam.
+
+**MX record**
+Wijst naar de mailserver voor een domein.
+Gebruik: email routing voor @contoso.com.
+Wijst naar een hostname, niet naar een IP adres.
+Ezelsbruggetje: MX = Mail eXchange → alleen voor email.
+
+**TXT record**
+Bevat tekst, geen verkeer routeren.
+Gebruik: domeinverificatie bij Azure App Service, Microsoft 365, Google etc.
+Voor App Service verificatie: naam = asuid.[hostname], waarde = domain verification ID.
+Ezelsbruggetje: TXT = bewijzen dat je eigenaar bent.
+
+**NS record**
+Delegeert een subdomein naar andere nameservers.
+Gebruik: shop.contoso.com delegeren aan een ander team met eigen DNS zone.
+Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
+
+## DNS Situaties
+| Situatie | Oplossing |
+|---|---|
+| Apex zonder ALIAS/ANAME | A record + TXT |
+| Subdomein (www) | CNAME + TXT |
+| Custom domain eerste stap | TXT verificatie eerst (asuid) |
+| Custom domain volgorde | TXT → CNAME/A → domain toevoegen → TLS → HTTPS Only |
+| Email routing | MX record |
+| Subdomein delegeren | NS record |
+| On-premises → Azure private DNS | DNS Private Resolver + inbound endpoint |
+| VM krijgt publiek IP ondanks private endpoint | Zone niet gelinkt aan VNet of geen A record in zone |
+| Alles correct maar toch publiek IP | Custom DNS server forwardt niet naar 168.63.129.16 |
+| Auto-registration | Maximaal één zone per VNet |
+| Eén zone meerdere VNets auto-registration | Toegestaan |
+| Public DNS zone linken aan VNet | Niet mogelijk |
+| Regio private DNS zone | Maakt niet uit |
+| VNet peering + DNS resolution | Peering irrelevant, zone moet gelinkt zijn |
+| On-premises resolver krijgt publiek IP | Private DNS zone niet gelinkt aan VNet van resolver |
+
 ## Custom Domain in Azure DNS — Volgorde
 1. Maak Azure public DNS zone aan
 2. Kopieer de 4 NS records van Azure
@@ -461,20 +510,86 @@
 - Zonder peering = geen verbinding naar andere VNets
 - AzureBastionSubnet vereist — minimaal /26
 
-## Network Watcher Tools
-| Tool | Gebruik |
+## Network Watcher Tools — Uitgebreide Uitleg
+
+**IP flow verify**
+Test één specifieke flow: wordt dit pakket toegestaan of geblokkeerd door NSG?
+Geeft: allow/deny + welke regel.
+Sleutelwoord in vraag: "wordt verkeer geblokkeerd", "welke regel blokkeert", "is poort X open"
+Verschil met Effective security rules: IP flow verify test één flow, effective security rules toont alle regels.
+
+**Effective security rules**
+Toont de complete merged ruleset van subnet NSG + NIC NSG + defaults voor één NIC.
+Sleutelwoord in vraag: "merged rules", "alle geldende regels", "welke regels gelden voor NIC", "precedence"
+Verschil met IP flow verify: niet één flow testen maar alle regels overzien.
+Valkuil: NSG staat niet in de naam maar toont WEL alle NSG regels.
+
+**Next hop**
+Voor één destination IP: via welk next hop gaat het verkeer?
+Geeft: next hop type (VirtualNetwork, Internet, VirtualNetworkGateway, VirtualAppliance)
+Sleutelwoord in vraag: "via welke route gaat verkeer naar X", "next hop voor destination"
+Verschil met Effective routes: next hop = één destination, effective routes = alle routes.
+
+**Effective routes**
+Toont alle actieve routes op een NIC — system routes, UDRs, BGP routes samen.
+Sleutelwoord in vraag: "alle actieve routes", "waarom neemt verkeer onverwachte route", "UDR correct"
+Verschil met Next hop: compleet overzicht, niet één destination.
+
+**Connection troubleshoot**
+Eenmalige test: kan VM A endpoint B bereiken? Lost ook DNS op bij FQDN.
+Geeft: reachable/unreachable + latency + DNS resolution resultaat
+Sleutelwoord in vraag: "kan VM bereiken", "is er connectiviteit", "test eenmalig"
+Verschil met Connection monitor: eenmalig vs doorlopend.
+Verschil met IP flow verify: bereikbaarheid testen vs NSG gedrag testen.
+
+**Connection monitor**
+Doorlopende monitoring van bereikbaarheid en latency tussen endpoints. Slaat op in Log Analytics. Alerteerbaar via Azure Monitor.
+Sleutelwoord in vraag: "doorlopend", "continu monitoren", "latency over tijd", "alerteerbaar"
+Verschil met Connection troubleshoot: continu vs eenmalig.
+
+**Packet capture**
+Neemt volledig netwerkverkeer op van een NIC. Max 5 uur. Vereist Network Watcher Agent extension op de VM.
+Sleutelwoord in vraag: "volledige pakketinhoud", "forensisch onderzoek", "payload", "deep inspection"
+Verschil met NSG flow logs: packet capture = volledige inhoud, NSG flow logs = alleen metadata.
+
+**NSG flow logs**
+Logt metadata van alle flows door een NSG — source/destination IP, poort, protocol, allow/deny. Schrijft naar storage account.
+Sleutelwoord in vraag: "historisch verkeer", "welk verkeer is er geweest", "logging voor compliance"
+Verschil met packet capture: alleen metadata, geen inhoud.
+Verschil met Effective security rules: flow logs = verkeer dat heeft plaatsgevonden, effective security rules = regels die gelden.
+Valkuil: NSG staat WEL in de naam maar toont geen regeloverzicht.
+
+**Traffic Analytics**
+Verwerkt NSG flow logs en toont inzichten in Log Analytics — hotspots, verdachte flows, geografische verdeling, trends.
+Sleutelwoord in vraag: "inzichten", "dashboard", "hotspots", "verdachte patronen", "geografische verdeling"
+Vereist: storage account + Log Analytics workspace.
+Verschil met NSG flow logs: flow logs = ruwe data, Traffic Analytics = verwerkte inzichten.
+Verschil met Network topology: Traffic Analytics = verkeersanalyse, Network topology = visuele kaart van resources.
+
+**VPN troubleshoot**
+Diagnosticeert problemen met VPN gateway verbindingen — status, fouten, logs.
+Sleutelwoord in vraag: "VPN gateway verbinding", "VPN problemen", "gateway logs"
+Verschil met Connection troubleshoot: specifiek voor VPN gateways, niet voor algemene connectivity.
+
+**Network topology**
+Visueel overzicht van alle netwerkresources en hun verbindingen binnen een regio — VNets, subnets, VMs, NSGs.
+Sleutelwoord in vraag: "visuele kaart", "overzicht van resources", "welke resources zijn verbonden"
+Verschil met Traffic Analytics: Network topology = resources en verbindingen, Traffic Analytics = verkeersanalyse.
+
+## Network Watcher — Sleutelwoorden Samenvatting
+| Sleutelwoord in vraag | Tool |
 |---|---|
-| IP flow verify | Blokkeert NSG dit pakket? Welke regel? |
-| NSG diagnostics | Uitgebreider IP flow verify — ook scale sets en app gateway |
-| Next hop | Wat is de volgende hop voor één pakket? |
-| Effective security rules | Alle actieve NSG regels op NIC — subnet + NIC gecombineerd |
-| Packet capture | Opnemen packets (max 5 uur) — vereist AzureNetworkWatcherExtension |
-| Connection monitor | Doorlopend latency monitoren |
-| Connection troubleshoot | Eenmalige connectiviteitstest |
-| VPN troubleshoot | VPN gateway problemen diagnosticeren |
-| Flow logs | IP verkeer loggen naar storage |
-| Traffic analytics | Flow logs visualiseren |
-| Topology | Visueel overzicht hele netwerk |
+| "wordt pakket geblokkeerd" / "welke regel" | IP flow verify |
+| "alle NSG regels" / "merged ruleset" | Effective security rules |
+| "next hop voor destination X" | Next hop |
+| "alle actieve routes" / "UDR correct" | Effective routes |
+| "kan VM bereiken" / "eenmalig testen" + DNS | Connection troubleshoot |
+| "doorlopend" / "continu" / "latency over tijd" | Connection monitor |
+| "volledige pakketinhoud" / "forensisch" | Packet capture |
+| "historisch verkeer" / "logging compliance" | NSG flow logs |
+| "inzichten" / "hotspots" / "geografisch" | Traffic Analytics |
+| "VPN gateway problemen" | VPN troubleshoot |
+| "visuele kaart resources" | Network topology |
 
 ## Network Watcher — Wanneer Niet
 - Niet voor PaaS services
