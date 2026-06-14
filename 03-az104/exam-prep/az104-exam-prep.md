@@ -44,6 +44,12 @@
 | DNS oefensessie 1 | 75% | 15/20. Fouten: CNAME vs A op apex, auto-registration limiet per VNet, regio private DNS zone, zone niet gelinkt als oorzaak publiek IP, A record vs MX. |
 | DNS oefensessie 2 | 85% | 17/20. Fouten: apex zonder ALIAS/ANAME, regio private DNS zone, custom DNS server als oorzaak publiek IP. |
 | DNS oefensessie 3 | 90% | 18/20. Fouten: auto-registration meerdere VNets, VNet niet gelinkt aan zone. |
+| | | *Network Watcher oefensessies* |
+| Network Watcher oefensessie 1 | 85% | 17/20. Fouten: NSG flow logs vs Effective security rules, Network topology vs Traffic Analytics. |
+| Network Watcher oefensessie 2 | 85% | 17/20. Fouten: Connection troubleshoot vs IP flow verify, Traffic Analytics vs Network topology. |
+| Network Watcher oefensessie 3 | 80% | 16/20. Fouten: Effective routes vs Traffic Analytics, Connection monitor vs NSG flow logs, Traffic Analytics resources, VPN troubleshoot vs Connection troubleshoot. |
+| | | *DNS + Network Watcher gecombineerde sessie* |
+| DNS oefensessie 4 | 85% | 17/20. Fouten: CNAME vs A op apex (subdomein www), auto-registration richting (zone vs VNet) — beide hardnekkig terugkerend. |
 
 ## Next Focus Areas after Exam 2
   - LP1 M2 — ARM templates: subscription scope for multi-resource group deployments
@@ -185,8 +191,9 @@ Volgordevragen en "welk tool voor welk doel" blijven moeilijk. PowerShell cmdlet
 ## Next Focus Areas — DNS
   - Private DNS zone linken aan VNet verplicht voor resolution; VNet peering is niet genoeg
   - Apex zonder ALIAS/ANAME = A record + TXT; CNAME nooit op apex
+  - Subdomein (www) = CNAME + TXT; apex (zonder www) = A record + TXT — blijft hardnekkig door elkaar gehaald
   - Custom domain verificatie = altijd TXT record asuid als eerste stap
-  - Auto-registration = maximaal één zone per VNet; één zone mag meerdere VNets hebben
+  - Auto-registration: VNet kan maar één zone hebben; één zone mag meerdere VNets hebben — richting blijft hardnekkig door elkaar gehaald
   - Regio maakt niet uit bij private DNS zones
   - DNS Private Resolver voor on-premises → Azure private zone resolution
   - Custom DNS server moet forwarden naar 168.63.129.16 voor Azure private DNS
@@ -198,3 +205,21 @@ Volgordevragen en "welk tool voor welk doel" blijven moeilijk. PowerShell cmdlet
 | Sessie 1 | 75% | Apex, auto-registration, regio, zone niet gelinkt, A vs MX |
 | Sessie 2 | 85% | Apex, regio, custom DNS server |
 | Sessie 3 | 90% | Auto-registration meerdere VNets, VNet niet gelinkt |
+| Sessie 4 | 85% | Apex/subdomein records (CNAME vs A), auto-registration richting |
+
+## Next Focus Areas — Network Watcher
+  - NSG flow logs vs Effective security rules: NSG staat wel in flow logs naam maar toont geen regels; effective security rules toont geen "NSG" maar wél alle regels
+  - Connection troubleshoot vs IP flow verify: "kan VM bereiken" = Connection troubleshoot, "wordt pakket geblokkeerd + welke regel" = IP flow verify
+  - Traffic Analytics vs Network topology: Traffic Analytics = verkeersanalyse/geografisch, Network topology = visuele kaart van resources
+  - Traffic Analytics vereist storage account + Log Analytics workspace (niet Application Insights)
+  - Effective routes vs Next hop: effective routes = compleet overzicht, next hop = één destination
+  - Connection monitor vs NSG flow logs: connection monitor = doorlopend + Log Analytics, NSG flow logs = historisch naar storage account
+  - VPN troubleshoot vs Connection troubleshoot: VPN troubleshoot = gateway problemen, Connection troubleshoot = VM bereikbaarheid
+  - Diagnosevolgorde: Connection troubleshoot → Next hop → IP flow verify (DNS → Route → Security)
+
+## Network Watcher Oefensessie Voortgang
+| Sessie | Score | Fouten |
+|---|---|---|
+| Sessie 1 | 85% | NSG flow logs vs Effective security rules, Network topology vs Traffic Analytics |
+| Sessie 2 | 85% | Connection troubleshoot vs IP flow verify, Traffic Analytics vs Network topology |
+| Sessie 3 | 80% | Effective routes vs Traffic Analytics, Connection monitor vs NSG flow logs, Traffic Analytics resources, VPN troubleshoot vs Connection troubleshoot |
