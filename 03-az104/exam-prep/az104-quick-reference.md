@@ -111,7 +111,14 @@
 - Nooit wachtwoorden plain text — gebruik Azure Key Vault + access policy
 - Custom deployment: alleen Subscription, Resource Group, Location aanpasbaar
 - copy element = meerdere instances van dezelfde resource deployen
-- targetScope in Bicep = bepaalt waar resources worden gedeployed
+- targetScope / scope in Bicep = bepaalt waar resources worden gedeployed (welke RG/subscription)
+- scope = deployment destination in hiërarchie, location = geografische regio
+
+## Root Management Group — Toegang
+- Niemand heeft standaard toegang tot de root management group
+- Owner en Contributor werken NIET op root niveau
+- Toegang krijgen = **Global Administrator rol + "Access management for Azure resources" aanzetten**
+- Na aanzetten krijg je automatisch User Access Administrator op root scope
 
 ## Delete Locks
 | Resource | Delete lock mogelijk |
@@ -179,6 +186,8 @@
 | Premium file shares | Azure Files | LRS, ZRS |
 | Premium page blobs | Page blobs only | LRS, ZRS |
 
+**GPv2 = meest complete type** — ondersteunt ZRS, Archive, object replication, lifecycle management. Bij twijfel = GPv2.
+
 ## Storage Account — Default Waarden
 | Property | Default |
 |---|---|
@@ -203,6 +212,14 @@
 - Blob versioning op destination ✓
 - Change feed op source ✓
 - Beide accounts: General Purpose v2 of Premium block blob
+- Asynchronous replication / minimize latency = object replication (niet GRS — regio keuze zelf)
+
+## Storage Account Firewall
+1. Public network access → Selected networks instellen
+2. Specifiek IP adres toevoegen
+- Beide stappen vereist
+- **Azure Backup vereist "Allow trusted Microsoft Services to access this storage account" aangevinkt**
+- Zonder dit vakje = Azure Backup kan NIET backuppen naar deze storage account
 
 ## Azure Import/Export — Volledige Volgorde
 1. Dataset CSV aanmaken
@@ -235,11 +252,6 @@
 - Syntax: azcopy copy [source] [destination] [flags]
 - --recursive = inclusief subdirectories
 
-## Storage Account Firewall
-1. Public network access → Selected networks instellen
-2. Specifiek IP adres toevoegen
-- Beide stappen vereist
-
 ## Log Analytics Workspace voor Backup Reports
 - Regio maakt niet uit — elke workspace bruikbaar ongeacht locatie
 
@@ -261,6 +273,12 @@
 | N | Nvidia/GPU | Machine learning, rendering |
 
 **Ezelsbruggetje:** D=Default, E=Extra geheugen, F=Fast CPU, L=Logs/storage, M=Massive, N=Nvidia
+
+## Proximity Placement Group (PPG)
+- Zorgt dat VMs fysiek zo dicht mogelijk bij elkaar staan (laagste latency)
+- PPG en VM/VMSS moeten in **dezelfde regio** staan
+- Resource group maakt NIET uit — alleen regio telt
+- Sleutelwoord: "low latency", "physically close", "same datacenter"
 
 ## App Service Tiers
 | Tier | Custom domain | Slots | Autoscale |
@@ -406,6 +424,12 @@
 - NSG koppelen aan: subnet of NIC — niet aan VNet of VM direct
 - NSG regio = zelfde regio als subnet/NIC
 
+## NSG Service Tags
+- Service tag = vertegenwoordigt alle IP adressen van een Azure service
+- Microsoft beheert en update IP adressen achter een service tag automatisch
+- Blokkeren van Azure service in NSG = altijd Service tag gebruiken, nooit IP adres
+- Voorbeelden: Storage, Sql, AppService, AzureMonitor, AzureBackup
+
 ## ASG (Application Security Group)
 - Groepeert NICs van meerdere VMs
 - Alle NICs moeten in hetzelfde VNet zitten
@@ -414,7 +438,9 @@
 
 ## VNet Peering
 - Peering is **niet transitief**
-- Peering is **niet automatisch bidirectioneel** — twee peerings nodig (A→B én B→A)
+- Peering is **bidirectioneel** — als A gepeerd is met B, kunnen pakketten beide kanten op
+- In de portal zie je peerings per VNet — je ziet alleen de eigen kant
+- Twee peerings aanmaken nodig (A→B én B→A) — anders werkt het niet
 - Gateway transit = VPN/ExpressRoute naar on-premises via hub gateway
 - Disconnected = verwijder peer en maak opnieuw aan
 - Nieuw address space toegevoegd = Sync the peering
@@ -544,6 +570,8 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 - Locatie DNS zone irrelevant — alleen VNet link telt
 - VNet kan maar één registration zone hebben
 - Private DNS zone kan meerdere registration VNets hebben
+- Linken aan VNet = alleen private DNS zones — public zones kunnen NIET gelinkt worden
+- Auto-registration = alleen private DNS zones
 
 ## Load Balancer — Backend Pool
 - VM zonder public IP → mag erin ✓
@@ -727,8 +755,8 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 ## Azure Backup — Restore Opties
 - Create new VM
 - Restore Disk
-- Replace existing disk — VM moet nog bestaan, disk blijft in RG na restore
-- File Recovery — alleen naar zelfde of compatibele OS versie
+- Replace existing disk — VM moet nog bestaan, disk blijft in RG na restore — **alleen naar dezelfde VM**
+- File Recovery — alleen naar **zelfde of lagere OS versie** — NIET naar hogere versie
 
 ## Site Recovery — Volledige Lifecycle
 **Setup:** Initiate replication
@@ -793,6 +821,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | WAF | Application Gateway |
 | Mount from Azure + on-premises | Azure Files |
 | Replicatie andere regio minimale kosten | Standard_GRS |
+| Replicatie zelf regio kiezen / minimize latency | Object replication (GPv2 of Premium block blob) |
 | Fewest NSG rules | ASG |
 | Centralized console network / dashboard metrics topologie | Azure Monitor Network Insights |
 | RDP to specific VM via load balancer | Inbound NAT rule |
@@ -840,7 +869,6 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Scripts consistent + compliance | DSC extension |
 | Subdomain delegeren | NS record in parent zone |
 | Over internet kopiëren naar blob | Azure Storage Explorer |
-| Replicatie zelf regio kiezen | Object replication |
 | Replicatie automatisch paired region | GRS |
 | System Center Service Manager alert | ITSMC |
 | MAU / Multi-User Authorization vault | Resource Guard aanmaken eerst |
@@ -850,3 +878,10 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Latency meten / vergelijken on-premises vs Azure | Connection Monitor |
 | NSG App Service inbound | Niet mogelijk — App Service is PaaS |
 | Groep met assigned license verwijderen | Eerst licentie verwijderen dan groep |
+| Low latency VMs fysiek dicht bij elkaar | Proximity Placement Group — zelfde regio |
+| Root management group toegang | Global Admin + Access management for Azure resources |
+| Blokkeren Azure service in NSG | Service tag gebruiken |
+| Deployment destination RG/subscription in Bicep | scope property |
+| Azure Backup storage account achter firewall | Allow trusted Microsoft Services aanvinken |
+| File recovery naar andere VM | Alleen zelfde of lagere OS versie |
+| VM restore replace existing disk | Alleen naar dezelfde VM |
