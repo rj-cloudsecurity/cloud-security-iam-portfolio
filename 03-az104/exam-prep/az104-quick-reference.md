@@ -247,6 +247,21 @@
 
 ## COMPUTE
 
+## VM Size Series
+| Letter | Categorie | Geschikt voor |
+|---|---|---|
+| A | Entry-level/budget | Testen, kleine workloads |
+| B | Burstable | Variabele workload — NIET voor constant hoge CPU |
+| D | General purpose (Default) | Gebalanceerde CPU/geheugen, web servers |
+| E | Extra geheugen | In-memory databases, caches |
+| F | Fast CPU | Hoge CPU, batch processing |
+| H | HPC | Intensieve rekenkracht, simulaties |
+| L | Large storage | Hoge disk throughput, NoSQL, big data |
+| M | Massive geheugen | Grootste in-memory databases, SAP HANA, tot 4TB RAM |
+| N | Nvidia/GPU | Machine learning, rendering |
+
+**Ezelsbruggetje:** D=Default, E=Extra geheugen, F=Fast CPU, L=Logs/storage, M=Massive, N=Nvidia
+
 ## App Service Tiers
 | Tier | Custom domain | Slots | Autoscale |
 |---|---|---|---|
@@ -269,6 +284,7 @@
 - Eén plan per OS
 - Deployment slots vereist Standard of hoger
 - Swap staging ↔ production = snelste manier om te reverten
+- Swap terugdraaien = swap staging ↔ production opnieuw — NOOIT dev ↔ production
 - Scale up naar Standard eerst, dan autoscale rules instellen
 
 ## App Service — Logging
@@ -285,6 +301,12 @@
 | ACA | Azure Container Apps | Serverless microservices | Ja | HTTP / event-driven / CPU |
 | AKS | Azure Kubernetes Service | Complexe orchestratie | Nee | Kubernetes HPA |
 
+## Container Apps — Subnet Vereisten
+| Environment type | Minimale subnet grootte |
+|---|---|
+| Workload profiles | /27 |
+| Consumption only | /23 |
+
 ## ACR (Azure Container Registry) Tiers
 | Tier | Private endpoints | Geo-replication |
 |---|---|---|
@@ -293,7 +315,7 @@
 | Premium | Ja | Ja |
 
 - Content trust = signed images
-- ACR Tasks = automatisch rebuilden bij base image update
+- ACR Tasks = automatisch rebuilden bij base image update — werkt op ALLE tiers inclusief Basic
 
 ## VM Scale Set Orchestration Modes
 - Uniform = large-scale stateless, snelste uitrol
@@ -320,6 +342,15 @@
 - Windows: drive D — gaat verloren bij redeploy
 - Linux: /dev/sdb — gaat verloren bij redeploy
 
+## VM Host Caching
+| Caching | Gebruik | Dataverlies bij host failure? |
+|---|---|---|
+| None | Veilig, traagst | Nee |
+| Read-only | Reads gecached, writes direct naar storage | Nee |
+| Read/Write | Snelst | **Ja — niet voor productie data** |
+
+- "No data loss + performance" = Read-only caching
+
 ## Site Recovery — Vereiste voor AZ verplaatsing
 - VM moet managed disks gebruiken
 - Unmanaged disks = niet mogelijk
@@ -336,6 +367,35 @@
 ---
 
 ## NETWORKING
+
+## Subnet Groottes — Minimale Vereisten
+| Resource | Minimale subnet | Adressen totaal | Bruikbare adressen* | Subnetnaam vereist |
+|---|---|---|---|---|
+| Container Apps Consumption | /23 | 512 | 507 | Vrij te kiezen |
+| Application Gateway | /24 aanbevolen | 256 | 251 | Vrij te kiezen |
+| Azure Firewall | /26 | 64 | 59 | AzureFirewallSubnet |
+| Azure Bastion | /26 | 64 | 59 | AzureBastionSubnet |
+| VPN Gateway | /27 | 32 | 27 | GatewaySubnet |
+| Container Apps Workload profiles | /27 | 32 | 27 | Vrij te kiezen |
+| Azure Route Server | /27 | 32 | 27 | RouteServerSubnet |
+
+*Azure reserveert altijd 5 adressen per subnet: netwerk (.0), gateway (.1), DNS (.2 en .3), broadcast (.255)
+
+## Subnet Mask Overzicht
+| Subnet mask | Adressen totaal | Bruikbare adressen |
+|---|---|---|
+| /24 | 256 | 251 |
+| /25 | 128 | 123 |
+| /26 | 64 | 59 |
+| /27 | 32 | 27 |
+| /28 | 16 | 11 |
+| /29 | 8 | 3 |
+| /30 | 4 | 0 (niet bruikbaar) |
+
+**Ezelsbruggetje subnet groottes:**
+- /26 = Firewall en Bastion
+- /27 = VPN Gateway, Route Server, Container Apps Workload
+- /23 = Container Apps Consumption
 
 ## NSG Regels
 - Inbound: Subnet NSG eerst → NIC NSG
@@ -377,6 +437,17 @@
 ## VPN Types
 - Site-to-site = heel kantoor → Azure (één VPN apparaat voor iedereen)
 - Point-to-site = één laptop → Azure (per persoon)
+
+## Site-to-Site VPN — Volgorde (G-V-L-C)
+1. **G**ateway subnet aanmaken (naam: GatewaySubnet, minimaal /27)
+2. **V**PN gateway deployen
+3. **L**ocal network gateway aanmaken (beschrijft on-premises kant: publiek IP + address range)
+4. **C**onnection aanmaken
+
+## Local Network Gateway
+- Beschrijft het on-premises netwerk vanuit Azure perspectief
+- Bevat: publiek IP van on-premises VPN apparaat + on-premises address range
+- On-premises VPN apparaat krijgt nieuw IP → update Local Network Gateway IP adres
 
 ## Route Table — Next Hop Types
 | Type | Gebruik |
@@ -453,6 +524,12 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 | VNet peering + DNS resolution | Peering irrelevant, zone moet gelinkt zijn |
 | On-premises resolver krijgt publiek IP | Private DNS zone niet gelinkt aan VNet van resolver |
 
+## DNS Zone Migratie Tools
+- Azure CLI ✓
+- Azure Portal ✓
+- Azure PowerShell ✗ — geen native zone file import
+- CloudShell ✗ — is omgeving, niet een tool op zichzelf
+
 ## Custom Domain in Azure DNS — Volgorde
 1. Maak Azure public DNS zone aan
 2. Kopieer de 4 NS records van Azure
@@ -505,7 +582,7 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 - Public Load Balancer = alleen internet traffic
 
 ## Azure Bastion
-- Verbindt via privé IP
+- Verbindt via privé IP — NOOIT via publiek IP
 - Werkt binnen hetzelfde VNet of via VNet peering
 - Zonder peering = geen verbinding naar andere VNets
 - AzureBastionSubnet vereist — minimaal /26
@@ -612,6 +689,12 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Site Recovery/On-premises | ✗ | ✓ |
 | Container Instances/App Service | ✗ | ✗ |
 
+## Multi-User Authorization (MAU) — Resource Guard
+- MAU = miauw = kat → Resource Guard beschermt tegen de kat
+- Volgorde: **Resource Guard aanmaken → koppelen aan vault → MAU inschakelen**
+- Resource Guard = apart Azure resource in andere subscription/tenant voor extra bescherming
+- Zonder Resource Guard = MAU niet mogelijk
+
 ## Azure Backup
 - Werkt altijd — ook bij stopped/deallocated VM
 - Vault en VM in dezelfde regio
@@ -665,6 +748,11 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - Shared dashboard: max 30 dagen data
 - **Action group EERST aanmaken, dan alert rule**
 
+## Azure Monitor Network Insights
+- Centraal dashboard met metrics, health status en netwerktopologie
+- Sleutelwoord: "dashboard", "metrics + topologie overzicht", "meerdere netwerkresources"
+- Verschil met Network Watcher: Network Watcher = losse tools, Network Insights = overkoepelend dashboard
+
 ## Azure Monitor Agent vs Performance Diagnostics
 | Agent | Wat | Doorlopend? |
 |---|---|---|
@@ -702,10 +790,11 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Without requiring failover | RA-GRS of RA-GZRS |
 | SQL injection | Application Gateway WAF |
 | SSL termination | Application Gateway |
+| WAF | Application Gateway |
 | Mount from Azure + on-premises | Azure Files |
 | Replicatie andere regio minimale kosten | Standard_GRS |
 | Fewest NSG rules | ASG |
-| Centralized console network | Network Insights |
+| Centralized console network / dashboard metrics topologie | Azure Monitor Network Insights |
 | RDP to specific VM via load balancer | Inbound NAT rule |
 | Connect without exposing RDP/SSH | Azure Bastion |
 | Aggregate query results by column | KQL summarize |
@@ -721,7 +810,8 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Central backup multiple machines | MABS |
 | Prevent accidental deletion | Delete lock |
 | Name resolution across multiple VNets | Azure Private DNS zone |
-| Underutilized VMs / unattached disks | Azure Advisor Cost |
+| Underutilized VMs / unattached disks specifieke RGs | Azure Advisor configuratie aanpassen scope |
+| Underutilized VMs / unattached disks algemeen | Azure Advisor Cost |
 | Service Bus queue scaling | Event-driven trigger in ACA |
 | Verify custom domain in Entra ID | TXT of MX record |
 | Auto-delete group after X days | Microsoft 365 group expiration policy |
@@ -753,3 +843,10 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Replicatie zelf regio kiezen | Object replication |
 | Replicatie automatisch paired region | GRS |
 | System Center Service Manager alert | ITSMC |
+| MAU / Multi-User Authorization vault | Resource Guard aanmaken eerst |
+| No data loss + performance disk | Read-only host caching |
+| Sensitive data encryptie compliance | Customer-managed keys in Key Vault |
+| DNS zone migreren / importeren | Azure CLI of Azure Portal |
+| Latency meten / vergelijken on-premises vs Azure | Connection Monitor |
+| NSG App Service inbound | Niet mogelijk — App Service is PaaS |
+| Groep met assigned license verwijderen | Eerst licentie verwijderen dan groep |
