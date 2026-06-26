@@ -762,47 +762,47 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 **IP flow verify**
 Test één specifieke flow: wordt dit pakket toegestaan of geblokkeerd door NSG?
 Geeft: allow/deny + welke regel.
-Sleutelwoord in vraag: "wordt verkeer geblokkeerd", "welke regel blokkeert", "is poort X open"
+Keywords in question: "is traffic blocked", "which rule is blocking", "is port X open", "determine if NSG is causing the issue", "allowed or denied to/from a VM"
 Verschil met Effective security rules: IP flow verify test één flow, effective security rules toont alle regels.
 
 **Effective security rules**
 Toont de complete merged ruleset van subnet NSG + NIC NSG + defaults voor één NIC.
-Sleutelwoord in vraag: "merged rules", "alle geldende regels", "welke regels gelden voor NIC", "precedence"
+Keywords in question: "merged rules", "all security rules that apply", "which rules apply to NIC", "precedence", "view all inbound and outbound rules"
 Verschil met IP flow verify: niet één flow testen maar alle regels overzien.
 Valkuil: NSG staat niet in de naam maar toont WEL alle NSG regels.
 
 **Next hop**
 Voor één destination IP: via welk next hop gaat het verkeer?
 Geeft: next hop type (VirtualNetwork, Internet, VirtualNetworkGateway, VirtualAppliance)
-Sleutelwoord in vraag: "via welke route gaat verkeer naar X", "next hop voor destination"
+Keywords in question: "what is the next hop for traffic to X", "where is traffic being directed", "next hop for destination"
 Verschil met Effective routes: next hop = één destination, effective routes = alle routes.
-**VALKUIL: "next hop" als woord in vraag ≠ Next hop tool. "Verify of traffic via peering gaat" = Effective routes.**
+**VALKUIL: "next hop" als woord in vraag ≠ Next hop tool. "Verify if traffic uses peering" = Effective routes.**
 
 **Effective routes**
 Toont alle actieve routes op een NIC — system routes, UDRs, BGP routes samen.
-Sleutelwoord in vraag: "alle actieve routes", "waarom neemt verkeer onverwachte route", "UDR correct", "verify of traffic via peering gaat"
+Keywords in question: "all active routes", "why is traffic taking unexpected route", "verify UDR is correct", "verify whether traffic uses virtual network peering as the next hop"
 Verschil met Next hop: compleet overzicht, niet één destination.
 
 **Connection troubleshoot**
 Eenmalige test: kan VM A endpoint B bereiken? Lost ook DNS op bij FQDN.
 Geeft: reachable/unreachable + latency + DNS resolution resultaat
-Sleutelwoord in vraag: "kan VM bereiken", "is er connectiviteit", "test eenmalig"
+Keywords in question: "can VM reach endpoint", "is there connectivity", "one-time test", "test connectivity to"
 Verschil met Connection monitor: eenmalig vs doorlopend.
 Verschil met IP flow verify: bereikbaarheid testen vs NSG gedrag testen.
 
 **Connection monitor**
 Doorlopende monitoring van bereikbaarheid en latency tussen endpoints. Slaat op in Log Analytics. Alerteerbaar via Azure Monitor.
-Sleutelwoord in vraag: "doorlopend", "continu monitoren", "latency over tijd", "alerteerbaar"
+Keywords in question: "continuously monitor", "ongoing monitoring", "latency over time", "alertable connectivity", "monitor latency between"
 Verschil met Connection troubleshoot: continu vs eenmalig.
 
 **Packet capture**
 Neemt volledig netwerkverkeer op van een NIC. Max 5 uur. Vereist Network Watcher Agent extension op de VM.
-Sleutelwoord in vraag: "volledige pakketinhoud", "forensisch onderzoek", "payload", "deep inspection"
+Keywords in question: "capture all traffic", "full packet content", "forensic investigation", "payload", "record all sessions to track traffic for X seconds"
 Verschil met NSG flow logs: packet capture = volledige inhoud, NSG flow logs = alleen metadata.
 
 **NSG flow logs**
 Logt metadata van alle flows door een NSG — source/destination IP, poort, protocol, allow/deny. Schrijft naar storage account.
-Sleutelwoord in vraag: "historisch verkeer", "welk verkeer is er geweest", "logging voor compliance", **"capture information about IP traffic going to and from a NSG"**
+Keywords in question: "capture information about IP traffic going to and from a NSG", "log network traffic", "historical traffic", "compliance logging", "which traffic has passed through"
 Verschil met packet capture: alleen metadata, geen inhoud.
 Verschil met Effective security rules: flow logs = verkeer dat heeft plaatsgevonden, effective security rules = regels die gelden.
 Valkuil: NSG staat WEL in de naam maar toont geen regeloverzicht.
@@ -810,37 +810,37 @@ Valkuil: NSG staat WEL in de naam maar toont geen regeloverzicht.
 
 **Traffic Analytics**
 Verwerkt NSG flow logs en toont inzichten in Log Analytics — hotspots, verdachte flows, geografische verdeling, trends.
-Sleutelwoord in vraag: "inzichten", "dashboard", "hotspots", "verdachte patronen", "geografische verdeling"
+Keywords in question: "insights", "visualize traffic", "hotspots", "suspicious patterns", "geographic distribution", "analyze network traffic"
 Vereist: storage account + Log Analytics workspace.
 Verschil met NSG flow logs: flow logs = ruwe data, Traffic Analytics = verwerkte inzichten.
 Verschil met Network topology: Traffic Analytics = verkeersanalyse, Network topology = visuele kaart van resources.
 
 **VPN troubleshoot**
 Diagnosticeert problemen met VPN gateway verbindingen — status, fouten, logs.
-Sleutelwoord in vraag: "VPN gateway verbinding", "VPN problemen", "gateway logs"
+Keywords in question: "VPN gateway connection issues", "troubleshoot VPN", "gateway logs", "diagnose VPN"
 Verschil met Connection troubleshoot: specifiek voor VPN gateways, niet voor algemene connectivity.
 
 **Network topology**
 Visueel overzicht van alle netwerkresources en hun verbindingen binnen een regio — VNets, subnets, VMs, NSGs.
-Sleutelwoord in vraag: "visuele kaart", "overzicht van resources", "welke resources zijn verbonden"
+Keywords in question: "visual map of resources", "overview of connected resources", "which resources are connected", "network topology"
 Verschil met Traffic Analytics: Network topology = resources en verbindingen, Traffic Analytics = verkeersanalyse.
 
 ## Network Watcher — Sleutelwoorden Samenvatting
 | Sleutelwoord in vraag | Tool |
 |---|---|
-| "wordt pakket geblokkeerd" / "welke regel" | IP flow verify |
-| "alle NSG regels" / "merged ruleset" | Effective security rules |
-| "next hop voor destination X" | Next hop |
-| "alle actieve routes" / "UDR correct" / "verify peering route" | Effective routes |
-| "kan VM bereiken" / "eenmalig testen" + DNS | Connection troubleshoot |
-| "doorlopend" / "continu" / "latency over tijd" | Connection monitor |
-| "volledige pakketinhoud" / "forensisch" | Packet capture |
-| "historisch verkeer" / "logging compliance" | NSG flow logs |
-| "inzichten" / "hotspots" / "geografisch" | Traffic Analytics |
-| "VPN gateway problemen" | VPN troubleshoot |
-| "visuele kaart resources" | Network topology |
-| "monitor network health" | Azure Network Watcher |
-| "diagnostics and telemetry data" | Log Analytics workspace |
+| "is traffic blocked" / "which rule is blocking" / "allowed or denied" | IP flow verify |
+| "all security rules" / "merged ruleset" / "view all inbound and outbound rules" | Effective security rules |
+| "next hop for destination X" / "where is traffic directed" | Next hop |
+| "all active routes" / "verify UDR" / "verify whether traffic uses peering as next hop" | Effective routes |
+| "can VM reach endpoint" / "test connectivity" / "one-time test" | Connection troubleshoot |
+| "continuously monitor" / "ongoing" / "latency over time" / "alertable" | Connection monitor |
+| "capture all traffic" / "full packet" / "forensic" / "record sessions for X seconds" | Packet capture |
+| "capture IP traffic going to/from NSG" / "log network traffic" / "compliance logging" | NSG flow logs |
+| "insights" / "hotspots" / "visualize traffic" / "geographic distribution" | Traffic Analytics |
+| "VPN gateway issues" / "troubleshoot VPN" | VPN troubleshoot |
+| "visual map of resources" / "network topology" | Network topology |
+| "monitor network health" / "centralized console network monitoring" | Azure Network Watcher |
+| "diagnostics and telemetry data multiple resources" | Log Analytics workspace |
 
 ## Network Watcher — Wanneer Niet
 - Niet voor PaaS services
@@ -1129,6 +1129,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 
 - **Identity-based access** = Azure Files — enige storage service met AD/Kerberos authenticatie
 - **Mount / SMB / NFS** = Azure Files. **Persistent VM disk** = Azure Disk. **Blob over internet** = Azure Storage Explorer
+- **Archive rehydreren** naar Hot, Cool, **of Cold** — niet terug naar Archive
 - **Object replication vereisten:** blob versioning source + destination + change feed source. Beide GPv2 of Premium block blob
 - **Storage firewall + Azure Backup** = "Allow trusted Microsoft Services" aangevinkt. Zonder = Backup werkt niet
 
