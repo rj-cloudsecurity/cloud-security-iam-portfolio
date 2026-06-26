@@ -802,10 +802,11 @@ Verschil met NSG flow logs: packet capture = volledige inhoud, NSG flow logs = a
 
 **NSG flow logs**
 Logt metadata van alle flows door een NSG — source/destination IP, poort, protocol, allow/deny. Schrijft naar storage account.
-Sleutelwoord in vraag: "historisch verkeer", "welk verkeer is er geweest", "logging voor compliance"
+Sleutelwoord in vraag: "historisch verkeer", "welk verkeer is er geweest", "logging voor compliance", **"capture information about IP traffic going to and from a NSG"**
 Verschil met packet capture: alleen metadata, geen inhoud.
 Verschil met Effective security rules: flow logs = verkeer dat heeft plaatsgevonden, effective security rules = regels die gelden.
 Valkuil: NSG staat WEL in de naam maar toont geen regeloverzicht.
+**VALKUIL Traffic Analytics:** Traffic Analytics verwerkt NSG flow logs achteraf tot inzichten — het logt zelf NIKS en test NIKS. "Capture" = NSG flow logs, niet Traffic Analytics.
 
 **Traffic Analytics**
 Verwerkt NSG flow logs en toont inzichten in Log Analytics — hotspots, verdachte flows, geografische verdeling, trends.
@@ -1087,6 +1088,19 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | HTTP 500 errors zichtbaar voor developers | Web server logging activeren |
 | Email ARM Role notificaties | Alleen users ontvangen email — managed identities nooit |
 | Custom rol aanmaken op basis van bestaande | Get-AzRoleDefinition -Name "Rol" | ConvertTo-Json |
+| Web requests slow + trace cause of delay | Application Insights Profiler |
+| Monitor system performance metrics + log events doorlopend | Azure Monitor Agent |
+| On-demand troubleshoot VM performance | Azure Performance Diagnostics VM Extension |
+| Capture IP traffic going to/from NSG | NSG flow logs |
+| Diagnose connectivity issues to/from VM | IP flow verify |
+| Visualize/analyze NSG flow log data | Traffic Analytics |
+| Conditional access MFA + hybrid joined device | Grant control |
+| Conditional access beperkte ervaring in app | Session control |
+| Azure Files AD DS volgorde | Sync AD → Enable AD DS → Assign permissions → Mount (S-E-A-M) |
+| Container App niet bereikbaar | Check of ingress ingeschakeld is |
+| Custom domain toevoegen aan Entra ID volgorde | Provision directory → Add domain → Add DNS to registrar → Verify |
+| Redeploy VM naar andere regio | NIET mogelijk via redeploy — gebruik Azure Resource Mover of Site Recovery |
+| ExpressRoute + S2S VPN coexistentie minimum SKU | VpnGw1 — Basic SKU ondersteunt geen coexistentie |
 
 ---
 
@@ -1115,7 +1129,6 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 
 - **Identity-based access** = Azure Files — enige storage service met AD/Kerberos authenticatie
 - **Mount / SMB / NFS** = Azure Files. **Persistent VM disk** = Azure Disk. **Blob over internet** = Azure Storage Explorer
-- **Archive rehydreren** naar Hot, Cool, **of Cold** — niet terug naar Archive
 - **Object replication vereisten:** blob versioning source + destination + change feed source. Beide GPv2 of Premium block blob
 - **Storage firewall + Azure Backup** = "Allow trusted Microsoft Services" aangevinkt. Zonder = Backup werkt niet
 
@@ -1156,3 +1169,24 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - **File Recovery** = alleen naar zelfde of lagere OS versie
 - **Replace existing disk** = alleen naar dezelfde VM
 - **MARS volgorde:** Vault → Agent installeren → Vault credentials downloaden → Policy → Backup starten
+- **Web requests slow + trace** = Application Insights Profiler
+- **Monitor doorlopend VM** = Azure Monitor Agent. **Eenmalig troubleshoot** = Performance Diagnostics
+
+---
+
+## Conditional Access
+
+- **Grant control** = MFA + hybrid joined device afdwingen — dit is wat je nodig hebt voor "require MFA and hybrid device"
+- **Session control** = beperkte ervaring binnen apps — NIET voor MFA of device vereisten
+- **Alleen MFA configureren in security** = No — dit is geen conditional access policy en dwingt geen hybrid joined device af
+
+---
+
+## Azure Files AD DS — Volgorde S-E-A-M
+
+1. **S**ync on-premises AD met Microsoft Entra Connect
+2. **E**nable AD DS authentication op storage account
+3. **A**ssign share and directory permissions (RBAC + NTFS)
+4. **M**ount file share with AD credentials
+
+**Ezelsbruggetje:** zonder sync weet Azure niet wie de gebruikers zijn. Zonder enable AD DS auth werkt authenticatie niet. Zonder permissions heeft niemand toegang. Dan pas mounten.
