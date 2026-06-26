@@ -31,6 +31,8 @@
 | Backup Contributor | Ja — backups | Nee |
 | Monitoring Contributor | Ja — monitoring | Nee |
 | Log Analytics Contributor | Ja — Log Analytics | Nee |
+| Logic Apps Contributor | Ja — Logic Apps aanmaken/beheren | Nee |
+| Logic App Operator | Nee — alleen lezen/inschakelen/uitschakelen | Nee |
 
 ## Entra ID Rollen
 | Rol | Wat |
@@ -121,7 +123,17 @@
 - -TemplateUri = online URL / Blob Storage / GitHub
 - -TemplateSpecId = Template Spec opgeslagen in Azure
 
-## Root Management Group — Toegang
+## PowerShell — Azure RBAC Cmdlets
+- **Get-AzRoleDefinition** = haalt de rol definitie op — wat de rol IS, welke permissions hij heeft
+- **Get-AzRoleAssignment** = haalt rol toewijzingen op — wie de rol HEEFT op welke scope
+- **ConvertTo-Json** = PowerShell object → JSON formaat (exporteren, opslaan, aanpassen)
+- **ConvertFrom-Json** = JSON string → PowerShell object (inlezen, gebruiken in script)
+
+Custom rol aanmaken op basis van bestaande rol:
+```
+Get-AzRoleDefinition -Name "Contributor" | ConvertTo-Json
+```
+Ezelsbruggetje: **To** = naar JSON toe (exporteren). **From** = van JSON af (inlezen)
 - Niemand heeft standaard toegang tot de root management group
 - Owner en Contributor werken NIET op root niveau
 - Toegang krijgen = **Global Administrator rol + "Access management for Azure resources" aanzetten**
@@ -237,6 +249,13 @@
 - **Azure Backup vereist "Allow trusted Microsoft Services to access this storage account" aangevinkt**
 - Zonder dit vakje = Azure Backup kan NIET backuppen naar deze storage account
 
+## Azure Data Lake Storage Gen2
+- **Geen apart product** — gewoon een GPv2 storage account met hierarchical namespace ingeschakeld
+- Hierarchical namespace = echte mappenstructuur (directories/subdirectories) voor big data analytics
+- Zonder hierarchical namespace = gewoon Blob storage
+- Met hierarchical namespace = Azure Data Lake Storage Gen2
+- Sleutelwoord "Data Lake", "big data analytics", "Hadoop", "Spark" → **Enable hierarchical namespace**
+
 ## Storage — Identity-Based Access
 - **Identity-based access = Azure Files** — ondersteunt AD/Entra ID authenticatie op share én bestandsniveau
 - Blob, Queue, Table = alleen access keys, SAS tokens, of RBAC op resource niveau
@@ -253,7 +272,15 @@
 | NoSQL / structured tabular data | Azure Table |
 | Identity-based access | Azure Files |
 
-## Azure Import/Export — Volledige Volgorde
+## Azure Files — Authenticatie Methoden
+| Methode | Gebruik | Vereiste |
+|---|---|---|
+| Entra Kerberos | Hybrid identities + internet + geen DC line-of-sight | Entra ID sync |
+| OAuth over REST | Programmatische/applicatie toegang | Niet voor eindgebruikers SMB |
+| NTLM | Legacy — verouderd | Vereist DC line-of-sight ✗ |
+| Entra Domain Services | Linux SMB met managed domain | Complexer — niet voor hybrid |
+
+**Sleutelwoord:** "hybrid identities + geen DC line-of-sight + internet" → **Entra Kerberos**
 1. Dataset CSV aanmaken
 2. Driveset CSV aanmaken
 3. WAImportExport.exe uitvoeren → journal file
@@ -526,7 +553,16 @@
 - Point-to-site = één laptop → Azure (per persoon)
 - Encrypted connection to on-premises = VPN Gateway (virtual network gateway)
 
-## Site-to-Site VPN — Volgorde (G-V-L-C)
+## VPN Gateway Types — Policy-based vs Route-based
+| Type | Gebruik | P2S mogelijk? |
+|---|---|---|
+| Policy-based | Alleen S2S, legacy | ✗ Niet mogelijk |
+| Route-based | S2S én P2S | ✓ Vereist voor P2S |
+
+- **P2S VPN vereist altijd route-based gateway**
+- Policy-based gateway aanwezig + P2S nodig → verwijder policy-based gateway → deploy route-based
+- Gateway subnet hoeft niet opnieuw aangemaakt — bestaat al als er al een gateway was
+- Sleutelwoord "point-to-site" of "P2S" → route-based gateway vereist
 1. **G**ateway subnet aanmaken (naam: GatewaySubnet, minimaal /27)
 2. **V**PN gateway deployen
 3. **L**ocal network gateway aanmaken (beschrijft on-premises kant: publiek IP + address range)
@@ -632,13 +668,45 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 - Subdomain delegeren naar andere zone → NS record aanmaken in parent zone
 
 ## Private DNS Zone
-- Virtual network link aanmaken met auto-registration = VMs automatisch registreren
-- DNS Private Resolver = proxy voor on-premises naar Azure DNS — NIET voor auto-registration
-- Locatie DNS zone irrelevant — alleen VNet link telt
-- VNet kan maar één registration zone hebben
+
+## VNet Peering vs Virtual Network Link — NIET hetzelfde
+| | VNet Peering | Virtual Network Link |
+|---|---|---|
+| Wat | Netwerkverbinding — VMs kunnen elkaar bereiken | DNS koppeling — VNet mag private DNS zone gebruiken |
+| Waar instellen | VNet → Peerings blade | Private DNS Zone → Virtual network links blade |
+| Effect | Verkeer kan stromen tussen VNets | VMs in dat VNet kunnen de zone resolven |
+| Regio | Maakt niet uit | Maakt niet uit |
+
+**Je kunt peering hebben zonder DNS link** → VMs bereikbaar maar domeinnaam niet resolvable
+**Je kunt DNS link hebben zonder peering** → domeinnaam resolvable maar VMs niet bereikbaar via die naam
+**Ezelsbruggetje:** Peering = snelweg tussen steden. Virtual Network Link = telefoonboek (weet je het adres)
+
+## Resolvable — wat betekent het
+- Resolvable = kan een VM een domeinnaam omzetten naar een IP adres?
+- Niet resolvable = VM weet het IP adres niet → kan er niet naartoe verbinden
+- Vereiste voor resolvable = VNet moet gelinkt zijn aan de private DNS zone via Virtual Network Link
+- Peering alleen = NIET genoeg voor DNS resolution
+- Zelfde subscription / zelfde regio = NIET genoeg — alleen Virtual Network Link telt
+
+## Auto-registration
+- Auto-registration = VMs in een gelinkt VNet registreren automatisch hun A record in de zone
+- Vereist: VNet gelinkt aan zone ÉN auto-registration ingeschakeld op de link
+- VNet kan maar **één** registration zone hebben
 - Private DNS zone kan meerdere registration VNets hebben
+- Auto-registration = alleen private DNS zones — public zones kunnen NIET gelinkt worden
+
+## Overige regels
+- DNS Private Resolver = proxy voor on-premises naar Azure DNS — NIET voor auto-registration
+- Locatie DNS zone irrelevant — zone in Australia Central kan gelinkt worden aan VNet in West Europe
 - Linken aan VNet = alleen private DNS zones — public zones kunnen NIET gelinkt worden
-- Auto-registration = alleen private DNS zones
+
+## Samenvatting — wanneer wat nodig
+| Doel | Wat nodig |
+|---|---|
+| VM kan andere VM bereiken | VNet Peering |
+| VM kan domeinnaam resolven uit private zone | Virtual Network Link |
+| VM registreert automatisch in zone | Virtual Network Link + auto-registration aan |
+| Beide bereikbaar én resolvable | Peering + Virtual Network Link |
 
 ## Load Balancer — Backend Pool
 - VM zonder public IP → mag erin ✓
@@ -813,7 +881,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 ## MARS Agent — Volgorde
 1. Recovery Services vault aanmaken
 2. MARS agent installeren
-3. **Vault credentials downloaden en server registreren** ← eerst dit
+3. Vault credentials downloaden en server registreren
 4. Backup policy configureren
 5. Backup starten
 
@@ -855,10 +923,33 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - **Action group EERST aanmaken, dan alert rule**
 - Log alert rule = scoped op Log Analytics workspace, niet op VM direct
 
+## Traffic Analytics — Vereisten
+- NSG Flow Logs ingeschakeld ✓
+- Log Analytics workspace ✓
+- **Data Collection Rule (DCR)** ✓ — bepaalt welke data verzameld wordt en waar naartoe
+- Storage account ✓
+- Vereiste rollen: Owner, Contributor of Network Contributor op subscription scope
+
 ## Azure Monitor Network Insights
 - Centraal dashboard met metrics, health status en netwerktopologie
 - Sleutelwoord: "dashboard", "metrics + topologie overzicht", "meerdere netwerkresources"
 - Verschil met Network Watcher: Network Watcher = losse tools, Network Insights = overkoepelend dashboard
+
+## Connection Monitor — Agent Vereisten
+| Machine type | Wat installeren | Hoe |
+|---|---|---|
+| Azure VM | Azure Monitor Agent | Automatisch via portal |
+| On-premises server | Azure Monitor Agent extension | Handmatig installeren op server |
+
+- On-premises server monitoren met Connection Monitor = **Azure Monitor Agent extension installeren**
+- Recovery Services agent = backup — niet voor network monitoring
+- Dependency agent = applicatie dependencies — niet voor network latency
+
+## App Service — HTTP Logging
+- HTTP 500 errors zichtbaar maken voor developers = **Web server logging activeren**
+- Web server logging legt vast: HTTP method, URI, response code, client IP, user agent, tijdstip
+- "Real-time detailed visibility into connection errors" = Web server logging
+- Alert rule = notificeert maar geen detail. Workbook = visualisatie bestaande data, geen nieuwe data
 
 ## Azure Monitor Agent vs Performance Diagnostics
 | Agent | Wat | Doorlopend? |
@@ -877,13 +968,20 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Profiler | Trace web requests — welke code is traag? |
 
 ## KQL Operators
-| Operator | Gebruik |
-|---|---|
-| where | Filtert rijen |
-| summarize | Aggregeert |
-| project | Selecteert kolommen |
-| extend | Voegt kolommen toe |
-| search in (Table) "value" | Zoekt in specifieke tabel |
+| Operator | Gebruik | Sleutelwoord in vraag | Voorbeeld |
+|---|---|---|---|
+| where | Filtert rijen op conditie | "filter", "only show", "errors only" | where Level == "Error" |
+| summarize | Groepeert en aggregeert — telt, sommeert, gemiddelde berekent | "aggregate", "group by", "count per", "by column" | summarize count() by Account |
+| project | Selecteert alleen specifieke kolommen — verbergt de rest | "select columns", "only show fields" | project TimeGenerated, Account |
+| extend | Voegt een nieuwe berekende kolom toe | "add column", "calculate new field" | extend Duration = EndTime - StartTime |
+| search in (Table) "value" | Zoekt een waarde in een specifieke tabel | "search in", "find in table" | search in (SecurityEvent) "admin" |
+| order by / sort by | Sorteert resultaten | "sort", "order", "ascending", "descending" | order by TimeGenerated desc |
+| top | Geeft de eerste N rijen terug | "top X", "first X results" | top 10 by Count |
+| distinct | Geeft unieke waarden terug | "unique", "distinct values" | distinct Account |
+
+**Aggregeren** = meerdere rijen samenvatten tot één resultaat — zoals tellen, optellen, gemiddelde. Vergelijkbaar met GROUP BY in SQL.
+
+**Examen sleutelwoord:** "aggregate by column" of "group results by" → altijd **summarize**
 
 ---
 
@@ -982,4 +1080,10 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Docker container als web app deployen | App Service — Publish → Docker container |
 | AKS API server beperken tot VNet | Private cluster |
 | AKS API server beperken tot IP ranges | API server authorized IP ranges |
-| Spot instance eviction redenen | Azure capaciteit nodig OF prijs overschreden |
+| Hybrid identities Azure Files geen DC line-of-sight | Entra Kerberos authenticatie |
+| Data Lake Storage / big data analytics | Enable hierarchical namespace (GPv2) |
+| P2S VPN met policy-based gateway | Verwijder policy-based → deploy route-based gateway |
+| On-premises server Connection Monitor | Azure Monitor Agent extension installeren |
+| HTTP 500 errors zichtbaar voor developers | Web server logging activeren |
+| Email ARM Role notificaties | Alleen users ontvangen email — managed identities nooit |
+| Custom rol aanmaken op basis van bestaande | Get-AzRoleDefinition -Name "Rol" | ConvertTo-Json |
