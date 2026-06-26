@@ -1087,3 +1087,72 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | HTTP 500 errors zichtbaar voor developers | Web server logging activeren |
 | Email ARM Role notificaties | Alleen users ontvangen email — managed identities nooit |
 | Custom rol aanmaken op basis van bestaande | Get-AzRoleDefinition -Name "Rol" | ConvertTo-Json |
+
+---
+
+---
+
+# ⚡ QUICK QUICK REFERENCE — Meest gemaakte fouten
+
+## RBAC & Governance
+
+- **Least privilege in vraag?** → meest specifieke rol. Niet in vraag? → elke werkende rol = Yes
+- **Logic App Operator** = alleen lezen/aan/uit — NIET aanmaken. Aanmaken = Logic Apps Contributor of Contributor
+- **Does this meet the goal?** → lost PRECIES deze actie het VOLLEDIGE probleem op? Blijft er nog een blokkade? → No
+- **Get-AzRoleDefinition** = wat de rol IS (permissions). **Get-AzRoleAssignment** = wie de rol HEEFT
+- **ConvertTo-Json** = PowerShell → JSON (exporteren). **ConvertFrom-Json** = JSON → PowerShell (inlezen)
+- **Custom rol aanmaken:** `Get-AzRoleDefinition -Name "Contributor" | ConvertTo-Json`
+- **Tags** = metadata voor Azure resources (VMs, RGs, subscriptions). Administrative units = Entra ID objecten — NIET voor Azure resources
+- **Root management group** = alleen Global Admin + "Access management for Azure resources" aanzetten. Owner/Contributor werken NIET op root niveau
+- **Deny erft altijd naar beneden** — Deny op Root = alles eronder geblokkeerd, ongeacht Allow op lagere scope
+- **VM aanmaken vereist VNet** — VNet geblokkeerd door policy → VM ook geblokkeerd
+- **Managed identities ontvangen GEEN email** van action groups — alleen users (direct of via groep)
+- **UsageLocation** moet ingesteld zijn voordat licentie toegewezen kan worden
+
+---
+
+## Storage
+
+- **Identity-based access** = Azure Files — enige storage service met AD/Kerberos authenticatie
+- **Mount / SMB / NFS** = Azure Files. **Persistent VM disk** = Azure Disk. **Blob over internet** = Azure Storage Explorer
+- **Archive rehydreren** naar Hot, Cool, **of Cold** — niet terug naar Archive
+- **Object replication vereisten:** blob versioning source + destination + change feed source. Beide GPv2 of Premium block blob
+- **Storage firewall + Azure Backup** = "Allow trusted Microsoft Services" aangevinkt. Zonder = Backup werkt niet
+
+---
+
+## Networking
+
+- **"Next hop" als woord in vraag ≠ Next hop tool**
+  - "Verify of traffic via peering gaat" → **Effective routes**
+  - "Wordt dit pakket geblokkeerd?" → **IP flow verify**
+  - "Alle NSG regels overzien" → **Effective security rules**
+  - "Kan VM bereiken?" eenmalig → **Connection troubleshoot**
+
+- **Network Watcher** = netwerk gezondheid (VMs, VNets, LB). **Azure Monitor** = logs/metrics/alerts voor alles
+- **Network Watcher per regio automatisch** — 2 regio's = 2 instanties, aantal VNets maakt niet uit
+- **VNet Peering ≠ Virtual Network Link**
+  - Peering = VMs kunnen elkaar bereiken (verkeer)
+  - Virtual Network Link = VMs kunnen domeinnaam resolven (DNS)
+  - Peering alleen = DNS werkt NIET. Beide nodig = Peering + Virtual Network Link
+- **Proximity Placement Group** = zelfde regio vereist — resource group maakt NIET uit
+- **Encrypted connection to on-premises** = VPN Gateway. Private endpoint = Azure services, niet on-premises
+- **ARM template in Blob Storage** = `-TemplateUri`. Lokaal = `-TemplateFile`. Template Spec = `-TemplateSpecId`
+
+---
+
+## Compute
+
+- **Redeploy** = VM naar nieuwe Azure host. Tijdelijke disk (D: / /dev/sdb) gaat verloren
+- **Availability Set:** Update domains = gepland onderhoud. Fault domains = ongepland. FD=1 vereist UD=1
+- **Operator rol** = bestaande resources bedienen — NIET aanmaken. Contributor = aanmaken én beheren
+
+---
+
+## Monitor & Backup
+
+- **Action group EERST, dan alert rule**
+- **Azure Backup + stopped VM** = werkt altijd — backup draait ook als VM uit staat
+- **File Recovery** = alleen naar zelfde of lagere OS versie
+- **Replace existing disk** = alleen naar dezelfde VM
+- **MARS volgorde:** Vault → Agent installeren → Vault credentials downloaden → Policy → Backup starten
