@@ -51,9 +51,10 @@
 | Cloud Device Administrator | Devices beheren — GEEN groepen |
 
 ## Entra ID vs Azure RBAC
-- **Entra ID rollen** = directory/tenant beheren
-- **Azure RBAC rollen** = Azure resources beheren
+- **Entra ID rollen** = directory/tenant beheren (gebruikers, groepen, devices, apps)
+- **Azure RBAC rollen** = Azure resources beheren (VMs, storage, netwerken)
 - Twee aparte systemen — Global Admin geeft geen toegang tot Azure resources
+- Owner = baas van Azure resources maar geen toegang tot Entra ID
 
 ## Entra ID Licenties vs Rollen
 - Licentie = welke features beschikbaar zijn (SSPR, Conditional Access, PIM)
@@ -62,6 +63,7 @@
 - Admin group ≠ Application Administrator rol — expliciet toewijzen
 - Licentie verwijderen van user die via groep licentie heeft = user uit groep verwijderen
 - Nested groepen erven geen licenties — alleen directe leden
+- UsageLocation moet ingesteld zijn voordat licentie toegewezen kan worden
 
 ## SSPR — Wie kan configureren
 - Global Administrator ✓
@@ -70,6 +72,7 @@
 - User Administrator ✗
 - Security Administrator ✗
 - Admins gebruiken altijd two-gate policy — geen security questions
+- SSPR vereist minimaal Microsoft Entra ID P1 licentie
 
 ## Hybrid Entra ID — Attributen Aanpassen
 - Gesynchroniseerd vanuit Windows Server AD: Department/Job Title NIET aanpasbaar in Entra ID — moet in on-premises AD
@@ -113,12 +116,23 @@
 - copy element = meerdere instances van dezelfde resource deployen
 - targetScope / scope in Bicep = bepaalt waar resources worden gedeployed (welke RG/subscription)
 - scope = deployment destination in hiërarchie, location = geografische regio
+- ARM template bekijken na deployment = Resource Group → Deployments blade
+- -TemplateFile = lokaal bestand
+- -TemplateUri = online URL / Blob Storage / GitHub
+- -TemplateSpecId = Template Spec opgeslagen in Azure
 
 ## Root Management Group — Toegang
 - Niemand heeft standaard toegang tot de root management group
 - Owner en Contributor werken NIET op root niveau
 - Toegang krijgen = **Global Administrator rol + "Access management for Azure resources" aanzetten**
 - Na aanzetten krijg je automatisch User Access Administrator op root scope
+
+## Tags
+- Tags = metadata op Azure resources voor rapportage en kostenbeheer
+- Tags koppelen aan: resources, resource groups, subscriptions
+- Tags NIET mogelijk op: Management groups
+- "VMs koppelen aan departement voor rapportage" = Tags, niet administrative units
+- Administrative units = containers voor Entra ID objecten, niet voor Azure resources
 
 ## Delete Locks
 | Resource | Delete lock mogelijk |
@@ -135,13 +149,15 @@
 - SOA = automatisch aangemaakt
 
 ## Budget Alert
-1. Action group aanmaken met Stop VM actie
+1. Action group aanmaken met Stop VM actie (type: Runbook)
 2. Budget instellen in Cost Management + Billing
 
 ## Availability Set — Maximum Waarden
 - Update domains: max 20 (standaard 5)
 - Fault domains: max 3 (standaard 2)
 - Fault domains = 1 vereist ook update domains = 1
+- Update domains = bescherming tegen gepland onderhoud
+- Fault domains = bescherming tegen ongepland onderhoud (hardware failure)
 
 ---
 
@@ -221,6 +237,22 @@
 - **Azure Backup vereist "Allow trusted Microsoft Services to access this storage account" aangevinkt**
 - Zonder dit vakje = Azure Backup kan NIET backuppen naar deze storage account
 
+## Storage — Identity-Based Access
+- **Identity-based access = Azure Files** — ondersteunt AD/Entra ID authenticatie op share én bestandsniveau
+- Blob, Queue, Table = alleen access keys, SAS tokens, of RBAC op resource niveau
+- Azure Files = enige storage service met Kerberos/AD authenticatie zoals traditionele Windows file server
+
+## Storage — Gebruik per Type
+| Sleutelwoord | Storage type |
+|---|---|
+| Mount / mounten / SMB / NFS | Azure Files |
+| Mount from Azure + on-premises | Azure Files |
+| Persistent storage voor VM (Docker) | Azure Files (file share) |
+| Persistent storage VM disk | Azure Disk |
+| Object storage / unstructured data | Azure Blob |
+| NoSQL / structured tabular data | Azure Table |
+| Identity-based access | Azure Files |
+
 ## Azure Import/Export — Volledige Volgorde
 1. Dataset CSV aanmaken
 2. Driveset CSV aanmaken
@@ -245,7 +277,7 @@
 ## AzCopy
 - Ondersteunt: blob en file storage
 - OS: Windows, Linux, macOS
-- Authenticatie: Entra ID of SAS token
+- Authenticatie: Entra ID of SAS token (GEEN shared key via AzCopy)
 - make = container aanmaken
 - copy = bestanden kopiëren
 - sync = synchroniseren inclusief verwijderingen
@@ -274,6 +306,11 @@
 
 **Ezelsbruggetje:** D=Default, E=Extra geheugen, F=Fast CPU, L=Logs/storage, M=Massive, N=Nvidia
 
+## Azure Spot Instances
+- Goedkoper maar kunnen worden gestopt door Azure
+- Eviction redenen: Azure heeft capaciteit nodig OF prijs overschrijdt jouw maximum
+- Geschikt voor: dev/test, workloads zonder SLA vereiste
+
 ## Proximity Placement Group (PPG)
 - Zorgt dat VMs fysiek zo dicht mogelijk bij elkaar staan (laagste latency)
 - PPG en VM/VMSS moeten in **dezelfde regio** staan
@@ -281,13 +318,13 @@
 - Sleutelwoord: "low latency", "physically close", "same datacenter"
 
 ## App Service Tiers
-| Tier | Custom domain | Slots | Autoscale |
-|---|---|---|---|
-| Free F1 | Nee | Nee | Nee |
-| Basic B1 | Ja | Nee | Handmatig |
-| Standard S1 | Ja | 5 | Ja |
-| Premium P1V3 | Ja | 20 | Ja |
-| Isolated I1V2 | Ja | 20 | Ja |
+| Tier | Custom domain | Slots | Autoscale | Storage |
+|---|---|---|---|---|
+| Free F1 | Nee | Nee | Nee | 1 GB |
+| Basic B1 | Ja | Nee | Handmatig | 10 GB |
+| Standard S1 | Ja | 5 | Ja | 50 GB |
+| Premium P1V3 | Ja | 20 | Ja | 250 GB |
+| Isolated I1V2 | Ja | 20 | Ja | 1 TB |
 
 ## App Service — Runtime Stack vs OS
 | Runtime | OS |
@@ -304,12 +341,20 @@
 - Swap staging ↔ production = snelste manier om te reverten
 - Swap terugdraaien = swap staging ↔ production opnieuw — NOOIT dev ↔ production
 - Scale up naar Standard eerst, dan autoscale rules instellen
+- Docker container deployen = Publish instelling → Docker container
 
 ## App Service — Logging
 | Type | Wat |
 |---|---|
 | Web Server Logging | HTTP requests — method, URI, client IP, port, user agent, response code |
 | Application Logging | Applicatie errors, debug info |
+
+## App Service — Diagnostic Logging Severity
+- Verbose → Information → Warning → Error → Critical (laag naar hoog)
+- "Store all warnings or higher" = severity Warning instellen
+- Application Logging (Blob) = langdurig bewaren (meer dan 7 dagen)
+- Application Logging (FileSystem) = kortetermijn, max 7 dagen
+- Blob logging vereist voor langdurige opslag
 
 ## Container Services
 | Service | Volledig | Gebruik | Scale to zero | Scaling trigger |
@@ -318,6 +363,11 @@
 | App Service | Azure App Service | Docker web apps | Nee | HTTP / CPU |
 | ACA | Azure Container Apps | Serverless microservices | Ja | HTTP / event-driven / CPU |
 | AKS | Azure Kubernetes Service | Complexe orchestratie | Nee | Kubernetes HPA |
+
+## AKS — API Server Toegang Beperken
+- API server authorized IP ranges = publiek endpoint beperken tot vertrouwde IPs
+- Private cluster = API server alleen bereikbaar vanuit VNet
+- Kubernetes Metrics Server vereist voor HPA (Horizontal Pod Autoscaler)
 
 ## Container Apps — Subnet Vereisten
 | Environment type | Minimale subnet grootte |
@@ -369,6 +419,11 @@
 
 - "No data loss + performance" = Read-only caching
 
+## VM Redeploy
+- Redeploy = VM verplaatsen naar nieuwe Azure host
+- Gebruik bij: planned maintenance melding, host problemen
+- Tijdelijke disk (D: / /dev/sdb) gaat verloren bij redeploy
+
 ## Site Recovery — Vereiste voor AZ verplaatsing
 - VM moet managed disks gebruiken
 - Unmanaged disks = niet mogelijk
@@ -402,6 +457,7 @@
 ## Subnet Mask Overzicht
 | Subnet mask | Adressen totaal | Bruikbare adressen |
 |---|---|---|
+| /16 | 65536 | VNet niveau |
 | /24 | 256 | 251 |
 | /25 | 128 | 123 |
 | /26 | 64 | 59 |
@@ -411,6 +467,7 @@
 | /30 | 4 | 0 (niet bruikbaar) |
 
 **Ezelsbruggetje subnet groottes:**
+- /8, /16, /24 = nette grenzen na elk octet
 - /26 = Firewall en Bastion
 - /27 = VPN Gateway, Route Server, Container Apps Workload
 - /23 = Container Apps Consumption
@@ -446,6 +503,7 @@
 - Nieuw address space toegevoegd = Sync the peering
 - P2S VPN client herinstalleren na elke topologiewijziging
 - Overlappende address spaces = peering niet mogelijk
+- **VMs in verschillende VNets = peering vereist voor communicatie — ook voor DNS**
 
 ## Gateway Transit
 - Hub heeft VPN Gateway → zet "allow gateway transit" aan op Hub
@@ -463,6 +521,7 @@
 ## VPN Types
 - Site-to-site = heel kantoor → Azure (één VPN apparaat voor iedereen)
 - Point-to-site = één laptop → Azure (per persoon)
+- Encrypted connection to on-premises = VPN Gateway (virtual network gateway)
 
 ## Site-to-Site VPN — Volgorde (G-V-L-C)
 1. **G**ateway subnet aanmaken (naam: GatewaySubnet, minimaal /27)
@@ -495,11 +554,15 @@
 |---|---|
 | A | Domeinnaam → IPv4 |
 | AAAA | Domeinnaam → IPv6 |
-| CNAME | Alias |
+| CNAME | Alias — blijft geldig als IP verandert |
 | MX | Email routing |
 | TXT | Domeinverificatie |
 | NS | Delegatie naar DNS servers |
 | SOA | Automatisch aangemaakt |
+
+**CNAME vs A voor web apps:**
+- CNAME = domein → ander domein — blijft geldig bij IP wijziging ✓
+- A record = domein → IP — moet worden bijgewerkt bij IP wijziging ✗
 
 ## DNS Records — Uitgebreide Uitleg
 
@@ -578,6 +641,7 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 - VM stopped → mag erin ✓
 - Basic IP + Standard LB → niet compatibel ✗
 - Standard public IP = altijd Static
+- VM verwijderen uit backend pool = public IP verwijderen OF upgraden naar Standard
 
 ## Load Balancer — Regels
 | Regel | Gebruik |
@@ -615,6 +679,12 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 - Zonder peering = geen verbinding naar andere VNets
 - AzureBastionSubnet vereist — minimaal /26
 
+## Network Watcher
+- **Automatisch aangemaakt per regio** wanneer VNet wordt aangemaakt
+- 2 regio's = 2 Network Watcher instanties — aantal VNets maakt niet uit
+- Network Watcher = specifiek voor netwerk gezondheid (VMs, VNets, LB, App Gateway)
+- Azure Monitor = logs, metrics, alerts voor alle Azure resources — NIET specifiek netwerk
+
 ## Network Watcher Tools — Uitgebreide Uitleg
 
 **IP flow verify**
@@ -634,10 +704,11 @@ Voor één destination IP: via welk next hop gaat het verkeer?
 Geeft: next hop type (VirtualNetwork, Internet, VirtualNetworkGateway, VirtualAppliance)
 Sleutelwoord in vraag: "via welke route gaat verkeer naar X", "next hop voor destination"
 Verschil met Effective routes: next hop = één destination, effective routes = alle routes.
+**VALKUIL: "next hop" als woord in vraag ≠ Next hop tool. "Verify of traffic via peering gaat" = Effective routes.**
 
 **Effective routes**
 Toont alle actieve routes op een NIC — system routes, UDRs, BGP routes samen.
-Sleutelwoord in vraag: "alle actieve routes", "waarom neemt verkeer onverwachte route", "UDR correct"
+Sleutelwoord in vraag: "alle actieve routes", "waarom neemt verkeer onverwachte route", "UDR correct", "verify of traffic via peering gaat"
 Verschil met Next hop: compleet overzicht, niet één destination.
 
 **Connection troubleshoot**
@@ -687,7 +758,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | "wordt pakket geblokkeerd" / "welke regel" | IP flow verify |
 | "alle NSG regels" / "merged ruleset" | Effective security rules |
 | "next hop voor destination X" | Next hop |
-| "alle actieve routes" / "UDR correct" | Effective routes |
+| "alle actieve routes" / "UDR correct" / "verify peering route" | Effective routes |
 | "kan VM bereiken" / "eenmalig testen" + DNS | Connection troubleshoot |
 | "doorlopend" / "continu" / "latency over tijd" | Connection monitor |
 | "volledige pakketinhoud" / "forensisch" | Packet capture |
@@ -695,6 +766,8 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | "inzichten" / "hotspots" / "geografisch" | Traffic Analytics |
 | "VPN gateway problemen" | VPN troubleshoot |
 | "visuele kaart resources" | Network topology |
+| "monitor network health" | Azure Network Watcher |
+| "diagnostics and telemetry data" | Log Analytics workspace |
 
 ## Network Watcher — Wanneer Niet
 - Niet voor PaaS services
@@ -731,6 +804,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - Soft delete retention: 14 dagen
 - Blob containers = NIET te backuppen via Azure Backup
 - Azure SQL Database = NIET te backuppen via Azure Backup
+- Instant Restore = snapshots lokaal opgeslagen — retention verlagen = minder storage
 
 ## MARS Agent — Volgorde
 1. Recovery Services vault aanmaken
@@ -775,6 +849,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - Alert state = altijd handmatig — nooit automatisch
 - Shared dashboard: max 30 dagen data
 - **Action group EERST aanmaken, dan alert rule**
+- Log alert rule = scoped op Log Analytics workspace, niet op VM direct
 
 ## Azure Monitor Network Insights
 - Centraal dashboard met metrics, health status en netwerktopologie
@@ -819,7 +894,11 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | SQL injection | Application Gateway WAF |
 | SSL termination | Application Gateway |
 | WAF | Application Gateway |
+| Mount / mounten / SMB / NFS | Azure Files |
 | Mount from Azure + on-premises | Azure Files |
+| Identity-based access storage | Azure Files |
+| Persistent storage VM disk | Azure Disk |
+| Persistent storage container | Azure Files (file share) |
 | Replicatie andere regio minimale kosten | Standard_GRS |
 | Replicatie zelf regio kiezen / minimize latency | Object replication (GPv2 of Premium block blob) |
 | Fewest NSG rules | ASG |
@@ -841,6 +920,7 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Name resolution across multiple VNets | Azure Private DNS zone |
 | Underutilized VMs / unattached disks specifieke RGs | Azure Advisor configuratie aanpassen scope |
 | Underutilized VMs / unattached disks algemeen | Azure Advisor Cost |
+| Unattached disks identificeren | Azure Cost Management → Advisor recommendations |
 | Service Bus queue scaling | Event-driven trigger in ACA |
 | Verify custom domain in Entra ID | TXT of MX record |
 | Auto-delete group after X days | Microsoft 365 group expiration policy |
@@ -864,6 +944,9 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Continu latency monitoren | Connection monitor |
 | VPN problemen diagnosticeren | VPN troubleshoot |
 | NSG blokkeert welke regel | IP flow verify |
+| Verify of traffic via peering gaat | Effective routes |
+| Monitor network health netwerk resources | Azure Network Watcher |
+| Diagnostics en telemetry data meerdere resources | Log Analytics workspace |
 | Verkeer door firewall sturen | NVA + UDR |
 | Scripts eenmalig bij deployment | Custom Script Extension |
 | Scripts consistent + compliance | DSC extension |
@@ -885,3 +968,14 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 | Azure Backup storage account achter firewall | Allow trusted Microsoft Services aanvinken |
 | File recovery naar andere VM | Alleen zelfde of lagere OS versie |
 | VM restore replace existing disk | Alleen naar dezelfde VM |
+| Encrypted connection to on-premises | VPN Gateway (virtual network gateway) |
+| ARM template opgeslagen in Blob Storage | -TemplateUri parameter |
+| ARM template lokaal bestand | -TemplateFile parameter |
+| ARM template als Template Spec | -TemplateSpecId parameter |
+| Network Watcher per regio | Automatisch aangemaakt — 2 regio's = 2 instanties |
+| VMs koppelen aan departement rapportage | Tags |
+| Associate resources to department billing | Tags |
+| Docker container als web app deployen | App Service — Publish → Docker container |
+| AKS API server beperken tot VNet | Private cluster |
+| AKS API server beperken tot IP ranges | API server authorized IP ranges |
+| Spot instance eviction redenen | Azure capaciteit nodig OF prijs overschreden |
