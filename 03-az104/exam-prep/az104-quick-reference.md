@@ -174,17 +174,17 @@
 ## Rehydration uit Archive
 - Standard: tot 15 uur
 - High: binnen 1 uur (onder 10 GB)
-- Archive = offline = NIET toegankelijk — eerst rehydreren naar Hot of Cool
+- Archive = offline = NIET toegankelijk — eerst rehydreren naar Hot, Cool, of Cold
 
 ## Storage Redundancy
-| Type | Zone spreiding | Secundaire regio | Leestoegang secundair |
-|---|---|---|---|
-| LRS | Nee | Nee | Nee |
-| ZRS | Ja | Nee | Nee |
-| GRS | Nee | Ja | Nee |
-| RA-GRS | Nee | Ja | Ja |
-| GZRS | Ja | Ja | Nee |
-| RA-GZRS | Ja | Ja | Ja |
+| Type | Zone spreiding | Secundaire regio | Leestoegang secundair | Sync/Async | Availability |
+|---|---|---|---|---|---|
+| LRS | Nee | Nee | Nee | Synchroon | 99.9% |
+| ZRS | Ja | Nee | Nee | Synchroon | 99.9999% |
+| GRS | Nee | Ja | Nee | Primair sync / secundair async | 99.9% |
+| RA-GRS | Nee | Ja | Ja | Primair sync / secundair async | 99.99% |
+| GZRS | Ja | Ja | Nee | Primair sync / secundair async | 99.9999% |
+| RA-GZRS | Ja | Ja | Ja | Primair sync / secundair async | 99.9999% |
 
 ## Storage Redundancy — Copies
 | Type | Copies primair | Copies secundair | Totaal |
@@ -455,22 +455,25 @@
 *Azure reserveert altijd 5 adressen per subnet: netwerk (.0), gateway (.1), DNS (.2 en .3), broadcast (.255)
 
 ## Subnet Mask Overzicht
-| Subnet mask | Adressen totaal | Bruikbare adressen |
-|---|---|---|
-| /16 | 65536 | VNet niveau |
-| /24 | 256 | 251 |
-| /25 | 128 | 123 |
-| /26 | 64 | 59 |
-| /27 | 32 | 27 |
-| /28 | 16 | 11 |
-| /29 | 8 | 3 |
-| /30 | 4 | 0 (niet bruikbaar) |
+| Subnet mask | Adressen totaal | Bruikbare adressen | Wat verandert | Voorbeeld range |
+|---|---|---|---|---|
+| /16 | 65536 | VNet niveau | 3e + 4e octet vrij | 10.10.0.0 – 10.10.255.255 |
+| /24 | 256 | 251 | 4e octet vrij | 10.10.1.0 – 10.10.1.255 |
+| /25 | 128 | 123 | 4e octet, helft | 10.10.1.0 – 10.10.1.127 |
+| /26 | 64 | 59 | 4e octet, kwart | 10.10.1.0 – 10.10.1.63 |
+| /27 | 32 | 27 | 4e octet, 1/8 | 10.10.1.0 – 10.10.1.31 |
+| /28 | 16 | 11 | 4e octet, 1/16 | 10.10.1.0 – 10.10.1.15 |
+| /29 | 8 | 3 | 4e octet, 1/32 | 10.10.1.0 – 10.10.1.7 |
+| /30 | 4 | 0 (niet bruikbaar) | 4e octet, 1/64 | 10.10.1.0 – 10.10.1.3 |
 
 **Ezelsbruggetje subnet groottes:**
-- /8, /16, /24 = nette grenzen na elk octet
 - /26 = Firewall en Bastion
 - /27 = VPN Gateway, Route Server, Container Apps Workload
 - /23 = Container Apps Consumption
+
+**Ezelsbruggetje octetten:**
+- /8, /16, /24 = nette grenzen — elk octet volledig vrij
+- Alles daartussen = deel van 4e octet vrij
 
 ## NSG Regels
 - Inbound: Subnet NSG eerst → NIC NSG
@@ -500,8 +503,8 @@
 - Twee peerings aanmaken nodig (A→B én B→A) — anders werkt het niet
 - Gateway transit = VPN/ExpressRoute naar on-premises via hub gateway
 - Disconnected = verwijder peer en maak opnieuw aan
-- Nieuw address space toegevoegd = Sync the peering
-- P2S VPN client herinstalleren na elke topologiewijziging
+- **Nieuw address space toegevoegd aan gepeerd VNet** → klik "Sync" op de peering (portal knop) — dit vernieuwt de routing tabel
+- **Topologiewijziging** = structurele netwerkverandering (nieuwe VNet, peering aanpassen, gateway wijzigen) → P2S VPN clients moeten opnieuw geïnstalleerd worden omdat hun lokale routing tabel verouderd is
 - Overlappende address spaces = peering niet mogelijk
 - **VMs in verschillende VNets = peering vereist voor communicatie — ook voor DNS**
 
@@ -544,10 +547,11 @@
 | None | Traffic droppen |
 
 ## Route Prioriteit
-1. User-defined routes (hoogste prioriteit)
-2. BGP routes
-3. System routes
+1. User-defined routes / UDR (hoogste prioriteit — jij bepaalt)
+2. BGP routes (dynamisch uitgewisseld via ExpressRoute of VPN — on-premises naar Azure)
+3. System routes (Azure standaard — laagste prioriteit)
 - Langste prefix wint — /24 wint van /16
+- **BGP** = Border Gateway Protocol — routes die automatisch uitgewisseld worden tussen Azure en on-premises netwerk via ExpressRoute of VPN gateway. Niet handmatig configureren — werkt automatisch. AZ-104: onthoud alleen de volgorde.
 
 ## DNS Record Types
 | Type | Gebruik |
@@ -610,8 +614,8 @@ Ezelsbruggetje: NS = Name Server → wie beheert dit subdomein.
 | Eén zone meerdere VNets auto-registration | Toegestaan |
 | Public DNS zone linken aan VNet | Niet mogelijk |
 | Regio private DNS zone | Maakt niet uit |
-| VNet peering + DNS resolution | Peering irrelevant, zone moet gelinkt zijn |
-| On-premises resolver krijgt publiek IP | Private DNS zone niet gelinkt aan VNet van resolver |
+| VNet peering + DNS resolution | Peering alleen = NIET genoeg — zone moet ook gelinkt zijn aan het VNet |
+| On-premises resolver krijgt publiek IP | Private DNS zone niet gelinkt aan VNet van on-premises resolver — link aanmaken lost dit op |
 
 ## DNS Zone Migratie Tools
 - Azure CLI ✓
