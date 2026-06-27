@@ -985,13 +985,30 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 **Examen sleutelwoord:** "aggregate by column" of "group results by" → altijd **summarize**
 
 ## ARM Template — Opbouw Volgorde
+```json
+{
+  "$schema": "...",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {},
+  "resources": [],
+  "outputs": {}
+}
 ```
-parameters → variables → resources → outputs
-```
+**Volgorde:** parameters → variables → resources → outputs
 - **parameters** = input bij deployment (naam, locatie, SKU)
 - **variables** = herbruikbare waarden binnen template
-- **resources** = wat je deployt
-- **outputs** = wat je terugkrijgt na deployment
+- **resources** = wat je deployt (VM, VNet, storage)
+- **outputs** = wat je terugkrijgt na deployment (IP adres, resource ID)
+
+## ARM Deployen via PowerShell
+```powershell
+New-AzResourceGroupDeployment `
+  -ResourceGroupName "RG1" `
+  -TemplateFile "template.json"          # lokaal bestand
+  -TemplateUri "https://..."             # online URL / Blob / GitHub
+  -TemplateSpecId "/subscriptions/..."   # Template Spec
+```
 
 ## Azure Monitor Alert Rule — Volgorde in Portal
 1. **Scope** — welke resource monitor je
@@ -1017,16 +1034,22 @@ TableName
 **Volgorde:** where → summarize → project → order → top
 
 ## PowerShell Custom Rol — Volgorde
-```
-Get-AzRoleDefinition -Name "Contributor"
-| ConvertTo-Json       ← exporteren/aanpassen
-| ConvertFrom-Json     ← inlezen
-New-AzRoleDefinition   ← aanmaken
+```powershell
+Get-AzRoleDefinition -Name "Contributor"  # ophalen
+| ConvertTo-Json                           # exporteren naar JSON
+# aanpassen in editor
+| ConvertFrom-Json                         # inlezen als object
+New-AzRoleDefinition -Role $customRole    # aanmaken
 ```
 
 ## Azure CLI — Opbouw
-```
+```bash
 az [groep] [actie] --parameter waarde
+
+# Voorbeelden:
+az vm create --name VM1 --resource-group RG1
+az storage account create --name sa1 --sku Standard_LRS
+az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 ```
 **Volgorde:** az → groep (vm/storage/network) → actie (create/list/delete/show) → parameters
 
