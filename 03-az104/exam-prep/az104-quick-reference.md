@@ -984,6 +984,52 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 
 **Examen sleutelwoord:** "aggregate by column" of "group results by" → altijd **summarize**
 
+## ARM Template — Opbouw Volgorde
+```
+parameters → variables → resources → outputs
+```
+- **parameters** = input bij deployment (naam, locatie, SKU)
+- **variables** = herbruikbare waarden binnen template
+- **resources** = wat je deployt
+- **outputs** = wat je terugkrijgt na deployment
+
+## Azure Monitor Alert Rule — Volgorde in Portal
+1. **Scope** — welke resource monitor je
+2. **Condition** — signal kiezen + drempelwaarde
+3. **Actions** — action group koppelen
+4. **Details** — naam, severity, beschrijving
+
+**Action group moet al bestaan voordat je alert rule aanmaakt.**
+
+## Action Group — Opbouw
+- Naam + resource group
+- Actions: Email/SMS / Webhook / Azure Function / Runbook / ITSM
+
+## KQL Query — Volgorde
+```
+TableName
+| where Kolom == "waarde"        ← filter eerst
+| summarize count() by Kolom     ← aggregeer daarna
+| project Kolom1, Kolom2         ← selecteer kolommen
+| order by Kolom desc            ← sorteer
+| top 10 by Count                ← beperk resultaten
+```
+**Volgorde:** where → summarize → project → order → top
+
+## PowerShell Custom Rol — Volgorde
+```
+Get-AzRoleDefinition -Name "Contributor"
+| ConvertTo-Json       ← exporteren/aanpassen
+| ConvertFrom-Json     ← inlezen
+New-AzRoleDefinition   ← aanmaken
+```
+
+## Azure CLI — Opbouw
+```
+az [groep] [actie] --parameter waarde
+```
+**Volgorde:** az → groep (vm/storage/network) → actie (create/list/delete/show) → parameters
+
 ---
 
 ## SLEUTELWOORDEN
