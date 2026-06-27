@@ -1184,6 +1184,8 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - **Site Recovery na failover:** status moet **Failover committed** zijn voordat je kunt reprotecten — "Failover confirmed" bestaat niet
 - **Network health VMs/VNets/App Gateways/Load Balancers** = **Network Watcher** — niet Azure Monitor. Azure Monitor = logs/metrics/alerts voor alles
 - **Instant Restore teveel storage** = verlaag retention van instant recovery snapshots in backup policy
+- **Traffic Analytics** = geografische verdeling + hotspots + patronen over tijd uit NSG flow logs — niet Azure Monitor Network Insights
+- **Soft delete items** = kunnen NIET eerder dan 14 dagen permanent verwijderd worden — wacht op automatische verwijdering na 14 dagen
 
 ---
 
