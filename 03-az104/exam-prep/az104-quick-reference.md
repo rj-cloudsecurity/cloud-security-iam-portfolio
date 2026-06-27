@@ -1150,8 +1150,14 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
   - Virtual Network Link = VMs kunnen domeinnaam resolven (DNS)
   - Peering alleen = DNS werkt NIET. Beide nodig = Peering + Virtual Network Link
 - **Proximity Placement Group** = zelfde regio vereist — resource group maakt NIET uit
-- **Encrypted connection to on-premises** = VPN Gateway. Private endpoint = Azure services, niet on-premises
-- **ARM template in Blob Storage** = `-TemplateUri`. Lokaal = `-TemplateFile`. Template Spec = `-TemplateSpecId`
+- **NSG inbound rule op BEIDE NSGs met Protocol Any** = Yes — Any matcht TCP, UDP én ICMP. RDP gebruikt TCP → Any matcht → verbinding slaagt
+- **NSG regel alleen op subnet NSG, NIC NSG heeft verkeerde protocol** = No — beide moeten toestaan
+- **ASG koppelen** = altijd aan NIC — NSG hoeft NIET verwijderd te worden. NSG en ASG coëxisteren
+- **VPN volgorde met BGP (VNet bestaat al):** Gateway subnet → BGP-enabled VPN gateway → Local network gateway → Connection
+- **NSG regio** = moet zelfde regio zijn als subnet/NIC — kan NIET gekoppeld aan VNet in andere regio
+- **VNet peering overlappende address spaces** = NIET mogelijk
+- **Peering Disconnected** = verwijder de disconnected peer en maak opnieuw aan — niet repareren
+- **Nieuw address space toegevoegd aan gepeerd VNet** = Sync knop in portal klikken op de peering
 
 ---
 
