@@ -1166,6 +1166,9 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - **Redeploy** = VM naar nieuwe Azure host. Tijdelijke disk (D: / /dev/sdb) gaat verloren
 - **Availability Set:** Update domains = gepland onderhoud. Fault domains = ongepland. FD=1 vereist UD=1
 - **Operator rol** = bestaande resources bedienen — NIET aanmaken. Contributor = aanmaken én beheren
+- **App Service autoscale:** Basic ondersteunt GEEN autoscale → eerst **scale up naar Standard**, dan autoscale rules instellen
+- **App Service tiers instances + storage:** Basic = 3 instances + 10GB. Standard = 10 instances + 50GB. Premium = 30 instances + 250GB
+- **VPN gateway = type virtual network gateway** — in portal maak je "Virtual network gateway" aan en kies type VPN of ExpressRoute
 
 ---
 
@@ -1178,6 +1181,9 @@ Verschil met Traffic Analytics: Network topology = resources en verbindingen, Tr
 - **MARS volgorde:** Vault → Agent installeren → Vault credentials downloaden → Policy → Backup starten
 - **Web requests slow + trace** = Application Insights Profiler
 - **Monitor doorlopend VM** = Azure Monitor Agent. **Eenmalig troubleshoot** = Performance Diagnostics
+- **Site Recovery na failover:** status moet **Failover committed** zijn voordat je kunt reprotecten — "Failover confirmed" bestaat niet
+- **Network health VMs/VNets/App Gateways/Load Balancers** = **Network Watcher** — niet Azure Monitor. Azure Monitor = logs/metrics/alerts voor alles
+- **Instant Restore teveel storage** = verlaag retention van instant recovery snapshots in backup policy
 
 ---
 
