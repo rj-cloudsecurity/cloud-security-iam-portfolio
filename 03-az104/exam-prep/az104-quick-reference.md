@@ -1170,12 +1170,16 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 | Custom domain toevoegen aan Entra ID volgorde | Provision directory → Add domain → Add DNS to registrar → Verify |
 | Redeploy VM naar andere regio | NIET mogelijk via redeploy — gebruik Azure Resource Mover of Site Recovery |
 | ExpressRoute + S2S VPN coexistentie minimum SKU | VpnGw1 — Basic SKU ondersteunt geen coexistentie |
+| Web Deploy met Entra credentials least privilege | Website Contributor rol |
+| CDN origin VM met web app | Custom Origin |
+| CDN origin App Service web app | Web App origin |
+| CDN origin Azure Blob Storage | Storage origin |
 
 ---
 
 ---
 
-# ⚡ QUICK QUICK REFERENCE 
+# ⚡ QUICK QUICK REFERENCE — Meest gemaakte fouten
 
 ## RBAC & Governance
 
@@ -1191,6 +1195,8 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 - **VM aanmaken vereist VNet** — VNet geblokkeerd door policy → VM ook geblokkeerd
 - **Managed identities ontvangen GEEN email** van action groups — alleen users (direct of via groep)
 - **UsageLocation** moet ingesteld zijn voordat licentie toegewezen kan worden
+- **Scope bepaalt rechten** — rol op resource ≠ rechten in resource group. Storage Account Contributor op storage1 = alleen storage1, NIET aanmaken in RG
+- **Azure Policy definition types** = alleen **Built-in** + **Custom**. Exemptions = geen type. "Customized Policy Document" bestaat niet
 
 ---
 
@@ -1202,6 +1208,8 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 - **Archive rehydreren** naar Hot, Cool, **of Cold** — niet terug naar Archive
 - **Object replication vereisten:** blob versioning source + destination + change feed source. Beide GPv2 of Premium block blob
 - **Storage firewall + Azure Backup** = "Allow trusted Microsoft Services" aangevinkt. Zonder = Backup werkt niet
+- **Lifecycle management policy volgorde: F-A-C** — Filter (welke blobs) → Action (tierToCool/tierToArchive/delete) → Condition (daysAfterModificationGreaterThan)
+- **Data Box** = large data offline transfer, Microsoft levert hardware. **Import/Export** = zelfde concept maar jij stuurt eigen schijven
 
 ---
 
@@ -1226,8 +1234,8 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 - **VPN volgorde met BGP (VNet bestaat al):** Gateway subnet → BGP-enabled VPN gateway → Local network gateway → Connection
 - **NSG regio** = moet zelfde regio zijn als subnet/NIC — kan NIET gekoppeld aan VNet in andere regio
 - **VNet peering overlappende address spaces** = NIET mogelijk
-- **Peering Disconnected** = verwijder de disconnected peer en maak opnieuw aan — niet repareren
-- **Nieuw address space toegevoegd aan gepeerd VNet** = Sync knop in portal klikken op de peering
+- **Gateway transit:** "Allow gateway transit" op **HUB** peering. "Use remote gateway" op **SPOKE** peering
+- **Hub-and-spoke** = aparte VNets + VNet peering + UDRs in spokes — NIET één VNet met subnets
 
 ---
 
@@ -1239,6 +1247,8 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 - **App Service autoscale:** Basic ondersteunt GEEN autoscale → eerst **scale up naar Standard**, dan autoscale rules instellen
 - **App Service tiers instances + storage:** Basic = 3 instances + 10GB. Standard = 10 instances + 50GB. Premium = 30 instances + 250GB
 - **VPN gateway = type virtual network gateway** — in portal maak je "Virtual network gateway" aan en kies type VPN of ExpressRoute
+- **Website Contributor** = deployen met Entra credentials via Web Deploy — least privilege. FTPS credentials = niet Entra, dus fout
+- **CDN origin:** VM met web app = **Custom Origin**. App Service web app = **Web App origin**. Blob Storage = **Storage origin**
 
 ---
 
@@ -1256,6 +1266,9 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 - **Instant Restore teveel storage** = verlaag retention van instant recovery snapshots in backup policy
 - **Traffic Analytics** = geografische verdeling + hotspots + patronen over tijd uit NSG flow logs — niet Azure Monitor Network Insights
 - **Soft delete items** = kunnen NIET eerder dan 14 dagen permanent verwijderd worden — wacht op automatische verwijdering na 14 dagen
+- **Custom metrics** = Azure Monitor REST API — niet diagnostic settings, niet Application Insights
+- **Azure Monitor data opslag** = Log Analytics workspace + Storage accounts + Azure Data Lake. SQL Database en Cosmos DB = NIET ondersteund
+- **DependsOn in ARM template** = afdwingen dat resource X pas aangemaakt wordt nadat resource Y klaar is
 
 ---
 
