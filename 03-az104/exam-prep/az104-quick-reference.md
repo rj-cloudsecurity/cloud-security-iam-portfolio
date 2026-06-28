@@ -1198,6 +1198,7 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 
 - **Identity-based access** = Azure Files — enige storage service met AD/Kerberos authenticatie
 - **Mount / SMB / NFS** = Azure Files. **Persistent VM disk** = Azure Disk. **Blob over internet** = Azure Storage Explorer
+- **VM persistent storage** = altijd Azure Disk. **Container persistent storage** = altijd Azure Files
 - **Archive rehydreren** naar Hot, Cool, **of Cold** — niet terug naar Archive
 - **Object replication vereisten:** blob versioning source + destination + change feed source. Beide GPv2 of Premium block blob
 - **Storage firewall + Azure Backup** = "Allow trusted Microsoft Services" aangevinkt. Zonder = Backup werkt niet
@@ -1274,3 +1275,107 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 4. **M**ount file share with AD credentials
 
 **Ezelsbruggetje:** zonder sync weet Azure niet wie de gebruikers zijn. Zonder enable AD DS auth werkt authenticatie niet. Zonder permissions heeft niemand toegang. Dan pas mounten.
+
+---
+
+## Tiers, SKUs & Limieten — Overzicht
+
+### App Service Tiers
+| Tier | Custom domain | Slots | Autoscale | Instances | Storage |
+|---|---|---|---|---|---|
+| Free F1 | Nee | Nee | Nee | 0 | 1 GB |
+| Basic B1 | Ja | Nee | Handmatig | 3 | 10 GB |
+| Standard S1 | Ja | 5 | Ja | 10 | 50 GB |
+| Premium P1V3 | Ja | 20 | Ja | 30 | 250 GB |
+| Isolated I1V2 | Ja | 20 | Ja | 30 | 1 TB |
+
+### Azure Bastion SKUs
+| SKU | Host scaling | Max instances | Concurrent sessions |
+|---|---|---|---|
+| Basic | Nee | 2 vast | 2x20 RDP / 2x40 SSH |
+| Standard | Ja | Zelf instellen | Per instance: 20 RDP / 40 SSH |
+
+**Upgrade Basic → Standard mogelijk. Downgrade NIET mogelijk.**
+
+### ACR (Azure Container Registry) Tiers
+| Tier | Private endpoints | Geo-replication | Content trust |
+|---|---|---|---|
+| Basic | Nee | Nee | Ja |
+| Standard | Nee | Nee | Ja |
+| Premium | Ja | Ja | Ja |
+
+### VPN Gateway SKUs
+| SKU | S2S | P2S | ExpressRoute coexistentie |
+|---|---|---|---|
+| Basic | Ja | Nee | Nee |
+| VpnGw1 | Ja | Ja | Ja — minimum voor coexistentie |
+| VpnGw2+ | Ja | Ja | Ja |
+
+**Policy-based = alleen S2S, nooit P2S. Route-based = S2S én P2S.**
+
+### Azure Backup — Vault Types
+| Vault | Blob/Disk/PostgreSQL | VM/Files/SQL in VM | Site Recovery |
+|---|---|---|---|
+| Backup Vault | ✓ | ✗ | ✗ |
+| Recovery Services Vault | ✗ | ✓ | ✓ |
+
+### Storage Redundancy
+| Type | Zones | Secundaire regio | Leestoegang secundair | Copies |
+|---|---|---|---|---|
+| LRS | Nee | Nee | Nee | 3 |
+| ZRS | Ja | Nee | Nee | 3 |
+| GRS | Nee | Ja | Nee | 6 |
+| RA-GRS | Nee | Ja | Ja | 6 |
+| GZRS | Ja | Ja | Nee | 6 |
+| RA-GZRS | Ja | Ja | Ja | 6 |
+
+### Storage Access Tiers
+| Tier | Minimum opslag | Retrieval | Gebruik |
+|---|---|---|---|
+| Hot | Geen | Snel | Frequent accessed |
+| Cool | 30 dagen | Snel | Infrequent, snel nodig |
+| Cold | 90 dagen | Snel | Zelden, snel nodig |
+| Archive | 180 dagen | Uren | Zelden, latency ok |
+
+### Storage Account Types
+| Type | Blob | Files | Queue | Table | Data Lake | Redundancy |
+|---|---|---|---|---|---|---|
+| Standard GPv2 | ✓ | ✓ | ✓ | ✓ | ✓ | Alle types |
+| Premium block blobs | ✓ | ✗ | ✗ | ✗ | ✓ | LRS, ZRS |
+| Premium file shares | ✗ | ✓ | ✗ | ✗ | ✗ | LRS, ZRS |
+| Premium page blobs | ✓ | ✗ | ✗ | ✗ | ✗ | LRS |
+
+### Availability Opties VMs
+| Optie | Beschermt tegen | SLA |
+|---|---|---|
+| Enkele VM Premium SSD | — | 99.9% |
+| Availability set | Rack failures | 99.95% |
+| Availability zone | Datacenter failure | 99.99% |
+
+### Load Balancer vs Application Gateway vs Front Door vs Traffic Manager
+| | Load Balancer | App Gateway | Front Door | Traffic Manager |
+|---|---|---|---|---|
+| Laag | Layer 4 | Layer 7 | Layer 7 | DNS |
+| Scope | Regionaal | Regionaal | Globaal | Globaal |
+| SSL termination | Nee | Ja | Ja | Nee |
+| WAF | Nee | Ja | Ja | Nee |
+| Caching | Nee | Nee | Ja | Nee |
+
+### Container Services
+| Service | Scale to zero | Scaling trigger | Gebruik |
+|---|---|---|---|
+| ACI | Nee | Handmatig | Korte geïsoleerde taken |
+| App Service | Nee | HTTP/CPU | Docker web apps |
+| ACA | Ja | HTTP/event/CPU | Serverless microservices |
+| AKS | Nee | Kubernetes HPA | Complexe orchestratie |
+
+### Subnet Groottes — Minimale Vereisten
+| Resource | Minimale subnet | Subnetnaam vereist |
+|---|---|---|
+| Container Apps Consumption | /23 | Vrij |
+| Application Gateway | /24 | Vrij |
+| Azure Firewall | /26 | AzureFirewallSubnet |
+| Azure Bastion | /26 | AzureBastionSubnet |
+| VPN Gateway | /27 | GatewaySubnet |
+| Container Apps Workload | /27 | Vrij |
+| Route Server | /27 | RouteServerSubnet |
