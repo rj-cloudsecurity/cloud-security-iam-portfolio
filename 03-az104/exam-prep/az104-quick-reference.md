@@ -1175,7 +1175,7 @@ az network vnet create --name VNet1 --address-prefix 10.0.0.0/16
 
 ---
 
-# ⚡ QUICK QUICK REFERENCE — Meest gemaakte fouten
+# ⚡ QUICK QUICK REFERENCE 
 
 ## RBAC & Governance
 
