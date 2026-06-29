@@ -1,8 +1,8 @@
 # AZ-104: Azure Administrator Associate
 ## Learning Path 4: Deploy and manage Azure compute resources
 
-  - **AZ-104 Started:** 11-4-2026
-  - **AZ-104 Exam passed:**
+  - **AZ-104 Started:** 11 April, 2026
+  - **AZ-104 Exam passed:** 29 June, 2026
 
 ---
 
