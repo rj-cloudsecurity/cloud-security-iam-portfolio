@@ -1,7 +1,7 @@
 # SC-900: Security, Compliance, and Identity Fundamentals — Study Notes
 
-  - **Started:** 16-3-2026
-  - **Exam passed:** April 8, 2026
+  - **Started:** 16 March, 2026
+  - **Exam passed:** 8 April 8, 2026
 
 ---
 
