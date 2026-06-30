@@ -140,4 +140,4 @@ Planned:
 ---
 
 ## Status
-Actively studying toward AZ-104 certification. Repository updated regularly.
+AZ-104 certified. SC-300 preparation starting soon. Repository updated regularly.
