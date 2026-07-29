@@ -122,15 +122,15 @@ Planned:
 
 ### 04 — SC-300: Identity and Access Administrator Associate
 **Notes**
-- [LP1](/04-sc104/notes/lp1-explore-identity-in-microsoft-entra-id.md)
+- [LP1](/04-sc300/notes/lp1-explore-identity-in-microsoft-entra-id.md)
 
 **Exam Prep**
-- [Exam Preparation](/04-sc104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
-- [Quick Reference](/04-sc104/exam-prep/az104-quick-reference.md) — Key facts, comparisons and exam keywords
+- [Exam Preparation](/04-sc300/exam-prep/sc300-exam-prep.md) — Progress, scores and study approach
+- [Quick Reference](/04-sc300/exam-prep/sc300-quick-reference.md) — Key facts, comparisons and exam keywords
 
 
 **Labs** 
-- [View labs](/04-sc104/labs/)
+- [View labs](/04-sc300/labs/)
   
 ---
 
