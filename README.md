@@ -58,7 +58,7 @@ Planned:
 
 **Phase 2 — Associate**
 - AZ-104 – Azure Administrator Associate ✅
-- SC-300 – Identity and Access Administrator Associate
+- SC-300 – Identity and Access Administrator Associate 
 
 **Phase 3 — Next Steps**
 - SC-200 – Microsoft Security Operations Analyst
@@ -121,7 +121,18 @@ Planned:
 ---
 
 ### 04 — SC-300: Identity and Access Administrator Associate
-*Coming soon*
+**Notes**
+- [LP1](/04-sc104/notes/lp1.md)
+
+**Exam Prep**
+- [Exam Preparation](/04-sc104/exam-prep/az104-exam-prep.md) — Progress, scores and study approach
+- [Quick Reference](/04-sc104/exam-prep/az104-quick-reference.md) — Key facts, comparisons and exam keywords
+
+
+**Labs** 
+- [View labs](/04-sc104/labs/)
+  
+---
 
 ### 05 — SC-200: Microsoft Security Operations Analyst
 *Coming soon*
@@ -140,4 +151,4 @@ Planned:
 ---
 
 ## Status
-AZ-104 certified. SC-300 preparation starting soon. Repository updated regularly.
+AZ-900, SC-900 & AZ-104 certified. SC-300 in progress. Repository updated regularly.
