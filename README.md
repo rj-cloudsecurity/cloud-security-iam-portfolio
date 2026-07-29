@@ -26,11 +26,11 @@ cloud-security-iam-portfolio/
 │   ├── exam-prep/
 │   ├── labs/
 │   └── notes/
-Planned:
 ├── 04-sc300/
 │   ├── exam-prep/
 │   ├── labs/
 │   └── notes/
+Planned:
 └── 05-sc200/
     ├── exam-prep/
     ├── labs/
