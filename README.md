@@ -58,7 +58,7 @@ Planned:
 
 **Phase 2 — Associate**
 - AZ-104 – Azure Administrator Associate ✅
-- SC-300 – Identity and Access Administrator Associate 
+- SC-300 – Identity and Access Administrator Associate 🔄
 
 **Phase 3 — Next Steps**
 - SC-200 – Microsoft Security Operations Analyst
