@@ -33,12 +33,48 @@
 
 **Context:** vroeger; username/password door de "poort" gaf volledige toegang. Bij grote hoeveelheid cyberaanvallen is alleen het netwerk beveiligen niet genoeg; één gestolen credential geeft bad actors toegang tot alles. Zero Trust beschermt assets overal met policy.
 
+---
 
-🔄
+## Explore Zero Trust with identity
 
+**Waarom Zero Trust**
+Organisaties hebben een nieuw security model nodig dat past bij de complexiteit van hybrid en multicloud omgevingen. Ondersteuning nodig voor cloud, mobile workforce en bescherming van mensen, devices, apps en data; waar ze zich ook bevinden. Zero Trust gaat uit van "assume breach" en verifieert elk verzoek alsof het van een niet-vertrouwd netwerk komt: **"never trust, always verify."**
 
-### Explore Zero Trust with identity
+**Zero Trust principes**
 
+| Principe | Data points / methode |
+|---|---|
+| Verify Explicitly | User identity en locatie · Device health · Service/workload context · Data classification · Anomalies |
+| Use least privilege access | Just-in-time (JIT) · Just-enough-access (JEA) · Risk-based adaptive policies · Data protection against out of band vectors |
+| Assume breach | Segmenting access by network, user, devices, app awareness · Encrypting all sessions end to end · Analytics voor threat detection, posture visibility, defenses verbeteren |
+
+**Deploy Zero Trust solutions**
+
+Zero Trust strekt zich uit over het hele digital estate; geïntegreerde security philosophy en end-to-end strategie. Zes fundamentele pilaren:
+
+- Identity
+- Endpoints
+- Data
+- Apps
+- Infrastructure
+- Network
+
+Elke pilaar is een signal source, een control plane voor enforcement, en een resource om te verdedigen. Focus hier: **Identity pillar.**
+
+Identities (mensen, services, IoT devices) definiëren het Zero Trust control plane. Bij toegang tot een resource: identiteit verifiëren met sterke authenticatie, toegang moet compliant en typisch zijn voor die identiteit, least privilege access principes volgen.
+
+**Zero Trust architecture**
+
+Security policy governs everything. Identity wordt gebruikt om identity en access te verifiëren. Andere blokken: data, apps, networking, infrastructure; radiating outward vanuit het policy center.
+
+Kern van de strategie: een **policy engine** voor dynamische access-beslissingen op kritieke checkpoints (netwerken, apps, data).
+
+- **Identity en access management + endpoint management** -> expliciete verificatie van users en devices via rich signal (device health, sign-in risk)
+- **Information protection + cloud security solutions** -> real-time enforcement en bescherming van resources
+- **Networking solutions** -> real-time threat protection, detectie en respons op netwerk/infrastructuur
+- **SIEM + XDR (geïntegreerd)** -> end-to-end threat prevention, detection, response. Geeft zichtbaarheid over threats across alle resources, koppelt signalen samen, enabled snelle geïntegreerde remediation
+
+Resultaat: alleen de juiste mensen krijgen het juiste toegangsniveau; verhoogt zowel security als productiviteit.
 
 ### Discuss identity as a control plane
 
