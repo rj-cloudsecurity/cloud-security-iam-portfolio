@@ -6,9 +6,9 @@
 
 ---
 
-### Explain the identity landscape
+## Explain the identity landscape
 
-## Identity lifecycle (5 onderdelen)
+**Identity lifecycle (5 onderdelen)**
 
 | # | Onderdeel | Details |
 |---|---|---|
@@ -18,14 +18,14 @@
 | 4 | Usage | Access applications and data, Secure (Cryptography), Dollars (Licenses) |
 | 5 | Maintain | Protect, Detect, Respond |
 
-## Toelichting per onderdeel
+**Toelichting per onderdeel**
   -  1. Altijd ontwerpen met Zero Trust; niet automatisch toegang geven omdat een gebruiker die eerder had, altijd bevestigen
   -  2. ystemen voor geverifieerde accounts: komen van Microsoft Entra ID, business-to-business federation, business-to-customer, decentralized identity providers
   -  3. Users en applicaties authenticaten en authorizen voor toegang; administrators monitoren en onderhouden systemen met governance
   -  4. Toegang tot applicaties en data gebruiken, met andere identity-based services
   -  5. Systemen up-to-date houden
 
-## Classic identity vs Zero Trust identity
+**Classic identity vs Zero Trust identity**
 | Classic identity | Zero Trust identity |
 |---|---|
 | Assets achter een firewall (database, applicatie achter locked gate) | Centraal beleid geeft toegang tot verschillende lokaal beveiligde resources |
