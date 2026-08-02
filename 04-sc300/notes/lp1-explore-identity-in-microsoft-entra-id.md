@@ -6,8 +6,6 @@
 
 ---
 
-## Learning Path 1: Explore identity in Microsoft Entra ID
-
 ### Explain the identity landscape
 
 #### Identity lifecycle (5 onderdelen)
