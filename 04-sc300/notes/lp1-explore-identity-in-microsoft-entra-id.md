@@ -76,7 +76,9 @@ Kern van de strategie: een **policy engine** voor dynamische access-beslissingen
 
 Resultaat: alleen de juiste mensen krijgen het juiste toegangsniveau; verhoogt zowel security als productiviteit.
 
-### Discuss identity as a control plane
+---
+
+**Discuss identity as a control plane**
 
 
 ### Explore why we have identity
