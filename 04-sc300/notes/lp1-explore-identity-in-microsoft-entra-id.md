@@ -8,7 +8,7 @@
 
 ### Explain the identity landscape
 
-#### Identity lifecycle (5 onderdelen)
+## Identity lifecycle (5 onderdelen)
 
 | # | Onderdeel | Details |
 |---|---|---|
