@@ -148,7 +148,7 @@ Resultaat: alleen de juiste mensen krijgen het juiste toegangsniveau; verhoogt z
   - Commands: verb-noun shceme, output = objects
 
   - Microsoft Graph
-    - Een REST API endpoint
+    - Een REST API endpoint `https://graph.microsoft.com`
     - Toegang tot Entra ID, M365, devices, etc.
     - 3 onderdelen: Graph API, (data ophalen/beheren); Grpah connectors (externe data -> M365 Search); Graph Data connect (data naar Azure stores)
    
