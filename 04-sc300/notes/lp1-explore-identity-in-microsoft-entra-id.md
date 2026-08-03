@@ -152,11 +152,50 @@ Resultaat: alleen de juiste mensen krijgen het juiste toegangsniveau; verhoogt z
     - Toegang tot Entra ID, M365, devices, etc.
     - 3 onderdelen: Graph API, (data ophalen/beheren); Grpah connectors (externe data -> M365 Search); Graph Data connect (data naar Azure stores)
    
-
 ---
 
-### Contrast decentralized identity with central identity systems
+**Contrast decentralized identity with central identity systems**
+  - Centralized Identity Management
+    - Een identity tool waar credentials worden opgeslagen en beheerd, voor authentication en authorization
+    - On-premises of cloud-based
+    - Centraal beheerd door 1 identity authority/admin(group)
+    - Voorbeeld: Microsoft Entra ID
+   
+  - Kernpunten:
+    - Credentials worden geverifieerd bij opslag
+    - Single authority management
+    - Gebruik voor identity + access management
+   
+  - Voordelen:
+    - Secure adaptive access: Strong authentication + risk-based policies
+    - Seamless user experience: Snelle sign -in, minder password-beheer
+    - Unified identity management: Alle identities/apps centraal (cloud + on-prem)
+    - Simplified identity governance: Geautomatiseerde goverance, alleen authorized users hebben acces
+   
+  - Decentralized Identity (DID)
+    - Mensen/organisaties/things interacten ransparant en veilig in een "identity trust fabric"
+    - Gebruiker controleert eigen digitale identity en credentials (self-owned)
+    - DIDs = User-generated, globally unique identifiers, gewoteld in decentralized systems (bv. blockchain/ledger)
+    - Kenmerken: Immutability, censorship resistance, tamper evasiveness
+   
+  - Componenten (herkennen, niet uit hoofd leren)
 
+| Component | Functie |
+|---|---|
+| W3C DIDs | User-owned unique IDs, gelinkt aan DPKI metadata (JSON: public key, auth descriptors, service endpoints) |
+| Decentralized systems | Blockchains/ledgers — basis voor DPKI |
+| DID User Agents | Apps om DIDs te creëren/beheren (bv. Microsoft's Wallet-app) |
+| DIF Universal Resolver | Server voor lookup/resolution van DIDs, retourneert DID Document Object (DDO) |
+| DIF Identity Hubs | Encrypted personal datastores (cloud + edge devices) |
+| DID Attestations | DID-signed claims — basis van trust tussen users |
+| Decentralized apps/services | Nieuwe apps die data opslaan in user's Identity Hub |
+
+Belangrijk misverstand (examen-relevant)
+  - Niet alle identity data staat public op de blockchain
+  - Microsoft: Decentralized systems worden alleen gebruikt om identifiers en non-PII DPKI metadata te anchoren (routing/authenticatie)
+  - Echte identity data blijft encrypted "off-Chain", volledig onder controle van de user
+
+---
 
 ### Discuss identity management solutions
 
