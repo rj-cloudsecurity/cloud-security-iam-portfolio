@@ -197,7 +197,26 @@ Belangrijk misverstand (examen-relevant)
 
 ---
 
-### Discuss identity management solutions
+**Discuss identity management solutions**
+  - Discuss identity management solutions
+    - IAM= Authenticatie (wie je bent) + Autorisatie (wat je mag)
+    - Microsoft Entra ID = Cloud-based IAM-platform (IDAAS), flat architecture, werkt voor cloud en on-prem apps, 1 identity per user voor alle app/devices
+   
+| Term | Kort |
+|---|---|
+| Identity | Alles wat kan authenticaten (user, app, server) |
+| Account | Identity + data — bestaat niet los van identity |
+| User | 1 persoon = 1 identity |
+| Group | Bundel identities voor gezamenlijke rechten |
+| Tenant/Directory | 1 instance van Entra ID = 1 organisatie (synoniemen) |
+| Administrative Unit | Sub-grens binnen een tenant |
+| Azure subscription | Betaalconstructie, los van identity zelf |
+
+  - Identity ≠ Account (Account heeft data, identity niet per se)
+  - Tenant = Directory; Administrative Unit zit onder tenant-niveau
+  - Eén organisatie kan meerdere tenants hebben; geen strikte 1-op-1 relatie
+
+---
 
 
 ### Explain Microsoft Entra Business to Business
