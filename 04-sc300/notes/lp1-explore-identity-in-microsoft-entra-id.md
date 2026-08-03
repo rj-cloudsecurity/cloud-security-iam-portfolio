@@ -119,8 +119,8 @@ Resultaat: alleen de juiste mensen krijgen het juiste toegangsniveau; verhoogt z
 
 **Define identity administration**
   - Wat het is:
-   - Beheer van identity objects gedurende hun hele levenscyclus; handmatig of geautomatiseerd
-   - Zonder governance: Verlopen/vergeten accounts blijven actief -> security risico
+    - Beheer van identity objects gedurende hun hele levenscyclus; handmatig of geautomatiseerd
+    - Zonder governance: Verlopen/vergeten accounts blijven actief -> security risico
 
   - Wat het oplevert
     - Configureerbaar rond business processes
