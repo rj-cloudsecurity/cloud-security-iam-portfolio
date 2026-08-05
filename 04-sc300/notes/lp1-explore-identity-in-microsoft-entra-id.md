@@ -264,11 +264,34 @@ Belangrijk misverstand (examen-relevant)
 
   - Onthouden: Entra ID = startpunt voor cloud identity. AD DS = on-prem. Entra Domain Services = brug ertussen (lift and shift van legacy apps naar Azure zonder AD DS zelft te hoeven beheren.)
 
-
 ---
 
+**Define identity licensing**
+  - Wat is een licentie
+    - Gekocht agreement om Microsoft-technologie te mogen gebruiken (vergelijkbaar met EULA)
+    - Voor specifieke features/functies in Azure/M365 moet je vaak een licentie kopen
+   
+  - Type licenties
+    - Entra ID P1/P2: Geeft toegang tot meer features in Entra ID. P2 nodig voor PIM (Privileged Identity Management)
+    - Microsoft 365 / Office 365 / Windows: Per user toegewezen, 1 licentie per user die toegang nodig heeft
+    - MAU (Monthly Active User): Gebruikt bij Entra External Identities. Maandelijks rapport van actieve externe users voor billing. Eerste 50.000 MAU gratis (P1 en P2)
+  - PIM licensing (Entra ID P2 / Entra ID Governance)
+    - Elke user met een eligible of time-bound rol-assignment via PIM heeft een eigen P2 (of Entra ID Governance) licentie nodig
+    - Geldt ook voor: approvers die activation requests goedkeuren, en eligible members/owners van PIM for Groups
+    - Licentie wordt expliciet per user toegewezen — niet overgeërfd van een groep of subscription
+    - Als de P2/Governance licentie verloopt: permanente role assignments blijven werken, maar time-bound/eligible assignments worden aangepast of verwijderd
+   
+  | | Subscription | License |
+  |---|---|---|
+  | Wat | Agreement om cloud platform/service te gebruiken | Recht voor 1 specifieke user om SaaS-dienst te gebruiken |
+  | Billing | Per-user fee (SaaS: M365, Dynamics 365) of resource consumption (PaaS/IaaS: Azure) | Vast maandbedrag per toegewezen user, onderdeel van subscription |
+  | Voorbeeld | Contoso heeft M365 E5 subscription | ...met 100 licenties → max 100 users kunnen E5 features gebruiken |
 
-### Define identity licensing
+  - Trial subscriptions verlopen na tijd/verbruik, kunnen worden omgezet worden naar betaald
+  - 1 Organisatie kan meerdere subscriptions hebben
+
+  ---
+  
 
 
 ### Explore authentication
