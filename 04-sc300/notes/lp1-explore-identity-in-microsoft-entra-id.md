@@ -218,11 +218,54 @@ Belangrijk misverstand (examen-relevant)
 
 ---
 
+**Explain Microsoft Entra Business to Business**
+  - Wat is het:
+    - Onderdeel: Microsoft Entra External Identities; Alle manieren om veilig te werken met users buiten je organisatie
+    - Voor: Samenwerken met partners/distributeurs/vendoer (B2B), of customer-facng apps beheren (BC)
+    - Kernprincipe: Externe users "bring their own identity" (bedrijfsaccount, overheidsaccount, of socials zoals Google/Facebook); hun eigen IdP beheert hun identity, jij beheert alleen de toegang tot jouw resources (via Entra ID of Entra B2C)
+   
+  - 2 Vormen van B2B
 
-### Explain Microsoft Entra Business to Business
+| Type | Gebruik |
+|---|---|
+| B2B collaboration | Externe users loggen in met eigen identity op jouw apps (SaaS/custom). Worden opgenomen in je directory als guest users |
+| B2B direct connect | Two-way trust tussen 2 Entra-organisaties. Nu alleen voor Teams shared channels. Users staan NIET in je directory, wel zichtbaar/monitorbaar in Teams admin center |
+
+  - Microsoft Entra B2C (Business to Consumer)
+    - Voor customer-facing apps: Klanten loggen in met social/enterprise/local account, krijgen SSO naar jouw apps/APIs
+    - Is een CIAM oplossing (customer Identity Access Management): Schaalbaar naar miljoenen users/miljarden authentications per dag
+    - Regels automatisch scaling, monitoring, en bescherming tegen DoS/Password spray/ brute force
+    - Los product van Entra ID: Geen restricties op wie zich kan aanmelden
+   
+  - Onthouden:
+    - B2B collaboration = guest user in directory.
+    - B2B direct connect = geen directory-entry, alleen Teams
+    - B2C apart product, voor consumer apps, niet voor interne/partner samenwerking
+  
+
+**Compare Microsoft identity providers**
+  - Wat is een IdP
+    - Systeem dat digitale identities aanmaakt/beheert/opslaat (bv. Entra ID)
+    - 3 Kerncomponenten: Identity repository, authentication systeem, security protocols
+    - Verifieert via factors (password, fingerprint etc.)
+    - Vaak gekoppeld aan SSO -> minder password fatigue, kleiner attack surface, minder reauthenticatie nodig
+   
+  - Protocollen
+    - OIDC: Authentication protocol, gebouwd op OAuth2 (dat is voor authorization). Geeft JSON identity tokens via REST API
+    - SAML: Open standaard, XML-based, wisselt authN/authZdata uit tussen IdP en service provider
+
+  - Microsoft identity-opties
+
+| Product | Type | Gebruik |
+|---|---|---|
+| Active Directory Domain Services (AD DS) | On-premises, LDAP-based | Traditioneel, on-prem user/computer management, group policy, trusts |
+| Microsoft Entra ID | Cloud-based | Auth voor M365, Azure portal, SaaS-apps. Kan syncen met on-prem AD DS → hybrid identity |
+| Microsoft Entra Domain Services | Managed cloud-versie van AD DS | Subset van AD DS features (domain join, group policy, LDAP, Kerberos/NTLM) zonder zelf domain controllers te beheren. Integreert met Entra ID (die weer kan syncen met on-prem AD) |
+
+  - Onthouden: Entra ID = startpunt voor cloud identity. AD DS = on-prem. Entra Domain Services = brug ertussen (lift and shift van legacy apps naar Azure zonder AD DS zelft te hoeven beheren.)
 
 
-### Compare Microsoft identity providers
+---
 
 
 ### Define identity licensing
