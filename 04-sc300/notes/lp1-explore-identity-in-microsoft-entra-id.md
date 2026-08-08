@@ -321,7 +321,7 @@ Belangrijk misverstand (examen-relevant)
     - UserInfo endpoint: API die info over de user terug geeft
    
   - Claims-based identity
-    - Bij sign-in stuurt Entra ID een ID token met claims (key/value pairs, bv. email=bob@contoso.com)
+    - Bij sign-in stuurt Entra ID een ID token met claims (key/value pairs, bv. `email=bob@contoso.com`)
     - Claim heeft een issuer (bv. Entra ID); je vertrouwt de claim omdat je de issuer vertrouwt
     - Flow: User authenticeert -> IdP stuurt claims -> app normaliseert/augment (optioneel) -> app gebruikt claims voor authorization
     - OIDC scpoe-parameter bepaalt welke claims je krijgt. Entra ID geeft beperkte set via JWT; voor meer info nodig: Graph API
