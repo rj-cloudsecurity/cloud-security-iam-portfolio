@@ -292,9 +292,63 @@ Belangrijk misverstand (examen-relevant)
 
   ---
   
+**Explore authentication**
+  - Wat is authentication
+    - Valideren dat een identity (user/app/device) is wie hij zegt te zijn en juiste level van validatie/security tijdens de transactie
+   
+  - 4 capabilities van authenticaton via IdP
+    - Convenience: Focus op end-user experience bij inloggen. Niet makkelijk betekend users klagen/vermijden
+    - Sources: Waar het authentication token vandaan komt. Vaak niet alleen Entra ID als centrale issuer, maar ook andere identity repositories *bv. federated identity)
+    - Protocols: Organisaties standaardiseren op 1+ moderne, secure protocollen
+    - Assurance: Vertrouwen dat de user echt is wie hij zegt: shared vs personalized accounts, MFA, risk-based authentication
+   
+ - Federated identity
+   - Collectie van domains met established trust; bevat meestal authentication en authorization
+   - Laat je bestaande identities uit trusted sources (bv. on-prem AD) gebruiken
+  
+   - Protocollen
+  
+     | Protocol | Kort |
+|---|---|
+| SAML | AuthN/authZ data tussen IdP en SP. Attributen: Principal (user/device), IdP, SP |
+| WS-Fed | SSO via externe identity exchange + authentication |
+| OIDC | Bouwt op OAuth2, maakt SSO mogelijk via OAuth |
 
 
-### Explore authentication
+  - OpenID Connect (OIDC)
+    - Authentication protocol gebouws op OAthc 2.0 (dat is voor authorization)
+    - Introduceert ID token: Security token om identity van user te verifieren + basis profile info
+    - UserInfo endpoint: API die info over de user terug geeft
+   
+  - Claims-based identity
+    - Bij sign-in stuurt Entra ID een ID token met claims (key/value pairs, bv. email=bob@contoso.com)
+    - Claim heeft een issuer (bv. Entra ID); je vertrouwt de claim omdat je de issuer vertrouwt
+    - Flow: User authenticeert -> IdP stuurt claims -> app normaliseert/augment (optioneel) -> app gebruikt claims voor authorization
+    - OIDC scpoe-parameter bepaalt welke claims je krijgt. Entra ID geeft beperkte set via JWT; voor meer info nodig: Graph API
+   
+  - Security tokens (examen-kernstof)
+  - 
+    | Token | Functie |
+|---|---|
+| Access token | Voor toegang tot protected resources/web APIs (OAuth 2.0 flow) |
+| Refresh token | Wisselt oude/verlopen access token om voor nieuwe (access tokens zijn kortlevend) |
+| ID token | Authenticeert de user zelf (OIDC flow), naast of i.p.v. access token |
+
+
+ - JWT (JSON Web Token)
+   - Open standaard (RFC 7519): Compact, self-contained, JSON based)
+   - Signed tokes -> verifieert integriteit van claims (met secret of public/private key pair)
+   - Encrypted tokes -> verbergt claims voor andere partijen
+   - Bij public/private key pari: signature bewijst dat alleen de private-key-houder het token signed heeft
+  
+  - Claims-terminologie
+    - Claim: key/value pari binnen een token (bv. `"sub": "13465798"`
+    - Assertion: Package van data (token) dat identity/security info deelt across security domains
+    - Attribute: Key/value pair binnen een token (zelfde als claim, andere term)
+    - Augmentation: Extra claims toevoegen aan token voor meer detail (bv. data uit HR_systemen of SharePoint)
+
+
+
 
 
 ### Discuss authorization
