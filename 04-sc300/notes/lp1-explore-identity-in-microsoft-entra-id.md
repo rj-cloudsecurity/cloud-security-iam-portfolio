@@ -411,7 +411,48 @@ Belangrijk misverstand (examen-relevant)
     - Azure Monitor, Application Insights, Azure Service Heatlh, Azure Resource Health, Azure Resource Manager, Azure Policy
 
 
+Module assessment
 
+Great job! You passed the module assessment.
+
+Module assessment passed
+Great job! You passed the module assessment.Sign into save progress.
+Score: 100%
+
+Choose the best response for each of the questions below.
+Check your knowledge
+1.
+
+V What are the three tenants of Zero Trust?
+
+X Verify explicitly - Least privilege - Assume breach
+Correct
+
+X Verify explicitly - Least privilege - Conditional access
+
+Multifactor authentication - Conditional access - Privilege identity management
+
+2.
+
+X What is decentralized identity?
+
+V Storing all your user and device identities in Active Directory on-premises and then using Microsoft Entra Connect to apply them in the cloud.
+
+X An identity provider that provides verified identities provided in a blockchain store.
+Correct
+
+Microsoft Entra ID
+
+3.
+
+V What is claims-based authentication?
+
+When a user signs in, Microsoft Entra ID creates and sends an Access token that contains a set of claims about the user.
+Correct
+
+X When a user doesn't need to sign in, but sends a claim directly to a cloud resource to access it. The claim is in the form of a JSON Web Token, and provides the user sign-in information.
+
+X When a user signs in, Microsoft Entra ID writes every access privilege the user has into a token and shares it with each application. 
 
 
 
