@@ -347,11 +347,102 @@ Belangrijk misverstand (examen-relevant)
     - Attribute: Key/value pair binnen een token (zelfde als claim, andere term)
     - Augmentation: Extra claims toevoegen aan token voor meer detail (bv. data uit HR_systemen of SharePoint)
 
+---
+
+**Discuss authorization**
+  - Wat is authorization
+    - Bepaald wat een identity mag benaderen en wat ze mogen doen, na toegang
+    - AuthZ (authorization): Bewijzen wie je ben
+    - AuthN (authentication): Permissions bepalen voor resources/functionaliteit/data
+   
+  - 3 kernonderwerpen
+    - Entitlement Type: Of een identity toegang heeft gekregen tot een resource. Toegewezen via: app-evel, groups (centraal), RBAC, ABAC, of PBAC
+    - Access Policies: Regels welke users/groups wat mogen met welke apps/data. Focus: least access
+    - Enforcement: Hoe authZ wordt afgedwongen, meestal op app-layer (API binnen de app zelf). Ook mogelijk: reverse proxy (bv UAG) of externe policy source (bv. XACML)
+   
+  - 4 authorization-approaches
+    - ACL (Access Control Lists): Expliciete lijst wie wel/geen toegang heeft. Fine control, moeilijk te onderhouden bij users/resources
+    - RBAC (Role-based): Meest gebruikt. Rollen gedefinieerd -> Toegang aan rol toegewezen, niet aan individu
+    - ABAC (Attribute-based): Regels op attributes van entity + resource + omgeving. Vb: Manager + bestand met tag "managers only + tussen 9-17u
+    - PBAC (Policy-based): Business-rol + policies samen bepalen toegang
+   
+  - Authentication Context (preview feature Entra ID)
+    - Extra beveiligingslaag boven op normale toegang: voor eigen apps, LOB apps, SharePoint, of apps via Defender for Cloud Apps
+    - Voorbeeld: Luch-menu SharePoint-site -> iedereen toegang. BBQ-recept site -> Alleen via managed device, eventueel met verplichte terms of use acceptatie
+   
+      
+---
+
+**Explain auditing in identity**
+  - Wat is auditing en waarom?
+    - Detecteren van een aanval die al plaatsvond of nog gaande is
+    - Compliance en tracking, we deed wat?
+    - Debut tool voor developers (bv. bij foutive authZ policy die per ongeluk toegang blokkeert)
+    - Alles loggable: sign-in, password change, MFA-configuratie/gebruik
+   
+  - Logs om te kennen
+    - Entra activity logs, sign-in logs, provisioning logs, audit logs
+    - Tools: Azure Monitor, Microsoft Sentinel
+
+  - Governance: Wat en waarom?
+    - Governance = Proces van overseeing, control, direction van een systeem
+    - Nooit "bouwen en vergeten": moet continu gemonitord, geupdatet, verbeterd worden, anders degradeert het systeem
+    - Juan-scenario (herhalingen van eerdere unit): Account niet gedeprovisioned na vertrek -> later misbruikt via phishing/password reuse
+    - Governance had dit kunnen voorkomen door: HR-check op actieve accounts, laatste login-check, rechten-check, password/MFA-policy
+   
+  - Identity Lifecycle Management (ILM)
+    - Fundament van Identity Governance: Automatisch het hele digital identity proces
+    - Complex omdat het real-world relaties (persoon <-> organisatie) moet correleren
+    - Klein bedrijf: Vaak nog handmatig. Middelgroot/groot: Automatisering nodig om te schalen
+   
+  - Opzetten ILM
+    - Systems of record identificeren (bv. HR systeem = authoritative bron voor employee data)
+    - Vergleijken met directories/databases van applicaties, inconsistenties oplossen
+    - Proces bepalen voor visitors/bezoekers (wanneer is hun identity niet meer nodig)
+   
+  - Join-Move-Leave model
+    - Join: Persoon komt in scope van toegang nodig hebben -> nieuwe digitatle identity aanmaken (bv. nieuw user in Entra ID)
+    - Move: Persoon verplaatst tussen boundaries -> toegang toevoegen/verwijderen (bv. Sales -> Marketing: oude rechten weg, nieuwe rechten toe)
+    - Leave: Persoon verlaat scope -> toegang verwijderen, identity blijft eventueel alleen voor audit/forensics
+   
+  - Zero Trust: Verify explicitly, Use least privilege access, Assume breach
+
+  - Monitoring services:
+    - Azure Monitor, Application Insights, Azure Service Heatlh, Azure Resource Health, Azure Resource Manager, Azure Policy
 
 
 
 
-### Discuss authorization
 
 
-### Explain auditing in identity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
