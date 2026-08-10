@@ -73,7 +73,7 @@ Planned:
 
 ### 00 — Sandbox
  - [Sandbox Context: Oceanic Airlines](/00-sandbox/00-oceanic-airlines-context.md)
- - [Sandbox: Entra ID Company Branding](/00-sandbox/01-entra-id-company-branding.md)
+ - [Sandbox Entra ID Company Branding](/00-sandbox/01-entra-id-company-branding.md)
 
 ---
 
