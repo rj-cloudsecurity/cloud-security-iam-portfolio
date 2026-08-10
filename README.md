@@ -15,6 +15,8 @@ Become an IAM Specialist / Cloud Security Engineer.
 ```bash
 Current:
 cloud-security-iam-portfolio/
+
+├── 00-sandbox/
 ├── 01-az900/
 │   ├── exam-prep/
 │   ├── labs/
