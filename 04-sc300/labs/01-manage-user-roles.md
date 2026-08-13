@@ -1,6 +1,7 @@
 # Exercise: Manage User Roles
 
 **Bron:** SC-300 Learning Path; Implement an identity management solution using Microsoft Entra ID (geïnspireerd op, niet letterlijk gevolgd)
+
 **Uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/02-adding-first-user.md)
 
 > De Learn-oefening gebruikt een voorbeelduser "Adele Vance". In mijn sandbox pas ik dit toe op mijn eigen Oceanic Airlines-personages in plaats van de Learn-voorbeelddata letterlijk over te nemen.
