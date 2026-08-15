@@ -68,15 +68,85 @@
     - Scope: directory-level of alleen app registration resource-scope
 
 ### Module 3: Exercise manage users roles
-  - [04-sc300/labs/01-manage-user-roles](../../04-sc300/labs/01-manage-user-roles.md)
+  - [04-sc300/labs/01-manage-users-roles](../../04-sc300/labs/01-manage-user-roles.md)
   - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/02-adding-first-user.md)
 
 
 
+### Module 4: Configure delegation by using administrative units
+  - Wat is een Administrative Unit (AU)
+    - Entra Id resource; container voor users, groups, devices
+    - Beperkt permissions van een rol tot een specifiek deel van je organisatie
+    - Beheer via: Azure Portal, PowerShell, Microsoft Graph
+    - Vergelijkbaar met on-prem AD Organizational Units (OUs)
+   
+  - Waarom AU's; het probleem
+    - Zonder AU: een admin-rol toewijzen = admin over de hele tenant, niet alleen een deel
+    - AU's lossen dit op via least privilege: bv. een User Administrator alleen laten beheren binnen 1 afdeling (voorbeeld uit tekst: Research Department van een ziekenhuis)
+    - Rol + AU samen = "Admin-for-research" kan alleen die specifieke users/groups beheren, niet de rest van de tenant
+   
+  - Rollen die je binnen een AU kunt toewijzen
+    - Authentication administrator
+    - Helpdesk administrator
+    - License administrator
+    - Password administrator
+    - User administrator
+   
+  - Plannen van AU's; 3 fasen
+      1. Initial adoptation: AU's aanmaken op basis van eerste criteria, aantal groeit
+      2. Pruning: Overbodige AU's verwijderen zodra criteria duidelijk zijn
+      3. Stabilization: Structuur staat vast, weinig verandering meer
 
+    - Waaneer gebruiken: Geografische spreiding van IT, of semi-autonome suborganisaties binnen een groter bedrijf. Voorbereiden met M365-brede toepassing in het achterhoofd voor maximale waarde
+   
+  - Delegation van App management (breder dan alleen AU's)
+    - 4 manieren om app creation/management te delegeren:
+      - Beperken wie apps ma gregistreren (standaard mag iedereen dit)
+      - Owner(s) toewijzen aan een specifieke app
+      - Built-in admin role toewijzen (breed, voor alle apps)
+      - Custom role maken voor precieze permissions
+     
+  - Waarom delegeren: Minder administratieve overhead + betere security posture (minder unauthorized access risico)
 
+    - Delegation model; 8 stappen
+      1. Rollen definieren
+      2. App administration delegeren
+      3. REcht geven om apps te registreren
+      4. App ownership delegeren
+      5. Security plan ontwikkelen
+      6. Emergency accounts opzetten
+      7. Admin roles beveiligen
+      8. Privileged elevation tijdelijk maken
+     
+    - Rollen definieren; criteria
+      - Routinematig + laag risico + makkelijk -> goede kandidaat voor delegatie
+      - Zeldzaam + hoog risico + hoge skill vereist -> niet delegeren, liever tijdelijk elevaten of taak herverdelen
+     
+    - App administration rollen
+    - 
+| Role | Permissions | Mist |
+|---|---|---|
+| Application Administrator | Alle apps beheren: registrations, SSO, user/group assignments, licensing, App Proxy, consent | Geen Conditional Access |
+| Cloud Application Administrator | Zelfde als Application Administrator | Geen App Proxy (geen on-prem permissions) |
 
+  - App registration delegeren
+    - Standaard: Iedereen mag apps registreren
+    - Om te beperken: "Users can register applications" -> No + rol Application Developer toewijzen aan wie het wel mag
+    - Application Developer die een nieuwe registratie maakt = automatische eerste owner
 
+  - App ownership delegeren
+    - Owner toewijzen per individuele enterprise app (bv. iemand alleen owner van Salesforce, niks ander)
+    - 1 App kan meerdere owners hebben, 1 user kan owner van meerdere apps zijn
+   
+  | Role | Permissions | Mist |
+|---|---|---|
+| Enterprise Application Owner | SSO settings, user/group assignments, owners toevoegen — voor apps die ze bezitten | Geen App Proxy, geen Conditional Access |
+| Application Registration Owner | App registrations beheren (manifest, owners toevoegen) — voor apps die ze bezitten | — |
+
+  - Security-onderdelen van het delegation-plan
+    - Emergency access accounts: Break-glass accounts om altijd toegang te behouden
+    - Security Defaults" Gratis Feature voor alle Entra orgs, dwingt MFA af op privileged accounts
+  
 
 
 
