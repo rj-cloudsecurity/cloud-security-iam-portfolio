@@ -67,8 +67,9 @@
     - Basics (naam/beschrijving) _> Permissions (zoeken + selecteren, bv. `microsoft.directory/applications/credentials/update`) -> Review + create
     - Scope: directory-level of alleen app registration resource-scope
 
-
-
+### Module 3: Exercise manage users roles
+  - [04-sc300/labs/01-manage-user-roles](../../04-sc300/labs/01-manage-user-roles.md)
+  - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/02-adding-first-user.md)
 
 
 
