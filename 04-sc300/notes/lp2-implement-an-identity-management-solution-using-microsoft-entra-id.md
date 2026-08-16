@@ -341,11 +341,14 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
    
   - Onthouden: Entra Cloud Sync = default/aanbevolen keuze tegenwoordig, Connect Sync alleen nog voor specifieke edge cases (device sync, zeer grote groups).
 
+---
+
+### Exercise - assign licenses to users
+  - Exercise - assign licenses to users
 
 
-
-
-
+### Exercise - assign licenses to users
+  - [04-sc300/labs/03-assign-licenses-to-users](../../04-sc300/labs/03-assign-licenses-to-users.md)
 
 
     
