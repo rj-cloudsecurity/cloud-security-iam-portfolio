@@ -64,11 +64,13 @@
     - Basics (naam/beschrijving) _> Permissions (zoeken + selecteren, bv. `microsoft.directory/applications/credentials/update`) -> Review + create
     - Scope: directory-level of alleen app registration resource-scope
 
+---
+
 ### Module 3: Exercise manage users roles
   - [04-sc300/labs/01-manage-users-roles](../../04-sc300/labs/01-manage-user-roles.md)
   - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/02-adding-first-user.md)
 
-
+---
 
 ### Module 4: Configure delegation by using administrative units
   - Wat is een Administrative Unit (AU)
@@ -143,7 +145,8 @@
   - Security-onderdelen van het delegation-plan
     - Emergency access accounts: Break-glass accounts om altijd toegang te behouden
     - Security Defaults" Gratis Feature voor alle Entra orgs, dwingt MFA af op privileged accounts
-  
+
+  ---
 
 ### Module 5: Analyze Microsoft Entra role permissions
   - Wat is een permission
@@ -175,7 +178,7 @@
    
   - Onthouden: Check altijd de volledige permissions-lijst van een rol voordat je hem toewijst; rollen kunnen meer bevatten dan de naam doet vermoeden
 
-
+---
 
 ### Module 6: Configure and manage custom domains
   - Wat is een domain
@@ -224,7 +227,7 @@
       - 1 Van de apps is een multitenant app
     - Wat ForceDelete hernoemt: UPN/EmailAddress/ProxyAddress van users, EmailAddress van groups, identifierUris van apps
    
-    
+    ---
 
 
 ### Module 7: Configure tenant-wide setting
@@ -274,7 +277,8 @@
     - Technical contact: default = tenant-creator
     - Global privacy contact: voor privacy-vragen
     - Privacy statement URL: link naar privacy-regels
-
+      
+---
 
 ### Module 8: Exercise - setting tenant-wide properties
   - [04-sc300/labs/02-setting-tenant-wide-properties](../../04-sc300/labs/02-setting-tenant-wide-properties.md)
