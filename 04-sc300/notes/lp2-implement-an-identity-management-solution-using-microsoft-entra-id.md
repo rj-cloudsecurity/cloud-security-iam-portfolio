@@ -312,7 +312,12 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 - ✅ They can manage their own profile, change their own password, and retrieve some information about other users, groups, and apps.
 - ❌ They can manage their own profile, change their own password, and identify group members or other directory objects.
 
+---
+---
 
+## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
+### Module 2: Create, configure, and manage identities
+### Create, configure, and manage users
 
 
 
