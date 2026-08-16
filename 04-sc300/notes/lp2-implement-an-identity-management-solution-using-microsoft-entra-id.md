@@ -2,7 +2,7 @@
 
 ## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 ### Module 1: Implement initial configuration of Microsoft Entra ID 
-#### Configure company brand
+### Configure company brand
 
   - **Wat is het:**
     - Eigen logo + custom kleurenschema op sign-in pagina's; toegepast bij inloggen op web-based apps (bv. M365 via Entra ID)
