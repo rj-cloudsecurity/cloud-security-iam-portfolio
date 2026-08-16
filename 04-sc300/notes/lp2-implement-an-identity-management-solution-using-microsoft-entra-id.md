@@ -1,9 +1,6 @@
 # SC-300: Microsoft Identity and Access Administrator
 ## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 
-  - **SC-300 Started:** 2 August, 2026
-  - **SC-300 Exam passed:** 🔄
-
 ---
 
 ### Module 1: Configure company brand
