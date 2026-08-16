@@ -344,12 +344,12 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 ---
 
 ### Exercise - assign licenses to users
-  - Exercise - assign licenses to users
-
-
-### Exercise - assign licenses to users
   - [04-sc300/labs/03-assign-licenses-to-users](../../04-sc300/labs/03-assign-licenses-to-users.md)
   - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/03-creating-security-group-and-users.md)
 
+---
+
+### Exercise - restore or remove deleted users
+  - [04-sc300/labs/04-restore-or-remove-deleted-users](../../04-sc300/labs/04-restore-or-remove-deleted-users.md)
 
     
