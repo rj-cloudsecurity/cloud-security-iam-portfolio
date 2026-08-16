@@ -12,18 +12,18 @@ Eerste security group aanmaken in de Oceanic Airlines tenant, gekoppeld aan een 
 Users en een security group aanmaken met assigned membership, om te oefenen met group-based access management.
 
 ## Stappen
-1. Nieuwe users aangemaakt: **Frank Lapidus** en **Ana Lucia Cortez**
+1. Nieuwe users aangemaakt: **Frank Lapidus** en **Naomi Dorrit**
 2. Identity -> Groups -> All groups -> New group
 3. Group type: **Security**
 4. Group name: **Flight-Operations**
 5. Membership type: **Assigned**
 6. Owner: eigen administrator account
-7. Members: mezelf, Frank Lapidus, Ana Lucia Cortez
+7. Members: mezelf, Frank Lapidus, Naomi Dorrit
 
 ## Resultaat
-- Users "Frank Lapidus" en "Ana Lucia Cortez" aangemaakt in de Oceanic Airlines tenant
+- Users "Frank Lapidus" en "Naomi Dorrit" aangemaakt in de Oceanic Airlines tenant
 - Security group "Flight-Operations" aangemaakt
-- Mezelf, Frank Lapidus, en Ana Lucia Cortez toegevoegd als members
+- Mezelf, Frank Lapidus, en Naomi Dorrit toegevoegd als members
 
 ## Wat dit aantoont
 - Praktische ervaring met user provisioning en group-based access management in Entra ID
