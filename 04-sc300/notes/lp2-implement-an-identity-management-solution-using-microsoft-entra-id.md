@@ -21,7 +21,7 @@
 
 ---
 
-### Module 2: Configure and manage Microsoft Entra roles
+### Configure and manage Microsoft Entra roles
 
   - **Wat is Microsoft Entra ID**
     - Cloud-based IAM service voor toegang tot externe resources (M365), Azure portal, SaaS) en interne resources (corporate apps, intranet, eigen cloud apps)
@@ -66,13 +66,13 @@
 
 ---
 
-### Module 3: Exercise manage users roles
+### Exercise manage users roles
   - [04-sc300/labs/01-manage-users-roles](../../04-sc300/labs/01-manage-user-roles.md)
   - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/02-adding-first-user.md)
 
 ---
 
-### Module 4: Configure delegation by using administrative units
+### Configure delegation by using administrative units
   - Wat is een Administrative Unit (AU)
     - Entra Id resource; container voor users, groups, devices
     - Beperkt permissions van een rol tot een specifiek deel van je organisatie
@@ -148,7 +148,7 @@
 
   ---
 
-### Module 5: Analyze Microsoft Entra role permissions
+### Analyze Microsoft Entra role permissions
   - Wat is een permission
     - Consent/autorisatei om een specifieke actie uit te voeren
     - Range: van alleen bekijken tot instellingen wijzigen tot users toevoegen/verwijderen
@@ -180,7 +180,7 @@
 
 ---
 
-### Module 6: Configure and manage custom domains
+### Configure and manage custom domains
   - Wat is een domain
     - Onderdeel van identifiers: username/email, group address, some app ID URI
     - Alleen Global Administrator kan domains beheren
@@ -229,8 +229,7 @@
    
     ---
 
-
-### Module 7: Configure tenant-wide setting
+### Configure tenant-wide setting
   - 3 hoofdcategorieën tenant-wide settings
 
 | Setting | Locatie | Wat |
@@ -280,7 +279,7 @@
       
 ---
 
-### Module 8: Exercise - setting tenant-wide properties
+### Exercise - setting tenant-wide properties
   - [04-sc300/labs/02-setting-tenant-wide-properties](../../04-sc300/labs/02-setting-tenant-wide-properties.md)
 
 
