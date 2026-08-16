@@ -352,4 +352,34 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 ### Exercise - restore or remove deleted users
   - [04-sc300/labs/04-restore-or-remove-deleted-users](../../04-sc300/labs/04-restore-or-remove-deleted-users.md)
 
-    
+---
+
+### Create, configure, and manage groups
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
