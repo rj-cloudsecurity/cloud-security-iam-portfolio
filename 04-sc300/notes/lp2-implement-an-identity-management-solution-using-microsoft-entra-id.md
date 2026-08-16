@@ -2,6 +2,9 @@
 
 ## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 ### Module 1: Implement initial configuration of Microsoft Entra ID 
+
+---
+
 ### Configure company brand
 
   - **Wat is het:**
@@ -317,6 +320,9 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 
 ## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 ### Module 2: Create, configure, and manage identities
+
+---
+
 ### Create, configure, and manage users
 
 
