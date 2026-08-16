@@ -19,6 +19,8 @@
     - Username hint: tekst bij "vergeten username", Unicode, geen links/code, max 64 tekens. Niet aanraden bij guest users
     - Sign-in page text and formatting: tekst onderaan sign-in pagina (bv. helpdesk-nummer, legal statement), Unicode, max 1.024 tekens
 
+---
+
 ### Module 2: Configure and manage Microsoft Entra roles
 
   - **Wat is Microsoft Entra ID**
