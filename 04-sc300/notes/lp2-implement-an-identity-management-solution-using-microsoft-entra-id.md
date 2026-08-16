@@ -1,7 +1,6 @@
 # SC-300: Microsoft Identity and Access Administrator
-## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 
----
+## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 
 ### Module 1: Configure company brand
 
