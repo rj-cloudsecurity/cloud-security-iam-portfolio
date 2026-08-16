@@ -148,6 +148,140 @@
     - Security Defaults" Gratis Feature voor alle Entra orgs, dwingt MFA af op privileged accounts
   
 
+### Module 5: Analyze Microsoft Entra role permissions
+  - Wat is een permission
+    - Consent/autorisatei om een specifieke actie uit te voeren
+    - Range: van alleen bekijken tot instellingen wijzigen tot users toevoegen/verwijderen
+    - Toegewezen op **user-** of **group-niveau**' komt uiteindelijk altijd bij de user terecht
+    - **Member-user** vs **Guest-user**: guest heeft standaard iets minder rechten
+   
+  - Voorbeeld default permissions
+
+| Member Users | Guest Users |
+|---|---|
+| Users + contacts opsommen | Alleen eigen properties lezen |
+| Guest users uitnodigen | Guest users uitnodigen |
+| Security/M365 Groups aanmaken | Alleen niet-verborgen groups zoeken op naam |
+| Nieuwe apps registreren | Properties van registered/enterprise apps lezen |
+
+  - Permissions controleren; 2 manieren
+    1. User settings (Entra ID -> Manage): Default permissions beperken. Kan blokkeren: apps registreren, Azure portal toegang, Linkedin connections, external collaboration settings
+    2. Roles and administrators: Nieuwe permissions toevoegen via rollen aan users/groups/service principals
+   
+  - Kernprincipe: Altijd least privilege; alleen rechten geven die echt nodig zijn
+ 
+  - Permissions van een rol bekijken
+    - Entra ID -> Roles and aministrators -> rol selecteren _> (...)menu -> description page
+    - Elke rol toont 2 soorten permissions:
+      - Role permissions: Specifiek voor die rol
+      - Guest and service principal basic read permissions: Standaard leesrechten die erbij horen
+   
+  - Onthouden: Check altijd de volledige permissions-lijst van een rol voordat je hem toewijst; rollen kunnen meer bevatten dan de naam doet vermoeden
+
+
+
+### Module 6: Configure and manage custom domains
+  - Wat is een domain
+    - Onderdeel van identifiers: username/email, group address, some app ID URI
+    - Alleen Global Administrator kan domains beheren
+   
+  - Primary domain
+    - Bij tenant-creatie = initial domain (bv. `contoso.onmicrofosft.com`)
+    - Persoon die tenant aanmaakt = Automatisch Global Admin; Least privilege toepassen bij extra domains beheren
+   
+  - Primary domain wijzigen
+    - Entra- ID -> Custom domain names -> domain selecteren -> Make primary -> bevestigen
+    - Alleen mogelijk naar een verified, niet-gefedereerde custom domain
+    - Bestaande usernames van huidige users veranderen niet mee
+   
+  - Custom domains toevoegen
+    - Max 900 managed domains
+    - bij federatie met on-prem AD: max 450 per organisatie
+
+  - Subdomains
+    - Eerst root domain toevoegen + verieferen (bv. `contoso.com`)
+    - Subdomain (bv. `europe.contoso.com`) wordt automatisch geverifieerd
+    - Root domain al in andere Entra org? -> Subdomian kan ook daar apart geverifieerd worden (TXT record nodig in DNS)
+   
+  - DNS registrar wijzigen
+    - Geen extra configuratie nodig in Entra ID; domain blijft gewoon werken
+    - Wel checken bij gekoppelde services (M365, Intune, etc.)
+   
+  - Custom domain verwijderen
+    - Kan niet als domain nog in gebruik is bij:
+      - Username/email/proxy address van een user
+      - Email/proxy address van een group
+      - App ID URI van een applicatie
+    - Eerst deze resources aanpassen/verwijderen, dan pas domain deletion mogelijk
+   
+  - ForceDelete
+    - Verwijdert domain + update automatisch alle references naar het initial default domain (bv. `User@contoso.com` -> `user@contoso.onmicrosoft.com`)
+    - Asynchrone operatie, via Entra admin center of Graph API
+    - Voorwaarden:
+      - Minder dan 1000 references naar het domain
+      - Exchange-provisioned references eerst aanpassen in Exchange Admin Center (incl. Mail-Enabled Security Groups, distribution lists)
+    - Lukt niet als:
+      - Domain gekocht via M365 domain subscription service
+      - Je bent partner-admin names een andere klantorganisatie
+      - Aantal te hernoemen objecten > 1000
+      - 1 Van de apps is een multitenant app
+    - Wat ForceDelete hernoemt: UPN/EmailAddress/ProxyAddress van users, EmailAddress van groups, identifierUris van apps
+   
+    
+
+
+### Module 7: Configure tenant-wide setting
+  - 3 hoofdcategorieën tenant-wide settings
+
+| Setting | Locatie | Wat |
+|---|---|---|
+| Tenant Properties | Identity -> Overview > Properties | Naam directory, primary contact, etc. |
+| User Settings | Identity -> Users -> User Settings | Globale rechten van users (bv. apps registreren) |
+| External Collaboration Settings | Identity -> External Identities -> User Settings -> Manage external collaboration | Wat guest users mogen (bv. andere guests uitnodigen) |
+
+  - Default permissions — Member vs Guest
+    - Member users: apps registreren, eigen profielfoto/mobiel nr beheren, eigen wachtwoord wijzigen, B2B guests uitnodigen, alle directory info lezen (met uitzonderingen)
+    - Guest users: beperkter; eigen profiel beheren, eigen wachtwoord wijzigen, beperkte info over andere users/groups/apps ophalen. Kunnen niet alle users/groups enumereren. Kunnen wel andere guests uitnodigen. Kunnen ook admin-rollen krijgen (dan wel volledige rechten van die rol)
+
+
+  - Restricties voor member users
+
+| Permission | Setting |
+|---|---|
+| Users can register applications | Default: Yes. Op No → alleen Application Developer role mag nog apps registreren |
+| Restrict access to Microsoft Entra admin portal | No = non-admins mogen portal gebruiken. Yes = alleen admins. Blokkeert NIET PowerShell/andere clients. Bij Yes: specifieke user toch toegang geven via bv. Directory Readers role |
+
+  - Sign in with LinkedIn
+    - 500M+ leden, professionele identity-bron
+    - Voordelen: minder friction bij sign-up, geen eigen identity/profile management nodig, profielen personaliseren met LinkedIn-data
+     
+  - Security Defaults
+    - Gratis, preconfigured basisbeveiliging voor iedereen (geen extra kosten)
+    - Regelt:
+      - MFA-registratie verplicht voor alle users
+      - MFA verplicht voor admins
+      - Legacy authentication protocols geblokkeerd
+      - MFA "when necessary" voor users
+      - Bescherming van privileged activities (bv. Azure portal toegang)
+     
+  - External user options
+    - Guest user access: range van bijna-full-user tot alleen eigen content zien
+    - Guest invite settings: wie mag guests uitnodigen (guests zelf t/m alleen admins)
+    - Guest self-service: self-service opties voor guests aan/uit
+
+  - Tenant properties (velden)
+    - Name: friendly name in Azure portal
+    - Country/region: locatie hoofdkantoor + gebruikte Azure datacenters
+    - Notification language: taal voor notificaties/alerts
+    - Tenant ID: unieke identifier (programmatisch gebruikt)
+    - Technical contact: default = tenant-creator
+    - Global privacy contact: voor privacy-vragen
+    - Privacy statement URL: link naar privacy-regels
+
+
+### Module 8: Exercise - setting tenant-wide properties
+  - [04-sc300/labs/02-setting-tenant-wide-properties](../../04-sc300/labs/02-setting-tenant-wide-properties.md)
+
 
 
 
