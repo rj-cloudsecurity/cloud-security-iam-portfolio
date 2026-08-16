@@ -322,9 +322,24 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 ---
 
 ### Create, configure, and manage users
+  - Wat is een user account
+    - Bevat alle info nodig voor een authenticatie tijdens sign-on
+    - Na authenticatie bouwt Entra ID een Access token -> bepaalt welke resources + welke acties toegestaan zijn
 
+  - Beheer via Microsoft Entra Admin center
+    - Kan maar 1 directory tegelijk actief hebben
+    - Wisselen via: Directory + Subscription panel, of Switch directory knop in toolbar
+   
+  - Users bekijken
+    - Identity -> Users -> All users
+    - User Type kolom toont: member vs guest
 
-
+  - 3 soorten users
+    - Cloud identities: Bron; Entra ID zelf (of External Entra directory). Bestaan alleen in Entra ID (bv. Admin-account). Verwijderd uit primary directory = permanent weg
+    - Directory-synchronized identites: Bron; Windows Server AD. Bestaan on-prem, gesynchroniseerd naar Entra ID. Sync-tools: Entra Cloud Sync (aanbevolen, lightweight could agent, ondersteunt meerdere disconnected forests) of Entra Connect Sync (voor complexe scenario's: Device sync, groups met >50.000 member)
+    - Guest users: Bron; Invited user. Extern (andere cloud providers, Microsoft-accounts). Handig voor vendors/contractors; makkelijk te verwijderen incl alle toegang zodra samenwerking stopt
+   
+  - Onthouden: Entra Cloud Sync = default/aanbevolen keuze tegenwoordig, Connect Sync alleen nog voor specifieke edge cases (device sync, zeer grote groups).
 
 
 
