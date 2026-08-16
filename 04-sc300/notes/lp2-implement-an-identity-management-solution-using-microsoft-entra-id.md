@@ -6,7 +6,7 @@
 
 ---
 
-## Learning Path 1: Implement initial configuration of Microsoft Entra ID 
+## Learning Path 2: Implement initial configuration of Microsoft Entra ID 
 ### Module 1: Configure company brand
 
   - **Wat is het:**
