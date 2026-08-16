@@ -284,13 +284,34 @@
   - [04-sc300/labs/02-setting-tenant-wide-properties](../../04-sc300/labs/02-setting-tenant-wide-properties.md)
 
 
+---
 
 
+# Knowledge Check
 
+**Score:** 100%
 
+## Vraag 1
+A domain name is included as part of a user name or email address for users and groups. Can a domain name also be included as part of an application or other resource?
 
+- ✅ Yes, a domain name can be included as part of an application or other resource if the organization owns the domain name that contains the resource.
+- ❌ No, a domain name can't be included as part of an application or other resource.
 
+**Toelichting:** A domain name can be included as part of the app ID URI for an application, but can't be included as part of other resources.
 
+## Vraag 2
+The proliferation of many types of devices and bring your own device (BYOD) concept require IT professionals to accommodate two rather different goals. One goal is to allow users to be productive wherever and anytime. What is the other goal?
+
+- ❌ Provide anti-malware apps for a various devices.
+- ❌ Establish baseline security guidelines for users.
+- ✅ Protect the organization's assets.
+
+## Vraag 3
+Microsoft Entra guest users have restricted directory permissions. Which of the following answers best describes guest users capabilities?
+
+- ❌ They can manage their own profile, change their own password, and add other B2B guests to groups.
+- ✅ They can manage their own profile, change their own password, and retrieve some information about other users, groups, and apps.
+- ❌ They can manage their own profile, change their own password, and identify group members or other directory objects.
 
 
 
