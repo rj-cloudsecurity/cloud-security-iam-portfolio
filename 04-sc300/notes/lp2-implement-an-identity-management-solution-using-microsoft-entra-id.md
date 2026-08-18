@@ -378,6 +378,9 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
     - Voorbeeld: Rule die alle users met `Department = Marketing` automatisch toevoegt aan een Marketing security group
 
 
+### Exercise - add groups in Microsoft Entra ID
+  - [04-sc300/labs/05-add-groups-in-microsoft-entra-id](../../04-sc300/labs/05-add-groups-in-microsoft-entra-id.md)
+  - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/04-add-groups-in-microsoft-entra-id.md)
 
 
 
