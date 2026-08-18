@@ -355,7 +355,27 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 ---
 
 ### Create, configure, and manage groups
-  
+  - Waarom groups?
+    - Makkelijker permissions beheren: 1x toewijzen aan de group i.p.v. per user
+    - Definieert een security boudary: users toevoegen/verwijderen = toegang geven/intrekken met minimale moeite
+    - Membership kan gebaseerd zijn op rules (bv. department, job title)
+   
+  - 2 types groups
+    - Security groups: meest gebruikt, voor toegang tot shared resources. Members: users, devices, service principals. Vereist Entra administrator
+    - Microsoft 365 groups: Collaboration (shared mailbox, calendar, files, SharePoint site). Kan ook externe mensen toegang geven. Beschikbaar voor zowel users als admins
+   
+  - Groups bekijken
+    - Identity -> Groups. Nieuwe Entra ID deployment heeft standaard geen groups
+   
+  - 3 Membership Types
+    - Assigned: Members handmatig toegevoegd/beheerd
+    - Dynamic User: Automatisch toegevoegd/verwijderd op basis van user-attributes (departement, job title, location)
+    - Dynamic Device: Automatisch op basis van device-attributes. Alleen bij security groups. M365 ondersteunen wel dynamic users, geen dynamic devices
+
+  - Dynamic groups; details
+    - Bij attribute-wijziging (bv. user verandert van department) worden alle dynamic rules in de tenant herevalueerd -> automatische toevoeging/verwijdering
+    - Vereist Entra ID P1 (of intune for Education voor device-based rules)
+    - Voorbeeld: Rule die alle users met `Department = Marketing` automatisch toevoegt aan een Marketing security group
 
 
 
