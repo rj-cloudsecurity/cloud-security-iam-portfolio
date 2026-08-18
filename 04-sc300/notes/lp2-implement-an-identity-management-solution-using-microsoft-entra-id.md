@@ -377,27 +377,197 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
     - Vereist Entra ID P1 (of intune for Education voor device-based rules)
     - Voorbeeld: Rule die alle users met `Department = Marketing` automatisch toevoegt aan een Marketing security group
 
+---
 
 ### Exercise - add groups in Microsoft Entra ID
   - [04-sc300/labs/05-add-groups-in-microsoft-entra-id](../../04-sc300/labs/05-add-groups-in-microsoft-entra-id.md)
   - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/04-add-groups-in-microsoft-entra-id.md)
 
+---
+
+### Configure and manage device registration
+  - Waarom device management
+    - 2 tegengestelde doelen: users productief laten zijn overal/altijd/elke device, en organisatie assets beschermen
+    - Basis: device identities beheren -> daarna aanuvllen met tools zoals Microsoft Intune voor security/compliance-standaarden
+   
+  - 3 device types:
+    - 1 Microsoft Entra Registered
+        - Doel: BYOD / mobile devices
+        - Device ownership: User of organization
+        - Sign-in: lokaal account (vb. Microsoft account) + Entra Account toegevoegd voor org-resources
+        - Os: Windows 10+, MacOS 10.15+, iOS 15+, Android, Linux (Ubuntu/RHEL LTS)
+        - Management: MDM (Intune) of Mobile Application Management
+        - Key capabilities: SSO naar cloud resources, Conditional Access (als enrolled in Intune, of via App protection policy)
+        - Scenario: User gebruikt prive-PC voor werk-mail/HR-tools -> registreert PC bij Entra ID -> Intune-Polices worden afgedwongen -> toegang verleend. Ander scenario: geroote android telefon -> Intune compliance policy blokkeert toegang
+     
+    - 2 Microsoft Entra Joined
+      - Doel: Cloud-first/Cloud-only organisaties (elke grootte/industrie)
+      - Device ownership: Alleen organization
+      - Sign-in: volledig met org Entra-account (geen lokaal account ernaast)
+      - OS: Windows 10/11 (niet Home), Windows Server 2019+ VMs in Azure, macOS 13+ (preview)
+      - Management: MDM (Intune) of co-management met Configuration Manager
+      - Key capabilities: SSO naar cloud én on-premises resources, Conditional Access, Self-service Password Reset, Windows Hello PIN reset
+      - Deployment: OOBE, bulk enrollment, Windows Autopilot
+      - Wanneer gebruiken: geen on-prem AD, mobile devices (tablets/phones), primair M365/SaaS-gebruik, seasonal workers/contractors/studenten apart beheren, remote branch offices met weinig infra
+     
+    - 3 Hybrid Microsoft Entra Joined
+      - Doel: organisaties met bestaand on-prem AD die ook Entra ID-voordelen willen
+      - Device ownership: Organization
+      - Sign-in: Password of Windows Hello for Business
+      - OS: Windows 10/11 (niet Home), Windows Server 2016/2019/2022
+      - Management: Group Policy, Configuration Manager standalone, of co-management met Intune
+      - Key capabilities: SSO naar cloud én on-premises, Conditional Access, SSPR, Windows Hello PIN reset
+      - Wanneer gebruiken: Win32-apps die AD machine authentication nodig hebben, blijven gebruiken van Group Policy, bestaande imaging-oplossingen behouden
+     
+
+- Device writeback — LET OP, verouderd
+  - Niet meer ondersteund / niet aanbevolen
+  - Vervangen door Cloud Kerberos Trust; laat Entra joined/hybrid joined devices authenticeren tegen on-prem resources zonder device objects terug te schrijven naar on-prem AD
+  - Voor nieuwe hybrid deployments: gebruik Cloud Kerberos Trust voor on-prem SSO + Windows Hello for Business
+ 
+- Onthouden voor examen — kern van het onderscheid:
+  - Registered = user/personal device + org account ernaast (BYOD)
+  - Joined = volledig org-device, geen on-prem AD nodig (cloud-only)
+  - Hybrid joined = org-device, wél on-prem AD aanwezig (brug tussen oud en nieuw)
+
+---
+
+### Exercise - change group license assignments
+  - [04-sc300/labs/06-change-group-license-assignments](../../04-sc300/labs/06-change-group-license-assignments.md)
+
+---
+
+### Exercise - change user license assignments
+  - [04-sc300/labs/07-change-user-license-assignments](../../04-sc300/labs/07-change-user-license-assignments.md)
 
 
+---
 
+### Create custom security attributes
+  - Wat is een custom security attribute?
+    - Business-specifieke attributes (key-value pairs); zelf te definieren en toe te wijzen aan Entra objects
+    - Gebruik: informatie opslaan, objecten categoriseren, fine-grained access control op specifieke Azure resources
+   
+  - Waarom gebruiken
+    - User profiles uitbreiden (bv. Hourly Salery toevoegen aan employee-profielen
+    - Zorgen dat alleen admins zo'n gevoelig attribute kunnen zien
+    - Honderderen/duizenden applicaties categoriseren -> filterbare inventory voor auditing
+    - Users toegang geven tot Azure Storage blobs die bij een specifiek project horen
 
+  - Wat kun je ermee doen
+    - Business-specifieke info definieren voor je tenant
+    - Toevoegen aan users en enterprise applicatons (service principals)
+    - Objecten beheren via queries/filters op basis van de attricutes
+    - Attribute governance; attributes bepalen wie toegang krijgt
+   
+  - Waar niet ondersteunt
+    - Microsoft Entra Domain Services
+    - SAML token claims
+    - JWT (JSON Web Token) claims
+   
+  - Features
+    - Tenant-wide beschikbaar
+    - Description toe te voegen
+    - Data types: Boolean, integer, string
+    - Single of multiple values
+    - Vrije invoer (free-form) of predefined values
+    - Ook toewijsbaar aan directory-synced users vanuit on-premises AD
+   
+---
 
+## Explore automatic user creation
 
+### SCIM — wat en waarom
+- SCIM (System for Cross-Domain Identity Management) = open standaard protocol voor het automatisch uitwisselen van user identity info tussen systemen
+- Doel: users automatisch aangemaakt in Entra ID (of on-prem AD) zodra ze in het HCM/HR-systeem worden toegevoegd
+- Attributes/profielen blijven gesynchroniseerd tussen systemen; updates of removal op basis van status/rol-wijzigingen
+- Kernvoordeel: snelle deprovisioning; user weg uit HR-systeem = automatisch weg uit Entra ID, minder breach-risico
 
+### 4 componenten van SCIM (examen-relevant)
+- **HCM system**: HR-systeem dat het hele employee lifecycle proces ondersteunt/automatiseert
+- **Microsoft Entra Provisioning Service**: gebruikt SCIM 2.0 protocol. Verbindt met SCIM endpoint van de app, gebruikt SCIM user object schema + REST APIs voor provisioning/deprovisioning
+- **Microsoft Entra ID**: de user repository die de identity lifecycle + entitlements beheert
+- **Target system**: de app/systeem met een SCIM endpoint die met Entra provisioning samenwerkt
 
+### API-driven inbound provisioning
+- Voor HR-systemen die geen SCIM endpoint hebben
+- General Availability sinds maart 2024
+- In plaats van dat het source-systeem SCIM-data pusht, kan een automation tool/script data ophalen uit elk systeem en naar de Entra provisioning API sturen
+- Ondersteunde bronnen: Workday, SAP SuccessFactors, en elk custom HR-systeem via de API
+- Voordeel: flexibiliteit; werkt ook als het HR-platform geen native SCIM-integratie heeft
 
+**Onthouden:** SCIM = protocol voor systemen die het native ondersteunen. API-driven inbound provisioning = workaround voor systemen die dat niet doen.
 
+---
 
+## Module Assessment — Module 2 (Create, configure, and manage identities)
 
+**Score:** 89%
 
+### Vraag 1
+What is the main difference between a security group and a Microsoft 365 group in Microsoft Entra ID?
 
+- Security groups are for managing access to servers, while Microsoft 365 groups are for managing user profiles.
+- ✅ Security groups manage permissions, while Microsoft 365 groups provide collaboration features.
+- Security groups are only for on-premises users, while Microsoft 365 groups are for cloud users.
 
+### Vraag 2
+How should an administrator handle users in an error state due to 'MutuallyExclusiveViolation' during group-based license assignment?
 
+- ✅ Remove conflicting licenses or service plans from the user.
+- Increase the number of licenses available for the group.
+- Assign the licenses directly to the users instead of using group-based licensing.
+
+### Vraag 3
+How do custom security attributes in Microsoft Entra ID contribute to the management of user roles within an organization?
+
+- By automatically assigning users to predefined security groups.
+- By providing single sign-on capabilities for users accessing cloud resources.
+- ✅ By defining business-specific information that can be used to categorize users and enforce access policies.
+
+### Vraag 4
+An administrator discovers users in a licensing error state due to 'LicenseAssignmentAttributeConcurrencyException'. What is the recommended course of action?
+
+- ✅ Allow Microsoft Entra ID to retry processing the user license automatically.
+- ❌ Manually reprocess the user's license assignments in the admin center. *(fout beantwoord)*
+- Remove the user from all licensed groups and reassign them.
+
+**Toelichting:** Entra ID lost dit type error automatisch op via retry — geen handmatige actie vereist.
+
+### Vraag 5
+A company needs to track and manage project access for various departments using Microsoft Entra ID. What is the most effective way to implement custom security attributes to achieve this?
+
+- ✅ Define project-specific custom security attributes and assign them to users based on their department and project involvement.
+- Rely on dynamic group membership rules based on user roles for project access.
+- Create a single security attribute for all projects and assign it to all users.
+
+### Vraag 6
+You are managing licenses for a newly formed team that needs access to Microsoft 365 services. What is the most efficient way to assign licenses to this team if it consists of a large number of users?
+
+- Assign licenses individually to each user.
+- ✅ Assign licenses to the team through a security group.
+- Ask each user to request a license from the admin.
+
+### Vraag 7
+A user is unable to receive a license due to a 'CountViolation' error. What should be done to resolve this issue?
+
+- Disable unused service plans in the current license assignment.
+- Reassign the user to a different group that has available licenses.
+- ✅ Increase the number of available licenses for the product.
+
+### Vraag 8
+What is the primary advantage of using custom security attributes to manage access control in Microsoft Entra ID?
+
+- They reduce the need for multifactor authentication for users.
+- ✅ They allow for fine-grained access control based on specific business logic and requirements.
+- They automatically synchronize user data across all cloud services.
+
+### Vraag 9
+If a user in your organization has licenses assigned from multiple groups, how is the user's final license state determined?
+
+- The user can choose which group licenses to apply.
+- ✅ The user receives a combination of all assigned licenses.
+- The user is assigned only the licenses from the first group they were added to.
 
 
 
