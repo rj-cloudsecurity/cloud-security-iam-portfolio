@@ -668,26 +668,96 @@ If a user in your organization has licenses assigned from multiple groups, how i
 
 ---
 
+### Demo - manage guest users in Microsoft Entra ID
+  - Externe users uitnodigen voor B2B collaboration
+  - Resources toewijzen aan guest users
+  - Conditional Access policies opzetten om guest-toegang te beveiligen
+  - Dekt dezelfde kernconcepten als eerder praktisch uitgevoerd (Desmond Hume guest-invite in de sandbox), aangevuld met het gebruik van Conditional Access specifiek voor guest-scenario's.
 
+---
 
+### Manage external user accounts in Microsoft Entra ID
+  - Guests kunnen hogere privileges krijgen
+    - Default: beperkte permissions, maar guests kunnen aan elke rol toegevoegd worden als de organisatie dat nodig heeft
+    - Least privilege blijft de aanbeveling; gebruik PIM om toegang voor guests te regelen (tijdelijk, just-in-time i.p.v. permanent)
 
+  - UserType; kernproperty
+    - Member; employee, op de payroll, verwacht toegang tot interne sites, wordt niet als externe collaborator gezien
+    - Guest; niet intern, bv. externe collaborator/partner/klant. Verwacht geen interne memo's of company benefits
+    - Belangrijk: UserType zegt niets over hoe de user inlogt of welke directory role ze hebben; het is puur een indicatie van de relatie tot de organisatie, gebruikt om policies op te baseren
 
+  - Identities property; welke IdP gebruikt de user
+    - External Microsoft Entra tenant; eigen Entra-account van andere organisatie
+    - Microsoft account; inlog via MSA
+    - host's domain}; eigen Entra-account van jouw organisatie
+    - google.com; Gmail, self-service signup
+    - facebook.com; Facebook, self-service signup
+    - mail*; via Entra Email one-time passcode (OTP)
+    - (issuer URI}; externe org met SAML/WS-Fed IdP (niet Entra ID)
 
+  - Kunnen B2B users als Member i.p.v. Guest toegevoegd worden?
+    - Normaal: B2B user = Guest (default, synoniem in de praktijk)
+    - Uitzondering: partnerorganisatie is deel van dezelfde grotere organisatie als de host -> dan kun je die users als Member behandelen i.p.v. Guest
+    - Aanpassen via de user properties
 
+  - UserType converteren (Member <-> Guest)
+    - Technisch mogelijk via PowerShell
+    - Niet aanbevolen als losstaande actie; UserType weerspiegelt de relatie tot de organisatie, dus alleen wijzigen als die relatie echt verandert. Denk ook aan gevolgen: UPN-wijziging, resource-toegang, mailbox-toewijzing
+    - Microsoft: bouw geen afhankelijkheid op deze waarde, kan in de toekomst immutable worden
 
+  - Guest restricties verwijderen
+    - Mogelijk om guest dezelfde permissions als members te geven
+    - Instelbaar via: User settings in Entra ID -> External users optie
 
+  - Dynamic groups + B2B (herhaling + toepassing)
+    - Rules gebaseerd op user attributes (bv. userType, depatrment, country/region)
+    - Members automatisch toegevoegd/verwijderd op basis van attributes
+    - Gebruikt voor: app/resource-toegang, license-toewijzing
+    - Vereist Entra ID P1 of P2
 
+  - Onthouden voor examen: UserType (Member/Guest) ≠ sign-in method ≠ directory role; dit zijn 3 losse dingen die vaak door elkaar gehaald worden in examenvragen.
 
+---
 
+### Manage external users in Microsoft 365 workloads
+  - Wat het is
+    - M365 kan, net als Entra ID, guest users uitnodigen voor collaboration
+    - Guests verschijnen als external in de user list, standaard beperkte/geen rechten
+    - Kunnen collaboration rights krijgen op elke M365 workload, en zelfs licenties om specifieke acties uit te voeren
 
+  - External collaboration opties; activiteiten en defaults
 
+| Activiteit | Account type | Default |
+|---|---|---|
+| Authenticated file/folder sharing | Guest account | Enabled |
+| Site sharing | Guest account | Enabled |
+| Team sharing | Guest account | Enabled |
+| Shared channel in Teams | Existing M365 external account | Disabled |
+| External chat/meetings | Existing M365 external account | Enabled |
+| Anonymous meeting join | None (geen account nodg) | Enabled |
+| Unauthenticated file/folder sharing | None (geen account nodig) | Enabled |
 
+**Kernpunt:** externen krijgen nooit uit zichzelf toegang; een user binnen je organisatie moet altijd eerst de activiteit initiëren (bv. een file delen, iemand uitnodigen). Elke instelling hierboven kan uitgeschakeld worden als je die activiteit niet wilt toestaan.
 
+  - Governance
+    - Regelmatig reviewen/valideren van alle accounts, met extra aandacht voor guests
+    - Onnodige capabilities/licenties/toegang verwijderen zodra niet meer nodig; geldt voor guests en members
 
+  - Beheertools voor M365 guest users
+    - Microsoft 365 admin center (admin.microsoft.com)
+    - Microsoft Entra admin center (entra.microsoft.com)
+    - Entra ID binnen de Azure portal
+    - Scripting: Microsoft Graph, PowerShell, CLI
+    - Direct binnen de meeste M365 workloads zelf
 
+  - **Onthouden:** dit is een verlengstuk van B2B collaboration die je al kent; nu specifiek toegepast op M365-workloads (Teams, SharePoint, files) i.p.v. puur Entra ID zelf. Let vooral op welke defaults enabled vs disabled zijn; dat soort details komt vaak terug in examenvragen.
 
+---
 
+### Exercise - explore dynamic groups
+  - [04-sc300/labs/11-explore-dynamic-groups](../../04-sc300/labs/11-explore-dynamic-groups.md)
 
+---
 
 
 
