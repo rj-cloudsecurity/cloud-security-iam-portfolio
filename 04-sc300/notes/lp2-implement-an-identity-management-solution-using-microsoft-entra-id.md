@@ -756,7 +756,8 @@ If a user in your organization has licenses assigned from multiple groups, how i
 
 ### Exercise - explore dynamic groups
   - [04-sc300/labs/11-explore-dynamic-groups](../../04-sc300/labs/11-explore-dynamic-groups.md)
-
+  - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/07-explore-dynamic-groups.md)
+    
 ---
 
 
