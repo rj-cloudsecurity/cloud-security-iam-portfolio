@@ -570,6 +570,104 @@ If a user in your organization has licenses assigned from multiple groups, how i
 - The user is assigned only the licenses from the first group they were added to.
 
 
+---
+---
+
+## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
+### Module 3: Implement and manage external identities 
+
+---
+
+### Describe guest access and Business to Business accounts
+  - Wat is B2B collaboration
+    - Onderdeel van Microsoft Entra External Identities (onder de Entra-paraplu)
+    - Laat je guest users uitnodigen om samen te werken met je organisatie
+    - Deel je apps/services veilig met externe users, terwjil je zelf controle houdt over je corporate data
+    - Werkt ook met partners die zelf geen Entra ID of IT-afdeling hebben
+   
+  - Hoe guest users toetreden
+    - Invitation + redemption processl; partner gebruikt eigen credentials om toegang te krijgen (self-service sign-up user flows ook mogelijk voor apps/resources)
+    - Na redemption/sign-up: verschijnen als user object in jouw directory
+    - Type: "guest", herkenbaar aan #EXT# in de user principal name
+    - Develpoers kunnen het invitation-proces customizen via Entra ID B2B API (bv. eigen self-service sign-up portals bouwen)
+   
+  - B2B collaboration
+    - Externe user logt in met eigen credentials; geen apart account nodig dat jij beheert
+    - User object wordt aangemaakt in dezelfde directory als je eigen employees
+    - Default: beperkte privileges in je directory
+    - Kan verder beheerd worden zoals een gewone employee: toevoegen aan groups etc
+   
+  - Onthouden: #EXT# in UPN= herkenningsteken voor B2B guest users.
+    - Guest + eigen credentials, eigen identity provider beheert de authenticatie, jij beheert alleen de toegang
+
+---
+   
+### Manage external collaboration
+  - Wat is External Identities
+    - Externe users "brengen eigen identity mee"; corporate, government-issued, of unmanaged social identity (Google/Facebook)
+    - Hun eigen identity provider beheert de identity, jij beheert alleen de toegang via Entra ID
+   
+  - Invitation redemption flow (stap-voor-stap, belangrijk voor examen)
+    - Entra ID doet user-based discovery; check of user al bestaat in een managed tenant (unmanaged accounts kunnen niet meer gebruikt worden voor redemption). UPN mathct zowel Entra account als personal MSA -> userkiest zelf werlk account
+    - Als SAML/WS-Fed IdP federation is ingeschakeld: domain suffix matcht een geconfigureerde IdP -> redirect daarnaartoe
+    - Als google federation is ingeschakeld: domain = gmail.com/googlemail.com -> redirect naar google
+    - Check op bestaande personal MSA -> inloggen met die MSA
+    - Home directory geidentificeerd -> user naar juiste identity provider gestuurd om in te loggen
+    - Geen home directory gevonden + email on-time passcode enabled -> passcode naar utigenodigde email, usr vult in op Entra sign-in pagina
+    - Geen home directory gevonden +one-time passcode disabled -> user moet consumer MSA aanmaken met het uitgenodigde emailadres (ook mogelijk met work-emails op niet-geverfifieerde domains)
+    - Na authenticatie bij juiste IdP -> terug naar Entra ID voor consent experience
+   
+  - External Identities scenarios; focus ligt op HOE de user wil inloggen, niet op relatie tot je organisatie
+
+  - B2B collaboration scenario
+    - Primary scenario: Collaboration via Microsoft apps (M365, Teams) of eigen apps (SaaS, custom)
+    - Intended for: externe partners/suppliers/vendors; verschijnen als guest users
+    - Identity providers supported: work/school accounts, elk emailadres, SAML/WS-Fed IdPs, Gmail, Facebook
+    - External user management: in dezelfde directory als employees, geannoteerd als guest, beheerd zoals employees (groups etc.)
+    - SSO: werkt voor alle Entra-connected apps (M365, on-prem apps, SaaS zoals Salesforce/Workday)
+    - Security policy/compliance: beheerd door de host/inviting organization (bv. via Conditional Access)
+    - Branding: van de host/inviting organization
+   
+  - Externe collaboration settings beheren
+    - Default: iedereen (ook guests) mag guests uitnodigen, zelfs zonder admin-rol
+    - External collaboration settings → guest invitations aan/uit zetten per type user, of delegeren via rollen
+   
+  - Guest permissions
+    - Default: beperkt; guests kunnen geen users/groups/directory resources listen, maar wel membership van non-hidden groups zien
+    - Admins kunnen dit verder beperken -> guest kan dan alleen eigen profiel zien.
+   
+  - B2B invitation policies (4 opties)
+    - Turn off invitations; niemand kan externen uitnodigen
+    - Only admins + Guest Inviter role; beperkt tot die twee
+    - Admins + Guest Inviter role + members; members mogen ook uitnodigen
+    - All users, including guests; iedereen mag uitnodigen (dit is de default)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
