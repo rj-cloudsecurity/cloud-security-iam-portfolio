@@ -642,11 +642,20 @@ If a user in your organization has licenses assigned from multiple groups, how i
     - Admins + Guest Inviter role + members; members mogen ook uitnodigen
     - All users, including guests; iedereen mag uitnodigen (dit is de default)
 
+---
+
+### Exercise - configure external collaboration
+  - [04-sc300/labs/08-configure-external-collaboration](../../04-sc300/labs/08-configure-external-collaboration.md)
+  - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/05-configure-external-collaboration.md)
+
+---
+
+### Exercise - Invite external users - individually and in bulk
+  - [04-sc300/labs/09-invite-external-users-individually-and-in-bulk](../../04-sc300/labs/09-invite-external-users-individually-and-in-bulk.md)
+  - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/06-invite-external-users.md)
 
 
-
-
-
+---
 
 
 
