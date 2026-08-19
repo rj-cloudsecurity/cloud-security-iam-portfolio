@@ -1,0 +1,22 @@
+## Exercise - configure external collaboration
+
+**Bron:** SC-300 Learning Path; Implement an identity management solution using Microsoft Entra ID
+
+### Doel
+External collaboration settings configureren: guest access-niveau beperken, en bepalen wie guests mag uitnodigen.
+
+### Stappen
+1. Microsoft Entra admin center -> Identity -> External Identities -> External collaboration settings
+2. Guest user access: ingesteld op **most restrictive** (guests kunnen alleen hun eigen profiel zien, geen andere users/groups)
+3. Guest invite settings: ingesteld op **Only users assigned to specific admin roles can invite guest users**
+4. Collaboration restrictions: default settings geaccepteerd (geen allowlist/blocklist geconfigureerd)
+5. Save
+
+### Resultaat
+- Guest access beperkt tot eigen profiel
+- Alleen specifieke admin-rollen mogen nog guests uitnodigen (i.p.v. de default: iedereen)
+
+### Wat dit aantoont
+- Praktische ervaring met het aanscherpen van B2B collaboration-instellingen volgens least privilege
+- Begrip van de 3 guest access-niveaus en de 4 invite-policy opties
+- Kennis van allow/blocklist-gedrag: werkt onafhankelijk van OneDrive/SharePoint lists, geldt niet voor al-uitgenodigde guests, max 1 policy per organisatie (25 KB)
