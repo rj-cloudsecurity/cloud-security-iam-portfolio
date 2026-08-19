@@ -5,8 +5,8 @@
 ## Doel
 Meerdere guest users tegelijk uitnodigen via een CSV-bestand.
 
-## Niet volledig uitgevoerd
-Deze oefening is niet praktisch doorlopen — geen CSV-template gedownload, ingevuld of geüpload. Vastgelegd als theorie/proces-kennis.
+## Uitvoering
+Alleen verkend, niet volledig uitgevoerd — UI bekeken (Bulk operations -> Bulk invite) en het sample CSV-template gedownload/geopend om te zien hoe het is opgebouwd. Geen CSV ingevuld, geüpload of gesubmit — geen invites daadwerkelijk verstuurd.
 
 ## Stappen (theorie)
 1. Microsoft Entra admin center -> Identity -> Users -> All Users
@@ -21,8 +21,9 @@ Deze oefening is niet praktisch doorlopen — geen CSV-template gedownload, inge
 8. Job status bekijken via "Bulk operation results" — toont # Success, # Failure, en reden bij eventuele failures
 
 ## Resultaat
-Niet uitgevoerd in de sandbox — individuele invite is al wel gedocumenteerd (Desmond Hume-lab).
+Niet uitgevoerd in de sandbox — individuele invite is al wel gedocumenteerd (Desmond Hume-lab). UI en CSV-template zijn wel bekeken.
 
 ## Wat dit aantoont
 - Begrip van bulk invite als schaalbare uitbreiding op de individuele invite-flow
 - Kennis van de CSV-vereisten (email address, redirection url) en het validatie/foutafhandelingsproces
+- Bekendheid met waar deze functie zich bevindt in de admin center, ook zonder de operatie zelf uit te voeren
