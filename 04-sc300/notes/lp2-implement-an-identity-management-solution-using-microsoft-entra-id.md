@@ -658,6 +658,18 @@ If a user in your organization has licenses assigned from multiple groups, how i
 ---
 
 
+### Exercise - add guest users to directory
+  - Zelfde oefening als eerder al uitgevoerd; enige nieuwe info hier: group email-adressen worden niet ondersteund en het +-symbool in een emailadres moet weggelaten worden.
+
+---
+
+### Exercise - invite guest users bulk
+  - [04-sc300/labs/10-invite-guest-users-bulk](../../04-sc300/labs/10-invite-guest-users-bulk.md)
+
+---
+
+
+
 
 
 
