@@ -1118,12 +1118,59 @@ What are dynamic groups?
 	- Vereisten: PingFederate 8.4 of later; TLS/SSL certificaat voor de federation service name (bv. sts.contoso.com)
 	- Setup: domain selecteren in Entra Connect -> Export Settings delen met PingFederate admin -> admin configureert server -> URL/poort teruggeven aan Entra Connect om metadata te verifiëren
 
+---
 
+### Implement manage pass-through authentication (PTA)
+- Wat is het
+	- Pass-through authentication laat users inloggen op zowel on-premises als cloud-apps met hetzelfde wachtwoord
+	- Valideert wachtwoorden direct tegen on-premises Active Directory (geen sync van hashes)
+- Inschakelen; eerste installatie
+	- Custom installation path kiezen bij Entra Connect setup
+	- Bij User sign-in page: Pass-through authentication selecteren als Sign On method
+	- Na succesvolle installatie: PTA-agent geïnstalleerd op dezelfde server als Entra Connect; feature ingeschakeld op de tenant
+- Inschakelen; al eerder geïnstalleerd (express of custom)
+	- Change user sign-in task selecteren in Entra Connect -> Next
+	- Pass-through authentication selecteren als sign-in method
+	- Na succesvolle installatie: PTA-agent geïnstalleerd + feature ingeschakeld op de tenant
+- Belangrijk
+	- PTA is een tenant-level feature; inschakelen beïnvloedt sign-in voor alle users in alle managed domains van de tenant
+	- Bij overstap van AD FS naar PTA: minimaal 12 uur wachten voordat je de AD FS infrastructuur uitschakelt, zodat users tijdens de overgang kunnen blijven inloggen op Exchange ActiveSync
 
+---
 
+### Explore pass-through authentication and seamless single sign-on (SSO)
+- Wat is het
+	- Seamless SSO logt users automatisch in vanaf hun netwerk-verbonden corporate desktop
+	- Toegang tot cloud-apps zonder extra on-premises componenten
+	- Kan gecombineerd worden met PHS of PTA; niet toepasbaar op AD FS
 
+- Key benefits
+	- Great user experience: automatisch ingelogd op zowel on-premises als cloud-apps; geen herhaaldelijk wachtwoord invoeren
+	- Easy to deploy & administer: geen extra on-premises componenten nodig; werkt met zowel PHS als PTA; uitrolbaar via Group Policy naar (een deel van) users
 
+- Sign-in flow op web browser
+	- User probeert een web app te openen (bv. Outlook Web App) vanaf een domain-joined device binnen het corporate network
+	- Niet al ingelogd -> redirect naar Microsoft Entra sign-in pagina
+	- User voert username in
+	- Entra ID daagt de browser uit (401 Unauthorized) om een Kerberos ticket te leveren
+	- Browser vraagt ticket op bij Active Directory voor het AZUREADSSOACC computer account (representeert Entra ID)
+	- AD vindt het computer account, geeft een Kerberos ticket terug, versleuteld met het secret van dat account
+	- Browser stuurt het Kerberos ticket door naar Entra ID
+	- Entra ID ontsleutelt het ticket (met de eerder gedeelde key), herkent de identity van de ingelogde user
+	- Entra ID geeft een token terug aan de app, of vraagt extra bewijs (bv. MFA)
+	- Bij succes: toegang tot de applicatie
 
-
+- Sign-in flow op native client
+	- User probeert een native app te openen (bv. Outlook client) vanaf een domain-joined device
+	- Niet al ingelogd -> app haalt username op uit de Windows-sessie van het device
+	- App stuurt username naar Entra ID, haalt het WS-Trust MEX endpoint van de tenant op (exclusief voor Seamless SSO)
+	- App checkt via dat endpoint of integrated authentication beschikbaar is (ook exclusief voor Seamless SSO)
+	- Bij succes: Kerberos challenge uitgevoerd
+	- App haalt Kerberos ticket op, stuurt door naar Entra's integrated authentication endpoint
+	- Entra ID ontsleutelt en valideert het ticket
+	- Entra ID logt de user in, geeft een SAML token aan de app
+	- App stuurt het SAML token door naar Entra ID's OAuth2 token endpoint
+	- Entra ID valideert het SAML token, geeft access token, refresh token, en ID token aan de app
+	- User krijgt toegang tot de resource van de app	
 
 
