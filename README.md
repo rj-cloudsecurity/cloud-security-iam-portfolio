@@ -74,12 +74,12 @@ Planned:
 ### 00 — Sandbox
  - [Sandbox Context: Oceanic Airlines](/00-sandbox/00-oceanic-airlines-context.md)
  - [Sandbox Company Branding](/00-sandbox/01-entra-id-company-branding.md)
- - [Sandbox Adding first users](../../00-sandbox/02-adding-first-user.md)
- - [Sandbox Creating security groups and users](../../00-sandbox/03-creating-security-group-and-users.md)
- - [Sandbox Add groups](../../00-sandbox/04-add-groups-in-microsoft-entra-id.md)
- - [Sandbox Configure external collaboration](../../00-sandbox/05-configure-external-collaboration.md)
- - [Sandbox Invite external users](../../00-sandbox/06-invite-external-users.md)
- - [Sandbox Create dynamic groups](../../00-sandbox/07-jacobs-security-group.md)
+ - [Sandbox Adding first users](/00-sandbox/02-adding-first-user.md)
+ - [Sandbox Creating security groups and users](/00-sandbox/03-creating-security-group-and-users.md)
+ - [Sandbox Add groups](/00-sandbox/04-add-groups-in-microsoft-entra-id.md)
+ - [Sandbox Configure external collaboration](/00-sandbox/05-configure-external-collaboration.md)
+ - [Sandbox Invite external users](/00-sandbox/06-invite-external-users.md)
+ - [Sandbox Create dynamic groups](/00-sandbox/07-jacobs-security-group.md)
 
 ---
 
