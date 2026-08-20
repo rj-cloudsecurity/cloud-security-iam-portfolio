@@ -248,7 +248,7 @@
     ---
 
 ### Configure tenant-wide setting
-  - 3 hoofdcategorieën tenant-wide settings
+  - 3 hoofdcategorieen tenant-wide settings
 
 | Setting | Locatie | Wat |
 |---|---|---|
@@ -340,7 +340,7 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 
 ### Introduction
   - Waarom dit belangrijk is
-  - Workloads naar de cloud verplaatsen is meer dan alleen servers, websites en data migreren. Bedrijven moeten resources beveiligen door geautoriseerde users te definiëren, ervoor zorgen dat users alleen toegang hebben tot data die ze nodig hebben, en alleen operaties mogen uitvoeren waarvoor ze geautoriseerd zijn. Centrale controle gebeurt via twee dingen: (1) een definitieve identity per user voor elke service, en (2) zorgen dat employees/vendors precies genoeg toegang hebben om hun werk te doen.
+  - Workloads naar de cloud verplaatsen is meer dan alleen servers, websites en data migreren. Bedrijven moeten resources beveiligen door geautoriseerde users te definieren, ervoor zorgen dat users alleen toegang hebben tot data die ze nodig hebben, en alleen operaties mogen uitvoeren waarvoor ze geautoriseerd zijn. Centrale controle gebeurt via twee dingen: (1) een definitieve identity per user voor elke service, en (2) zorgen dat employees/vendors precies genoeg toegang hebben om hun werk te doen.
 
   - Microsoft Entra ID (cloud-based IAM service) biedt end-to-end identity management, inclusief SSO en MFA, om users en data te beschermen.
 
@@ -845,7 +845,7 @@ If a user in your organization has licenses assigned from multiple groups, how i
     - Linker menu → Getting started
     - Organisatie instellen:
       - Organization name — intern referentie-naam, klanten zien dit niet
-      - Domain — gekoppeld aan een service endpoint in het DID-document. Bindt de DID aan iets tastbaars (jouw domein). Wallets (bv. Microsoft Authenticator) gebruiken dit om de DID te verifiëren — tonen een verified-symbool als het klopt, of een waarschuwing als het niet gevalideerd kan worden
+      - Domain — gekoppeld aan een service endpoint in het DID-document. Bindt de DID aan iets tastbaars (jouw domein). Wallets (bv. Microsoft Authenticator) gebruiken dit om de DID te verifieren — tonen een verified-symbool als het klopt, of een waarschuwing als het niet gevalideerd kan worden
       - Key vault — naam van je bestaande key vault
     - Save and create credential
    
@@ -1046,7 +1046,7 @@ What are dynamic groups?
   - UPN-suffix moet een geverifieerd domain zijn, anders vervangt de tool het automatisch door contoso.onmicrosoft.com
   - Non-routable domains (bv. contoso.local) kunnen niet geverifieerd worden -> Connect waarschuwt en adviseert custom settings i.p.v. express
 
-- Topologieën (herkennen, niet allemaal uit hoofd)
+- Topologieen (herkennen, niet allemaal uit hoofd)
   - Single forest + single tenant; meest voorkomend, enige optie bij express install
   - Multiple forests + single tenant; 1 Connect-server moet alle forests bereiken
   - Multiple forests, users in 1 directory; losse forests, unified GAL in Entra ID
@@ -1080,7 +1080,7 @@ What are dynamic groups?
   - Cloud Sync = lightweight alternatief voor multi-forest/disconnected scenario's
  
 - Summary:
-  - Deze unit draait om Microsoft Entra Connect, de tool die je on-prem Active Directory (georganiseerd in forests, elk met eigen domains) verbindt met je cloud-based Entra ID, zodat je één consistente identity hebt voor beide werelden. De kern is de keuze uit 3 authenticatiemethodes: PHS (Password Hash Synchronization; simpelst, synct alleen een wachtwoord-hash naar de cloud, geen extra infra nodig), PTA (Pass-through Authentication; een agent op je eigen server checkt live tegen je on-prem AD, dus policies zoals account-lockout werken direct), en Federation (bv. via AD FS; het meest complex, voor geavanceerde eisen zoals smartcards, maar valt buiten Entra ID's eigen controle). Ongeacht welke methode je kiest als hoofdmethode, wordt aangeraden altijd PHS als backup te hebben, omdat het als enige blijft werken bij een on-prem storing. Verder behandelt de unit een aantal technische bouwstenen: de sourceAnchor (ook wel immutableId) die een gebruiker uniek koppelt tussen on-prem en cloud, de UPN (user principal name) die bepaalt waarmee iemand inlogt en die een geverifieerd domain nodig heeft, verschillende topologieën voor bedrijven met één of meerdere forests, en de onderliggende sync engine (Connector Space, Metaverse, sync rules, run profiles) die bepaalt hoe data precies stroomt. Tot slot is er Microsoft Entra Connect Cloud Sync, een lichter alternatief met cloud-agents, vooral handig bij complexe of losstaande (disconnected) multi-forest omgevingen.
+  - Deze unit draait om Microsoft Entra Connect, de tool die je on-prem Active Directory (georganiseerd in forests, elk met eigen domains) verbindt met je cloud-based Entra ID, zodat je één consistente identity hebt voor beide werelden. De kern is de keuze uit 3 authenticatiemethodes: PHS (Password Hash Synchronization; simpelst, synct alleen een wachtwoord-hash naar de cloud, geen extra infra nodig), PTA (Pass-through Authentication; een agent op je eigen server checkt live tegen je on-prem AD, dus policies zoals account-lockout werken direct), en Federation (bv. via AD FS; het meest complex, voor geavanceerde eisen zoals smartcards, maar valt buiten Entra ID's eigen controle). Ongeacht welke methode je kiest als hoofdmethode, wordt aangeraden altijd PHS als backup te hebben, omdat het als enige blijft werken bij een on-prem storing. Verder behandelt de unit een aantal technische bouwstenen: de sourceAnchor (ook wel immutableId) die een gebruiker uniek koppelt tussen on-prem en cloud, de UPN (user principal name) die bepaalt waarmee iemand inlogt en die een geverifieerd domain nodig heeft, verschillende topologieen voor bedrijven met één of meerdere forests, en de onderliggende sync engine (Connector Space, Metaverse, sync rules, run profiles) die bepaalt hoe data precies stroomt. Tot slot is er Microsoft Entra Connect Cloud Sync, een lichter alternatief met cloud-agents, vooral handig bij complexe of losstaande (disconnected) multi-forest omgevingen.
 
 ---
 
@@ -1098,7 +1098,7 @@ What are dynamic groups?
 
 - Eerste synchronisatie
 	- Bij inschakelen: initiele sync van alle in-scope users tegelijk; geen mogelijkheid om vooraf een subset te kiezen
-	- Na de initiële sync: selective password hash sync instelbaar voor toekomstige syncs
+	- Na de initiele sync: selective password hash sync instelbaar voor toekomstige syncs
 	- Bij meerdere connectors: mogelijk om PHS voor somige connectors uit te schakelen, andere niet
 
 - Wijzigingen en foutafhandeling
@@ -1116,18 +1116,18 @@ What are dynamic groups?
 
 - PingFederate (federation-optie)
 	- Vereisten: PingFederate 8.4 of later; TLS/SSL certificaat voor de federation service name (bv. sts.contoso.com)
-	- Setup: domain selecteren in Entra Connect -> Export Settings delen met PingFederate admin -> admin configureert server -> URL/poort teruggeven aan Entra Connect om metadata te verifiëren
+	- Setup: domain selecteren in Entra Connect -> Export Settings delen met PingFederate admin -> admin configureert server -> URL/poort teruggeven aan Entra Connect om metadata te verifieren
 
 ---
 
 ### Implement manage pass-through authentication (PTA)
 - Wat is het
 	- Pass-through authentication laat users inloggen op zowel on-premises als cloud-apps met hetzelfde wachtwoord
-	- Valideert wachtwoorden direct tegen on-premises Active Directory (geen sync van hashes)
+	- Valideert wachtwoorden diretc tegen on-premises Active Directory (geen sync van hashes)
 - Inschakelen; eerste installatie
 	- Custom installation path kiezen bij Entra Connect setup
 	- Bij User sign-in page: Pass-through authentication selecteren als Sign On method
-	- Na succesvolle installatie: PTA-agent geïnstalleerd op dezelfde server als Entra Connect; feature ingeschakeld op de tenant
+	- Na succesvole installatie: PTA-agent geïnstalleerd op dezelfde server als Entra Connect; feature ingeschakeld op de tenant
 - Inschakelen; al eerder geïnstalleerd (express of custom)
 	- Change user sign-in task selecteren in Entra Connect -> Next
 	- Pass-through authentication selecteren als sign-in method
@@ -1172,5 +1172,236 @@ What are dynamic groups?
 	- App stuurt het SAML token door naar Entra ID's OAuth2 token endpoint
 	- Entra ID valideert het SAML token, geeft access token, refresh token, en ID token aan de app
 	- User krijgt toegang tot de resource van de app	
+
+---
+
+### Implement and manage federation
+- Wat is het
+	- Federation gebruikt een nieuwe of bestaande on-premises AD FS farm (Windows Server 2012 R2+); Entra Connect laat users inloggen op Entra resources met hun on-premises wachtwoord
+	- Federation = collectie van domains met established trust; meestal authentcation + authorization
+	- Alle user authentication gebeurt on-premises; strengere access control mogelijk
+	- Ondersteund: AD FS en PingFederate
+
+- Federated sign-in ervaring
+	- Users loggen in met on-premises wachtwoord; binnen het corporate network zelfs zonder wachtwoord in te voeren
+	- Bij bestaande farm: Entra Connect configureert de trust tussen die farm en Entra ID
+
+- Vereisten om AD FS + Entra Connect te deployen
+	- Local administrator credentials op de federation servers
+	- Local administrator credentials op eventuele workgroup servers (niet domain-joined) voor Web Application Proxy
+	- De machine waarop de wizard draait moet via Windows Remote Management andere machines kunnen bereiken
+
+- Setup stappen via Entra Connect
+	- AD FS servers specificeren; moeten eerst domain-joined zijn; 1 server aanbevolen voor test/pilot, later uit te breiden
+	- Web Application Proxy servers specificeren; staan in het perimeter network, richting extranet
+	- Service account voor AD FS service instellen; ofwel group managed service account, ofwel domain user account
+	- Entra domain selecteren om te federeren; AD FS geeft tokens aan Entra ID, Entra ID vertrouwt die tokens; bij initiele install maar 1 domain, later meer toe te voegen
+
+- Beheertools binnen Entra Connect wizard
+	- Repair the trust; checkt/herstelt de trust tussen AD FS en Entra ID
+	- Federate met AlternateID; aanbevolen als on-prem UPN non-routable is (bv. contoso.local) of niet aan te passen; laat users inloggen met ander attribuut dan UPN (bv. mail)
+	- Federated domain toevoegen; Entra Connect past claim rules aan bij meerdere gefedereerde domains
+	- AD FS server of AD FS Web Application Proxy server toevoegen
+
+- Device writeback
+	- Voor device-based Conditional Access bij AD FS-protected devices
+	- Synchroniseert devices geregistreerd in Entra terug naar on-premises AD
+	- Setup maakt automatisch containers/objects aan (Device Registration Configuration, RegisteredDevices) en zet permissions op het Entra Connector account
+
+---
+
+### Trouble-shoot synchronization errors
+- Wat is het
+	- Fouten kunnen optreden bij sync van identity data van AD DS naar Entra ID
+	- Deze unit dekt de meest voorkomende foutmeldingen, niet alle mogelijke fouten
+	- Sync Errors report beschikbaar via Microsoft Entra Connect Health for sync in Azure portal
+	- Entra Connect doet 3 operatie-types: Import, Synchronization, Export; deze unit focust vooral op fouten tijdens Export naar Entra ID
+
+- Hard Match vs Soft Match (basisprincipe)
+	- Hard Match: sourceAnchor van het inkomende object matcht met immutableId van een bestaand Entra-object
+	- Soft Match: als hard match niks vindt, valt Entra ID terug op ProxyAddresses en UserPrincipalName om een match te zoeken
+	- Soft match is bedoeld om bestaande Entra-objecten te koppelen aan nieuwe on-prem objecten die dezelfde entiteit voorstellen
+
+- InvalidSoftMatch
+	- Ontstaat als hard match faalt EN soft match wel een object vindt, maar dat object al een andere immutableId heeft (dus al gekoppeld is aan een ander on-prem object)
+	- Entra schema staat geen duplicate waardes toe voor: ProxyAddresses, UserPrincipalName, onPremisesSecurityIdentifier, ObjectId
+	- Attribute Duplicate Attribute Resiliency feature (default in Entra ID) vermindert dit soort fouten door provisioning toch toe te staan bij duplicate ProxyAddresses/UPN; lost de duplicatie zelf niet op, moet nog steeds gefixt worden
+	- Voorbeeldoorzaken: duplicate ProxyAddresses/UPN in on-prem AD; nieuw object met zelfde waarde als bestaand Entra-object; forest-move waarbij sourceAnchor (objectGUID-based) verandert; per ongeluk verwijderd + opnieuw aangemaakt object zonder cloud-object te verwijderen; Entra Connect opnieuw geïnstalleerd met andere sourceAnchor-keuze
+	- Fix: dupliceerde attribute-waarde en betrokken objecten identificeren (via Connect Health report) -> bepalen welk object de waarde mag houden -> waarde verwijderen bij het andere object (in de bron-directory) -> sync laten lopen
+	- Sync error reports worden elke 30 minuten geüpdatet
+
+- ObjectTypeMismatch
+	- Ontstaat als twee objecten van verschillend type (bv. User vs Group) dezelfde waarde hebben voor een soft-match attribuut (bv. ProxyAddresses)
+	- Voorbeeld: mail-enabled security group met een emailadres, en een nieuwe on-prem user krijgt toevallig hetzelfde ProxyAddresses-adres
+	- Fix: zelfde aanpak als InvalidSoftMatch (dupliceerde waarde identificeren, verwijderen bij het foute object, sync laten lopen)
+
+- AttributeValueMustBeUnique
+	- Entra schema staat geen duplicate waardes toe voor ProxyAddresses en UserPrincipalName; deze moeten uniek zijn per object
+	- Ontstaat als Entra Connect een object probeert te updaten/toevoegen met een waarde die al bij een ander object hoort
+	- Fix: zelfde aanpak als de vorige twee errors
+
+- IdentityDataValidationFailed
+	- Entra ID valideert data voordat het geschreven wordt, voor een goede eindgebruikerservaring
+	- Ontstaat bij: ongeldige/niet-ondersteunde tekens in UserPrincipalName, of verkeerd formaat
+	- Fix: zorg dat UserPrincipalName geldige tekens en het juiste formaat heeft
+
+- FederatedDomainChangeError
+	- Ontstaat als de suffix van iemands UserPrincipalName wordt veranderd van het ene federated domain naar het andere (bv. bob@contoso.com -> bob@fabrikam.com, beide federated domains)
+	- UPN wordt dan niet automatisch bijgewerkt, resulteert in deze error
+
+- LargeObject / ExceededAllowedLength
+	- Ontstaat als een attribuut de toegestane grootte/lengte/aantal-limiet overschrijdt
+	- Komt vaak voor bij: userCertificate en userSMIMECertificate (hard limit: 15 certificaten), thumbnailPhoto (te groot bestand), proxyAddresses (te veel adressen)
+	- Fix: zorg dat het attribuut binnen de toegestane limiet blijft
+
+- Admin role conflict
+	- Ontstaat als een on-prem user object soft-matched zou moeten worden met een Entra object dat al een administratieve rol heeft
+	- Entra Connect staat dit soft-matchen NIET toe met een object dat een admin-rol heeft (beveiligingsmaatregel)
+	- Fix: admin-rol verwijderen van het Entra account -> quarantined object hard deleten in de cloud -> volgende sync cyclus doet de soft-match automatisch -> rol-lidmaatschap daarna herstellen
+
+---
+
+### Implement Microsoft Entra Connect Health
+- Wat is het
+	- Microsoft Entra Connect Health monitort je on-premises identity infrastructuur
+	- Zorgt voor betrouwbare connectie naar Microsoft 365 en Microsoft Online Services
+	- Data zichtbaar in het Connect Health portal: alerts, performance monitoring, usage analytics
+	- 1 centrale plek (single lens) voor health van alle key identity componenten
+	- Vereist Microsoft Entra ID Premium P1 licentie
+
+- Vereisten voor agent installatie
+	- Entra ID Premium geïnstalleerd
+	- Global administrator rol nodig
+	- Connect Health agent geïnstalleerd op elke targeted server
+	- Outbound connectivity naar Azure service endpoints (IP-based)
+	- TLS inspection voor outbound traffic uitgeschakeld/gefilterd
+	- Firewall ports open: TCP 443 (altijd), TCP 5671 (alleen oudere agent-versies; nieuwste versie heeft dit niet meer nodig)
+	- PowerShell 4.0 of nieuwer
+	- FIPS (Federal Information Processing Standard) uitgeschakeld
+
+- Agent installeren voor AD FS
+	- AD FS-server moet ANDERS zijn dan de Sync-server; niet installeren op dezelfde server
+	- AD FS server host name moet uniek zijn binnen de AD FS service
+	- Installatie: .exe uitvoeren -> Install -> Configure Now -> PowerShell opent voor registratie -> inloggen met Entra account met voldoende rechten (default: global admin)
+	- Na installatie: agent services starten automatisch, data wordt geüpload naar de cloud service
+	- Ontbrekende prerequisites: PowerShell toont waarschuwingen tijdens installatie
+	- Verificatie: check of deze services draaien:
+		- Microsoft Entra Connect Health AD FS Diagnostics Service
+		- Microsoft Entra Connect Health AD FS Insights Service
+		- Microsoft Entra Connect Health AD FS Monitoring Service
+
+- Agent installeren voor Sync
+	- Wordt automatisch geïnstalleerd bij de nieuwste versie van Microsoft Entra Connect zelf; geen losse install nodig
+	- Verificatie: check of deze services draaien:
+		- Microsoft Entra Connect Health Sync Insights Service
+		- Microsoft Entra Connect Health Sync Monitoring Service
+
+- Belangrijk
+	- Zonder Entra ID Premium licentie kun je de configuratie niet voltooien in de Azure portal
+
+---
+
+### Manage Microsoft Entra Health
+- Email notifications
+	- Standaard enabled; stuurt mail bij ontstaan en bij oplossen van een alert
+	- Instellen: Alerts dialog -> Notification Settings -> switch ON -> optioneel alle global admins laten meelezen -> extra emails toevoegen indien gewenst -> Save
+	- Bij back-end sync-issues: geen losse mail per fout meer, maar een daily digest van alle errors (i.p.v. spam bij grote volumes)
+
+- Server of service instance verwijderen
+	- Vereist Entra ID Premium licentie
+	- Server verwijderen: stopt met data verzamelen, geen nieuwe alerts/monitoring/analytics zichtbaar; verwijdert NIET de Health Agent zelf (kan errors geven als agent niet los verwijderd is); bestaande data blijft staan volgens Azure data retention policy; opnieuw monitoren = agent opnieuw uninstallen + installeren
+	- AD FS/Sync server verwijderen: Server List -> server selecteren -> Delete -> naam bevestigen -> Delete
+	- Entra Domain Servcies: Domain Controllers dashboard -> controller selecteren -> Delete Selected -> bevestigen
+	- Service instance verwijderen: zelfde consequenties als bij server (agent blijft, data blijft volgens retention policy); via Service List -> service selecteren -> Delete -> naam bevestigen
+
+- Toegang beheren via Azure RBAC
+	- 3 rollen: Owner (volledige controle, inclusief access management; global admins krijgen dit automatisch, niet aanpasbaar), Contributor (info bekijken + settings aanpassen), Reader (alleen bekijken)
+	- Andere Azure-rollen (bv. User Access Administrator) hebben GEEN effect op Connect Health toegang
+	- 2 access scopes: All service instances (aanbevolen, geldt overal) of Service instance (specifiek, voor gesegmenteerde toegang)
+	- Toegang geven: Configure -> Users -> Add -> rol kiezen -> user/group zoeken en selecteren -> OK
+	- Let op: Invite Users feature wordt niet ondersteund binnen Connect Health
+	- Toegang verwijderen: user/group selecteren -> Remove
+
+- Diagnose en herstel van duplicate attribute sync errors
+	- Self-service remediation feature; troubleshoot duplicate attribute errors en fixt orphaned objects; geen upgrade/configuratie nodig om te gebruiken
+	- Vereist Contributor permission (Azure RBAC) om te gebruiken
+
+- Veelvoorkomend scenario: UPN/ProxyAddresses conflict
+	- QuarantinedAttributeValueMustBeUnique en AttributeValueMustBeUnique errors meestal door UPN of ProxyAddresses conflict
+	- Fix: conflicterend bron-object aanpassen on-premises; error lost zich op na volgende sync
+
+- Orphaned object scenario
+	- Bestaand user object verliest zijn Source Anchor omdat het bron-object on-premises is verwijderd, maar die deletion-melding nooit is gesynchroniseerd naar Entra ID (bv. door sync engine issues of domain migration)
+	- Als het object later hersteld/opnieuw aangemaakt wordt: geen directe manier om de Source Anchor te remappen
+	- Gevolg: bestaand cloud-object (met bv. licentie) blijft apart staan van het nieuw gesynchroniseerde object met andere Source Anchor -> wijzigingen on-premises komen niet meer terecht bij het oorspronkelijke cloud-object
+
+- Ondersteunde attributen voor diagnose-feature
+	- UserPrincipalName; QuarantinedAttributeValueMustBeUnique of AttributeValueMustBeUnique
+	- ProxyAddresses; QuarantinedAttributeValueMustBeUnique of AttributeValueMustBeUnique
+	- SipProxyAddress; AttributeValueMustBeUnique
+	- OnPremiseSecurityIdentifier; AttributeValueMustBeUnique
+
+- Diagnose status-opties
+	- Not Started; nog niet bekeken, mogelijk fixbaar via portal
+	- Manual Fix Required; geen fix beschikbaar via portal (bv. object types zijn geen users), fix moet on-premises gebeuren
+	- Pending Sync; fix toegepast, wacht op volgende sync cyclus
+
+- Diagnose stappen
+	- Diagnose status controleren bij de foutmelding
+	- Diagnose-knop selecteren -> vragen beantwoorden om orphaned object case te identificeren
+	- Geen quick fix beschikbaar -> Close -> status wordt Manual fix required
+	- Wel identificeerbaar als orphaned object -> Apply Fix -> status wordt Pending sync
+	- Na volgende sync cyclus: error verdwijnt uit de lijst
+
+---
+
+## Module Assessment — Module 4 (Implement and manage hybrid identity)
+
+**Score:** 100%
+
+### Vraag 1
+What is the defining feature of hybrid identity solutions?
+
+- They create common user identities for authenticating and authorizing users who operate workstations that run on various operating systems.
+- They create common user identities that are trusted for authentication and authorization between organizations.
+- They create common user identities for authentication and authorization to both on-premises and cloud-based resources. (correct)
+
+### Vraag 2
+Which authentication method requires the least effort regarding deployment, maintenance, and infrastructure?
+
+- Password hash synchronization (PHS). (correct)
+- Pass-through authentication (PTA).
+- Federated authentication.
+
+### Vraag 3
+Some situations might require the removal of a server from being monitored by the Microsoft Entra Connect Health service. What needs to be done to start monitoring the same server again?
+
+- The Microsoft Entra Connect Health service needs to be stopped and restarted on any other targeted server in the network.
+- The Health Agent needs to be uninstalled and reinstalled on this server. (correct)
+- The data already collected from this server needs to be deleted and then the Health Agent needs to be reactivated on the server.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
