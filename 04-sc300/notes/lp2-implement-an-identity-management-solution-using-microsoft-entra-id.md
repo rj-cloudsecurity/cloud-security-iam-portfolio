@@ -1355,31 +1355,29 @@ What are dynamic groups?
 
 ---
 
-## Module Assessment — Module 4 (Implement and manage hybrid identity)
+## Knowledge Check — Module 4 (Implement and manage hybrid identity)
+Score: 100%
 
-**Score:** 100%
-
-### Vraag 1
+Vraag 1
 What is the defining feature of hybrid identity solutions?
 
-- They create common user identities for authenticating and authorizing users who operate workstations that run on various operating systems.
-- They create common user identities that are trusted for authentication and authorization between organizations.
-- They create common user identities for authentication and authorization to both on-premises and cloud-based resources. (correct)
+* They create common user identities for authenticating and authorizing users who operate workstations that run on various operating systems.
+* They create common user identities that are trusted for authentication and authorization between organizations.
+* ✅ They create common user identities for authentication and authorization to both on-premises and cloud-based resources.
 
-### Vraag 2
+Vraag 2
 Which authentication method requires the least effort regarding deployment, maintenance, and infrastructure?
 
-- Password hash synchronization (PHS). (correct)
-- Pass-through authentication (PTA).
-- Federated authentication.
+* ✅ Password hash synchronization (PHS).
+* Pass-through authentication (PTA).
+* Federated authentication.
 
-### Vraag 3
+Vraag 3
 Some situations might require the removal of a server from being monitored by the Microsoft Entra Connect Health service. What needs to be done to start monitoring the same server again?
 
-- The Microsoft Entra Connect Health service needs to be stopped and restarted on any other targeted server in the network.
-- The Health Agent needs to be uninstalled and reinstalled on this server. (correct)
-- The data already collected from this server needs to be deleted and then the Health Agent needs to be reactivated on the server.
-
+* The Microsoft Entra Connect Health service needs to be stopped and restarted on any other targeted server in the network.
+* ✅ The Health Agent needs to be uninstalled and reinstalled on this server.
+* The data already collected from this server needs to be deleted and then the Health Agent needs to be reactivated on the server.
 ---
 
 
