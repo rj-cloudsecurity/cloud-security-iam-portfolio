@@ -1078,7 +1078,9 @@ What are dynamic groups?
   - Federation = complex, voor geavanceerde auth-eisen
   - sourceAnchor = default objectGUID, nooit gebaseerd op naam
   - Cloud Sync = lightweight alternatief voor multi-forest/disconnected scenario's
-
+ 
+- Summary:
+  - Deze unit draait om Microsoft Entra Connect, de tool die je on-prem Active Directory (georganiseerd in forests, elk met eigen domains) verbindt met je cloud-based Entra ID, zodat je één consistente identity hebt voor beide werelden. De kern is de keuze uit 3 authenticatiemethodes: PHS (Password Hash Synchronization; simpelst, synct alleen een wachtwoord-hash naar de cloud, geen extra infra nodig), PTA (Pass-through Authentication; een agent op je eigen server checkt live tegen je on-prem AD, dus policies zoals account-lockout werken direct), en Federation (bv. via AD FS; het meest complex, voor geavanceerde eisen zoals smartcards, maar valt buiten Entra ID's eigen controle). Ongeacht welke methode je kiest als hoofdmethode, wordt aangeraden altijd PHS als backup te hebben, omdat het als enige blijft werken bij een on-prem storing. Verder behandelt de unit een aantal technische bouwstenen: de sourceAnchor (ook wel immutableId) die een gebruiker uniek koppelt tussen on-prem en cloud, de UPN (user principal name) die bepaalt waarmee iemand inlogt en die een geverifieerd domain nodig heeft, verschillende topologieën voor bedrijven met één of meerdere forests, en de onderliggende sync engine (Connector Space, Metaverse, sync rules, run profiles) die bepaalt hoe data precies stroomt. Tot slot is er Microsoft Entra Connect Cloud Sync, een lichter alternatief met cloud-agents, vooral handig bij complexe of losstaande (disconnected) multi-forest omgevingen.
 
 
 
