@@ -1082,9 +1082,41 @@ What are dynamic groups?
 - Summary:
   - Deze unit draait om Microsoft Entra Connect, de tool die je on-prem Active Directory (georganiseerd in forests, elk met eigen domains) verbindt met je cloud-based Entra ID, zodat je één consistente identity hebt voor beide werelden. De kern is de keuze uit 3 authenticatiemethodes: PHS (Password Hash Synchronization; simpelst, synct alleen een wachtwoord-hash naar de cloud, geen extra infra nodig), PTA (Pass-through Authentication; een agent op je eigen server checkt live tegen je on-prem AD, dus policies zoals account-lockout werken direct), en Federation (bv. via AD FS; het meest complex, voor geavanceerde eisen zoals smartcards, maar valt buiten Entra ID's eigen controle). Ongeacht welke methode je kiest als hoofdmethode, wordt aangeraden altijd PHS als backup te hebben, omdat het als enige blijft werken bij een on-prem storing. Verder behandelt de unit een aantal technische bouwstenen: de sourceAnchor (ook wel immutableId) die een gebruiker uniek koppelt tussen on-prem en cloud, de UPN (user principal name) die bepaalt waarmee iemand inlogt en die een geverifieerd domain nodig heeft, verschillende topologieën voor bedrijven met één of meerdere forests, en de onderliggende sync engine (Connector Space, Metaverse, sync rules, run profiles) die bepaalt hoe data precies stroomt. Tot slot is er Microsoft Entra Connect Cloud Sync, een lichter alternatief met cloud-agents, vooral handig bij complexe of losstaande (disconnected) multi-forest omgevingen.
 
+---
 
+### Implement manage password hash synchronization (PHS)
+- Wat is het
+	- Password hash synchronization is één van de sign-in methodes voor hybrid identity
+	- Microsoft Entra Connect synchroniseert een hash-van-de-hash van het wachtwoord van on-premises Active Directory naar cloud Entra ID
 
+- Hoe het werkt
+	- AD DS slaat wachtwoorden op als hash value (one-way mathematische functie); onmogelijk terug te rekenen naar plain text
+	- Entra Connect sync haalt de password hash op uit on-premises AD, past extra security processing toe, en synct dit naar de Entra authentication service
+	- Synchronisatie gebeurt per user, chronologisch
+	- Draait elke 2 minuten; interval niet aanpasbaar
+	- Nieuwe sync overschrijft het bestaande cloud-wachtwoord
 
+- Eerste synchronisatie
+	- Bij inschakelen: initiele sync van alle in-scope users tegelijk; geen mogelijkheid om vooraf een subset te kiezen
+	- Na de initiële sync: selective password hash sync instelbaar voor toekomstige syncs
+	- Bij meerdere connectors: mogelijk om PHS voor somige connectors uit te schakelen, andere niet
+
+- Wijzigingen en foutafhandeling
+	- Wachtwoordwijziging on-premises wordt meestal binnen enkele minuten gesynchroniseerd
+	- Mislukte sync-pogingen worden automatisch opnieuw geprobeerd
+	- Fouten worden gelogd in de event viewer
+
+- Inschakelen
+	- Express Settings installatie: PHS automatisch ingeschakeld
+	- Custom settings installatie: PHS als losse optie beschikbaar op de sign-in pagina
+
+- PHS en FIPS (Federal Information Processing Standard)
+	- Als de server FIPS-locked is: MD5 staat standaard uit
+	- MD5 activeren: ga naar %programfiles%\Azure AD Sync\Bin, open miiserver.exe.config, voeg in configuration/runtime node toe: <enforceFIPSPolicy enabled="false"/>, opslaan
+
+- PingFederate (federation-optie)
+	- Vereisten: PingFederate 8.4 of later; TLS/SSL certificaat voor de federation service name (bv. sts.contoso.com)
+	- Setup: domain selecteren in Entra Connect -> Export Settings delen met PingFederate admin -> admin configureert server -> URL/poort teruggeven aan Entra Connect om metadata te verifiëren
 
 
 
