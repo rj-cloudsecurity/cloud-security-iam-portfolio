@@ -3,8 +3,25 @@
 ## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
 ### Module 1: Implement initial configuration of Microsoft Entra ID 
 
-### Configure company brand
 
+### Introduction
+  - Wat deze module behandelt
+    - Hoe je een Microsoft Entra tenant configureert en beheert: Entra roles, custom domains, company branding opties, delegation via administrative units, en tenant-wide settings.
+
+  - Learning objectives
+    - Company branding
+    - Configure and manage Microsoft Entra roles
+    - Configure delegation by using administrative units
+    - Configure and manage custom domains
+    - Evaluate permissions based on role assignments and settings
+    - Configure tenant-wide settings
+
+  - Prerequisites
+    -Ervaring met de Azure portal user interface of het Microsoft Entra admin center.
+
+---
+
+### Configure company brand
   - **Wat is het:**
     - Eigen logo + custom kleurenschema op sign-in pagina's; toegepast bij inloggen op web-based apps (bv. M365 via Entra ID)
     - Vereist licentie: Entra ID P1, P2, of Office 365
@@ -321,6 +338,31 @@ Microsoft Entra guest users have restricted directory permissions. Which of the 
 
 ---
 
+### Introduction
+  - Waarom dit belangrijk is
+  - Workloads naar de cloud verplaatsen is meer dan alleen servers, websites en data migreren. Bedrijven moeten resources beveiligen door geautoriseerde users te definiëren, ervoor zorgen dat users alleen toegang hebben tot data die ze nodig hebben, en alleen operaties mogen uitvoeren waarvoor ze geautoriseerd zijn. Centrale controle gebeurt via twee dingen: (1) een definitieve identity per user voor elke service, en (2) zorgen dat employees/vendors precies genoeg toegang hebben om hun werk te doen.
+
+  - Microsoft Entra ID (cloud-based IAM service) biedt end-to-end identity management, inclusief SSO en MFA, om users en data te beschermen.
+
+  - Wat deze module behandelt
+    - Basis van users en groups aanmaken, configureren, beheren
+    - Licenties beheren
+    - Device registration beheren
+
+  - Learning objectives
+    - Create, configure, and manage users
+    - Create, configure, and manage groups
+    - Manage licenses
+    - Configure and manage device registration
+    - Explore custom security attributes and automatic provisioning
+
+  - Prerequisites
+    - Basic understanding of identity management
+    - Some experience with Active Directory a plus
+    - Experience with Zero Trust helpful
+
+---
+
 ### Create, configure, and manage users
   - Wat is een user account
     - Bevat alle info nodig voor een authenticatie tijdens sign-on
@@ -578,6 +620,26 @@ If a user in your organization has licenses assigned from multiple groups, how i
 
 ---
 
+## Introduction
+  - Waarom dit belangrijk is
+    - Externe users uitnodigen om je Azure resources te gebruiken is waardevol, maar moet veilig gebeuren. Deze module behandelt hoe je veilige B2B collaboration scenario's opzet met users buiten je organisatie.
+
+  - Wat deze module behandelt
+    - External collaboration settings beheren in Entra ID
+    - Externe users uitnodigen (individueel of bulk)
+    - External user accounts beheren in Entra ID
+    - Identity providers configureren (social en SAML/WS-Fed)
+    - Microsoft Entra Verified ID verkennen
+
+  - Learning objectives
+    - Manage external collaboration settings in Microsoft Entra ID
+    - Invite external users (individually or in bulk)
+    - Manage external user accounts in Microsoft Entra ID
+    - Configure identity providers (social and SAML/WS-fed)
+    - Explore Microsoft Entra Verified ID
+
+---
+
 ### Describe guest access and Business to Business accounts
   - Wat is B2B collaboration
     - Onderdeel van Microsoft Entra External Identities (onder de Entra-paraplu)
@@ -737,7 +799,7 @@ If a user in your organization has licenses assigned from multiple groups, how i
 | Anonymous meeting join | None (geen account nodg) | Enabled |
 | Unauthenticated file/folder sharing | None (geen account nodig) | Enabled |
 
-**Kernpunt:** externen krijgen nooit uit zichzelf toegang; een user binnen je organisatie moet altijd eerst de activiteit initiëren (bv. een file delen, iemand uitnodigen). Elke instelling hierboven kan uitgeschakeld worden als je die activiteit niet wilt toestaan.
+**Kernpunt:** externen krijgen nooit uit zichzelf toegang; een user binnen je organisatie moet altijd eerst de activiteit initieren (bv. een file delen, iemand uitnodigen). Elke instelling hierboven kan uitgeschakeld worden als je die activiteit niet wilt toestaan.
 
   - Governance
     - Regelmatig reviewen/valideren van alle accounts, met extra aandacht voor guests
@@ -759,6 +821,271 @@ If a user in your organization has licenses assigned from multiple groups, how i
   - **Ook uitgevoerd in:** [Oceanic Airlines sandbox](../../00-sandbox/07-jacobs-security-group.md)
     
 ---
+
+### Implement and manage Microsoft Entra Verified ID
+  - Wat is het?
+    - Decentralized identity-oplossing; issuen en verifieren van verifiable credentials
+    - Voor issuers: service om eigen verifiable credentials te customizen en uit te geven
+    - Voor verifiers: gratis REST API om credentials op te vragen/accepteren in apps/services
+   
+  - Analogie (herhaling van eerdere unit; decentralized identity)
+    - Vergelijkbaar met rijbewijs, diploma, paspoort; bewijs van iets, uitgegeven door een vertrouwde partij
+    - Verifiable credential = data object met claims van de issuer over een subject
+    - Geïdentificeerd via schema, bevat DID van issuer + subject
+    - Issuer's DID zet een digitale handtekening als bewijs van attestatie
+
+  - Wat je nodig hebt om te deployen
+    - Azure tenant met subsciption
+    - Microsoft Entra ID premium licentie (P1/P2)
+    - Ingelogd als Global Administrator
+    - Geconfigureerde Azure Key Vault instance
+
+  - Setup; stappen
+    - Azure Portal -> zoek "verifiable credentials" -> Verifiable Credentials (Preview)
+    - Linker menu → Getting started
+    - Organisatie instellen:
+      - Organization name — intern referentie-naam, klanten zien dit niet
+      - Domain — gekoppeld aan een service endpoint in het DID-document. Bindt de DID aan iets tastbaars (jouw domein). Wallets (bv. Microsoft Authenticator) gebruiken dit om de DID te verifiëren — tonen een verified-symbool als het klopt, of een waarschuwing als het niet gevalideerd kan worden
+      - Key vault — naam van je bestaande key vault
+    - Save and create credential
+   
+---
+
+### Configure identity providers
+  - SAML/WS-Fed IdP federation (direct federation)
+    - Federatie met een partner-organisatie's IdP (SAML 2.0 of WS-Fed protocol)
+    - Guests loggen in met eigen IdP-managed org account; geen apart Entra account nodig
+    - Gekoppeld aan domain namespaces (bv. contoso.com)
+    
+  - Wanneer wordt een guest via SAML/WS-Fed geauthenticeerd?
+    - Al eerder geredeemde guests behouden hun oorspronkelijke authenticatie-methode; federatie instellen verandert niks retroactief
+    - Federatie verwijderen -> guests die de federated IdP gebruikten kunnen niet meer inloggen
+    - Auth-methode van een guest aanpassen kan via reset van redemption status
+   
+  - End-user experience
+    - Sign-in -> redirect naar eigen IdP -> terug naar Entra ID voor resource-toegang
+    - Als federated IdP SSO heeft en Entra-sessie is verlopen: user krijgt gewoon SSO, geen nieuwe login nodig
+
+  - SAML 2.0 vereisten
+    - Response moet bevatten: AssertionConsumerService, Audience (`urn:federation:MicrosoftOnline`), Issuer
+    - Claims: NameID Format (persistent), emailaddress
+    - Target domain mag niet DNS-verified zijn op Entra ID
+      - Kort samengevat: het externe SAML-systeem moet Entra ID vertellen (1) waar het antwoord naartoe moet, (2) dat het bericht echt voor Microsoft bedoeld is, (3) wie het verstuurt, (4) een consistente ID van de gebruiker, en (5) hun emailadres; en het domein waarmee je federeert mag niet toevallig al van jezelf zijn.
+
+  - WS-Federation vereisten
+    - Getest voor: AD FS en Shibboleth
+    - Message moet bevatten: PassiveRequestorEndpoint, Audience, Issuer
+    - Claims: ImmutableID, emailadress
+    - Zelfde regel: domain niet DNS-verified
+      - Kort samengevat: het externe WS-Fed-systeem moet Entra ID vertellen (1) waar het antwoord naartoe moet, (2) dat het bericht echt voor Microsoft bedoeld is, (3) wie het verstuurt, (4) een vaste onveranderlijke ID van de gebruiker, en (5) hun emailadres; en het domein waarmee je federeert mag niet toevallig al van jezelf zijn.
+
+
+  - Google en Facebook als identity provider
+    - Google: Guests loggen in met eigen Gmail-account, werkt via een gewone invite. Alleen voor Gmail (niet G Suite; daarvoor gebruik je SAML/WS-Fed)
+    - Facebook: Alleen via self-service sign-up user flows, NIET via een normale invite
+    - Beide vereisen een Client ID + Client Secret, ingesteld in Entra ID onder External Identities -> All identity providers
+
+   - Onthouden voor examen:
+    - Google = Gmail-only, via invite mogelijk
+    - Facebook = self service sign-up only, NIET via invite
+    - SAML/WS-Fed = voor organisaties met eigen IdP, domain-gebaseerd, niet DNS-verified vereist
+
+---
+
+### Implement cross-tenant access controls
+  - Wat het is
+    - Regelt hoe jouw Entra organisatie samenwerkt met andere Entra organisaties (of Microsoft clouds)
+    - Inbound access: Hoe externe organisaties met jou samenwerken
+    - Outbound access: Hoe jouw users samenwerken met externe organisaties
+
+  - Default settings
+    - B2B collaboration: Standaard enabled
+    - B2B direct connect: Standaard blocked
+
+  - 4 instellingen (examen-kernstof)
+    - Outbound access settings: Bepaalt of jouw users toegang krijgen tot externe organisaties. Toepasbaar op iedereen, of specifieke users/groups/apps
+    - Inbound access settings: Bepaalt of externe users toegang krijgen tot jouw resources. Zelfde granulariteit (iedereen of specifiek)
+    - Trust settings (inbound): Bepaalt of jouw Conditional Access policies externe MFA, compliant device, en hybrid Entra joined device vertrouwen. Als de externe user dit al heeft voldaan in hun eigen tenant, hoeft dat niet opnieuw
+    - B2B direct connect: Mutual trust tussen 2 Entra organisaties voor naadloze samenwerking, werkt nu specifiek met Teams shared channels
+
+  - Organization-specific configuratie
+    - Default settings gelden voor alle externe verbindingen
+    - Kan per organisatie apart ingesteld worden: Cross-tenant access control -> Organizational settings -> tenant toevoegen -> inbound/outbound per tenant configureren
+
+  - Microsoft Cloud-specific configuratie
+    - Voor connectie met Azure Government of Azure China (bv. bij overheidscontracten); apart te configureren via Microsoft Cloud settings
+   
+  - B2B Direct Connect; details
+    - Vereist mutual trust; beide organisaties moeten het inschakelen in hun cross-tenant access settings
+    - Na trust: gebruiker heeft SSO-toegang tot externe resources met eigen (home tenant) credentials.
+    - Werkt momenteel alleen met Teams shared channels
+    - Praktisch: org A maakt shared channel -> nodigt B2B direct connect user van org B uit -> die user krijgt naadloos toegang vanuit hun eigen Teams-instance, geen aparte login nodig
+   
+
+  - Onthouden voor examen:
+    - B2B collaboration ≠ B2B direct connect; collaboration = guest user object in je directory, direct connect = geen guest object, alleen Teams shared channel trust
+    - B2B direct connect vereist wederzijdse instelling (beide tenants moeten het aanzetten)
+
+---
+
+## Knowledge Check — Module 3 (Implement and manage external identities)
+
+**Score:** 100%
+
+### Vraag 1
+Users assigned limited administrator directory roles can use the Azure portal to invite B2B collaboration users. You can invite B2B collaboration users to a directory or to a group. What other activities can B2B collaboration users be invited?
+
+- Limited self-service functionality for modifying their profiles.
+- Network resources such as printers.
+- ✅ An application.
+
+### Vraag 2
+Microsoft Entra B2B can be configured to federate with identity providers that use either of two protocols. One protocol is Security Assertion Markup Language (SAML); what is the other protocol?
+
+- ✅ WS-Federation (WS-Fed)
+- Layer 2 Tunneling Protocol (L2TP)
+- Resource Location Protocol (RLP)
+
+### Vraag 3
+What are dynamic groups?
+
+- Dynamic groups are Microsoft 365 groups whose memberships consist of Dynamics 365 users, who require special attribute configurations.
+- ✅ Dynamic groups are security groups whose memberships are based on user attributes (such as userType, department, or country/region).
+- Dynamic groups are groups whose membership numbers fluctuate significantly within a given timeframe.
+
+
+---
+---
+
+## Learning Path 2: Implement an identity management solution using Microsoft Entra ID
+### Module 4: Implement and manage hybrid identity
+
+### Introduction
+  - Wat is hybrid identity
+    - Identity-oplossingen die zowel on-premises als cloud omgevingen overspannen
+    - Unified authentication/authorization, ongeacht waar de resource staat
+
+  - Waarom nodig
+    - Organisaties voegen cloud-apps toe naast bestaande on-prem apps -> worden "hybrid companies"
+    - On-prem AD alleen is niet genoeg -> uitbreiden met Entra ID nodig voor een volledige hybrid identity-oplossing
+
+  - Wat deze module behandelt
+    - Microsoft Entra Connect -> implementeren en beheren
+    - Password Hash Synchronization (PHS) en Pass-through Authentication (PTA) -> juiste authenticatiemethode kiezen
+    - Seamless SSO -> gebruikers toegang geven zonder herhaaldelijk in te loggen
+    - Federation (excl. handmatige AD FS deployments) -> koppeling met externe directories
+    - Entra Connect Health -> monitoring van de sync-oplossing
+    - Troubleshooting synchronization errors
+
+  - Learning objectives
+    - Plan, design, and implement Microsoft Entra Connect
+    - Manage Microsoft Entra Connect
+    - Implement and manage password hash synchronization (PHS)
+    - Implement and manage pass-through authentication (PTA)
+    - Implement and manage seamless single sign-on (seamless SSO)
+    - Implement and manage federation excluding manual AD FS deployments
+    - Troubleshoot synchronization errors
+    - Implement and manage Microsoft Entra Connect Health
+
+  - **Onthouden:** dit is een technisch zwaardere module dan de vorige; gaat over de mechanica van hoe on-prem en cloud identities gesynchroniseerd blijven, niet alleen over UI-configuratie zoals eerdere modules.
+
+---
+
+### Plan, design, and implement Microsoft Entra Connect
+
+- Wat is het
+  - Brug tussen on-prem AD en cloud Entra ID; synchroniseert identties, zorgt voor consistente identity op beide platforms
+  - Enables: PHS, PTA, seamless SSO
+
+- 5 capabilities
+  - Synchronization; users/groups/objects aanmaken + matchen tussen on-prem en cloud (incl. password hashes)
+  - PHS; sync van password hash naar Entra ID
+  - PTA; zelfde wachtwoord on-prem/cloud, zonder federatie-infrastructuur
+  - Federation integration; optioneel, voor AD FS-hybrid setups
+  - Health monitoring; via Entra Connect Health
+
+- Waarom gebruiken
+  - 1 identity voor cloud + on-prem resources, vervangt oudere sync-tools, inbegrepen in Entra ID subscription
+
+- Cloud authentication; Password Hash Synchronization (PHS)
+  - Simpelste optie; geen extra infrastructuur nodig
+  - Draait als onderdeel van Connect sync, elke 2 minuten
+  - Voordeel: hoge beschikbaarheid (cloud-schaal), werkt met Identity Protection (P2); leaked credentials report
+  - Nadeel: on-prem account-status wijzigingen (bv. account uitschakelen) worden niet direct doorgevoerd; pas na volgende sync cyclus
+  - Aanbevolen: tweede Connect-server in staging mode voor business continuity
+
+- Cloud authentication; Pass-through Authentication (PTA)
+  - Lightweight agent(s) op on-prem servers, valideert direct tegen on-prem AD; wachtwoord verlaat het netwerk niet
+  - Aanbevolen: 3 agents voor redundantie (agents mogen niet in perimeter network staan; hebben internet + domain controller toegang nodig)
+  - Voordeel: on-prem account policies direct afgedwongen (disabled/locked/expired/sign-in hours)
+  - PHS kan als backup dienen bij PTA-uitval; geen automatische failover, moet handmatig via Connect
+
+- Federated authentication (bv. AD FS)
+  - Entra ID geeft authenticatie door aan extern trusted systeem
+  - Nodig voor: smartcard/certificate auth, on-prem MFA-servers, third-party MFA, sAMAccountName-based sign-in (DOMAIN\username i.p.v. UPN)
+  - Meest complex, vereis eigen server-farm (perimeter + internal network), meer on-prem investering
+  - Beheer/onderhoud valt buiten Entra ID's controle
+
+- Aanbeveling; gebruik altijd PHS, ongeacht welke methode je kiest als primaire auth
+  - HA/disaster recovery; PHS is cloud-schaal, altijd beschikbaar; PTA/federation hangen af van on-prem infra die kan uitvallen
+  - On-prem outage survival; organisaties met PHS enabled konden binnen uren overschakelen bij on-prem uitval (bv. ransomware); zonder PHS duurde herstel weken
+  - Identity Protection; leaked credentials report vereist PHS, ongeacht primaire auth-methode
+
+- sourceAnchor (= immutableId)
+  - Attribute dat een object uniek en onveranderlijk koppelt tussen on-prem en cloud
+  - Gebruikt bij: nieuwe sync-server (her)bouwen, overstap van cloud-only naar sync, federatie-claims
+  - Regels: minder dan 60 karakters, geen speciale tekens, globally unique, string/integer/binary, niet gebaseerd op username (kan wijzigen), niet case-sensitive
+  - Default: objectGUID (single forest). Alternatief: bv. employeeID (mits nooit case-wijzigend)
+
+- UPN bij sign-in
+  - Entra ID gebruikt UPN om te authenticeren
+  - Moet: RFC 822-formaat (username@domain), suffix matcht een verified custom domain
+  - Express settings = default UPN attribute -> als dat niet klopt: Custom Installation nodig
+
+- Custom domain vereiste
+  - UPN-suffix moet een geverifieerd domain zijn, anders vervangt de tool het automatisch door contoso.onmicrosoft.com
+  - Non-routable domains (bv. contoso.local) kunnen niet geverifieerd worden -> Connect waarschuwt en adviseert custom settings i.p.v. express
+
+- Topologieën (herkennen, niet allemaal uit hoofd)
+  - Single forest + single tenant; meest voorkomend, enige optie bij express install
+  - Multiple forests + single tenant; 1 Connect-server moet alle forests bereiken
+  - Multiple forests, users in 1 directory; losse forests, unified GAL in Entra ID
+  - Full mesh + optional GALSync; two-way trusts, GALSync via FIM/MIM (niet via Connect zelf)
+  - Account-resource forest; resource forest bevat Exchange/Teams, account disabled maar mailbox gelinkt
+  - Staging server; leest overal, schrijft nergens, back-up/test rol
+  - Multiple Entra tenants; 1:1 relatie Connect-server -> tenant, tenants zijn geïsoleerd
+  - Elk object maar 1x per tenant; meerdre Connect-servers met mutually exclusive filtering (bv. per domain/OU)
+
+- Componenten van de sync engine
+  - Connector Space (CS); staging area per connected directory (elke forest + Entra ID heeft eigen CS)
+  - Metaverse (MV); centrale plek waar te syncen objects samenkomen, maar 1 MV totaal
+  - Sync rules; bepalen projectie/join naar MV + welke attributes gekopieerd/getransformeerd worden
+  - Run profiles; bundelen de sync-stappen tussen staging areas en directories
+
+- Microsoft Entra Connect Cloud Sync (alternatief/aanvulling)
+  - Gebruikt lightweight cloud provisioning agent i.p.v. de volledige Connect-applicatie
+  - Voordelen:
+    - Werkt met multi-forest, disconnected AD-omgevingen (bv. na overname, geïsoleerde forests)
+    - Simpele installatie; agent is puur een brug, config zit in de cloud
+    - Meerdere agents mogelijk voor high availability
+    - Ondersteunt groups tot 50.000 members (aanbevolen: alleen OU-scoping filter gebruiken)
+  - Kan naast reguliere Connect sync gebruikt worden
+  - Sync-interval: ook elke 2 minuten
+
+- Onthouden voor examen
+  - PHS = simpel + altijd als backup aan
+  - PTA = agents nodig, directe policy-enforcement
+  - Federation = complex, voor geavanceerde auth-eisen
+  - sourceAnchor = default objectGUID, nooit gebaseerd op naam
+  - Cloud Sync = lightweight alternatief voor multi-forest/disconnected scenario's
+
+
+
+
+
+
+
+
 
 
 
