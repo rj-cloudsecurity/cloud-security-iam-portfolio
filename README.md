@@ -136,7 +136,10 @@ Planned:
 
 ### 04 — SC-300: Identity and Access Administrator Associate
 **Notes**
-- [LP1](/04-sc300/notes/lp1-explore-identity-in-microsoft-entra-id.md)
+- [LP1 Explore identity in Microsoft Entra ID](/04-sc300/notes/lp1-explore-identity-in-microsoft-entra-id.md)
+- [LP2 Implement an identity management solution using Mircosoft Entra ID](/04-sc300/notes/lp2-implement-an-identity-management-solution-using-microsoft-entra-id.md)
+- [LP3]()
+- [LP4]()
 
 **Exam Prep**
 - [Exam Preparation](/04-sc300/exam-prep/sc300-exam-prep.md) — Progress, scores and study approach
