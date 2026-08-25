@@ -25,7 +25,6 @@
  
 ---
 
-
 ### What is Microsoft Entra multifactor authentication?
 
 - Andere features die password-based aanvallen tegengaan (herhaling/context)
@@ -115,7 +114,6 @@
  
 ---
 
-
 ### Exercise - explore dynamic groups
   - [04-sc300/labs/12-enable-microsoft-entra-multifactor-authentication](../../04-sc300/labs/12-enable-microsoft-entra-multifactor-authentication.md)
 
@@ -201,7 +199,438 @@
   - Voice call werkt niet op Free/trial tier
   - Windows Hello for Business, FIDO2 en Microsoft Authenticator zijn de passwordless opties
 
+---
 
+## Learning Path 2: Implement an authentication and access management solution
+### Module 2: Manage user authentication
+
+### Introduction
+
+- Wat authentication in Entra ID inhoudt
+  - Verifieren van credentials bij inloggen op device, app of service
+  - Meer dan alleen username en password checken
+
+- Componenten van Entra authentication (examen kernstof)
+  - Self service password reset
+  - Multifactor authentication
+  - Hybrid integratie om password changes terug te schrijven naar on premises omgeving
+  - Hybrid integratie om password protection policies af te dwingen voor on premises omgeving
+  - Passwordless authentication
+  - Authentication naar virtual machines
+
+- Wat deze module behandelt
+  - Plannen, implementeren en beheren van user authentication in Entra ID
+
+- Learning objectives
+  - Administer authentication methods (FIDO2/Passwordless)
+  - Implement an authentication solution based on Windows Hello for Business
+  - Configure and deploy self service password reset
+  - Deploy and manage password protection and smart lockouts
+  - Implement Kerberos and certificate based authentication
+  - Configure Microsoft Entra user authentication to virtual machines
+
+---
+
+### Administer FIDO2 and passwordless authentication methods
+
+- Context
+  - Historisch: username en password meest voorkomende manier van inloggen
+  - Modern: password moet aangevuld of vervangen worden door veiligere methodes
+  - Passwordless (Windows Hello, FIDO2, Microsoft Authenticator) is het veiligst
+  - MFA voegt extra beveiliging toe naast alleen een password: push notification, code, SMS, telefoontje
+
+- Onboarding aanbeveling
+  - Combined security information registration inschakelen, MFA en SSPR tegelijk laten registreren
+  - Meerdere authentication methods laten registreren voor resiliency, backup als 1 methode niet beschikbaar is
+
+- Security, usability en availability per methode (examen kernstof)
+
+| Methode | Security | Usability | Availability |
+|---|---|---|---|
+| Windows Hello for Business | Hoog | Hoog | Hoog |
+| Microsoft Authenticator app | Hoog | Hoog | Hoog |
+| FIDO2 security key | Hoog | Hoog | Hoog |
+| OATH hardware tokens (preview) | Medium | Medium | Hoog |
+| OATH software tokens | Medium | Medium | Hoog |
+| SMS | Medium | Hoog | Medium |
+| Voice | Medium | Medium | Medium |
+| Password | Laag | Hoog | Hoog |
+
+- Tip
+  - Microsoft Authenticator app aanbevolen voor flexibiliteit en usability; ondersteunt passwordless, MFA push notifications en OATH codes
+
+- Primaire vs secundaire authenticatie (examen kernstof)
+
+| Methode | Primair | Secundair |
+|---|---|---|
+| Windows Hello for Business | Ja | MFA |
+| Microsoft Authenticator app | Ja (preview) | MFA en SSPR |
+| FIDO2 security key | Ja | MFA |
+| OATH hardware tokens (preview) | Nee | MFA en SSPR |
+| OATH software tokens | Nee | MFA en SSPR |
+| SMS | Ja (preview) | MFA en SSPR |
+| Voice call | Nee | MFA en SSPR |
+| Password | Ja | Geen |
+
+- Belangrijk
+  - Password kan niet uitgeschakeld worden als authentication method
+  - Als password de primaire factor is, altijd MFA toevoegen voor extra security
+
+- Methodes voor specifieke scenario's
+  - App passwords; voor oude apps zonder modern authentication, per user configureerbaar
+  - Security questions; alleen SSPR
+  - Email address; alleen SSPR
+
+- Wat is FIDO2
+  - FIDO Alliance promoot open authentication specs, wil password gebruik verminderen
+  - FIDO2 is de nieuwste specificatie, incorporeert WebAuthn
+  - Meestal USB, ook Bluetooth of NFC mogelijk
+  - Werkt bij sign in op Entra ID of hybrid Entra joined Windows 10/11 devices, geeft SSO naar cloud en on premises resources, werkt ook in supported browsers
+  - Geschikt voor security sensitive organisatis of medewerkers die geen telefoon willen/kunnen gebruiken als 2e factor
+  - Unphishable, passwordless, elke form factor mogelijk
+  - Werkt zonder username of password via externe security key of platform key ingebouwd in een device
+
+- FIDO2 inschakelen (stappen)
+  1. Microsoft Entra admin center
+  2. Protection > Authentication methods > Authentication method policy
+  3. Bij FIDO2 Security Key: Enable Yes/No, Target All users of Select users
+  4. Save
+
+- User registratie van FIDO2 key (stappen)
+  1. myprofile.microsoft.com > Security Info
+  2. Als user al 1 MFA methode heeft: direct FIDO2 key registreren. Zo niet: eerst een methode toevoegen
+  3. Add method > Security key > USB of NFC device
+  4. PIN aanmaken/invoeren + gesture (biometrisch of touch) op de key
+  5. Naam geven aan de key, Next, Done
+
+- Sign in met passwordless credential
+  - Werkt in supported browsers op Windows 10 versie 1903 of hoger, of Windows 11
+
+- Prerequisites voor cloud only deployment
+  - Windows 10 versie 1511 of later, of Windows 11
+  - Microsoft Azure account
+  - Microsoft Entra ID
+  - Multifactor authentication
+  - Modern Management (optioneel: Intune of andere MDM)
+  - Entra ID Premium subscription (optioneel, alleen nodig voor automatische MDM enrollment)
+
+- Onthouden voor examen
+  - Windows Hello for Business, Microsoft Authenticator app en FIDO2 security key scoren overal hoog (security, usability, availability)
+  - Password is de enige methode die je nooit kunt uitschakelen
+  - OATH tokens en Voice call kunnen alleen als secundaire factor, nooit als primaire authenticatie
+  - FIDO2 en Authenticator app zijn beide "unphishable" doordat er geen wachtwoord getypt wordt dat onderschept kan worden
+
+---
+
+### Explore Authenticator app and OATH tokens
+
+- Microsoft Authenticator app algemeen
+  - Extra beveiligingslaag voor Entra ID werk/school account of Microsoft account
+  - Beschikbaar voor Android en iOS
+  - Kan gebruikt worden voor passwordless sign in, of als extra verificatie bij SSPR of MFA
+  - Kan zowel notification als verification code aanbieden; als beide enabled zijn kan de user zelf kiezen welke methode
+
+- Hoe de app werkt
+  - Push notification naar smartphone/tablet, user kiest Verify of Deny
+  - Voorkomt unauthorized access en fraudulente transacties, geen password nodig bij sign in
+  - Kan ook als software token dienen: OATH verification code die de user na username/password invoert als 2e factor
+  - Users kunnen tot 5 OATH hardware tokens of authenticator apps tegelijk geconfigureerd hebben
+
+- OATH TOTP (Time based One Time Password)
+  - Open standaard voor het genereren van OTP codes
+  - Kan via software of hardware geimplementeerd worden
+  - Entra ID ondersteunt geen OATH HOTP, een ander soort code generatie standaard
+  - Software OATH tokens zijn meestal apps zoals Microsoft Authenticator of andere authenticator apps
+  - Entra ID genereert de secret key/seed die in de app wordt ingevoerd om elke OTP te genereren
+  - Authenticator app genereert automatisch codes ook bij push notification setup, als backup wanneer een device geen connectivity heeft
+  - Third party apps die OATH TOTP gebruiken kunnen ook gebruikt worden
+
+- Onthouden voor examen
+  - Entra ID ondersteunt OATH TOTP, niet OATH HOTP
+  - Authenticator app kan zowel push notification als OATH code genereren, user kiest zelf welke
+  - Max 5 OATH hardware tokens of authenticator apps per user
+
+---
+
+### Implement an authentication solution based on Windows Hello for Business
+
+- Wat het is
+  - Vervangt passwords door strong two factor authentication op PC's en mobiele devices
+  - Nieuw type user credential, gebonden aan een device, gebruikt biometrisch of PIN
+  - Werkt met Active Directory of Entra ID accounts
+
+- Welke password problemen het oplost
+  - Sterke wachtwoorden zijn moeilijk te onthouden, users hergebruiken wachtwoorden op meerdere sites
+  - Server breaches kunnen symmetrische network credentials (wachtwoorden) blootleggen
+  - Wachtwoorden zijn gevoelig voor replay attacks
+  - Users kunnen wachtwoorden per ongeluk blootgeven via phishing
+
+- Hoe het werkt, kernpunten 
+  - Credentials gebaseerd op certificaat of asymmetrish key pair, gebonden aan het device; ook de token die je krijgt is device bound
+  - Identity provider (AD, Entra ID, of Microsoft account) valideert identity en koppelt de Windows Hello public key aan een user account tijdens registratie
+  - Keys gegenereerd in hardware (TPM 1.2 of 2.0 voor enterprises, TPM 2.0 voor consumers) of software, afhankelijk van policy
+  - Two factor authentication = key/certificaat gebonden aan device + iets wat de persoon weet (PIN) of is (biometrisch)
+  - Gesture roamt niet tussen devices, wordt niet gedeeld met de server
+  - Biometrische templates blijven lokaal op het device opgeslagen, PIN wordt nooit opgeslagen of gedeeld
+  - Private key verlaat het device nooit bij gebruik van TPM; de server heeft alleen de public key, gekoppeld tijdens registratie
+  - PIN invoer of biometrisch gesture triggert het device om met de private key data te signeren die naar de identity provider gaat; die verifieert en authenticeert de user
+  - Personal (Microsoft account) en corporate (AD of Entra ID) accounts gebruiken 1 container voor keys, gescheiden per identity provider domain voor privacy
+  - Certificate private keys kunnen beschermd worden door de Windows Hello container en de gesture zelf
+
+- Security groups voor deployment
+  - Windows Server 2016 domain controllers aanwezig: gebruik de bestaande KeyAdmins group, sla KeyCredential Admins group aanmaken over
+  - Zo niet: maak de KeyCredential Admins group zelf aan
+
+- KeyCredential Admins group aanmaken
+  - Doel: Entra Connect kan public keys op user objects toevoegen/verwijderen via deze group permissions
+  - Stappen: inloggen als Domain Admin equivalent op domain controller of management workstation, Active Directory Users and Computers openen, View > Advanced Features, Users container > New > Group, naam KeyCredential Admins, OK
+
+- Windows Hello for Business Users group aanmaken
+  - Doel: gefaseerde uitrol vereenvoudigen, Group Policy en Certificate template permissions toewijzen aan deze group
+  - Zelfde stappen als hierboven, naam Windows Hello for Business Users
+
+- Microsoft Pluton Security Processor
+  - TPM (Trusted Platform Module) is normaal een apart chip naast de CPU, bewaart keys en integriteitsmetingen, al 10+ jaar gebruikt (o.a. Windows Hello, BitLocker)
+  - Aanvallers richten zich steeds vaker op de bus interface tussen CPU en TPM, vooral bij fysieke toegang tot een PC
+  - Pluton bouwt security direct in de CPU, elimineert die aanvalbare bus interface
+  - Pluton emuleert een TPM, werkt met bestaande TPM specs en APIs, dus bestaande TPM afhankelijke features (BitLocker, System Guard) werken meteen
+  - Beschermt credentials, identities, encryption keys en persoonlijke data; niet te verwijderen zelfs met malware of volledige fysieke toegang
+  - Gebouwd samen met AMD, Intel, Qualcomm en anderen
+  - Gebruikt Security Hardware Cryptographic Key (SHACK)
+  - Vervanging/upgrade van de TPM chip, gebaseerd op technologie uit Azure Sphere en Xbox security
+
+- Onthouden voor examen
+  - Windows Hello for Business is device bound, private key verlaat het device nooit
+  - PIN en biometrische data blijven altijd lokaal, worden nooit naar de server gestuurd
+  - Pluton lost het risico op van aanvallen op de communicatie tussen CPU en TPM, door security in de CPU zelf te bouwen
+
+---
+
+### Exercise: Configure and Deploy Self-Service Password Reset
+  - [04-sc300/labs/13-configure-and-deploy-self-service-password-reset](../../04-sc300/labs/13-configure-and-deploy-self-service-password-reset.md)
+
+---
+
+### Deploy and manage password protection
+
+- Wat het is
+  - Voorkomt zwakke wachtwoorden (bv. schoolnaam, sportteam, bekende persoon) via een global en custom banned password list
+  - Password change request faalt bij een match met de banned list
+
+- Ontwerpprincipes (examen kernstof)
+  - Domain controllers communiceren nooit direct met internet
+  - Geen nieuwe netwerkpoorten geopend op DC's (Domain Controller)
+  - Geen AD DS schema changes nodig
+  - Geen minimum AD DS domain of forest functional level vereist
+  - Geen accounts nodig in de beschermde AD DS domains
+  - User clear text passwords verlaten de DC nooit
+  - Niet afhankelijk van andere Entra features, bv. PHS is niet vereist
+  - Incrementele uitrol mogelijk, policy wordt alleen afgedwongen waar de DC Agent geinstalleerd is
+
+- Hoe het werkt (kort)
+  - Proxy service en DC Agent maken elk een serviceConnectionPoint object aan in Active Directory
+  - DC Agent zoekt een proxy service, vraagt daar een password policy op, proxy haalt die op bij Microsoft Entra
+  - Policy wordt lokaal opgeslagen in de sysvol folder, DC Agent checkt elk uur of de policy ouder dan 1 uur is en ververst zo nodig
+  - Bij een password change gebruikt de DC de gecachte policy om te accepteren of te weigeren
+
+- Deployment strategie
+  - Start altijd in Audit mode (default); zwakke wachtwoorden worden gelogd maar niet geblokkeerd
+  - Tijdens audit periode: processen verbeteren, users informeren, minstens 1 DC promotion en 1 DC demotion testen
+  - Na een redelijke audit periode: omzetten naar Enforce mode
+  - Belangrijk: wachtwoorden die al bestonden voor deployment worden nooit met terugwerkende kracht gevalideerd, tot ze een keer gewijzigd worden. Accounts met "password never expires" blijven hier permanent buiten
+
+- Multiple forest overwegingen
+  - Geen extra vereisten voor multi forest deployment
+  - Elke forest apart geconfigureerd, proxy ondersteunt alleen DC's uit de eigen forest
+  - Forests weten niets van elkaars password protection configuratie, ook niet bij AD trust
+
+- Read only domain controllers (RODC's)
+  - Password events op RODC's worden doorgestuurd naar writable DC's
+  - DC Agent hoeft niet op RODC's geinstalleerd te worden
+  - Proxy service draaien op een RODC wordt niet ondersteund
+
+- High availability
+  - DC Agent gebruikt round robin tussen proxy servers, slaat niet reagerende proxies over
+  - 2 proxy servers is meestal genoeg voor de meeste omgevingen
+  - DC Agent houdt een lokale cache van de laatste policy aan, blijft die afdwingen ook als alle proxies onbereikbaar zijn
+  - Policy updates gebeuren meestal maar eens in de paar dagen, dus korte proxy uitval is geen probleem
+
+- Licensing requirements (examen kernstof)
+
+| Users | Global banned password list | Custom banned password list |
+|---|---|---|
+| Cloud only users | Entra Free | Entra Premium P1 of P2 |
+| Users gesynchroniseerd vanuit on premises AD DS | Entra Premium P1 of P2 | Entra Premium P1 of P2 |
+
+- Kernvereisten voor deployment
+  - Domain Admin acount nodig om de forest te registreren bij Entra
+  - Key Distribution Service moet enabled zijn op Windows Server 2012 DC's
+  - Netwerkconnectivteit tussen DC en proxy server nodig (RPC endpoint mapper poort 135 plus RPC server poort)
+  - Proxy machines hebben toegang nodig tot login.microsoftonline.com en enterpriseregistration.windows.net
+
+- DC Agent vereisten
+  - Windows Server 2012 R2 of hoger
+  - Geen minimum domain of forest functional level nodig
+  - .NET 4.7.2 vereist
+  - Domain moet DFSR gebruiken voor sysvol replicatie
+
+- Proxy service vereisten
+  - Windows Server 2012 R2 of hoger, proxy deployment is verplicht ook al heeft de DC zelf internet toegang
+  - .NET 4.7.2 vereist
+  - DC's moeten kunnen inloggen op de proxy via "Access this computer from the network" recht
+  - Uitgaand TLS 1.2 HTTP verkeer moet toegestaan zijn
+  - Global Administrator nodig voor de eerste proxy registratie in een tenant, daarna volstaat Security Administrator
+  - Waarschuwing: proxy service en Application Proxy gebruiken verschillende versies van de Connect Agent Updater service, nooit samen op dezelfde machine installeren
+
+- Installatie en upgrades (kort, praktisch)
+  - 2 installers nodig: DC agent (msi) en proxy (exe)
+  - DC Agent installatie vereist altijd een reboot, ook bij upgrade
+  - Proxy upgrade vereist geen reboot, ondersteunt automatische upgrade via de Connect Agent Updater service
+  - DC Agent kan alvast geinstalleerd worden op een machine die nog geen DC is, blijft dan inactief tot promotie
+
+- Onthouden voor examen
+  - Global banned list werkt al op Entra Free, custom banned list vereist altijd P1 of P2
+  - Gesynchroniseerde on premises users vereisen altijd P1 of P2, ongeacht welke lijst
+  - Audit mode eerst, dan pas Enforce mode
+  - Bestaande wachtwoorden worden nooit met terugwerkende kracht afgekeurd
+
+---
+
+### Configure smart lockout thresholds
+
+- Wat het is
+  - Beschermt tegen brute force en password guessing aanvallen
+  - Onderscheidt sign ins van valide users versus aanvallers/onbekende bronnen
+  - Aanvallers worden gelockt, echte users blijven toegang houden
+
+- Hoe het werkt (default settings)
+  - Lockt account 1 minuut na 10 mislukte pogingen
+  - Bij elke volgende mislukte poging: opnieuw locken, eerst 1 minuut, daarna oplopend
+  - Exacte groeisnelheid van de lockout periode wordt niet openbaar gemaakt, om workarounds door aanvallers te bemoeilijken
+  - Tracked de laatste 3 foute password hashes; hetzelfde foute wachtwoord meerdere keren invoeren verhoogt de lockout counter niet
+
+- Federated deployments
+  - AD FS 2016 en 2019 kunnen vergelijkbare bescheming krijgen via AD FS Extranet Lockout en Extranet Smart Lockout
+
+- Licentie (examen relevant)
+  - Smart lockout staat altijd aan, voor alle Entra ID klanten, met default instellingen
+  - Custom instellingen (eigen waarden) vereisen Entra ID Premium P1 of hoger
+
+- Belangrijk: geen garantie
+  - Smart lockout garandeert niet dat een echte user nooit gelockt wordt, probeert dit wel zoveel mogelijk te voorkomen
+  - Elk Entra datacenter trackt lockouts onafhankelijk; user heeft in theorie threshold_limit maal datacenter_count aan pogingen als alle datacenters geraakt worden
+  - Onderscheid tussen bekende en onbekende locatie, met elk hun eigen lockout counter
+
+- Hybrid integratie (PHS of PTA)
+  - Smart lockout policies in Entra ID kunnen aanvallen filteren voordat ze on premises AD DS bereiken
+  - Beschermt on premises accounts tegen lockout door aanvallers
+
+- Configuratie regels bij pass-through authentication (examen kernstof)
+  - Entra lockout threshold moet lager zijn dan AD DS lockout threshold; AD DS threshold minstens 2 tot 3 keer groter dan de Entra threshold
+  - Entra lockout duration moet langer zijn dan AD DS lockout duration; Entra duration in seconden, AD duration in minuten
+  - Voorbeeld: Entra duration 120 seconden (2 minuten), AD DS duration 60 seconden (1 minuut). Entra threshold 5, AD DS threshold 10
+  - Doel van deze configuratie: smart lockout vangt brute force aanvallen op voordat on premises AD accounts zelf gelockt raken
+
+- Onthouden voor examen
+  - Default: 10 pogingen, 1 minuut lockout, daarna oplopend
+  - Custom smart lockout settings vereisen P1 of hoger
+  - Bij PTA: Entra threshold lager dan AD threshold, Entra duration langer dan AD duration; dit zorgt dat Entra als eerste linie van verdediging werkt
+
+---
+
+### Exercise: Configure and Deploy Self-Service Password Reset
+  - [04-sc300/labs/14-manage-microsoft-entra -mart-lockout-values](../../04-sc300/labs/14-manage-microsoft-entra-mart-lockout-values.md)
+
+---
+
+### Implement Kerberos and certificate-based authentication in Microsoft Entra ID
+
+- Context
+  - SSO voor on premises apps via Application Proxy
+  - Apps zijn beveiligd met integrated Windows authentication, hebben een Kerberos ticket nodig
+  - Application Proxy gebruikt Kerberos Constrained Delegation (KCD) om dit te ondersteunen
+  - Application Proxy connectors krijgen permissie in Active Directory om users te impersoneren, zodat ze namens de user tokens kunnen versturen en ontvangen
+
+- Kerberos authentication flow (examen kernstof, stappen)
+  1. User voert de URL in om via Application Proxy bij de on premises app te komen
+  2. Application Proxy stuurt het verzoek naar Entra authentication services voor preauthenticatie; Entra ID past policies toe (bv. MFA); bij succes maakt Entra ID een token en stuurt die naar de user
+  3. User geeft de token door aan Application Proxy
+  4. Application Proxy valideert de token en haalt de UPN (User Principal Name) eruit; de Connector haalt UPN en SPN (Service Principal Name) op via een dubbel geauthenticeerd secure channel
+  5. Connector doet KCD onderhandeling met on premises AD, impersoneert de user om een Kerberos token voor de app te krijgen
+  6. Active Directory stuurt het Kerberos token voor de app naar de Connector
+  7. Connector stuurt het originele verzoek naar de app server, met het Kerberos token van AD
+  8. App stuurt de response terug naar de Connector, die teruggaat naar Application Proxy en uiteindelijk naar de user
+
+- Vereisten om de omgeving klaar te maken (examen relevant)
+  - Apps (bv. SharePoint) moeten integrated Windows authentication gebruiken
+  - Alle apps moeten een Service Principal Name (SPN) hebben
+  - De server met de Connector en de server met de app moeten beide domain joined zijn
+  - De Connector server moet het TokenGroupsGlobalAndUniversal attribuut van users kunnen lezen
+
+- Onthouden voor examen
+  - KCD (Kerberos Constrained Delegation) is de kern technologie die dit mogelijk maakt
+  - Connector impersoneert de user om namens hen een Kerberos token te krijgen, niet de user zelf die rechtstreeks met AD praat
+  - Preauthenticatie en policies (bv. MFA) gebeuren altijd eerst via Entra ID, voordat de Kerberos flow met on premises AD start
+
+---
+
+### Configure Microsoft Entra user authentication for virtual machines
+
+- Wat het is
+  - Entra ID integreren als core authentication platform voor Windows en Linux VM's in Azure
+  - Ondersteund voor: Windows Server 2022, 2025 of later met Desktop Experience, Windows 11 24H2 of later, Linux VM's
+  - Centraal RBAC en Conditional Access policies toepassen om toegang tot VM's toe te staan of te blokkeren
+
+- Voordelen
+  - Inloggen op Windows VM's met Entra credentials
+  - Minder afhankelijkheid van local administrator accounts
+  - Password complexity en lifetime policies via Entra ID zelf
+  - Conditional Access mogelijk voor MFA, risky user, sign in risk, etc.
+
+- Windows VM configureren (2 stappen)
+  1. Microsoft Entra sign in optie inschakelen voor de VM
+  2. Azure role assignments configureren voor users die mogen inloggen op de VM
+
+- Linux VM configureren (voorbeeld met Ubuntu Server 18.04 LTS)
+  1. Azure portal > + Create a resource
+  2. Create onder Ubuntu Server 18.04 LTS
+  3. Management tab > vinkje bij "Login with Microsoft Entra ID"
+  4. System assigned managed identity aanvinken
+  5. VM setup afronden
+
+- Onthouden voor examen
+  - Werkt voor zowel Windows als Linux VM's
+  - Vereist naast het inschakelen van Entra sign in ook een Azure role assignment voor wie mag inloggen
+  - System assigned managed identity is een vereiste stap bij Linux VM's
+ 
+---
+
+## Module Assessment — Module 2 (Manage user authentication)
+
+**Score:** 100%
+
+### Vraag 1
+Which of these authentication methods offers the highest level of security?
+
+- SMS verification
+- ✅ Microsoft Authenticator App
+- Voice call verification
+
+### Vraag 2
+In the answer list, which is a security group used by Hybrid Windows Hello for Business when no Windows Server 2016 or later domain controllers are deployed?
+
+- ✅ KeyCredential Admins
+- Enterprise Key Admins
+- Windows Authorization Access Group
+
+### Vraag 3
+Which is the recommended mode to start with when deploying Microsoft Entra Password Protection?
+
+- ✅ Audit mode
+- None
+- Enforced mode
+
+---
 
 
 
