@@ -691,7 +691,7 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
     - Legacy authentication = requests van clients zonder modern authentication (bv. Office 2010) of via mail protocollen zoals IMAP, SMTP, POP3
     - Ondersteunt geen MFA, ook niet als een MFA policy actief is; aanvallers kunnen legacy protocollen gebruiken om MFA te omzeilen
     - Meeste succesvolle aanvallen komen via legacy authentication
-    - Security defaults blokkeert alle legacy authentication requests, incl. Exchange Active Sync basic authentication
+    - Security defaults blokeert alle legacy authentication requests, incl. Exchange Active Sync basic authentication
 
 - Onthouden voor examen
   - Security defaults zijn gratis en altijd beschikbaar, Conditional Access vereist P1
@@ -706,11 +706,198 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
 
 ---
 
+### Plan Conditional Access policies
 
+- Waarom plannen belangrijk is
+  - Users benaderen resources overal, met verschillende devices en apps
+  - Focus niet alleen op wie toegang heeft, maar ook waar, met welk device, tot welke resource
 
+- Wat Conditional Access (CA) doet
+  - Analyseert signalen (user, device, locatie) om toegang te automatiseren en policies af te dwingen
+  - Kan bv. MFA vereisen wanneer nodig, en users met rust laten wanneer niet nodig
+  - Biedt meer granulariteit dan security defaults
 
+- Voordelen (examen kernstof)
+  - Productiviteit; alleen onderbreken met MFA als signalen dat rechtvaardigen
+  - Risk management; automatische detectie en remediatie/blokkade van risky sign ins, vooral in combinatie met Identity Protection
+  - Compliance en governance; audit van app toegang, terms of use, restricties op basis van compliance policies
+  - Kostenbeheer; minder afhankelijkheid van custom of on premises CA oplossingen
+  - Zero Trust; helpt richting een zero trust omgeving
 
+- Structuur van een CA policy (IF THEN, examen kernstof)
+  - Assignments; users/groups, cloud apps/acties, conditions waaronder de policy geldt
+  - Access controls; grant of block toegang, bv. MFA vereisen, compliant device, hybrid joined device
+  - Session controls; app enforced permissions, Conditional Access App Control
 
+- Vragen die je jezelf stelt bij het opzetten
+  - Users and Groups; wie zit in scope, alle users, specifieke groep, directory roles, external users
+  - Cloud apps or actions; welke apps, welke user acties
+  - Conditions; welke device platforms, welke trusted locations
+  - Access controls; MFA, compliant devices, hybrid joined devices
+  - Session controls; app enforced permissions, App Control
+
+- Agent identities en CA
+  - Met Microsoft Entra Agent ID zijn agent identities nu first class principals in Entra ID
+  - Kunnen net als users of service principals getarget worden door CA policies
+  - Zelfde Zero Trust controls toepasbaar op AI agents als op mensen
+  - Behandel agent identities zoals workload identities: policies scopen per identity type, juiste access controls afdwingen, emergency/trusted agents uitzonderen waar nodig
+
+- Access token issuance
+  - Access tokens laten clients veilig protected web APIs benaderen, gebruikt voor authenticatie en autorisatie
+  - Format niet vastgelegd door OAuth spec, varieert per identity provider
+  - Belangrijk: als geen assignment van toepassing is en geen CA policy van kracht is, wordt standaard een token uitgegeven
+  - Voorbeeld: policy zegt IF user in Group 1, THEN MFA vereist voor App 1. Een user buiten Group 1 die de app benadert voldoet niet aan de IF conditie, dus krijgt gewoon een token; om die users echt te blokkeren is een aparte policy nodig
+
+- Best practices
+
+- Emergency access accounts
+  - Verkeerd geconfigureerde policy kan de organisatie buitensluiten van de Azure portal
+  - Mitigatie: minstens 2 emergency access accounts aanmaken
+
+- Report only mode
+  - Laat je CA policies evalueren voordat ze echt geactiveerd worden
+  - Handig bij impactvolle wijzigingen: legacy authentication blokkeren, MFA vereisen, sign in risk policies
+
+- Landen uitsluiten waar nooit sign ins vandaan komen
+  - Named location aanmaken met alle onverwachte landen
+  - Policy maken die sign in vanuit die named location blokkeert voor alle apps
+  - Admins altijd uitzonderen van deze policy
+
+- Veelvoorkomende policy types
+  - MFA vereisen; voor admins, specifieke apps, alle users, of onvertrouwde netwerklocaties
+  - Reageren op mogelijk gecompromitteerde accounts; 3 default policies: alle users MFA laten registreren, password change vereisen bij high risk users, MFA vereisen bij medium/high sign in risk
+  - Managed devices vereisen; voor resources die niet vanaf onbekende devices benaderd mogen worden
+  - Approved client applications vereisen; relevant bij BYOD, alleen data beschermen i.p.v. het hele device
+  - Access blokkeren; overschrijft alle andere assignments, kan hele organisatie blokkeren. Voorbeeld: app migratie naar Entra ID nog niet klaar voor gebruik. Let op: bij een blokkerende policy altijd emergency accounts en overweeg alle admins uit te sluiten
+
+- Policies bouwen en testen
+  - Elke fase van deployment evalueren of resultaten kloppen
+  - Gefaseerde uitrol: communiceren naar users, starten met kleine groep, admins blijven uitgesloten tijdens uitbreiding, pas na grondig testen toepassen op alle users
+  - Altijd minstens 1 admin account behouden waar de policy niet op van toepassing is
+
+- Test users aanmaken
+  - Set van test users die de productieomgeving weerspiegelen
+  - Sommige organisaties gebruikn aparte test tenants, maar dat maakt het moeilijk om alle condities/apps volledig te simuleren
+
+- Testplan opstellen
+  - Vergelijking tussen verwacht en daadwerkelijk resultaat, altijd vooraf een verwachting vastleggen
+  - Voorbeelden: MFA vereisen op trusted locatie (geen MFA prompt) vs niet trusted locatie (wel MFA prompt), Global Admin altijd MFA, risky sign in via unapproved browser triggert MFA, managed vs unmanaged device (toegang wel/niet), risky sign in met gecompromitteerde credentials triggert
+
+---
+
+### Implement Conditional Access policy controls and assignments
+
+- Wat het is
+  - Geavanceerde Entra ID capability voor gedetailleerde policies wie toegang krijgt
+  - Baseert beslissingen op group membership, device compliance, netwerk locatie, sign in risk
+
+- Basis stappen om een CA policy aan te maken
+  1. Entra admin center, minimaal Conditional Access Administrator
+  2. Protection > Conditional Access > + New policy
+  3. Naam geven
+  4. Assignments configureren; users/groups/roles
+  5. Target resources configureren; cloud apps of user actions
+  6. Conditions toevoegen; sign in risk, device platform, locatie
+  7. Access controls; Grant of Session controls
+  8. Enable policy op Report only zetten om eerst te testen, dan Create
+  - Aanbevolen: altijd starten in report only mode, sign in logs monitoren voordat je op On zet
+
+- Sign in risk based Conditional Access
+  - Sign in risk = kans dat een authenticatie poging niet door de echte owner is gedaan
+  - Vereist Entra ID Premium P2, gebruikt Identity Protection sign in risk detections
+  - Toewijsbaar via Conditional Access zelf of via Identity Protection
+
+- User risk based Conditional Access
+  - Microsoft vindt gelekte username/password paren via onderzoekers, wetshandhaving, security teams
+  - Vereist ook P2, gebruikt Identity Protection user risk detections
+  - Zelfde toewijs opties als sign in risk
+
+- Securing security info registration
+  - User actions in CA policy kunnen beperken wanneer/hoe users MFA en SSPR registreren
+  - Preview feature, vereist combined registration preview enabled
+  - Voorbeeld: alleen registratie toestaan vanaf trusted network location
+
+- Voorbeeld: registratie alleen vanaf trusted locatie (stappen)
+  1. Protection > Conditional Access > + Create new policy
+  2. Naam geven
+  3. Assignments > Users and groups > include gewenste users/groups, exclude emergency/break glass accounts
+  4. Cloud apps or actions > User actions > Register security information
+  5. Conditions > Locations > Yes > Include Any location > Exclude All trusted locations
+  6. Conditions > Client apps (Preview) > Yes
+  7. Access controls > Grant > Block access
+  8. Enable policy On > Save
+
+- Let op: agent identities i.p.v. users
+  - Als je AI agents target in plaats van users, kies je Workload identities bij Assignments en seletceer je de agent identity via Microsoft Entra Agent ID
+  - Rest van de policy structuur blijft hetzelfde
+
+- Alternatief voor locatie: device state
+  - Conditions > Device state (Preview) > Yes > Include All device state > Exclude Hybrid Entra joined en/of marked as compliant
+
+- Block access by location
+  - Locatie conditie gebruikt om toegang te blokkeren vanuit landen/regio's waar nooit legitiem verkeer vandaan komt
+
+- Named location aanmaken (stappen)
+  1. Protection > Conditional Access > Named locations > New location
+  2. Naam geven
+  3. IP ranges of Countries/Regions kiezen, evt. unknown areas meenemen
+  4. Save
+
+- Policy aanmaken om die locatie te blokkeren (stappen)
+  1. Conditional Access > + Create new policy, naam geven
+  2. Assignments > Users and groups > Include All users, Exclude emergency accounts
+  3. Cloud apps or actions > Include All cloud apps
+  4. Conditions > Location > Yes > Include Selected locations > de geblokkeerde locatie kiezen
+  5. Access controls > Block Access
+  6. Enable policy On > Create
+
+- Compliant devices vereisen
+  - Vereist Intune, compliance criteria zoals PIN vereist, encryption vereist, min/max OS versie, geen jailbreak/root
+  - Compliance info gaat naar Entra ID, CA gebruikt dit om te grant/blocken
+
+- Policy voor compliant devices (stappen)
+  1. Conditional Access > + Create new policy, naam geven
+  2. Assignments > Users and groups > Include All users, Exclude emergency accounts
+  3. Cloud apps or actions > Include All cloud apps, evt. specifieke apps excluden
+  4. Conditions > Client apps (Preview) > defaults laten staan
+  5. Access controls > Grant > Require device to be marked as compliant
+  6. Enable policy On > Create
+
+- Belangrijk
+  - Vereisen van compliant device blokkeert geen Intune enrollment zelf, ook al staat de policy op All users/All cloud apps
+
+- Bekend gedrag
+  - Op Windows 7, iOS, Android, macOS en sommige third party browsers gebruikt Entra ID een client certificate voor device identificatie
+  - Bij eerste sign in via browser moet de user dit certificate zelf selecteren
+
+- Block access (all)
+  - Optie voor organisaties met conservatieve cloud migratie aanpak
+  - Waarschuwing: misconfiguratie kan de hele organisatie buitensluiten van de Azure portal
+  - Gebruik report only mode en de What If tool voor testen voordat je activeert
+
+- User exclusions (examen kernstof)
+  - Emergency/break glass accounts; voorkomt tenant wide lockout
+  - Service accounts/service principals (bv. Entra Connect Sync Account); niet interactief, MFA kan niet programmatisch voltooid worden, dus uitsluiten. Beter alternatief: managed identities gebruiken i.p.v. losse accounts
+  - Agent identities; AI agents in Microsoft Entra Agent ID kunnen getarget of uitgesloten worden net als service principals. Trusted agents die ononderbroken toegang nodig hebben expliciet uitsluiten, agent policies samen met workload identity policies reviewen
+
+- Conditional Access Terms of Use (TOU)
+  - Aanmaken via Identity Governance > Terms of use, vereist een PDF met de voorwaarden
+  - Regels instelbaar: wanneer terms verlopen, of user ze moet openen voor accepteren
+  - Kan direct gekoppeld worden aan een conditional rule in Identity Governance, of gebruikt worden als Conditional Access control
+  - Doel: consent afdwingen voor toegang tot bepaalde cloud apps, consent kan laten verlopen of terms wijzigen en opnieuw laten accepteren
+
+- Onthouden voor examen
+  - Sign in risk en user risk based CA vereisen beide P2 en Identity Protection
+  - Emergency accounts, service accounts/principals, en nu ook agent identities horen standaard uitgesloten te worden van brede policies
+  - Compliant device requirement blokkeert geen Intune enrollment
+  - Altijd eerst report only mode en What If tool gebruiken voordat een policy live gaat
+
+---
+
+### Exercise: Work with security defaults
+  - [04-sc300/labs/16-implement-conditional-access-policies-roles-and-assignments](../../04-sc300/labs/16-implement-conditional-access-policies-roles-and-assignments.md)
+
+--
 
 
 
