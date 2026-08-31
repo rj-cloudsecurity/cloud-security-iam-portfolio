@@ -1153,9 +1153,83 @@ What is user sign-in frequency?
 ---
 ---
 
+## Learning Path 2: Implement an authentication and access management solution
+### Module 4: Manage Microsoft Entra Identity Protection
 
+### Introduction
 
+- Wat deze module behandelt
+  - Identity beschermen door usage en sign in patronen te monitoren, voor een veilige cloud oplossing
+  - Ontwerpen en implementeren van Microsoft Entra Identity Protection
+  - High level overzicht van Identity Protection als feature van Entra ID
+  - Verschillende soorten detections, risks, en risk policies binnen Identity Protection
+  - Voordelen van risk policies, recente UX verbeteringen, APIs, verbeterde risk assessment, alignment tussen risky users en risky sign ins
 
+- Learning objectives
+  - Review Identity Protection basics
+  - Implement and manage a user risk policy
+  - Implement and manage sign-in risk policies
+  - Implement and manage mutlifactor authentication (MFA) registration policy
+  - Monitor, investigate, and remediate elevated risky users
+  - Explore Microsoft Defender for Identity
+
+---
+
+### Review identity protection basics
+
+- Wat Identity Protection is
+  - Service om de security posture van accounts te bekijken
+  - 3 kerntaken: automatisch detecteren/remedieren van identity based risks, risks onderzoeken via de portal, risk detection data exporteren naar third party tools
+
+- Licentie
+  - Vereist altijd Entra ID Premium P2
+
+- Waar de detectie op gebaseerd is
+  - Microsoft's kennis uit Entra ID organisaties, consumer accounts, en Xbox gaming
+  - Analyseert 6.5 triljoen signalen per dag
+  - Signalen kunnen doorstromen naar Conditional Access voor access beslissingen, of naar een SIEM tool (security information and event management) voor verder onderzoek
+
+- Risk detection types (examen kernstof)
+  - Anonymous IP address; sign in vanaf een anonieme IP, bv. Tor of anonymizer VPN
+  - Atypical travel; sign in vanaf een atypische locatie t.o.v. recente sign ins
+  - Malicious IP address; sign in vanaf een bekend kwaadaardig IP
+  - Unfamiliar sign in properties; sign in met eigenschappen die niet recent gezien zijn bij deze user
+  - Leaked credentials; user's geldige credentials zijn gelekt
+  - Password spray; merdere usernames aangevallen met veelgebruikte wachtwoorden, uniforme brute force aanpak
+  - Microsoft Entra threat intelligence; bekend aanvalspatroon herkend via interne/externe threat intelligence bronnen
+  - Anomalous token; ongebruikelijke kenmerken in een token, bv. ongebruikelijke levensduur of hergebruik vanaf onbekende locatie
+  - Token issuer anomaly; SAML token issuer mogelijk gecompromitteerd
+  - Suspicious browser; anomale sign in activiteit over meerdere tenants vanaf dezelfde browser
+  - Verified threat actor IP; sign in vanaf IP adressen bekend gekoppeld aan geverifieerde threat actors
+  - New country; gedetecteerd via Microsoft Defender for Cloud Apps (MDCA)
+  - Activity from anonymous IP address; ook via MDCA
+  - Suspicious inbox forwarding; ook via MDCA
+
+- Permissions (examen kernstof)
+  - Security Administrator; volledige toegang tot Identity Protection, kan geen password reset voor een user doen
+  - Security Operator; alle reports en Overview bekijken, user risk dismissen, safe sign in bevestigen, compromise bevestigen. Kan geen policies configureren/wijzigen, geen password reset, geen alerts configureren
+  - Security Reader; alleen reports en Overview bekijken. Kan geen policies configureren, geen password reset, geen alerts configureren, geen feedback geven op detections
+  - Belangrijk: Security Operator heeft geen toegang tot het Risky sign ins report
+  - Conditional Access Administrators kunnen ook policies maken die sign in risk als conditie gebruiken
+
+- Licentie vereisten per capability (examen kernstof)
+
+| Capability | Free/M365 Apps | Premium P1 | Premium P2 |
+|---|---|---|---|
+| User risk policy | Nee | Nee | Ja |
+| Sign-in risk policy | Nee | Nee | Ja |
+| Overview report | Nee | Nee | Ja |
+| Risky users report | Beperkt, alleen medium/high risk, geen details | Beperkt, alleen medium/high risk, geen details | Volledig |
+| Risky sign ins report | Beperkt, geen risk detail/level | Beperkt, geen risk detail/level | Volledig |
+| Risk detections | Nee | Beperkt, geen details drawer | Volledig |
+| Users at risk detected alerts | Nee | Nee | Ja |
+| Weekly digest | Nee | Nee | Ja |
+| MFA registration policy | Nee | Nee | Ja |
+
+- Onthouden voor examen
+  - Identity Protection vereist altijd P2, ongeacht welk specifiek onderdeel je gebruikt
+  - Security Operator kan risks beheren/dismissen maar geen policies wijzigen, en mist toegang tot Risky sign ins report specifiek
+  - P1 geeft alleen zeer beperkte, read only inzage in risky users/sign ins; volledige functionaliteit vereist P2
 
 
 
