@@ -897,9 +897,48 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
 ### Exercise: Work with security defaults
   - [04-sc300/labs/16-implement-conditional-access-policies-roles-and-assignments](../../04-sc300/labs/16-implement-conditional-access-policies-roles-and-assignments.md)
 
---
+---
 
+### Test and troubleshoot Conditional Access policies
 
+- Risicovolle configuraties om te vermijden (examen kernstof)
+  - Voor all users, all cloud apps
+    - Block access; blokkeert de hele organisatie
+    - Require Hybrid Entra domain joined device; kan iedereen blokkeren die geen hybrid joined device heeft
+    - Require app protection policy; kan iedereen blokkeren zonder Intune policy, incl. jezelf als admin, waardoor je niet eens meer bij Intune/Azure portal kunt
+  - Voor all users, all cloud apps, all device platforms
+    - Block access; blokkeert de hele organisatie
+
+- Troubleshooten van een sign in interrupt (2 methodes)
+
+- Methode 1: het error bericht zelf
+  - Foutpagina in de browser geeft vaak al gedetailleerde info en een suggestie voor oplossing
+  - Voorbeeld: melding dat de app alleen toegankelijk is vanaf devices/apps die aan het mobile device management beleid voldoen
+
+- Methode 2: Microsoft Entra sign in events
+  - Meer detail te vinden via More Details op de foutpagina zelf
+  - Stappen om de juiste policy te vinden:
+    1. Entra admin center, als Security Administrator of Global Reader
+    2. Identity > Monitoring and Health > Sign ins
+    3. Event zoeken, filteren op Correlation ID, Conditional access (scope naar failures), Username, Date
+    4. Conditional Access tab openen bij het juiste event, toont welke policy/policies de interrupt veroorzaakten
+    5. Troubleshooting and support tab geeft de exacte reden (bv. device voldeed niet aan compliance)
+    6. Policy Name aanklikken opent de policy configuratie zelf, voor review/aanpassing
+    7. Extra context beschikbaar in Basic Info, Location, Device Info, Authentication Details, Additional Details tabs
+
+- Policy details (ellipsis menu)
+  - Geeft extra info waarom een policy wel of niet werd toegepast
+  - Links: details verzameld tijdens sign in. Rechts: of die details voldoen aan de vereisten van de toegepaste policy
+  - Belangrijk: een CA policy wordt alleen toegepast als alle conditions voldaan zijn, of niet geconfigureerd zijn
+
+- Support incident openen
+  - Als de event info niet genoeg is: Troubleshooting and support tab > Create a new support request
+  - Geef request ID en datum/tijd van het sign in event mee, zodat Microsoft support het juiste event kan terugvinden
+
+- Onthouden voor examen
+  - De grootste valkuil is een policy die op All users + All cloud apps staat met een blokkerende control, dat kan de hele organisatie of jezelf als admin buitensluiten
+  - Sign in logs met de Conditional Access tab zijn de primaire troubleshooting tool, niet alleen de foutmelding zelf
+  - CA policy wordt alleen toegepast als alle conditions matchen of niet geconfigureerd zijn
 
 
 
