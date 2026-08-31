@@ -631,18 +631,80 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
 - Enforced mode
 
 ---
+---
 
+## Learning Path 2: Implement an authentication and access management solution
+### Module 3: Plan, implement, and administer Conditional Access
 
+### Introduction
 
+- Wat Conditional Access is
+  - Fijnmazige controle over welke users/identities specifieke activiteiten mogen uitvoeren, resources mogen benaderen, en data/systemen veilig houden
+  - Met Microsoft Entra Agent ID: dezelfde Zero Trust principes worden nu ook toegepast op AI agent identities, net als op users en workload identities
 
+- Learning objectives
+  - Plan and implement security defaults
+  - Plan Conditional Access policies
+  - Implement Conditional Access policy controls and assignments (targeting, applications, and conditions)
+  - Test and troubleshoot Conditional Access policies
+  - Implement application controls
+  - Implement session management
+  - Configure continuous access evaluation
+  - Identify how agent identities are protected using Conditional Access
 
+---
 
+### Plan security defaults
 
+- Wat het is
+  - Gratis, vooraf geconfigureerde security instellingen die Microsoft namens organisaties beheert
+  - Bedoeld voor organisaties die nog geen eigen identity security strategie hebben
+  - Onderdeel van: MFA registratie verplicht voor alle users, MFA verplicht voor admins, legacy authentication protocols geblokkeerd, MFA when necessary, bescherming van privileged activities (bv. Azure portal toegang)
 
+- Beschikbaarheid
+  - Gratis voor iedereen, ongeacht licentie
+  - Tenants aangemaakt op of na 22 oktober 2019 hebben security defaults mogelijk al standaard aan
+  - Alle nieuwe tenants krijgen security defaults automatisch bij creatie
+  - In/uitschakelen: Entra admin center, minimaal Conditional Access Administrator rol, via Entra ID > Overview > Properties > Manage security defaults
 
+- Voor wie wel/niet (examen relevant)
+  - Wel geschikt: organisaties die security willen verbeteren maar niet weten waar te beginnen; organisaties op de gratis Entra ID tier
+  - Niet geschikt: organisaties die al Conditional Access policies gebruiken; organisaties met Entra ID Premium licenties; organisaties met complexe security vereisten die Conditional Access nodig hebben
 
+- Policies die worden afgedwongen
 
+  - Unified MFA registration
+    - Alle users moeten MFA registreren via Microsoft Authenticator app
+    - Geen grace period, direct verplicht bij volgende sign in
+    - Gebruikt number matching: user voert een getal op scherm in via de Authenticator app, voorkomt MFA fatigue aanvallen
 
+  - Protecting administrators
+    - Privileged accounts moeten extra beschermd worden, MFA vereist bij elke sign in na registratie
+    - Geldt voor deze rollen: Global Administrator, Application Administrator, Authentication Administrator, Authentication Policy Administrator, Billing Administrator, Cloud Application Administrator, Conditional Access Administrator, Exchange Administrator, Helpdesk Administrator, Identity Governance Administrator, Password Administrator, Privileged Authentication Administrator, Privileged Role Administrator, Security Administrator, SharePoint Administrator, User Administrator
+
+  - Protecting all users
+    - Niet alleen admins zijn doelwit, aanvallers richten zich vaak op gewone end users
+    - Eenmaal binnen kunnen aanvallers namens die user toegang aanvragen tot gevoelige info, of de hele directory downloaden voor phishing
+    - MFA voor iedereen beschermt alle apps geregistreerd bij Entra ID, incl. SaaS apps
+
+  - Blocking legacy authentication
+    - Legacy authentication = requests van clients zonder modern authentication (bv. Office 2010) of via mail protocollen zoals IMAP, SMTP, POP3
+    - Ondersteunt geen MFA, ook niet als een MFA policy actief is; aanvallers kunnen legacy protocollen gebruiken om MFA te omzeilen
+    - Meeste succesvolle aanvallen komen via legacy authentication
+    - Security defaults blokkeert alle legacy authentication requests, incl. Exchange Active Sync basic authentication
+
+- Onthouden voor examen
+  - Security defaults zijn gratis en altijd beschikbaar, Conditional Access vereist P1
+  - Security defaults en Conditional Access sluiten elkaar praktisch uit; als je Conditional Access gebruikt, gebruik je meestal geen security defaults meer
+  - MFA registratie via security defaults heeft geen grace period
+  - Legacy authentication is de meest voorkomende bron van succesvolle aanvallen, en wordt volledig geblokkeerd door security defaults
+
+---
+
+### Exercise: Work with security defaults
+  - [04-sc300/labs/15-work-with-security-defaults](../../04-sc300/labs/15-work-with-security-defaults.md)
+
+---
 
 
 
