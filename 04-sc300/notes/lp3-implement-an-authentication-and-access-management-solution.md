@@ -1479,7 +1479,35 @@ What is user sign-in frequency?
   - Default scope: 100 meest recente risky users, laatste 90 dagen, alle risk levels
   - Beschikbare remediation acties momenteel beperkt tot Dismiss risk en Reset password
 
+---
 
+## Module Assessment — Module 4 (Manage Microsoft Entra Identity Protection)
+
+**Score:** 100%
+
+### Vraag 1
+Which task can a user with the Security Operator role perform?
+
+- Configure alerts
+- ✅ Confirm safe sign-in
+- Reset a password for a user
+
+### Vraag 2
+There are two risk policies that can be enabled in the directory. One is user risk policy. Which is the other risk policy?
+
+- Mobile device access risk policy
+- ✅ Sign-in risk policy
+- Hybrid identity sign-in risk policy
+
+### Vraag 3
+In Microsoft Graph, which three APIs expose information about risky users and sign-ins?
+
+- ✅ riskDetection, riskyUsers, signIns
+- riskDetection, itemActivity, signIns
+- riskyUsers, signIns, IdentitySet
+
+---
+--
 
 
 
