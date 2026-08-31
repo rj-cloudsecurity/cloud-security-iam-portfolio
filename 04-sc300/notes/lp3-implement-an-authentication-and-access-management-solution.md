@@ -1311,7 +1311,7 @@ What is user sign-in frequency?
   - Individuele risk detections handmatig sluiten; typisch na eigen onderzoek, opties: user compromised bevestigen, user risk dismissen, sign in safe bevestigen, sign in compromised bevestigen
 
 - Unblocking users
-  - Blokkade gebeurt op basis van user risk of sign in risk
+  - Blokkade gebeurt op basis van user risk of sing in risk
 
 - Unblock bij user risk
   - Password reset
@@ -1350,10 +1350,134 @@ What is user sign-in frequency?
   - Dismiss user risk sluit het risico maar verandert het wachtwoord niet, dus brengt de identity niet automatisch terug in een veilige staat
   - riskDetection, riskyUsers, en signIn zijn de 3 kern Graph APIs voor Identity Protection data
 
+---
 
+### Implement security for workload identities
 
+- Wat het is
+  - Identity Protection is uitgebreid van alleen users naar ook workload identities: applicaties, service principals, Managed Identities
+  - Workload identity; laat een applicatie of service principal toegang krijgen tot resources, soms in de context van een user
 
+- Waarom workload identities lastiger te beheren zijn 
+  - Kunnen geen multi factor authentication (MFA) doen
+  - Vaak geen formeel lifecycle proces
+  - Moeten ergens hun credentials/secrets opslaan
+  - Deze verschillen maken ze moeilijker te beheren en kwetsbaarder voor compromise
 
+- Vereisten om workload identity protection te gebruiken
+  - Entra ID Premium P2 licentie
+  - Ingelogde user moet een van deze rollen hebben: Security administrator, Security operator, Security reader
+
+- Soorten gedetecteerde risico's (kernstof)
+  - Microsoft Entra threat intelligence (offline); activiteit die overeenkomt met bekende aanvalspatronen uit interne/externe threat intelligence bronnen
+  - Suspicious Sign-ins (offline); ongebruikelijke sign in eigenschappen/patronen voor deze service principal. Systeem leert de baseline over 2 tot 60 dagen, triggert bij afwijkende IP/ASN, target resource, user agent, hosting verandering, IP land, credential type
+  - Unusual addition of credentials to an OAuth app (offline); gedetecteerd via Microsoft Defender for Cloud Apps, verdachte toevoeging van privileged credentials aan een OAuth app, kan wijzen op een gecompromitteerde app
+  - Admin confirmed account compromised (offline); admin heeft handmatig Confirm compromised geselecteerd in de UI of via de riskyServicePrincipals API, terug te vinden in de account's risk history
+  - Leaked Credentials (offline); geldige credentials zijn gelekt, bv. via een publiek GitHub repo of een data breach
+
+- Conditional Access voor workload identities
+  - Kan toegang blokkeren voor specifieke accounts die als "at risk" gemarkeerd zijn door Identity Protection
+  - Toepasbaar op single tenant service principals die in jouw tenant geregistreerd zijn
+  - Buiten scope: third party SaaS apps, multi tenant apps, en Managed Identities
+
+- Onthouden voor examen
+  - Workload identity protection vereist altijd P2, net als de user gerichte Identity Protection features
+  - Alle genoemde detection types zijn offline (niet real time), in tegenstelling tot sommige user risk detections
+  - Conditional Access voor workload identities werkt alleen op single tenant service principals, niet op multi tenant apps of Managed Identities
+
+---
+
+### Explore Microsoft Defender for Identity
+
+- Wat het is
+  - Cloud based security oplossing, voorheen Azure Advanced Threat Protection
+  - Gebruikt on premises Active Directory signalen om advanced threats, gecompromiteerde identities, en kwaadaardige insider acties te identificeren, detecteren, en onderzoeken
+
+- Waar het SecOp analysts mee helpt (kernstof)
+  - Users, entity behavior en activiteiten monitoren met learning based analytics
+  - User identities en credentials in Active Directory beschermen
+  - Verdachte user activiteiten en advanced attacks onderzoeken door de hele kill chain heen
+  - Duidelijke incident informatie op een simpele tijdljn tonen voor snelle triage
+
+- Componenten (examen kernstof)
+  - Microsoft Defender portal (security.microsoft.com); beheer, monitoring en onderzoek van data die binnenkomt van de sensors
+  - Defender for Identity sensor; direct te installeren op:
+    - Domain controllers; monitort direct het verkeer, geen aparte server of port mirroring configuratie nodig
+    - Active Directory Federated Services (AD FS); monitort netwerkverkeer en authentication events
+  - Defender for Identity cloud service; draait op Azure infrastructuur, gedeployed in US, Europa, en Azie, gekoppeld aan Microsoft's threat intelligence
+
+- Onthouden voor examen
+  - Defender for Identity werkt op basis van on premises AD signalen, in tegenstelling tot Identity Protection dat zich meer op cloud/Entra ID sign ins richt
+  - Sensor kan direct op domain controllers of AD FS servers geinstalleerd worden, zonder extra dedicated server of port mirroring
+  - Onderdeel van hetzelfde Microsoft Defender portal als andere Defender producten (bv. Defender for Cloud Apps)
+
+---
+
+### Explore the Identity Risk Management Agent
+
+- Wat het is
+  - Onderdeel van Microsoft Entra ID Protection, biedt proactief risk management door user behavior te analyseren
+  - Stelt acties voor om potentiele identity risks te mitigeren
+  - Gebruikt een Large Language Model (LLM) om security administrators te helpen risky activities te reviewen en aan te pakken voordat ze tot een security incident leiden
+  - Instellingen configureerbaar naar de behoeften van de organisatie
+
+- Prerequisites (examen relevant)
+  - Minimaal Entra ID Premium P2 licentie
+  - Beschikbare security compute units (SCU)
+  - Juiste Entra rol:
+    - Security Administrator; vereist om de agent voor het eerst te activeren, de agent te bekijken, en actie te ondernemen op suggesties
+    - Security Reader en Global Reader; kunnen de agent en suggesties bekijken, maar geen acties ondernemen
+
+- Hoe de agent werkt
+  - Checkt eerst op nieuwe risky identities die nog niet eerder geidentificeerd waren (verbruikt geen SCUs)
+    1. Checkt op nieuwe risky users met risk state "At risk"
+    2. Identificeert risky users binnen de gedefinieerde scope settings
+  - Als er nieuwe suggesties gevonden worden (verbruikt wel SCUs):
+    - Investigate the risky user; checkt risky sign ins en risk detections van de user
+    - Generate findings and a risk summary; genereert bevindingen inclusief uitgebreide risk summary en key risk factors
+    - Generate a recommended remediation action; stelt een remediation actie voor op basis van het onderzoek
+    - Answer questions through chat; IT admins kunnen de agent vragen stellen over risky users en de risk summary
+    - Store custom instructions in agent memory; klant kan via chat custom instructies geven die de agent onthoudt voor toekomstige runs, momenteel alleen voor preferred remediation actions
+
+- Agent gebruiken (stappen)
+  1. Entra admin center, minimaal Security Administrator
+  2. ID Protection > Risky users
+  3. Banner bovenaan de pagina zoeken
+  4. Start agent selecteren
+
+- Agent settings configureren
+  - Risky users pagina > Agent view > ellipses rechtsboven > Settings
+  - Controls; rollen en permissions nodig om de agent te draaien
+  - Triggers; wanneer/hoe de agent draait
+    - Continuous monitoring; checkt elke 5 minuten op nieuwe risky users
+    - Daily trigger; agent draait 1x per dag
+    - Manual run; alleen handmatig gestart
+  - Scope; default: meest recente 100 risky users binnen de laatste 90 dagen
+    - Select users and groups; specifieke users/groups kiezen om te scannen
+    - Maximum recent risky users instelbaar tussen 1 en 100
+    - Risk levels selecteren om mee te nemen in de scan, standaard alle levels geselecteerd
+    - Tijdsspanne instellen: laatste 7, 14, 30 dagen, of custom tot 90 dagen
+  - Communications; users instellen die notificaties krijgen van de agent run
+  - Memory; lijst van door de user bevestigde false positives (safe items)
+
+- Agent findings report
+  - Agent summary; bovenaan de Agent view, toont recente agent activiteiten, snelle toegang tot Chat with agent en Manage agent (handmatige run triggeren of settings openen)
+  - Agent suggestions; onder de summary, hover highlight de betrokken users in de tabel, selecteren filtert de tabel, elke suggestie heeft een bulk action knop
+  - Huidige beschikbare remediation acties in suggestions: Dismiss risk, Reset password
+  - Risky users table; alle risky users, per user agent findings/risk factors/suggestions bekijken, Agent suggestion kolom toont aanbevolen actie direct in de tabel
+
+- Risky user details, Agent view
+  - Basic user info; username, huidig risk level, User Principal Name (UPN)
+  - Agent findings; verdict Compromised of Not compromised, gebaseerd op het onderzoek
+  - Risk summary; gedetailleerde uitleg van de bevindingen, gebaseerd op analyse van sign ins en gedrag
+  - Risk factors; belangrijkste risico indicatoren samengevat
+  - Suggested remediation action; call to action knop om direct te remedieren
+
+- Onthouden voor examen
+  - Vereist P2 plus beschikbare SCUs (security compute units), naast de juiste rol
+  - Alleen Security Administrator kan de agent activeren en acties ondernemen; Security Reader/Global Reader kunnen alleen bekijken
+  - Default scope: 100 meest recente risky users, laatste 90 dagen, alle risk levels
+  - Beschikbare remediation acties momenteel beperkt tot Dismiss risk en Reset password
 
 
 
