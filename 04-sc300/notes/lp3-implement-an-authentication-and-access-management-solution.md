@@ -1123,8 +1123,35 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
   - Past policies automatisch aan wanneer nodig  
   - Helpt organisaties richting Zero Trust configuraties
 
+---
 
+## Module Assessment — Conditional Access Optimization Agent
 
+**Score:** 100%
+
+### Vraag 1
+What does Conditional Access do?
+
+- It's the component that enforces multifactor authentication policies for access.
+- ✅ It analyzes signals such as user, device, and location to enforce organizational access policies.
+- It monitors and logs all access attempts.
+
+### Vraag 2
+When would you use Mobile Application Management (MAM) without enrollment to protect sensitive data in a work or school-related app?
+
+- ✅ Bring-your-own-device (BYOD) scenarios
+- Smart lockout policies
+- Session management controls
+
+### Vraag 3
+What is user sign-in frequency?
+
+- ✅ User sign-in frequency defines the time period before a user is asked to sign in again when attempting to access a resource.
+- User sign-in frequency defines the number of times a user signs in from a single device in a 24-hour period
+- User sign-in frequency defines the number of devices a single user is signed in to.
+
+---
+---
 
 
 
