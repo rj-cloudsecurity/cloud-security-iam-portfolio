@@ -1025,6 +1025,125 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
 
   ---
 
+### Implement session management and continuous access evaluation
+
+- Waarom session management
+  - Sommige scenario's vragen om beperkte auth sessies: unmanaged/shared device, gevoelige info vanaf extern netwerk, high priority/executive users, kritieke business apps
+  - CA controls laten je policies maken die specifieke use cases targeten, zonder alle users te raken
+
+- User sign in frequency
+  - Bepaalt hoe lang het duurt voordat een user opnieuw moet inloggen
+  - Default in Entra ID: rolling window van 90 dagen
+  - Te vaak om credentials vragen is niet altijd veiliger; users die gewend zijn om zonder nadenken in te loggen kunnen makkelijker slachtoffer worden van een phishing prompt
+  - Elke policy violation revoked de sessie sowieso, ongeacht sign in frequency: password change, incompliant device, account disabled. Kan ook expliciet via PowerShell
+  - Kernidee: geen credentials vragen zolang de security posture van de sessie niet veranderd is
+
+- Welke apps dit ondersteunen
+  - Werkt met apps die OAuth2 of OIDC correct implementeren; de meeste Windows, Mac en mobile apps, incl. web apps zoals Word/Excel/PowerPoint Online, OneNote Online, Office.com, M365 Admin portal, Exchange Online, SharePoint/OneDrive, Teams web client, Dynamics CRM Online, Azure portal
+  - Werkt ook met SAML apps, mits ze geen eigen cookies droppen en regelmatig terug redirecten naar Entra ID voor authenticatie
+
+- Sign in frequency en MFA
+  - Vroeger alleen van toepassing op first factor authentication bij Entra joined, hybrid joined, en Entra registered devices
+  - Op basis van klantfeedback: sign in frequency geldt nu ook voor MFA zelf
+
+- Sign in frequency en device identities
+  - Unlock van een device of interactief inloggen telt ook als sign in event voor de policy
+  - Voorbeeld 1: user werkt continu door, wordt na 1 uur (ingestelde frequency) gevraagd opnieuw in te loggen
+  - Voorbeeld 2: user pauzeert en locked het device, unlock telt als nieuw sign in moment, dus de 1 uur telt vanaf dat moment opnieuw
+
+- Persistence van browsing sessions
+  - Persistent browser session: user blijft ingelogd na sluiten/heropenen van de browser
+  - Default: op personal devices krijgt de user een 'Stay signed in?' prompt na succesvolle authenticatie, user kiest zelf
+
+- Validatie
+  - What If tool simuleert een sign in voor een user naar een target app onder bepaalde conditions
+  - Toont de session management controls die van toepassing zouden zijn
+
+- Policy deployment
+  - Best practice: eerst testen voordat je uitrolt naar productie, idealiter in een test tenant
+
+- Continuous Access Evaluation (CAE)
+  - Access tokens zijn standaard 1 uur geldig, daarna refresh via Entra ID; dat refresh moment is een kans om policies opnieuw te evalueren
+  - Probleem: er zit vertraging tussen een wijziging in de situatie van de user en het daadwerkelijk afdwingen van policy wijzigingen
+  - CAE lost dit op via een "conversation" tussen token issuer (Entra ID) en de relying party (de app): de app kan wijzigingen (bv. netwerklocatie) doorgeven, en Entra ID kan de app vertellen om tokens niet langer te vertrouwen (bv. bij account compromise of disablement)
+
+- Voordelen van CAE (examen kernstof)
+  - User termination of password change/reset; sessie wordt near real time revoked
+  - Netwerklocatie wijziging; Conditional Access location policies worden near real time afgedwongen
+  - Token export naar een machine buiten een trusted network kan voorkomen worden via CA location policies
+
+- Evaluation en revocation flow (stappen, examen kernstof)
+  1. CAE (Continuous Access Evaluation) capable client vraagt met credentials of refresh token een access token aan bij Entra ID
+  2. Access token wordt teruggegeven aan de client
+  3. Admin revoked expliciet alle refresh tokens voor de user; revocation event gaat naar de resource provider
+  4. Client biedt access token aan bij de resource provider; die checkt geldigheid en of er een revocation event is
+  5. Resource provider weigert toegang, stuurt een 401+ claim challenge terug naar de client
+  6. CAE capable client herkent de 401+ challenge, negeert caches, en start opnieuw bij stap 1 met refresh token + claim challenge; Entra ID herevalueert alle conditions en laat de user opnieuw authenticaten
+
+- Onthouden voor examen
+  - Sign in frequency default = 90 dagen rolling window, geldt nu ook voor MFA, niet alleen first factor
+  - Policy violations (password change, incompliant device, disabled account) revoken de sessie sowieso, los van de ingestelde frequency
+  - CAE lost de vertraging op tussen wijziging en handhaving via een 401+ claim challenge flow, in plaats van te wachten op de normale 1 uur token refresh
+
+---
+
+### Exercise: Work with security defaults
+  - [04-sc300/labs/17-configure-authentication-session-controls](../../04-sc300/labs/17-configure-authentication-session-controls.md)
+
+---
+
+### Microsoft Entra Conditional Access Optimization Agent
+
+  - Overzicht
+    - De Conditional Access optimization agent helpt organisaties om Conditional Access policies te verbeteren en te zorgen dat alle gebruikers correct beschermd worden. De agent doet aanbevelingen op basis van Zero Trust‑principes en Microsoft best practices.
+
+  - Functionaliteit
+    - Evaluatie van MFA‑dekking: Controleert of alle gebruikers onder een MFA‑policy vallen en kan bestaande policies automatisch aanpassen.
+
+  - Device-based controls: Handhaaft device compliance, app protection policies en domain-joined device vereisten.
+
+  - Blokkeren van legacy authentication: Detecteert accounts die nog legacy auth gebruiken en blokkeert deze.
+
+  - Policy consolidatie: Identificeert overlappende policies en stelt samenvoeging voor.
+
+  - Blokkeren van device code flow: Controleert of er een policy is die device code flow blokkeert.
+
+  - one-click remediation: Aanbevelingen kunnen direct worden toegepast via *Apply suggestion*.
+
+  - Vereisten
+    - Microsoft Entra ID Premium P1  
+    - Security Compute Units (SCU) beschikbaar  
+    - Security Administrator (of hoger) voor eerste activatie  
+    - Conditional Access Administrators kunnen toegang krijgen tot Security Copilot  
+    - Device-based controls vereisen Microsoft Intune licenties
+
+- Wat de agent doet
+  - Scant de tenant op nieuwe gebruikers en applicaties  
+  - Controleert of Conditional Access policies van toepassing zijn  
+  - Past policies automatisch aan wanneer nodig  
+  - Helpt organisaties richting Zero Trust configuraties
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
