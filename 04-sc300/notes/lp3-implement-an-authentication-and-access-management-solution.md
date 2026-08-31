@@ -940,8 +940,90 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
   - Sign in logs met de Conditional Access tab zijn de primaire troubleshooting tool, niet alleen de foutmelding zelf
   - CA policy wordt alleen toegepast als alle conditions matchen of niet geconfigureerd zijn
 
+---
 
+### Implement application controls
 
+- Conditional Access App Control
+  - Monitort en controleert app toegang en sessions in real time, gebaseerd op access en session policies
+  - Access/session policies worden geconfigureerd in Microsoft Defender for Cloud Apps
+  - Gebruikt een reverse proxy architectuur, uniek geintegreerd met Conditional Access
+  - CA bepaalt de conditions (wie, welke apps, welke locaties/netwerken), en routeert users vervolgens naar Defender for Cloud Apps voor de daadwerkelijke acces/session controls
+
+- Wat je ermee kunt (examen kernstof)
+  - Data exfiltratie voorkomen; bv. download/cut/copy/print blokkeren van gevoelige documenten op unmanaged devices
+  - Protect on download; document labelen en beschermen met Azure Information Protection i.p.v. download volledig blokkeren
+  - Upload van ongelabelde bestanden voorkomen; bestand moet eerst juiste label/protection krijgen voordat upload wordt toegestaan
+  - Monitoren van user sessions voor compliance; risky users volgen, acties loggen binnen de sessie
+  - Access blokkeren; granulair blokkeren op basis van riscofactoren, bv. als client certificates gebruikt worden als device management
+  - Custom activities blokkeren; bv. berichten met gevoelige content scannen en blokkeren in Teams of Slack
+
+- Approved client app vereisen (2 voorbeeldscenario's, Contoso)
+  - Beide scenario's vereisen Entra ID Premium P1 of P2 plus Intune
+  - Scenario 1: alle M365 services toegankelijk op mobiel, mits approved client app (Outlook mobile, OneDrive, Teams)
+  - Scenario 2: alleen Exchange Online en SharePoint Online toegankelijk op mobiel, mits approved client app
+
+- Scenario 1, stap 1: policy voor Android/iOS modern authentication clients bij Exchange Online
+  1. Conditional Access > Create new policy, naam geven
+  2. Assignments > Users and groups > Include All users of specifieke users/groups
+  3. Cloud apps or actions > Include Office 365
+  4. Conditions > Device platforms > Yes > Include Android en iOS
+  5. Conditions > Client apps (preview) > Yes > Mobile apps and desktop clients + Modern authentication clients
+  6. Access controls > Grant > Grant access > Require approved client app
+  7. Enable policy On > Create
+
+- Scenario 1, stap 2: policy voor Exchange ActiveSync (EAS)
+  1. Zelfde als hierboven, maar Cloud apps or actions > Office 365 Exchange Online
+  2. Conditions > Client apps (preview) > Yes > Mobile apps and desktop clients + Exchange ActiveSync clients
+  3. Access controls > Require approved client app > Enable policy On > Create
+
+- Scenario 1, stap 3: Intune app protection policy configureren voor iOS/Android (los proces, zie aparte documentatie)
+
+- Scenario 2, stap 1: policy voor Exchange Online + SharePoint Online, modern authentication clients
+  - Zelfde structuur als scenario 1 stap 1, maar Cloud apps or actions > Office 365 Exchange Online + Office 365 SharePoint Online
+
+- Scenario 2, stap 2: policy voor Exchange ActiveSync clients
+  - Zelfde als scenario 1 stap 2
+
+- Scenario 2, stap 3: Intune app protection policy (zelfde als scenario 1)
+
+- App protection policies (APP) overzicht
+  - Regels die organisatiedata veilig houden binnen een managed app
+  - Kan een rule zijn bij toegang/verplaatsen van corporate data, of acties die verboden/gemonitord worden binnen de app
+  - Onderdeel van Mobile Application Management (MAM)
+  - MAM-WE (without enrollment); werk/school app met gevoelige data beheerbaar op bijna elk device, ook BYOD, zonder dat het device zelf enrolled hoeft te zijn
+  - Veel productivity apps (bv. Microsoft Office apps) ondersteunen dit via Intune MAM
+
+- Waarom app protection policies
+  - Voorkomt data loss (intentioneel en onintentioneel) op devices die je niet beheert
+  - Werkt onafhankelijk van MDM; bescherming met of zonder device enrollment
+  - App level policies beperken toegang tot company resources, data blijft binnen bereik van IT
+
+- Op welke devices toepasbaar
+  - Enrolled in Intune; meestal corporate owned
+  - Enrolled in thrid party MDM; meestal corporate owned
+  - Niet enrolled in enige MDM; meestal employee owned/BYOD
+  - Let op: MAM policies niet combineren met third party MAM of secure container oplossingen
+  - Belangrijk: Outlook voor iOS/iPadOS en Android met hybrid Modern Authentication kan on premises Exchange mailboxes beschermen via Intune app protection; andere apps die met on premises Exchange/SharePoint verbinden worden niet ondersteund
+
+- Voordelen van app protection policies (examen kernstof)
+  - Bescherming op app niveau, werkt op zowel managed als unmanaged devices, identity centered i.p.v. device centered
+  - Geen impact op end user productivity in personal context; policy geldt alleen in work context
+  - App layer protections: bv. PIN vereist om app te openen in work context, controle over data sharing tussen apps, voorkomen dat company data naar personal storage wordt opgeslagen
+  - MDM (naast MAM) beschermt ook het device zelf; bv. PIN voor het hele device, apps deployen via MDM
+
+- MAM met en zonder MDM combineren
+  - Kan tegelijk gebruikt worden; bv. bedrijfstelefoon enrolled in MDM + app protection, persoonlijke tablet alleen app protection
+  - MAM policy zonder device state setting geldt op zowel BYOD als Intune managed devices
+  - Kan ook gescopet worden op device managed state: minder strikte MAM policy voor Intune managed devices, strengere MAM policy voor niet enrolled devices, of MAM alleen voor unenrolled devices. Hiervoor zet je bij het aanmaken van de policy "Target to all app types" op No
+
+- Onthouden voor examen
+  - Conditional Access App Control werkt via Defender for Cloud Apps, niet los binnen Conditional Access zelf
+  - Approved client app policies vereisen altijd P1/P2 plus Intune
+  - App protection policies (MAM) zijn onafhankelijk van device enrollment, in tegenstelling tot MDM
+  - MAM en MDM kunnen gecombineerd worden, met verschillende striktheid per device managed state
+
+  ---
 
 
 
