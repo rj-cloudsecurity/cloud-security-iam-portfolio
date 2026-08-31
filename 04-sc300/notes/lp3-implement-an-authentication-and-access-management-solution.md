@@ -894,7 +894,7 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
 
 ---
 
-### Exercise: Work with security defaults
+### Exercise: Implement conditional access policies roles and assignments
   - [04-sc300/labs/16-implement-conditional-access-policies-roles-and-assignments](../../04-sc300/labs/16-implement-conditional-access-policies-roles-and-assignments.md)
 
 ---
@@ -1087,7 +1087,7 @@ Which is the recommended mode to start with when deploying Microsoft Entra Passw
 
 ---
 
-### Exercise: Work with security defaults
+### Exercise: Configure authentication session controls
   - [04-sc300/labs/17-configure-authentication-session-controls](../../04-sc300/labs/17-configure-authentication-session-controls.md)
 
 ---
@@ -1231,14 +1231,124 @@ What is user sign-in frequency?
   - Security Operator kan risks beheren/dismissen maar geen policies wijzigen, en mist toegang tot Risky sign ins report specifiek
   - P1 geeft alleen zeer beperkte, read only inzage in risky users/sign ins; volledige functionaliteit vereist P2
 
+---
 
+### Implement and manage user risk policy
 
+- 2 risk policies (examen kernstof)
+  - Sign in risk policy; focust op de sign in activiteit zelf, analyseert kans dat de sign in door iemand anders dan de user is gedaan
+  - User risk policy; detecteert kans dat een user account gecompromitteerd is, via risk events die afwijken van typisch gedrag van die user
+  - Beide automatiseren de response op risk detections, laten users zelf remedieren waar mogelijk
 
+- Prerequisites voor self remediation
+  - Users moeten geregistreerd zijn voor zowel self service password reset (SSPR) als multi factor authentication (MFA)
+  - Aanbevolen: combined security information registration experience gebruiken
+  - Self remediation laat users sneller weer productief zijn zonder admin tussenkomst; admins kunnen events achteraf nog steeds bekijken en onderzoeken
 
+- Acceptabele risk levels kiezen
+  - Balans tussen user experience en security posture
+  - Microsoft aanbeveling: user risk policy threshold op High, sign in risk policy op Medium en hoger
+  - High threshold; minder vaak getriggerd, minder user interrupts, maar Low/Medium risk detections vallen buiten de policy, wat een aanvaller ruimte kan geven
+  - Low threshold; meer user interrupts, maar hogere security posture
 
+- Exclusions
+  - Alle policies staan toe om users uit te sluiten, bv. emergency access/break glass accounts
+  - Organisaties bepalen zelf welke andere accounts uitgesloten moeten worden, afhankelijk van hoe die accounts gebruikt worden
+  - Exclusions regelmatig herzien of ze nog van toepassing zijn
+  - Trusted network locations worden door Identity Protection gebruikt bij sommige risk detections om false positives te verminderen
 
+- Onthouden voor examen
+  - Sign in risk = over de sign in activiteit zelf, User risk = over de waarschijnlijkheid dat het account zelf gecompromitteerd is
+  - Aanbevolen thresholds: User risk = High, Sign in risk = Medium en hoger
+  - Self remediation vereist zowel SSPR als MFA registratie
 
+---
 
+### Exercise: enable sign-in risk policy
+  - [04-sc300/labs/18-enable-sign-in-risk-policy](../../04-sc300/labs/18-enable-sign-in-risk-policy.md)
+
+---
+
+### Exercise: configure Microsoft Entra multifactor authentication registration policy
+  - [04-sc300/labs/19-configure-microsoft-entra-multifactor-authentication-registration-policy](../../04-sc300/labs/19-configure-microsoft-entra-multifactor-authentication-registration-policy.md)
+
+---
+
+### Monitor, investigate, and remediate elevated risky users
+
+- 3 reports voor risk investigation
+  - Risky users, Risky sign ins, Risk detections
+  - Te vinden in Entra admin center > Identity > Protection > Identity Protection
+  - Allemaal downloadbaar als CSV; risky users en risky sign ins max 2500 entries, risk detections max 5000 records
+  - Microsoft Graph API integraties mogelijk om data te combineren met andere bronnen
+
+- Navigeren door de reports
+  - Elk report toont alle detections voor de gekozen periode, kolommen aanpasbaar, download in CSV of JSON
+  - Filters bovenaan beschikbaar
+  - Individuele entries selecteren geeft extra opties (bv. sign in bevestigen als compromised/safe, user als compromised bevestigen, user risk dismissen) en opent een details venster
+
+- Risky users report
+  - Toont: welke users at risk zijn/geremedieerd/gedismissed, detectie details, historie van risky sign ins, risk history
+  - Acties: password reset, user compromise bevestigen, user risk dismissen, user blokkeren voor sign in, onderzoeken in Microsoft Defender for Identity
+
+- Risky sign ins report
+  - Data filterbaar tot 30 dagen terug
+  - Toont: classificatie (at risk/compromised/safe/dismissed/remediated), real time en aggregate risk levels, welke detection types getriggerd zijn, welke Conditional Access policies toegepast zijn, MFA details, device info, app info, locatie info
+  - Acties: sign in compromised bevestigen, sign in safe bevestigen
+
+- Risk detections report
+  - Data filterbaar tot 90 dagen terug
+  - Toont: info per detection type, andere risks die tegelijk getriggerd werden, locatie van de sign in poging
+  - Klikbare link naar de detectie in Microsoft Defender for Cloud Apps (MDCA) voor meer logs/alerts
+  - Systeem kan een risk automatisch dismissen als het een false positive blijkt, of als de user de risk al heeft geremedieerd (bv. via MFA of password change); toont dan "AI confirmed sign in safe"
+
+- Remediation opties (examen kernstof)
+  - Self remediation via risk policy; user lost het zelf op via MFA/SSPR, vereist voorafgaande registratie
+  - Manual password reset; twee varianten:
+    - Temporary password genereren; direct veilg, maar admin moet contact opnemen met de user om het tijdelijke wachtwoord door te geven, user moet het bij volgende sign in wijzigen
+    - User zelf laten resetten; werkt alleen als de user geregistreerd is voor MFA en SSPR, geen contact met helpdesk nodig
+  - Dismiss user risk; sluit alle events, maar verandert het wachtwoord niet, dus brengt de identity niet echt terug in een veilige staat (bv. te gebruiken als de user is verwijderd)
+  - Individuele risk detections handmatig sluiten; typisch na eigen onderzoek, opties: user compromised bevestigen, user risk dismissen, sign in safe bevestigen, sign in compromised bevestigen
+
+- Unblocking users
+  - Blokkade gebeurt op basis van user risk of sign in risk
+
+- Unblock bij user risk
+  - Password reset
+  - Dismiss user risk, of handmatig gerelateerde detections sluiten om het risk level te verlagen
+  - User uitsluiten van de policy als de configuratie specifiek voor die user problemen geeft
+  - Policy volledig uitschakelen als de configuratie voor alle users problemen geeft
+
+- Unblock bij sign in risk
+  - Inloggen vanaf een bekende locatie/device kan het probleem vaak al oplossen
+  - User uitsluiten van de policy
+  - Policy volledig uitschakelen
+
+- PowerShell en Microsoft Graph API
+  - Microsoft Graph PowerShell SDK Preview module beschikbaar voor risk management via PowerShell
+  - 3 relevante Graph APIs: riskDetection (lijst van user/sign in gekoppelde risk detections), riskyUsers (info over als risky gedetecteerde users), signIn (sign in info met risk state/detail/level)
+
+- Verbinden met Microsoft Graph (4 stappen, kort)
+  1. Domeinnaam ophalen (.onmicrosoft.com)
+  2. Nieuwe app registration aanmaken, Application ID noteren
+  3. API permissions configureren: Microsoft Graph > Application permissions > IdentityRiskEvent.Read.All en IdentityRiskyUser.Read.All, admin consent geven
+  4. Credential configureren: client secret aanmaken (secret goed bewaren, bij verlies moet een nieuwe aangemaakt worden)
+
+- Authenticatie en API call (kort)
+  - POST naar login.microsoft.com met grant_type client_credentials, resource, client_id, client_secret
+  - Bij succes: authentication token terug, gebruikt in Authorization header
+  - API call naar graph.microsoft.com/v1.0/identityProtection/riskDetections geeft een collectie risk detections terug in OData JSON
+
+- Praktische voorbeelden van API queries
+  - Offline risk detections ophalen; riskDetection API met filter detectionTimingType eq 'offline', voor detecties die niet real time zijn getriggerd
+  - Users die een MFA challenge succesvol doorstonden na een risky sign in policy; riskyUsers API met filter riskDetail eq 'userPassedMFADrivenByRiskBasedPolicy', helpt false positives identificeren
+
+- Onthouden voor examen
+  - Risky users en risky sign ins reports: max 2500 CSV entries, risk detections: max 5000
+  - Risky sign ins report: 30 dagen data, risk detections report: 90 dagen data
+  - Self remediation vereist vooraf geregistreerde MFA en SSPR
+  - Dismiss user risk sluit het risico maar verandert het wachtwoord niet, dus brengt de identity niet automatisch terug in een veilige staat
+  - riskDetection, riskyUsers, en signIn zijn de 3 kern Graph APIs voor Identity Protection data
 
 
 
