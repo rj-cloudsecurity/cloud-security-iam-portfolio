@@ -1585,4 +1585,77 @@ In Microsoft Graph, which three APIs expose information about risky users and si
 
 ---
 
+### Configure custom Azure roles
+
+- Wat het is
+  - Custom roles maken als de built-in roles niet aan de specifieke behoeften voldoen
+  - Toewijsbaar aan users, groups, en service principals op management group scope (alleen in preview), subscription scope, en resource group scope
+  - Opgeslagen in Entra ID, deelbaar over meerdere subscriptions
+  - Max 5000 custom roles per directory
+  - Aan te maken via Azure portal, Azure PowerShell, Azure CLI, of de REST API
+
+- Custom role aanmaken via de UI (stappen)
+  1. Microsoft Entra admin center
+  2. Identity > Roles and administration
+  3. + New custom role
+  4. Naam geven en de benodigde capabilities toewijzen
+  - Zelfde least privilege principe: alleen de capabilities kiezen die echt nodig zijn
+
+- Custom role aanmaken via JSON template
+  - JSON bestand met o.a. roleName, description, assignableScopes, en permissions (actions, notActions, dataActions, notDataActions)
+  - Voorbeeld: "Billing Reader Plus" rol met leesrechten op Authorization, Billing, Commerce, Consumption, Management (management groups), CostManagement, en volledige toegang tot Support
+  - Wildcard (*) gebruikt om brede permissions in 1 keer toe te kennen, kan op elk niveau in het pad staan (bv. Microsoft.Billing/*/read voor alle read permissions binnen Billing)
+
+- Onthouden voor examen
+  - Custom roles zitten in Entra ID, niet in een specifieke subscription, en zijn dus deelbaar over subscriptions heen
+  - Management group scope voor custom roles is nog in preview
+  - Max 5000 custom roles per directory (let op: dit is een ander limiet dan de max 4000/500 role assignments uit de vorige unit)
+  - JSON structuur: actions/notActions voor management plane, dataActions/notDataActions voor data plane acties
+ 
+---
+
+### Create and configure managed identities
+
+- Het probleem dat het oplost
+  - Cloud oplossingen moeten secrets, credentials, certificates, en keys beheren om communicatie tussen services te beveiligen
+  - Managed identities elimineren de noodzaak voor developers om deze credentials zelf te beheren
+  - Zelfs als secrets veilig in Azure Key Vault staan, hebben services nog steeds een manier nodig om bij die Key Vault te komen; managed identities lossen dat op
+
+- Wat het is
+  - Automatisch beheerde identity in Entra ID, voor applicaties om mee te verbinden met resources
+  - Ondersteunt authenticatie via Entra ID
+  - Applicaties krijgen Entra tokens zonder zelf credentials te hoeven beheren
+
+- Voordelen (kernstof)
+  - Geen credentials zelf beheren, credentials zijn zelfs niet toegankelijk voor jou
+  - Bruikbaar voor authenticatie naar elke resource die Entra authenticatie ondersteunt, incl. eigen applicaties
+  - Geen extra kosten
+
+- 2 types managed identity (kernstof)
+  - System assigned; direct enabled op een service instance, identity wordt aangemaakt in Entra ID, gebonden aan de lifecycle van die service instance. Resource verwijderd = identity automatisch verwijderd. Alleen die ene resource kan deze identity gebruiken
+  - User assigned; los, standalone Azure resource, toewijsbaar aan 1 of meerdere service instances tegelijk. Identity wordt los beheerd van de resources die hem gebruiken
+
+- Belangrijk om te onthouden
+  - Managed identities zijn toegewezen aan een applicatie; je configureert en beheert de identity binnen de service waar hij gebruikt wordt (bv. VM, cloud app, function, app service)
+
+- Managed identity toevoegen aan een App Service (stappen, portal)
+  1. App bouwen
+  2. App openen in de Azure portal
+  3. Identity in het menu > System assigned of User assigned kiezen
+  4. + Add item, wizard doorlopen
+
+- Alternatieve methodes 
+  - CLI: az webapp identity assign met resource group, app name, en identty name
+  - PowerShell: Update-AzFunctionApp met IdentityType UserAssigned en IdentityId
+  - Template: identity blok met type UserAssigned en userAssignedIdentities
+
+- Waarde van managed identities
+  - Sluit aan bij zero trust: alleen minimale privileges toewijzen die de managed identity nodig heeft, alleen toegang tot de minimaal benodigde resources
+  - Least privilege houdt applicaties en data beschermd
+
+- Onthouden voor examen
+  - System assigned = 1 op 1 gebonden aan 1 resource, verdwijnt automatisch met die resource
+  - User assigned = los beheerd, herbruikbaar over meerdere resources
+  - Managed identities kosten niets extra en vereisen geen credential management door de developer
+
 
