@@ -1507,9 +1507,82 @@ In Microsoft Graph, which three APIs expose information about risky users and si
 - riskyUsers, signIns, IdentitySet
 
 ---
---
+---
 
+## Learning Path 2: Implement an authentication and access management solution
+### Module 5: Implement access management for Azure resources 
 
+### Introduction
 
+- Wat deze module behandelt
+  - Toegang toewijzen en beheren tot Azure resources via Azure roles
+  - Doel: alleen specifieke toegang geven aan users/groups die het echt nodig hebben, via een rol met de juiste permissions
+  - Built-in Azure roles beschikbaar, custom roles zelf te maken indien nodig
+  - Applicaties kunnen ook permissions nodig hebben om data/resources te benaderen; managed identities laten een applicatie alleen toegang krijgen tot resources die jij toestaat
+  - Granulaire toegang tot secrets, keys, en certificates opgeslagen in een key vault, voor zowel users als applicaties
+  - Microsoft Entra Permissions Management; permissions verzamelen, reviewen en beperken across cloud oplossingen
+
+- Learning objectives
+  - Assign Azure roles and custom roles to access Azure resources
+  - Create and manage application access with managed identities
+  - Configure and manage access into Azure Key Vault
+  - Retrieve object from a key vault securely
+  - Explore the capabilities of Microsoft Entra Permissions Management
+
+---
+
+### Assign Azure roles
+
+- Wat het is
+  - Azure role based access control (Azure RBAC); authorization systeem om toegang tot Azure resources te beheren
+  - Rollen toegewezen aan users, groups, service principals, of managed identities, op een bepaalde scope
+
+- Stap 1: wie heeft toegang nodig
+  - User; voor 1 specifieke persoon, ook toewijsbaar aan users uit andere tenants
+  - Group; voor een set users die dezelfde rol nodig hebben
+  - Service Principal; als een applicatie toegang moet krijgen tot een Azure resource
+  - Managed Identity; als een applicatie zelf credentials moet beheren voor authenticatie
+
+- Stap 2: de juiste rol kiezen
+  - Built-in roles gebruiken, of een custom role maken met specifieke capabilities
+
+- Belangrijkste built-in Azure roles (kernstof)
+  - Owner; volledige toegang tot alle resources
+  - Contributor; kan alle types Azure resources aanmaken en beheren, maar kan geen toegang toewijzen
+  - Reader; kan beschikbare Azure resources bekijken
+  - User Access Administrator; kan toegang tot Azure resources toewijzen
+  - Andere task specifieke rollen mogelijk, bv. Virtual Machine Contributor
+
+- Stap 3: het juiste niveau bepalen (Scope)
+  - Scope = set resources waar de toegang op van toepassing is
+  - 4 niveaus, in parent child relatie: management group, subscription, resource group, resource
+  - Hoe hoger het niveau, hoe breder de scope; lagere niveaus erven permissions van hogere niveaus
+  - Voorbeelden:
+    - Reader rol op management group scope; user kan alles lezen in alle subscriptions binnen die management group
+    - Billing Reader rol op subscription scope; group kan billing data lezen van elke resource group en resource in die subscription
+    - Contributor rol op resource group scope; applicatie kan alle resource types beheren in die resource group, maar niet in andere resource groups binnen de subscription
+  - Best practice: least privilege, geen bredere rollen op bredere scopes toewijzen puur voor het gemak; beperkt de impact als een security principal ooit gecompromitteerd wordt
+
+- Stap 4: bevestigen dat de ingelogde user zelf de rechten heeft om de rol toe te wijzen
+
+- Stap 5: rol toewijzen
+  - Mogelijk via Azure portal, Azure PowerShell, Azure CLI, Azure SDKs, of REST APIs
+  - Limiet: max 4000 role assignments per subscription (incl. subscription, resource group, en resource scope niveaus samen)
+  - Limiet: max 500 role assignments per management group
+
+- Toewijzen via de portal
+  - Gebeurt via de Access control (IAM) pagina, official name: identity and access management (IAM), te vinden op meerdere plekken in de portal (User, Group, Resource Group, Subscription niveau)
+
+- Toewijzen via script
+  - PowerShell: New-AzRoleAssignment met ObjectId, RoleDefinitionName, en Scope parameters
+  - CLI: az role assignment create met assignee, role, en resource-group parameters
+
+- Onthouden voor examen
+  - 4 scope niveaus: management group > subscription > resource group > resource, met inheritance van boven naar beneden
+  - Owner kan alles incl. toegang beheren, Contributor kan resources beheren maar geen toegang toewijzen, User Access Administrator kan specifiek alleen toegang toewijzen
+  - Least privilege: kies het laagst mogelijke scope niveau dat nog steeds voldoet
+  - Max 4000 role assignments per subscription, max 500 per management group
+
+---
 
 
