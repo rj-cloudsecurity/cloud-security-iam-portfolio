@@ -1541,7 +1541,7 @@ In Microsoft Graph, which three APIs expose information about risky users and si
   - User; voor 1 specifieke persoon, ook toewijsbaar aan users uit andere tenants
   - Group; voor een set users die dezelfde rol nodig hebben
   - Service Principal; als een applicatie toegang moet krijgen tot een Azure resource
-  - Managed Identity; als een applicatie zelf credentials moet beheren voor authenticatie
+  - Managed Identity; als een applicatie zelf credentails moet beheren voor authenticatie
 
 - Stap 2: de juiste rol kiezen
   - Built-in roles gebruiken, of een custom role maken met specifieke capabilities
@@ -1622,7 +1622,7 @@ In Microsoft Graph, which three APIs expose information about risky users and si
   - Zelfs als secrets veilig in Azure Key Vault staan, hebben services nog steeds een manier nodig om bij die Key Vault te komen; managed identities lossen dat op
 
 - Wat het is
-  - Automatisch beheerde identity in Entra ID, voor applicaties om mee te verbinden met resources
+  - Automatisch beheerde identity in Entra ID, voor applicaties om mee te vebrinden met resources
   - Ondersteunt authenticatie via Entra ID
   - Applicaties krijgen Entra tokens zonder zelf credentials te hoeven beheren
 
@@ -1632,7 +1632,7 @@ In Microsoft Graph, which three APIs expose information about risky users and si
   - Geen extra kosten
 
 - 2 types managed identity (kernstof)
-  - System assigned; direct enabled op een service instance, identity wordt aangemaakt in Entra ID, gebonden aan de lifecycle van die service instance. Resource verwijderd = identity automatisch verwijderd. Alleen die ene resource kan deze identity gebruiken
+  - System assigned; direct enabled op een service instance, identity word aangemaakt in Entra ID, gebonden aan de lifecycle van die service instance. Resource verwijderd = identity automatisch verwijderd. Alleen die ene resource kan deze identity gebruiken
   - User assigned; los, standalone Azure resource, toewijsbaar aan 1 of meerdere service instances tegelijk. Identity wordt los beheerd van de resources die hem gebruiken
 
 - Belangrijk om te onthouden
@@ -1657,5 +1657,182 @@ In Microsoft Graph, which three APIs expose information about risky users and si
   - System assigned = 1 op 1 gebonden aan 1 resource, verdwijnt automatisch met die resource
   - User assigned = los beheerd, herbruikbaar over meerdere resources
   - Managed identities kosten niets extra en vereisen geen credential management door de developer
+
+---
+
+### Access Azure resources with managed identities
+
+- Waar rekening mee te houden
+  - Managed identities zijn een feature van Entra ID
+  - Elke Azure service die managed identities ondersteunt heeft zijn eigen tijdlijn qua beschikbaarheid
+  - Altijd de availability status en known issues checken voor je specifieke resource voordat je begint
+
+- Toegang toevoegen tot andere resources 
+  - Nadat een managed identity is enabled op een resource (bv. App Service of virtual machine), kan het nodig zijn om die identity ook toegang te geven tot een andere resource
+  - Voorbeeld: een virtual machine's managed identity toegang geven tot een storage account
+
+- Stappen
+  1. Azure portal, ingelogd met een account gekoppeld aan de subscription waar de managed identity is geconfigureerd
+  2. Navigeren naar de resource waar je de toegang wilt instellen (in het voorbeeld: de storage account, niet de VM zelf)
+  3. Access control (IAM) selecteren
+  4. Add > Add role assignment
+  5. Rol kiezen (Owner, Contributor, of Reader) op basis van least privilege voor wat de applicatie nodig heeft
+  6. De gewenste managed identity selecteren
+  7. Review + assign om de toewijzing af te ronden
+
+- Onthouden voor examen
+  - De rol wordt toegewezen op de resource waar de managed identity toegang toe moet krijgen, niet op de resource waar de managed identity zelf op draait
+  - Zelfde IAM/Access control flow als bij normale role assignments, alleen kies je nu een managed identity als de security principal in plaats van een user/group
+ 
+---
+
+### Analyze Azure role permissions
+
+- Wat is een permission
+  - Consent/autorisatie om een specifieke actie uit te voeren
+  - Range: van alleen bekijken tot instellingen wijzigen tot users toevoegen/verwijderen
+  - Toegewezen op user of group niveau, komt uiteindelijk altijd bij de user terecht
+  - Member user vs Guest user; guest heeft standaard iets minder rechten
+
+- Voorbeeld default permissions (subset)
+
+| Member Users | Guest Users |
+|---|---|
+| Users + contacts opsommen | Alleen eigen properties lezen |
+| Guest users uitnodigen | Guest users uitnodigen |
+| Security/M365 Groups aanmaken | Alleen niet verborgen groups zoeken op naam |
+| Nieuwe apps registreren | Properties van registered/enterprise apps lezen |
+
+- Permissions controleren, 2 manieren
+  - User Settings (Entra ID > Manage); default permissions beperken. Kan blokkeren: apps registreren, Azure portal toegang, LinkedIn connections, external collaboration settings
+  - Roles and administrators; nieuwe permissions toevoegen via rollen aan users/groups/service principals
+  - Kernprincipe: altijd least privilege
+
+- Permissions van een rol bekijken
+  - Entra ID > Roles and administrators > rol selectern > (...) menu > description page (Attribute definition reader)
+  - Elke rol toont 2 soorten permissions: Role permissions, en Guest and service principal basic read permissions
+
+- Onthouden voor examen
+  - Check altijd de volledige permissions lijst van een rol voordat je hem toewijst, rollen kunnen meer bevatten dan de naam doet vermoeden
+  - Deze unit herhaalt in essentie dezelfde stof als de eerdere "Analyze Microsoft Entra role permissions" unit uit Module 1, nu toegepast in context van Azure resource access i.p.v. puur Entra ID beheer
+
+---
+
+### Configure Azure Key Vault RBAC policies
+
+- 2 manieren om Key Vault toegang te regelen
+  - Role based access control (RBAC)
+  - Key Vault access policies
+  - Beide beschermen secrets, certificates, en keys; access policies geven iets granulairdere controle maar zijn lastiger te beheren
+
+- Key Vault access policy toewijzen
+  - Bepaalt of een user, application, of group operaties mag uitvoeren op secrets, keys, certificates
+  - Toewijsbaar via Azure portal, CLI, of PowerShell
+  - Max 1024 access policy entries per key vault, elke entry geeft een specifieke set permissions aan 1 security principal
+  - Vanwege deze limiet: aanbevolen om policies aan groups toe te wijzen i.p.v. individuele users, makkelijker te beheren
+
+- Stappen om een access policy toe te voegen
+  1. Key Vault openen in de Azure portal
+  2. Key vault selecteren of nieuwe aanmaken
+  3. Access policies > + Add Access Policy
+  4. Gewenste permissions toewijzen aan de service principal (user, group, of applicatie)
+  5. Add om op te slaan en toe te passen
+
+- Key Vault toegang via Azure RBAC
+  - RBAC laat users Key, Secrets, en Certificates permissions beheren vanuit 1 centrale plek, over alle key vaults heen
+  - Zelfde 4 scope niveaus als bij normale Azure roles: management group, subscription, resource group, of individuele resource
+  - RBAC voor key vault laat ook losse permissions per individuele key, secret, of certificate toe
+  - Aanbeveling: 1 vault per applicatie per omgeving (Development, Pre-Production, Production)
+
+- 2 stappen om RBAC te gebruiken voor Key Vault data toegang
+  1. Role based access control inschakelen in de key vault
+  2. Key vault Identity and Access (IAM) openen, rol toewijzen zoals bij andere scenario's (bv. managed identity)
+
+- Built-in Key Vault rollen (examen kernstof)
+
+| Rol | Beschrijving |
+|---|---|
+| Key Vault Administrator | Alle data plane operaties op alles in de vault (certificates, keys, secrets). Kan geen key vault resources of role assignments beheren |
+| Key Vault Certificates Officer | Alle acties op certificates, behalve permissions beheren |
+| Key Vault Crypto Officer | Alle acties op keys, behalve permissions beheren |
+| Key Vault Crypto Service Encryption User | Metadata van keys lezen, wrap/unwrap operaties uitvoeren |
+| Key Vault Crypto User | Cryptografische operaties uitvoeren met keys |
+| Key Vault Reader | Metadata lezen van key vaults en hun certificates/keys/secrets. Kan geen gevoelige waarden lezen (secret content of key material zelf) |
+| Key Vault Secrets Officer | Alle acties op secrets, behalve permissions beheren |
+| Key Vault Secrets User | Secret content lezen |
+
+- Onthouden voor examen
+  - Access policies: max 1024 entries per vault, beter groups gebruiken dan individuele users
+  - RBAC: centraal beheer over alle vaults, met granulariteit tot op individuele key/secret/certificate niveau
+  - Key Vault Reader kan metadata zien maar niet de daadwerkelijke gevoelige waarden, dat vereist Secrets User/Crypto User rollen
+  - RBAC moet eerst expliciet ingeschakeld worden in de key vault voordat je rollen kunt toewijzen
+ 
+---
+
+### Retrieve objects from Azure Key Vault
+
+- Wat het is
+  - Key Vault is een veilige plek om secrets, keys, en certificates op te slaan
+  - Eenmaal opgeslagen kunnen users en applicaties deze items veilig gebruiken
+  - Het proces om ze op te halen is vergelijkbaar voor elk type item, hier uitgelegd via een secret
+
+- Een secret toevoegen aan de key vault (stappen)
+  1. Key vault openen in de Azure portal
+  2. Key Vault settings > Secrets
+  3. Generate/Import
+  4. Create a secret: Upload options = Manual, Name = mySC300keyvaultSecret, Value = This is my secret
+  5. Create
+
+- Secret ophalen via de Azure portal
+  - Key vault openen, de aangemaakte secret openen, Show secret value selecteren om de waarde in platte tekst te zien/kopieren
+
+- Secret ophalen via CLI of PowerShell
+  - CLI: az keyvault secret show met name, vault-name, en query "value"
+  - PowerShell: Get-AzKeyVaultSecret met VaultName, Name, en AsPlainText
+
+- Secret ophalen binnen een applicatie
+  - Mogelijk via .NET, Node.js, Python, en andere talen om vanuit code toegang te krijgen tot secrets/keys/certificates in de key vault
+
+- Onthouden voor examen
+  - Het ophaalproces is grotendeels hetzelfde ongeacht of het om een secret, key, of certificate gaat
+  - Toegang via portal, CLI, PowerShell, of programmatisch vanuit een applicatie zijn allemaal mogelijk, mits de juiste permissions (RBAC of access policy) zijn toegewezen
+
+---
+
+## Module Assessment — Module 5 (Implement access management for Azure resources)
+
+**Score:** 100%
+
+### Vraag 1
+What tool is available in Azure to give administrators the ability to provide comprehensive visibility into permissions assigned to all identities, users and workloads, actions, and resources across cloud infrastructures and identity providers? It detects, right-sizes, and monitors unused and excessive permissions and enables Zero Trust security through least privilege access in Microsoft Azure, AWS, and GCP?
+
+- Azure Monitor
+- Microsoft Defender for Identity
+- ✅ Microsoft Entra Permissions Management
+
+### Vraag 2
+You want to assign the Azure role Contributor to a specific user; what tools can you use to make this assignment?
+
+- ✅ Azure portal, PowerShell, and CLI
+- Azure portal only
+- Scripting only with PowerShell and CLI
+
+### Vraag 3
+You want to create a managed identity for your application. You want the identity to be created and deleted dynamically when the resource is started and stopped. What type of managed identity do you need to create?
+
+- User-assigned
+- ✅ System-assigned
+- Dynamic-assigned
+
+---
+---
+
+
+
+
+
+
+
+
 
 
