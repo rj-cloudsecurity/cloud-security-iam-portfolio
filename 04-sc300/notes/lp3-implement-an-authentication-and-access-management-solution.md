@@ -1827,6 +1827,628 @@ You want to create a managed identity for your application. You want the identit
 ---
 ---
 
+## Learning Path 2: Implement an authentication and access management solution
+### Module 6: Deploy and Configure Microsoft Entra Global Secure Access
+
+### Introduction
+
+- Waarom dit belangrijk is
+  - De moderne workforce werkt niet meer alleen op kantoor, maar bijna overal vandaan
+  - Dit vraagt om een identity aware, cloud delivered network perimeter, ook wel Security Service Edge (SSE) genoemd
+  - Microsoft's SSE oplossing bestaat uit Microsoft Entra Internet Access en Microsoft Entra Private Access, samen Global Secure Access genoemd
+  - Gebaseerd op Zero Trust principes: least privilege, explicit verification, assume breach
+
+- Scenario ter illustratie
+  - Sales rep werkt remote vanaf een coffee shop, moet bij gevoelige customer data in de cloud
+  - Gebruikt Microsoft Entra Private Access om veilig te verbinden, identity te authenticaten, en de data te benaderen
+  - Toegang gebeurt zonder data bloot te stellen aan het publieke internet, met least privilege en explicit verification
+
+- Wat deze module behandelt
+  - Implementeren van Microsoft Entra Private Access en Microsoft Entra Internet Access via Azure en Entra ID
+
+
+---
+
+### Explore Global Secure Access
+
+- Wat het is
+  - Microsoft's Security Service Edge (SSE) oplossing, bestaat uit Entra Internet Access en Entra Private Access
+  - Combineert network, identity, en endpoint access controls, voor veilige toegang tot elke app/resource, vanaf overal
+  - Access orchestration voor employees, business partners, en digital workloads
+  - Continue monitoring en real time aanpassing van user access bij wijzigingen in permissions of risk level
+  - Beheerd via 1 unified portal
+  - Geleverd via het Microsoft Wide Area Network, over globale regio's en edge locaties, waardoor users/devices veilig kunnen verbinden met publieke en private resources
+
+- Microsoft Entra Internet Access
+  - Beveiligt toegang tot Microsoft services, SaaS, en publieke internet apps
+  - Beschermt users, devices, en data tegen internet threats
+  - Werkt via een identity centric, device aware, cloud delivered Secure Web Gateway (SWG)
+
+- Key features Internet Access 
+  - Voorkomt stolen token reply attacks via compliant network checks in Conditional Access
+  - Universal tenant restrictions tegen data exfiltratie
+  - Verrijkte logs met network en device signalen
+  - Preciezere risk assessments op users, locaties, en devices
+  - Netwerkverkeer verzamelen via de desktop client of vanaf een remote network
+  - Dedicated forwarding profile specifiek voor publiek internetverkeer
+  - Bescherming van user toegang tot publiek internet via het SWG
+  - Toegang regelen op basis van content categorieen en domeinnamen van websites
+  - Universal Conditional Access policies toepasbaar op alle internet destinations
+
+- Microsoft Entra Private Access
+  - Veilige toegang tot private, corporate resources
+  - Bouwt voort op Entra application proxy, uitgebreid naar elke private resource, poort, en protocol
+  - Remote users verbinden met private apps over hybrid en multicloud omgevingen, private netwerken, en datacenters, vanaf elk device/netwerk, zonder VPN
+  - Per app adaptive access, gebaseerd op Conditional Access policies
+
+- Key features Private Access 
+  - Zero Trust based toegang tot IP adressen en/of Fully Qualified Domain Names (FQDNs), zonder legacy VPN
+  - Modernisering van legacy app authenticatie via Conditional Access
+  - Naast bestaande non Microsoft SSE oplossingen te deployen, voor een naadloze end user experience
+
+- Voordat je begint
+
+- Licenties 
+  - Entra ID P1 of P2 licentie
+  - Entra Internet Access licentie en/of Entra Private Access licentie
+
+- Rollen
+  - Global Secure Access Administrator rol toegewezen aan minimaal 1 administrator
+
+- Aanbevolen: Zero Trust Guidance Center raadplegen voor implementatie planning. Configuratie gebeurt in het Entra admin center (entra.microsoft.com)
+
+- Onthouden voor examen
+  - Internet Access = publieke internet/SaaS bescherming via SWG, Private Access = private corporate resources zonder VPN, beide samen vormen Global Secure Access
+  - Private Access is een uitbreiding op het bestaande Entra application proxy concept
+  - Vereist altijd P1 of P2, plus een aparte Internet Access en/of Private Access licentie
+
+---
+
+### Deploy and configure Microsoft Entra Internet Access
+
+- 4 hoofdstappen (examen kernstof)
+  1. Microsoft traffic forwarding profile inschakelen
+  2. Global Secure Access Client instaleren op end user devices
+  3. Tenant restrictions inschakelen
+  4. Enhanced Global Secure Access signaling en Conditional Access inschakelen
+
+- Belangrijk om te onthouden
+  - Conditional Access policies voor Microsoft traffic worden alleen afgedwongen als de user de Global Secure Access client heeft
+  - Zonder de client is Microsoft traffic wel toegankelijk via remote network connectivity, maar dan zonder dat de Conditional Access policy wordt afgedwongen
+
+- Stap 1: Microsoft traffic forwarding profile inschakelen
+  - Global Secure Access Administrator > Global Secure Access > Connect > Traffic forwarding
+  - Microsoft traffic profile enablen
+  - Zet automatisch 3 configuraties klaar:
+    - Policies (network routing); Exchange Online, SharePoint Online + OneDrive for Business, en Entra ID + MSGraph, via FQDNs of IP subnets
+    - Conditional Access Policy; gekoppelde policy die alle Microsoft traffic vangt en routeert volgens de policies hierboven als condities matchen
+    - User and Group; specifieke users/groups waarop deze traffic forwarding van toepassing is
+
+- Stap 2: Global Secure Access Client installeren
+  - Deploybaar via Intune, of handmatig per device
+  - Download client: Global Secure Access Administrator > Global Secure Access > Connect > Client download
+  - Installatie Windows: setup file kopieren, GlobalSecureAccessClient.exe draaien, licentievoorwaarden accepteren, user logt in met Entra credentials, connectie icoon wordt groen bij succesvolle verbinding
+  - Android: installeerbaar via Intune of Microsoft Defender for Endpoint on Android, client komt uit de Android store
+
+- Stap 3: Tenant Restrictions configureren
+  - Controleert user toegang tot externe tenants op het netwerk
+  - Werkt samen met cross tenant access settings, voegt tenant level restricties toe plus granulariteit op user/group/app niveau
+  - Verplaatst policy management van network proxies naar een cloud based portal
+  - Kan: interne identities (employees) toegang geven tot specifieke externe tenants, toegang blokkeren tot niet toegestane tenants, externe identities (contractors/vendors) volledig blokkeren van alle externe tenants
+
+- Tenant restrictions instellen (stappen)
+  1. Minimaal Security Administrator
+  2. Identity > External Identities > Cross tenant access settings > Organizational settings
+  3. Add organization, volledige domeinnaam of tenant ID invullen
+  4. Organisatie selecteren uit zoekresultaten, Add
+  5. Organisatie verschijnt in de lijst, standaard geerfd van default settings
+  6. Instellingen aanpassen via de "Inherited from default" link onder Inbound/Outbound access
+
+- Global Secure Access enablen voor tenant restrictions
+  - Vereist zowel Global Secure Access Administrator als Security Administrator rol
+  - Global Secure Access > Global Settings > Session Management > Tenant Restrictions
+  - Toggle Enable tagging aanzetten, Save
+
+- Hoe tenant restrictions werken (voorbeeldflow, examen kernstof)
+  1. Organisatie configureert een tenant restrictions v2 policy die externe accounts/apps blokkeert, afgedwongen via Global Secure Access universal tenant restrictions
+  2. User met managed device probeert een Entra integrated app te benaderen met een niet toegestane externe identity
+  3. Authentication plane protection; Entra ID blokkeert de externe account op basis van de policy
+  4. Data plane protection; via universal tenant restrictions v2, dekt Microsoft Graph. Hergebruik van een geinfiltreerd Entra token voor Graph wordt geblokkeerd, anonieme toegang tot SharePoint Online eveneens. Data plane protection voor third party apps (bv. Slack) valt hier niet onder
+
+- Stap 4: Enhanced Global Secure Access signaling en Conditional Access
+  - Combinatie van Conditional Access + Global Secure Access voorkomt kwaadaardige toegang tot Microsoft apps, SaaS apps, en private line of business (LoB) apps
+  - Meerdere condities te combineren voor defense in depth (device compliance, locatie, etc.)
+  - Introduceert het concept van een compliant network binnen Conditional Access; checkt of de user verbindt via een geverifieerde netwerkverbinding
+  - Voordeel: geen lijst van alle IP adressen van organisatielocaties meer nodig, geen verplichte VPN egress meer nodig voor security
+  - Continuous Access Evaluation (CAE) met compliant network momenteel ondersteund voor SharePoint Online, biedt token theft replay protection
+
+- Global Secure Access signaling inschakelen (stappen)
+  1. Global Secure Access Administrator > Global Secure Access > Global settings > Session management > Adaptive access
+  2. Toggle Enable Global Secure Access signaling in Conditional Access aanzetten
+  3. Protection > Conditional Access > Named locations
+  4. Controleren of er een locatie "All Compliant Network locations" bestaat (type Network Access), optioneel als trusted markeren
+
+- Conditional Access policy bouwen voor networks (stappen)
+  1. Minimaal Conditional Access Administrator
+  2. Protection > Conditional Access > Create new policy, naam geven
+  3. Assignments > Users or workload identities > Include All users, Exclude emergency/break glass accounts
+  4. Target resources > Include > Select apps: Office 365 Exchange Online en/of SharePoint Online en/of SaaS apps. Let op: de brede "Office 365" cloud app optie wordt hier NIET ondersteund, dus niet selecteren
+  5. Conditions > Location > Yes > Include Any location, Exclude Selected locations > All Compliant Network locations
+  6. Access controls > Grant > Block Access
+  7. Enable policy On > Create
+
+- Onthouden voor examen
+  - Zonder de Global Secure Access client wordt Conditional Access niet afgedwongen op Microsoft traffic, ook al is de traffic zelf wel toegankelijk
+  - Tenant restrictions v2 beschermt zowel de authentication plane (Entra ID zelf) als de data plane (Microsoft Graph, SharePoint Online), maar dekt geen third party apps zoals Slack
+  - De brede "Office 365" cloud app optie wordt niet ondersteund in deze specifieke Conditional Access policy voor compliant network, gebruik de losse apps (Exchange Online, SharePoint Online) in plaats daarvan
+  - CAE met compliant network is momenteel alleen ondersteund voor SharePoint Online
+
+---
+
+### Deploy and configure Microsoft Entra Private Access
+
+- 4 hoofdstappen (examen kernstof)
+  1. Microsoft Entra private network connector en connector group configureren
+  2. Quick Access configureren voor private resources
+  3. Private Access traffic forwarding profile inschakelen
+  4. Global Secure Access Client installeren en configureren op end user devices
+
+- Stap 1: Connector en connector groups
+  - Connectors zijn lightweight agents op een server in het private netwerk, faciliteren outbound connectie naar Global Secure Access
+  - Moeten geinstalleerd worden op Windows Server met toegang tot de backend resources/applicaties
+  - Connectors organiseerbaar in connector groups, elke group handelt traffic naar specifieke applicaties af
+
+- Server vereisten voor connector (examen kernstof)
+  - Windows Server 2016 of later
+  - Aanbevolen: meer dan 1 server voor high availability
+  - Minimaal .NET v4.7.2+
+  - TLS 1.2 vereist op de Windows Server
+
+- Benodigde outbound poorten
+  - Poort 80; downloaden van certificate revocation lists (CRLs) tijdens TLS/SSL certificate validatie
+  - Poort 443; alle outbound communicatie met de Application Proxy service
+
+- Benodigde URLs (referentie, niet uit het hoofd leren)
+  - Verschillende Microsoft/DigiCert URLs nodig voor communicatie met de Application Proxy cloud service, certificate verificatie, en het registratieproces, via poort 443/HTTPS en 80/HTTP
+
+- Connector installeren via Entra (stappen)
+  1. Global Administrator van de directory die Application Proxy gebruikt
+  2. Bevestigen dat je in de juiste directory zit (Switch directory indien nodig)
+  3. Global Secure Access > Connect > Connectors
+  4. Download connector service
+  5. Terms of Service accepteren, Accept terms & Download
+  6. Installeren via Run
+  7. Wizard doorlopen, Global Administrator credentials invoeren om de connector te registreren bij Application Proxy
+
+- Connector installatie verifieren
+  - Op de Windows Server: services.msc openen, checken of "Microsoft Entra private network connector" en "Microsoft Entra private network connector Updater" op Running staan, anders handmatig starten
+  - In Entra: Global Secure Access > Connect > Connectos, connector uitklappen voor details. Groen label = kan verbinden met de service (netwerkproblemen kunnen berichten alsnog blokkeren, ondanks groen label)
+
+- Connector groups aanmaken (stappen)
+  1. Global Secure Access > Connect > Connectors
+  2. New connector group
+  3. Naam geven, connectors selecteren via dropdown
+  4. Save
+
+- Stap 2: Quick Access configureren
+  - Definieert specifieke FQDNs of IP adressen van private resources die onder Private Access traffic vallen
+  - 3 onderdelen: naam voor de Quick Access app, connector group koppelen, application segments toevoegen (kan gelijktijdig of later)
+
+- Quick Access opzetten (stappen)
+  1. Global Secure Access > Applications > Quick access
+  2. Naam invoeren (aanbevolen: "Quick Access")
+  3. Connector group selecteren uit dropdown
+  4. Save (app zonder FQDNs/IP's kan al opgeslagen worden)
+
+- Application segment toevoegen (destination types, examen kernstof)
+  - IP address; IPv4 adres, plus poorten
+  - Fully qualified domain name (incl. wildcard FQDNs); domeinnaam, plus poorten. NetBIOS niet ondersteund (gebruik contoso.local/app1, niet contoso/app1)
+  - IP address range (CIDR); bv. 192.0.2.0/24, eerste 24 bits = network address, resterende 8 bits = host address
+  - IP address range (IP to IP); van start IP tot eind IP, plus poorten
+  - Poorten: komma voor meerdere poorten, hyphen voor een range, spaties worden verwijderd (bv. 400-500, 80, 443)
+
+- Meestgebruikte poorten en protocollen (examen kernstof)
+
+| Poort | Protocol |
+|---|---|
+| 22 | Secure Shell (SSH) |
+| 80 | Hypertext Transfer Protocol (HTTP) |
+| 443 | Hypertext Transfer Protocol Secure (HTTPS) |
+| 445 | Server Message Blocks (SMB) file sharing |
+| 3389 | Remote Desktop Protocol (RDP) |
+
+- Users en groups toewijzen aan Quick Access
+  - Global Secure Access > Applications > Quick Access > Edit application settings > Users and groups
+  - Users/groups toevoegen, Conditional Access policies optioneel toepasbaar
+
+- Stap 3: Private Access traffic forwarding profile inschakelen
+  - Routeert traffic naar het private netwerk via de Global Secure Access Client
+  - Laat remote workers zonder VPN verbinden met interne resources
+  - Controle over welke private resources getunneld worden, plus Conditional Access policies toepasbaar
+  - Stappen: Global Secure Access > Connect > Traffic forwarding > checkbox Private access profile aanvinken
+
+- Stap 4: Global Secure Access Client installeren (zelfde proces als bij Internet Access)
+  - Deploybaar via Intune, of handmatig
+  - Download: Global Secure Access Administrator > Global Secure Access > Connect > Client download
+  - Installatie Windows: setup file kopieren, GlobalSecureAccessClient.exe draaien, licentievoorwaarden accepteren, inloggen met Entra credentials, connectie icoon wordt groen
+  - Android: via Intune of Microsoft Defender for Endpoint on Android, client uit de Android store
+
+- Onthouden voor examen
+  - Connector vereist minimaal Windows Server 2016, .NET 4.7.2+, en TLS 1.2
+  - Groen label bij een connector betekent dat hij kan verbinden, maar garandeert niet dat er geen netwerkproblemen zijn
+  - NetBIOS wordt niet ondersteund bij FQDN based application segments
+  - Private Access vervangt in dit scenario de noodzaak van een traditionele VPN voor remote toegang tot interne resources
+    
+---
+
+### Explore how to use the Dashboard to drive Global Secure Access
+
+- Toegang tot het dashboard
+  - Global Secure Access Administrator > Global Secure Access > Dashboard
+
+- Wat het dashboard doet
+  - Visualisaties van network traffic verzameld door Private Access en Internet Access
+  - Aggregeert data van network configuraties, devices, users, en tenants
+  - Bestaat uit meerdere widgets
+
+- Widgets, overzicht
+  - Volume devices met de Global Secure Access client
+  - Wijzigingen in aantal actieve devices
+  - Alerts en belangrijke notificaties
+  - Service usage patterns
+  - Meest gebruikte destinations
+  - Unique users over alle tenants
+  - Populairste website categorieen
+  - Meest gebruikte private application segments
+
+- Global Secure Access snapshot
+  - Samenvatting van users, devices, en secured applications
+  - Users; distincte users laatste 24 uur, gebaseerd op user principal name (UPN)
+  - Devices; distincte devices laatste 24 uur, gebaseerd op device ID
+  - Workloads; distincte destinations laatste 24 uur, gebaseerd op FQDNs en IP adressen
+  - Filterbaar op Internet Access, Private Access, of Microsoft traffic
+
+- Alerts and notifications (preview)
+  - Toont netwerkactiviteit en helpt verdachte activiteiten/trends te identificeren
+  - Veelvoorkomende alerts:
+    - Unhealthy remote network; 1 of meer device links disconnected
+    - Increased external tenants activity; toename in users die externe tenants benaderen
+    - Token and device inconsistency; origineel token gebruikt op een ander device
+    - Web content blocked; toegang tot een website geblokkeerd
+
+- Usage profiling (preview)
+  - Toont usage patterns over een gekozen periode
+  - Display by filter: Transactions, Users, Devices, Bytes sent, Bytes received
+
+- Top used destinations
+  - Toont alle traffic types, gesorteerd op aantal transacties, filterbaar per traffic type
+  - Filters: Transactions (meeste transacties laatste 24u), Users (meeste distincte users), Devices (meeste distincte device IDs), Bytes sent, Bytes received (per IP adres, laatste 24u)
+  - View all destinations knop voor meer detail
+
+- Cross-tenant access
+  - Zichtbaarheid in users/devices die andere tenants benaderen
+  - Sign-ins; aantal sign ins via Entra ID naar Microsoft services laatste 24u
+  - Total distinct tenants; aantal unieke tenant IDs laatste 24u
+  - Unseen tenants; tenant IDs gezien in laatste 24u maar niet in de 7 dagen ervoor
+  - Users; aantal unieke user sign ins naar andere tenants laatste 24u
+  - Devices; aantal unieke devices die inlogden bij andere tenants laatste 24u
+  - Configure tenant restrictions knop leidt naar Session management, om tenant restriction settings te checken
+
+- Web category filtering
+  - Toont top categorieen van geblokkeerde/toegestane webcontent
+  - Helpt bepalen welke sites/categorieen je wilt blokkeren
+  - Sorteerbaar op Transactions, Users, Devices
+  - View all web categories voor meer detail
+
+- Device status
+  - Active devices; distincte device IDs laatste 24u, met % verandering
+  - Inactive devices; distincte device IDs gezien in laatste 7 dagen maar niet in laatste 24u, met % verandering
+
+- Onthouden voor examen
+  - De meeste widgets werken met een 24 uur venster, tenzij anders vermeld (bv. inactive devices kijkt naar 7 dagen)
+  - UPN wordt gebruikt om users te identificeren, device ID om devices te identificeren, FQDN/IP om destinations te identificeren
+  - Cross tenant access widget koppelt direct terug naar de tenant restrictions configuratie
+ 
+---
+
+### Create remote networks for use with Global Secure Access
+
+- Wat een remote network is
+  - Een remote locatie (bv. branch office) of netwerk dat internetconnectiviteit nodig heeft
+  - Verbindt users op afstand met Global Secure Access
+  - Na configuratie: traffic forwarding profile toewijsbaar om corporate network traffic te beheren
+  - Laat network security policies toepassen op outbound traffic
+
+- Hoe de verbinding technisch werkt
+  - Een IPSec tunnel tussen een core router (customer premises equipment, CPE) op de remote locatie en het dichtstbijzijnde Global Secure Access endpoint
+  - Alle internet bound traffic gaat via die core router, voor security policy evaluatie in de cloud
+  - Geen client installatie nodig op individuele devices, in tegenstelling tot Internet/Private Access die wel de Global Secure Access Client gebruiken
+
+- 5 stappen om een Remote Network te configureren (examen kernstof)
+
+| Stap | Beschrijving |
+|---|---|
+| Basics | Naam van het remote network en de regio waarmee verbonden wordt |
+| Connectivity | Gegevens over de on premises router, waar het signaal vandaan komt |
+| Traffic Forwarding | Traffic forwarding profile toevoegen om te bepalen welk type verkeer wordt toegelaten |
+| Review Configuration | Setup bevestigen, instellingen verzamelen voor de on premises router |
+| Setup on-premises router | Microsoft connectivity settings invoeren in het management console van de on premises router |
+
+  - Uitvoerbaar via Microsoft Entra admin center of Microsoft Graph API
+  - De laatste stap gebeurt op de on premises router zelf, niet in Entra
+
+- Configure Basics
+  - Global Secure Access Administrator > Global Secure Access > Connect > Remote networks
+  - Create remote network, invullen: Name, Region
+
+- Setup Connectivity
+  - Next: Connectivity, invullen: Name, Device type (meestal router), IP address van het device, type redundancy, Bandwidth
+
+- Enable Traffic forwarding profiles
+  - Nieuwe traffic forwarding profile aanmaken, of een bestaande selecteren die eerder is gemaakt bij Private Access of Internet Access
+
+- Configuratie afronden: on premises router instellen
+  - Alle remote networks staan op de Remote network pagina
+  - View configuration link in de Connectivity details kolom geeft de connectiviteitsgegevens vanaf de Microsoft kant
+  - Deze gegevens moet je invoeren in het management console van je eigen CPE, niet in het Entra admin center
+  - IPsec is bidirectioneel; Internet Key Exchange (IKE) onderhandelingen moeten plaatsvinden tussen beide partijen voordat de tunnel werkt
+  - Zonder deze laatste stap werkt de IPsec verbinding niet
+
+- Onthouden voor examen
+  - Remote networks gebruiken geen client software op devices, in tegenstelling tot Internet Access/Private Access die de Global Secure Access Client vereisen
+  - De verbinding is een IPSec tunnel tussen CPE en het dichtstbijzijnde Global Secure Access endpoint
+  - De laatste configuratiestap gebeurt altijd op de router zelf, buiten Entra om
+  - Traffic forwarding profile kan hergebruikt worden vanuit Private Access of Internet Access configuratie
+
+---
+
+### Use Conditional Access with Global Secure Access
+
+- Waarom combineren
+  - Extra beveiligingslagen na deployment van Global Secure Access
+  - Voorkomt kwaadaardige toegang tot Microsoft apps, SaaS apps, en private line of business (LoB) apps
+  - Meerdere condities combineerbaar voor defense in depth (device compliance, locatie, etc.)
+
+- 3 nieuwe checks in Conditional Access (examen kernstof)
+  - Compliant network check; verifieert dat users verbinden via een geverifieerd netwerk connectivity model voor hun tenant, compliant met security policies
+  - Private Access apps; Conditional Access policies toepasbaar op Private Access apps, voor interne/private resources
+  - Source IP restoration; herstelt de originele source IP van de user, die anders verloren gaat door de cloud based network proxy tussen user en resource
+
+- Vereiste eenmalige stap: Global Secure Access signaling enablen
+  - Nodig voor zowel Compliant network check als Source IP restoration
+  - Global Secure Access Administrator > Global Secure Access > Global settings > Session management > Adaptive access
+  - Toggle Enable CA Signaling for Microsoft Entra ID (covering all cloud apps)
+  - Continuous Access Evaluation (CAE) signaling wordt automatisch enabled voor Office 365 (preview)
+  - Protection > Conditional Access > Named locations; controleren of "All Compliant Network locations" bestaat (type Network Access), optioneel als trusted markeren
+
+- Compliant Network Check, hoe het werkt
+  - Handhaving op 2 niveaus: authentication plane en data plane (preview)
+  - Authentication plane; Entra ID handhaaft tijdens user authenticatie zelf
+  - Data plane; werkt met services die Continuous Access Evaluation (CAE) ondersteunen, momenteel alleen Exchange Online en SharePoint Online. Biedt token theft replay protection
+  - Voorkomt dat andere organisaties die ook Global Secure Access gebruiken toegang krijgen tot jouw resources (bv. Contoso beschermt Exchange/SharePoint zo dat Fabrikam's eigen compliant network check niet voldoet aan Contoso's eisen)
+
+- Policy om resources achter compliant network te beschermen (stappen)
+  1. Minimaal Conditional Access Administrator
+  2. Protection > Conditional Access > Create new policy, naam geven
+  3. Assignments > Users or workload identities > Include All users, Exclude emergency/break glass accounts
+  4. Target resources > Include > Select apps: Exchange Online en/of SharePoint Online en/of SaaS apps. Let op: brede "Office 365" cloud app NIET ondersteund, niet selecteren
+  5. Conditions > Location > Yes > Include Any location, Exclude Selected locations > All Compliant Network locations
+  6. Access controls > Grant > Block Access
+  7. Enable policy On > Create
+  - Typische policy: blokkeer toegang vanaf alle netwerklocaties, behalve Compliant Network
+
+- Conditional Access voor Private Access apps (stappen)
+  1. Minimaal Conditional Access Administrator
+  2. Global Secure Access > Applications > Enterprise applications
+  3. Applicatie selecteren uit de lijst
+  4. Conditional Access in het zijmenu, bestaande policies verschijnen als lijst
+  5. Create new policy; de geselecteerde app wordt automatisch als Target resource toegevoegd
+  6. Conditions, access controls, en users/groups verder configureren
+  - Vanuit Global Secure Access starten voegt de app automatisch toe als target, dus dat hoef je niet los te doen
+
+- Source IP Restoration
+  - Herstelt de originele user Source IP voor backward compatibility
+  - Voordelen: Source IP based location policies blijven werken in Conditional Access en CAE, Identity Protection krijgt consistente originele Source IP voor risk scoring, originele Source IP zichtbaar in Entra sign in logs
+
+- Known limitations Source IP Restoration (examen kernstof)
+  - Als het enabled is, zie je alleen de source IP, niet het IP van de Global Secure Access service zelf
+  - Momenteel alleen ondersteund voor Microsoft traffic (SharePoint Online, Exchange Online, Teams, Microsoft Graph)
+  - Met CAE's strict location enforcement kunnen users alsnog geblokkeerd worden, ondanks dat ze in een trusted IP range zitten
+
+- Source IP Restoration inschakelen
+  - Wordt automatisch enabled zodra je Global Secure Access signaling aanzet, geen aparte configuratie nodig
+
+- User exclusions (herhaling van eerdere unit)
+  - Emergency/break glass accounts; voorkomt tenant wide lokcout
+  - Service accounts/service principals (bv. Entra Connect Sync Account); niet interactief, niet gekoppeld aan een specifieke user
+
+- Onthouden voor examen
+  - Compliant network check werkt op authentication plane (altijd) en data plane (alleen Exchange/SharePoint via CAE)
+  - Global Secure Access signaling enablen is een eenmalige, verplichte voorstap voor zowel compliant network check als source IP restoration
+  - Source IP restoration dekt alleen Microsoft traffic, geen third party apps
+  - De brede "Office 365" cloud app optie wordt ook hier niet ondersteund in de compliant network policy
+ 
+--- 
+
+### Explore logs and monitoring options with Global Secure Access
+
+- Waarom monitoring belangrijk is
+  - Activiteit van traffic door je netwerken moet gevolgd worden
+  - Logs geven inzicht in netwerkverkeer
+
+- Global Secure Access Audit logs
+  - Entra audit log is een waardevolle bron bij onderzoek/troubleshooting van wijzigingen in de Entra omgeving
+  - Wijzigingen gerelateerd aan Global Secure Access worden hierin vastgelegd
+  - Categorieen: filtering policy, forwarding profiles, remote network management, en meer
+
+- Audit logs bekijken (2 manieren)
+  - Via Global Secure Access: Global Secure Access > Audit logs, filters staan al vooraf ingevuld met relevante categorieen/activiteiten
+  - Via Entra monitoring: Identity > Monitoring & health > Audit logs, Date range kiezen, Service filter op Global Secure Access, Category filter minimaal 1 optie selecteren, Apply
+
+- Traffic logs (preview)
+  - Overzicht van netwerkverbindingen en transacties: wie benaderde wat, vanwaar, met welk resultaat
+  - Snapshot van alle verbindingen, gecategoriseerd, incl. traffic type destination, source IP, etc.
+
+- 3 niveaus van traffic logs (examen kernstof)
+  - Session; start bij de eerste URL die een user benadert, kan meerdere connections openen (bv. een nieuwssite met ads van meerdere andere sites)
+  - Connection; bevat source/destination IP, source/destination port, en FQDN, samen de 5 tuple genoemd
+  - Transaction; 1 unieke request/response paar
+
+- Traffic logs bekijken (stappen)
+  - Minimaal Reports Reader rol
+  - Global Secure Access > Monitor > Traffic logs
+  - Verschillende filters en export opties beschikbaar
+
+- Enriched Office 365 logs (preview)
+  - Inzicht in performance, experience, en availability van M365 apps
+  - Te integreren met Log Analytics workspace of een SIEM tool voor verdere analyse
+  - Geeft network diagnostic data, performance data, en security events relevant voor M365 apps
+  - Voorbeeld nut: als M365 toegang geblokkeerd is voor een user, zie je hoe het device verbindt met het netwerk
+
+- Wat deze logs bieden
+  - Verbeterde latency
+  - Extra informatie toegevoegd aan originele logs
+  - Nauwkeurig IP adres
+
+- Enriched M365 logs bekijken (eenmalig, 2 stappen)
+  1. Global Secure Access Network Traffic logs en M365 Unified Audit logs verzamelen op hetzelfde endpoint (Microsoft Sentinel aanbevolen)
+  2. Eigen join query maken om de 2 tabellen te correleren, of de kant en klare Global Secure Access Enriched Microsoft 365 Logs workbook gebruiken
+  - Gebruikt de bestaande tabellen Microsoft 365 OfficeActivity en Global Secure Access NetworkAccessTraffic, gecombineerd via een Unique Token ID
+  - Let op: momenteel alleen SharePoint Online logs beschikbaar voor deze log enrichment
+
+- Logs naar een endpoint sturen (stappen)
+  1. Minimaal Security Administrator
+  2. Identity > Monitoring & health > Diagnostic settings
+  3. Add Diagnostic setting
+  4. Naam geven
+  5. NetworkAccessTrafficLogs selecteren
+  6. Destination kiezen: Log Analytics workspace, storage account (archief), event hub (stream), of partner solution
+
+- Log retention en storage (examen kernstof)
+  - Traffic logs en remote network health logs; 30 dagen bewaard
+  - Audit logs; retentieperiode varieert per Entra ID licentie
+  - Office logs; kortste bewaartermijn, slechts 24 uur
+
+- Onthouden voor examen
+  - 5 tuple = source IP, destination IP, source port, destination port, en FQDN (onderdeel van de Connection laag)
+  - Enriched M365 log correlatie werkt momenteel alleen voor SharePoint Online
+  - Office logs hebben veruit de kortste retentie (24 uur) vergeleken met traffic logs (30 dagen) en audit logs (licentie afhankelijk)
+ 
+---
+
+## Module Assessment — Module 6 (Deploy and Configure Microsoft Entra Global Secure Access)
+
+**Score:** 100%
+
+### Vraag 1
+What is the main function of Microsoft Entra Private Access?
+
+- ✅ It provides your users secure access to your private, corporate resources without requiring a VPN.
+- It secures access to Microsoft services, SaaS, and public internet apps while protecting users, devices, and data against internet threats.
+- It provides a unified portal to streamline the roll-out and management of the access control capabilities.
+
+### Vraag 2
+What is the purpose of enabling the Microsoft traffic forwarding profile in Microsoft Entra Internet Access?
+
+- It allows users to bypass the Global Secure Access client when accessing Microsoft resources, like Exchange Online and SharePoint Online.
+- It enables users to access Microsoft resources without any restrictions.
+- ✅ With the Microsoft profile enabled, Microsoft Entra Internet Access acquires the traffic going to Microsoft services, like Exchange Online and SharePoint Online.
+
+### Vraag 3
+What is the purpose of configuring a Microsoft Entra private network connector and connector groups?
+
+- To facilitate inbound connection to the Global Secure Access service and handle traffic to specific applications.
+- To install on a Windows device that doesn't have access to the backend resources and applications.
+- ✅ To facilitate the outbound connection to the Global Secure Access service and handle traffic to specific applications.
+
+### Vraag 4
+What does the Global Secure Access snapshot widget provide in the Dashboard?
+
+- ✅ It provides a summary of how many users and devices are using the service and how many applications were secured through the service.
+- It provides a summary of the number of users and devices using the service and how many applications blocked by the service.
+- It provides a summary of the number of users and devices using the service and how many alerts were generated.
+
+### Vraag 5
+What is the final step in configuring a Remote Network for use with Global Secure Access?
+
+- Defining the name of your remote network and the region where you want to connect.
+- Reviewing the configuration in the Microsoft Entra admin center.
+- ✅ Updating the on-premises router configuration with the Microsoft connectivity settings.
+
+### Vraag 6
+What is the purpose of the Compliant Network Check in Conditional Access with Global Secure Access?
+
+- It allows any organization using Microsoft's Global Secure Access services to access your resources.
+- It checks if the network is compliant with the security policies of any tenant.
+- ✅ It ensures users connect from a verified network connectivity model for their specific tenant and are compliant with security policies enforced by administrators.
+
+### Vraag 7
+What is the purpose of Global Secure Access Audit logs?
+
+- They provide information about Microsoft 365 workloads, so you can review network diagnostic data, performance data, and security events relevant to Microsoft 365 apps.
+- ✅ They provide information when researching or troubleshooting changes to your Microsoft Entra environment, capturing changes related to Global Secure Access in several categories.
+- They provide a summary of the network connections and transactions that are occurring in your environment.
+
+
+---
+---
+
+
+### Samenvatting Module 6 termen
+
+- Global Secure Access; de overkoepelende Security Service Edge (SSE) solution van Microsoft, bestaat uit Internet Access en Private Access
+- Microsoft Entra Internet Access; service die publieke internet/SaaS/Microsoft app toegang beveiligt via een Secure Web Gateway (SWG)
+- Microsoft Entra Private Access; service die veilige toegang geeft tot private corporate resources, zonder VPN
+- Global Secure Access Client; de app/client die op end user devices geinstalleerd wordt om traffic te herkennen en te beveiligen
+- Traffic forwarding profile; configuratie die bepaalt welk soort verkeer (Microsoft, Internet, of Private) via Global Secure Access gerouteerd wordt
+- Tenant restrictions; policy die bepaalt welke externe tenants users wel/niet mogen benaderen
+- Connector; lightweight agent op een on premises Windows Server, faciliteert de outbound verbinding naar Global Secure Access
+- Connector group; verzameling connectors, gebruikt om traffic naar specifieke applicaties te routeren
+- Quick Access; app binnen Private Access waarin je FQDNs/IP adressen van private resources definieert die toegankelijk worden
+- Application segment; de specifieke FQDN, IP adres, of IP range die je toevoegt aan Quick Access
+- Remote network; een externe locatie (bv. branch office) die via een IPSec tunnel (CPE naar Global Secure Access endpoint) verbonden wordt, zonder client op individuele devices
+- Compliant network check; Conditional Access controle die verifieert dat een user verbindt via een goedgekeurd netwerk model voor zijn tenant
+- Source IP restoration; herstelt de originele IP van de user, die anders verloren gaat door de cloud proxy
+- Dashboard; overzichtspagina met widgets (snapshot, alerts, usage profiling, top destinations, cross tenant access, web category filtering, device status)
+- Audit logs; logt wijzigingen aan de Global Secure Access configuratie zelf
+- Traffic logs; logt daadwerkelijke netwerkverbindingen en transacties (session, connection, transaction niveaus)
+- Enriched Office 365 logs; gecombineerde data van M365 en Global Secure Access traffic logs, voor performance/security inzicht in M365 apps
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
