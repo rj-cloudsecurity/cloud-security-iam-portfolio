@@ -141,9 +141,6 @@ Planned:
 - [LP3 Implement an authentication and access management solution](/04-sc300/notes/lp3-implement-an-authentication-and-access-management-solution.md)
 - [LP4 Implement access management for apps](/04-sc300/notes/lp4-implement-access-management-for-apps.md)
 
-
-04-sc300/notes/lp3-implement-an-authentication-and-access-management-solution.md
-
 **Exam Prep**
 - [Exam Preparation](/04-sc300/exam-prep/sc300-exam-prep.md) — Progress, scores and study approach
 - [Quick Reference](/04-sc300/exam-prep/sc300-quick-reference.md) — Key facts, comparisons and exam keywords
