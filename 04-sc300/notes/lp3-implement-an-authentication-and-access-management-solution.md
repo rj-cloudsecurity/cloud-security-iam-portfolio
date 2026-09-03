@@ -1,6 +1,6 @@
 # SC-300: Microsoft Identity and Access Administrator
 
-## Learning Path 2: Implement an authentication and access management solution
+## Learning Path 3: Implement an authentication and access management solution
 ### Module 1: Secure Microsoft Entra users with multifactor authentication
 
 
