@@ -54,7 +54,7 @@
   5. App Headquarters map; geografische spreiding van discovered apps (op basis van HQ locatie)
   6. App risk overview; risk score van discovered apps, plus discovery alerts status
 
-- Filters voor Discovered Apps (examen kernstof, herkennen niet uit hoofd leren)
+- Filters voor Discovered Apps (examen kernstof)
   - App tag; sanctioned/unsanctioned/geen tag, custom tags mogelijk
   - Apps and domains; zoeken op specifieke app of domein
   - Categories; bv. social network, cloud storage, hosting services
@@ -79,7 +79,7 @@
 
 - Waarom AD FS apps migreren naar Entra ID
   - Voordelen op gebied van cost management, risk management, productivity, compliance, en governance
-  - Uitdaging: bepalen welke apps compatible zijn en wat de migratiestappen zijn kost tijd
+  - Uitdaging: bepalen welke apps compatilbe zijn en wat de migratiestappen zijn kost tijd
   - Sommige organisaties gebruiken alternatieve IdPs zoals SiteMinder, Oracle Access Manager, PingFederate (meestal on premises), of Okta/OneLogin (cloud)
 
 - AD FS application activity report
@@ -110,3 +110,78 @@
   - AD FS application activity report kijkt naar de laatste 30 dagen actieve logins
   - 3 migration statuses: Ready to migrate, Needs review, Additional steps required
   - Modern authentication apps (SAML/OIDC) migreren eerst, legacy apps via Application Proxy/Domain Services
+
+---
+
+### Configure connectors to apps
+
+- Wat app connectors doen
+  - Gebruiken de APIs van app providers, voor meer zichtbaarheid en controle door MDCA over de gekoppelde apps
+  - Alle communicatie tussen MDCA en connected apps is versleuteld via HTTPS
+  - Elke service heeft eigen API beperkingen: throttling, API limits, dynamische time shifting windows
+  - MDCA optimaliseert API gebruik binnen de toegestane capaciteit van elke service
+  - Sommige operaties (bv. scannen van alle files in de tenant) vereisen veel API calls, worden dus over langere tijd gespreid. Policies kunnen dus uren of dagen duren om te draaien
+
+- Multi instance support
+  - Meerdere instances van dezelfde app connectbaar tegelijk, bv. 2 losse Salesforce instances (sales en marketing)
+  - Beide beheerbaar vanuit dezelfde console, voor granulaire policies en dieper onderzoek
+  - Geldt alleen voor API connected apps, niet voor Cloud Discovered apps of Proxy connected apps
+
+- Hoe het werkt
+  - MDCA draait met system admin privileges, voor volledige toegang tot alle objecten in de omgeving
+  - App Connector flow:
+    1. MDCA scant en bewaart authentication permissions
+    2. MDCA vraagt de user list op; eerste keer kan dit even duren
+    3. Na afronding: periodiek scannen van users, groups, activities, en files. Alle activiteiten pas volledig beschikbaar na de eerste volledige scan
+  - Duur van connecties hangt af van tenant grootte, aantal users, en omvang/aantal files om te scannen
+
+- Wat een API connectie mogelijk maakt (afhankelijk van de app, examen kernstof)
+  - Account information; zichtbaarheid in users, accounts, profile info, status (suspended/active/disabled), groups, privileges
+  - Audit trail; zichtbaarheid in user activities, admin activities, sign in activities
+  - Account governance; users suspenden, passwords revoken, etc.
+  - App permissions; zichtbaarheid in uitgegeven tokens en hun permissions
+  - App permission governance; tokens verwijderen
+  - Data scan; scannen van unstructured data, periodiek (elke 12 uur) en real time (getriggerd bij elke gedetecteerde wijziging)
+  - Data governance; files quarantainen (incl. in trash), files overwriten
+
+- Onthouden voor examen
+  - Multi instance support werkt alleen bij API connected apps, niet bij Cloud Discovery of Proxy connected apps
+  - Data scan gebeurt op 2 manieren: elke 12 uur periodiek, en real time bij gedetecteerde wijzigingen
+  - MDCA gebruikt system admin privileges voor volledige zichtbaarheid, geen losse permissions per functie
+
+---
+
+### Exercise: Implement Access Management for Apps
+  - [04-sc300/labs/20-implement-access-management-for-apps](../../04-sc300/labs/20-implement-access-management-for-apps.md)
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
