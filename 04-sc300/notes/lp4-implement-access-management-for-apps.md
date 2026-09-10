@@ -156,7 +156,72 @@
 
 ---
 
+### Design and implement app management roles
 
+- 4 manieren om app creation/management te delegeren
+  - Beperken wie apps mag maken/beheren
+  - Owner(s) toewijzen aan een applicatie
+  - Built-in admin role toewijzen die toegang geeft over alle applicaties
+  - Custom role maken met specifieke permissions, toewijsbaar op single app scope (limited owner) of directory scope (limited administrator)
+
+- Waarom delegeren
+  - Vermindert de overhead voor Global Administrators
+  - Least privilege verbetert security posture, minder kans op unauthorized access
+
+- Wie mag apps aanmaken beperken
+  - Default: alle users mogen application registrations aanmaken/beheren, en mogen consent geven voor apps die company data benaderen namens hen
+  - Instelbaar via Global Administrator:
+    - User settings; "Users can register applications" op No
+    - Enterprise applications user settings; Gallery Apps toevoegen aan My App, Office 365 apps in het Office portal
+    - Consent and Permissions settings; "Users can consent to applications accessing company data on their behalf" op No
+
+- Individuele permissions teruggeven als default is uitgeschakeld
+  - Application Developer role toewijzen; geeft het recht om application registrations aan te maken en eigen consent te geven
+  - Zodra iemand een nieuwe app registration aanmaakt, wordt die persoon automatisch de eerste owner
+
+- Application owners toewijzen
+  - Simpele manier om iemand volledige controle te geven over een specifieke app registration/enterprise application
+  - Automatisch: eerste maker = eerste owner
+  - Originele owner kan verwijderd worden, extra owners toevoegbaar
+
+- Enterprise application owners specifiek
+  - Kan organisatie specifieke configuratie beheren: SSO config, provisioning, user assignments
+  - Kan andere owners toevoegen/verwijderen
+  - Anders dan Global Administrator: owner kan alleen de apps beheren die hij zelf bezit
+  - Bij gallery apps met zowel enterprise app als app registration: owner toevoegen aan de enterprise app voegt automatisch ook owner toe aan de bijbehorende app registration
+
+- Owner toewijzen aan een enterprise app (stappen)
+  1. Application Administrator of Cloud Application Administrator
+  2. App registrations pagina, app selecteren, Overview
+  3. Owners > lijst bekijken
+  4. Add, 1 of meer owners toevoegen
+
+- Belangrijk over owners (examen kernstof)
+  - Users en service principals kunnen owner zijn van app registrations
+  - Alleen users kunnen owner zijn van enterprise applications
+  - Groups kunnen nooit als owner toegewezen worden, bij geen van beide
+  - Risico: owner kan credentials toevoegen aan de app en die gebruiken om de app's identity te impersoneren. De app kan meer permissions hebben dan de owner zelf, dus dit is een vorm van elevation of privilege
+
+- Built-in application admin rollen (examen kernstof)
+  - Application Administrator; volledig beheer van enterprise apps, app registrations, en application proxy settings. Kan consent geven voor delegated en application permissions, behalve Microsoft Graph. Wordt niet automatisch owner bij het aanmaken van nieuwe apps
+  - Cloud Application Administrator; zelfde als Application Administrator, behalve geen application proxy beheer. Ook geen automatische owner status
+  - Belangrijk: beide rollen kunnen credentials toevoegen en de app impersoneren, wat een elevation of privilege risico geeft. Geen van beide rollen geeft toegang om Conditional Access te beheren
+
+- Custom role aanmaken en toewijzen, 2 losse stappen
+  1. Custom role definition aanmaken, permissions toevoegen uit een preset lijst (dezelfde permissions als in built-in roles)
+  2. Role assignment aanmaken om de custom role toe te wijzen
+  - Voordeel van deze scheiding: 1 role definition kan meerdere keren op verschillende scopes toegewezen worden (bv. organization wide voor persoon A, en slechts 1 specifieke app voor persoon B)
+
+- Tips bij custom roles voor app management (examen kernstof)
+  - Werken alleen in het huidige app registration scherm van het Entra admin center, niet in het legacy scherm
+  - Geven geen toegang tot het Entra ID portal als "Restrict access to Microsoft Entra ID administration portal" op Yes staat
+  - Role assignments voor apps waar de user toegang tot heeft verschijnen alleen onder de All applications tab, niet onder Owned applications
+
+- Onthouden voor examen
+  - Owner ≠ built-in admin role: owner beheert alleen eigen apps, Application/Cloud Application Administrator beheert alle apps in de tenant
+  - Groups kunnen nooit owner zijn, alleen users (en bij app registrations ook service principals)
+  - Owners en de 2 built-in app admin rollen kunnen allebei de app impersoneren via credentials, wat een bekend elevation of privilege risico is
+  - Custom roles werken alleen in de moderne app registration UI, niet legacy
 
 
 
