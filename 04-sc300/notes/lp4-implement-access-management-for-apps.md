@@ -223,11 +223,106 @@
   - Owners en de 2 built-in app admin rollen kunnen allebei de app impersoneren via credentials, wat een bekend elevation of privilege risico is
   - Custom roles werken alleen in de moderne app registration UI, niet legacy
 
+---
 
+### Exercise: Implement Access Management for Apps
+  - [04-sc300/labs/21-exercise-create-a-custom-role-to-manage-app-registration](../../04-sc300/labs/21-exercise-create-a-custom-role-to-manage-app-registration.md)
 
+---
 
+### Configure preintegrated gallery SaaS apps
 
+- Wat de gallery is
+  - Entra ID heeft een gallery met duizenden pre integrated applicaties
+  - Veel apps die een organisatie gebruikt staan waarschijnlijk al in de gallery
+  - Eenmaal toegevoegd: properties configureerbaar, user access beheerbaar, SSO instelbaar zodat users inloggen met hun Entra credentials
 
+- App properties configureren (stappen)
+  1. Identity > Enterprise applications, gewenste app zoeken/selecteren
+  2. Manage > Properties
+  3. Beschikbare opties bekijken, hangt af van hoe de app is geintegreerd
+     - SAML based SSO app; heeft velden zoals User access URL
+     - OIDC based SSO app; heeft dit veld niet
+     - Apps toegevoegd via App registrations; standaard OIDC based
+     - Apps toegevoegd via Enterprise applications; kunnen elke SSO standaard gebruiken
+  4. Save
+
+- 3 velden die altijd beschikbaar zijn (examen kernstof)
+  - Enabled for users to sign in?; bepaalt of toegewezen users kunnen inloggen
+  - User assignment required?; bepaalt of ook niet toegewezen users kunnen inloggen
+  - Visible to users?; bepaalt of toegewezen users de app zien in My Apps en de M365 app launcher (waffle menu)
+
+- Custom logo instellen (stappen)
+  1. Logo maken van 215 bij 215 pixels, .png formaat
+  2. Enterprise applications > app selecteren > Manage > Properties
+  3. Icoon selecteren om logo te uploaden
+  4. Save
+
+- Notes toevoegen
+  - Notes veld gebruiken voor relevante management informatie over de app
+  - Enterprise applications > app selecteren > Manage > Properties > Notes veld bijwerken > Save
+
+- Onthouden voor examen
+  - Enabled for users to sign in, User assignment required, en Visible to users zijn de 3 kernvelden die op elke app van toepassing zijn, ongeacht SSO type
+  - App registrations = default OIDC, Enterprise applications = elke SSO standaard mogelijk
+  - Logo formaat vereiste: 215x215 pixels, .png
+
+---
+
+### Implement and manage policies for OAuth apps
+
+- Wat het is
+  - Naast handmatig onderzoeken van gekoppelde OAuth apps, kun je permission policies instellen voor automatische notificaties
+  - Voorbeeld trigger: apps die een hoge permission level vereisen en door meer dan 50 users geautoriseerd zijn
+  - OAuth app policies laten je zien welke permissions elke app heeft aangevraagd, en welke users die hebben geautoriseerd voor Office 365 en andere OAuth apps
+  - Permissions kunnen gemarkeerd worden als approved of banned; banned schakelt de bijbehorende Enterprise Application uit
+
+- Nieuwe OAuth app policy aanmaken (stappen)
+  1. Microsoft Defender for Cloud Apps openen (security.microsoft.com)
+  2. Menu links > Cloud apps sectie > OAuth apps
+  3. Apps filteren naar behoefte, bv. alle apps die permission vragen om calendars in je mailbox aan te passen
+  4. New policy from search button selecteren
+
+- Extra filter opties
+  - Community use filter; laat zien of een bepaalde app-permission gangbaar, ongebruikelijk, of zeldzaam is onder andere organisaties. Handig bij een zeldzame app die hoge severity permissions vraagt of van veel users toestemming vraagt
+  - Policy instellen op basis van group membership van de users die de app hebben geautoriseerd; bv. alleen uncommon apps met high permissions intrekken als de autoriserende user in de Administrators group zit
+
+- Alternatieve manier om de policy aan te maken
+  - Control > Policies > Create policy > OAuth app policy
+
+- Onthouden voor examen
+  - Banned permission = de gekoppelde Enterprise Application wordt uitgeschakeld, niet alleen de specifieke permission
+  - Community use filter is bedoeld om zeldzame, risicovolle app permission combinaties op te sporen
+  - Policies kunnen gescoped worden op basis van group membership van de autoriserende user, niet alleen op de app zelf
+ 
+---
+
+## Module Assessment — Module 1 (Plan and design the integration of enterprise apps for SSO)
+
+**Score:** 100%
+
+### Vraag 1
+What is Microsoft's Cloud Access Security Broker solution?
+
+- Microsoft Cloud Computing Services
+- ✅ Microsoft Defender for Cloud Apps
+- Microsoft Security Center
+
+### Vraag 2
+By default, who has the ability to create application registrations or consent to applications in Microsoft Entra ID?
+
+- ✅ All Microsoft Entra Users
+- All Microsoft Entra and Guest users
+- Only users assigned the Global Administrator role
+
+### Vraag 3
+Which statement best describes the Cloud Application Administrator role?
+
+- Users in this role have the same permissions as the Application Management role, excluding the ability to manage application proxy. Users assigned to this role are not added as owners when creating new application registrations or enterprise applications.
+- Users in this role have the same permissions as the Site Administrator role, including the ability to manage application proxy.
+- ✅ Users in this role have the same permissions as the Application Administrator role, excluding the ability to manage application proxy. Users assigned to this role are not added as owners when creating new application registrations or enterprise applications.
+
+---
 
 
 
