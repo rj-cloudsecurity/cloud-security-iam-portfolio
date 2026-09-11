@@ -324,9 +324,137 @@ Which statement best describes the Cloud Application Administrator role?
 
 ---
 
+## Learning Path 4: Implement access management for apps
+### Module 2: Implement and monitor the integration of enterprise apps for SSO
 
+### Introduction
 
+- Wat deze module behandelt
+  - Token customizations implementeren
+  - Consent settings configureren
+  - On premises apps integreren via Microsoft Entra application proxy
+  - Custom SaaS apps integreren voor SSO
+  - Application user provisioning implementeren
+  - Application collections aanmaken en beheren
+  - Access naar Entra ID integrated enterprise applications monitoren en auditen
 
+- Learning objectives
+  - Implement token customizations
+  - Implement and configure consent settings
+  - Integrate on-premises apps by using Microsoft Entra application proxy
+  - Integrate custom SaaS apps for SSO
+  - Implement application user provisioning
+  - Create and manage application collections
+  - Monitor and audit acess to Microsoft Entra ID integrated enterprise applications
+
+- Prerequisites
+  - Ervaring met het beheren van users en administrators in Entra ID
+  - Ervaring met het opzetten van Conditional Access
+
+---
+
+### Implement token customizations
+
+- Wat je kunt instellen
+  - Lifetime van tokens uitgegeven door het Microsoft identity platform
+  - Instelbaar voor: alle apps in de organisatie, een multitenant applicatie, of een specifieke service principal
+  - Policy object; representeert een set regels, afgedwongen op individuele apps of alle apps in de organisatie
+  - Policy kan als default voor de hele organisatie ingesteld worden, of aan specifieke apps toegewezen worden
+  - Default policy geldt overal, tenzij overschreven door een policy met hogere prioriteit
+
+- Authentication session management via Conditional Access (herhaling)
+  - Relevant bij: unmanaged/shared device toegang, gevoelige info vanaf extern netwerk, high impact users, kritieke business apps
+  - Conditional Access controls laten policies maken voor specifieke use cases zonder alle users te raken
+
+- Token customization opties (examen kernstof)
+
+| Instelling | Wat het doet |
+|---|---|
+| Access and ID token lifetime | Levensduur van de OAuth 2.0 bearer token en ID token |
+| Refresh token lifetime (days) | Maximale periode voordat een refresh token gebruikt kan worden om een nieuwe access token te krijgen |
+| Refresh token sliding window lifetime | Het type sliding window voor de refresh token |
+| Lifetime length (days) | Na deze periode moet de user opnieuw authenticaten |
+
+- Optional claims configureren
+  - Developers kunnen optional claims gebruiken om te bepalen welke claims ze in tokens voor hun app willen
+  - Gebruik: andere claims toevoegen, gedrag van bestaande claims aanpassen, custom claims toevoegen
+  - Werkt bij v1.0, v2.0, en SAML tokens, maar levert de meeste waarde bij de overstap van v1.0 naar v2.0
+  - Reden: v2.0 tokens zijn bewust kleiner voor betere performance, dus sommige claims die vroeger standaard in v1.0 tokens zaten moeten nu per applicatie specifiek aangevraagd worden
+
+- Onthouden voor examen
+  - Token lifetime policies kunnen op 3 niveaus toegepast worden: alle apps, multitenant app, of specifieke service principal
+  - Default policy geldt overal tenzij een specifiekere, hoger geprioriteerde policy die overschrijft
+  - v2.0 tokens zijn kleiner dan v1.0, optional claims zijn nodig om ontbrekende claims alsnog toe te voegen
+
+---
+
+### Implement and configure consent settings
+
+- Context
+  - Apps integreren met het Microsoft identity platform, zodat users met werk/school account inloggen en de app organisatiedata kan gebruiken
+  - Voordat een app data mag benaderen, moet een user consent geven
+  - Default: users kunnen consent geven voor permissions die geen admin consent vereisen (bv. toegang tot eigen mailbox), maar niet voor permissios met breed bereik (bv. alle files in de organisatie lezen/schrijven)
+  - Risico: als dit niet gemonitord/gecontroleerd wordt, kunnen users misleid worden om kwaadaardige apps toegang te geven
+  - Aanbevolen: user consent alleen toestaan voor apps van een verified publisher
+
+- User consent settings, 4 opties (examen kernstof)
+  - Disable user consent; users kunnen geen nieuwe permissions/apps consenten. Bestaande consents blijven werken. Alleen users met een directory role die consent-permission bevat kunnen nog nieuwe apps consenten
+  - Users can consent to apps from verified publishers or your organization, but only for permissions you choose; alleen apps van verified publisher of uit eigen tenant, en alleen permissions die als low impact geclassificeerd zijn
+  - Users can consent to all apps; alle users mogen consenten voor elke permission die geen admin consent vereist
+  - Custom app consent policy; eigen policy maken met specifiekere condities
+
+- Risk-based step-up consent
+  - Vermindert blootstelling aan malicious apps met illegitieme consent requests
+  - Standaard enabled, heeft alleen effect als user consent uberhaupt enabled is
+  - Bij gedetecteerd risky consent request: vereist step-up naar admin consent i.p.v. normale user consent
+  - Met admin consent request workflow enabled: user kan de request direct vanuit het consent scherm doorsturen naar een admin
+  - Zonder die workflow: foutmelding AADSTS90094, user moet zelf een admin vragen om de app goed te keuren
+  - Risky detection wordt gelogd als audit event: Category ApplicationManagement, Activity Type Consent to application, Status Reason Risky application detected
+
+- Onthouden voor examen
+  - 4 user consent opties: Disable, Verified publishers only (low impact permissions), All apps, Custom policy
+  - Risk-based step-up consent is default aan, maar heeft alleen effect als user consent zelf ook aan staat
+  - AADSTS90094 is de specifieke foutcode die verschijnt als een user een permission probeert te consenten die admin consent vereist
+
+---
+
+### Integrate on-premises apps with Microsoft Entra application proxy
+
+- Wat het is
+  - Feature van Entra ID, geeft remote clients toegang tot on premises web applicaties
+  - Bestaat uit 2 delen: Application Proxy service (in de cloud) en Application Proxy connector (draait op een on premises server)
+  - Samen geven ze het user sign on token veilig door van Entra ID naar de on premises web applicatie
+
+- Wat het biedt
+  - Secure remote access tot on premises web apps
+  - Na 1x SSO bij Entra ID: toegang tot zowel cloud als on premises apps via externe URL of intern applicatie portal
+  - Voorbeelden: Remote Desktop, SharePoint, Teams, Tableau, Qlik, en line of business (LOB) applicaties
+
+- Waar Application Proxy mee werkt (examen kernstof)
+  - Web apps met Integrated Windows Authentication
+  - Web apps met form based of header based access
+  - Web APIs die naar rich apps op verschillende devices worden geexposed
+  - Apps achter een Remote Desktop Gateway
+  - Rich client apps geintegreerd met Microsoft Authentication Library (MSAL)
+
+- Waarvoor aanbevolen, en waarvoor niet
+  - Aanbevolen voor remote users die toegang nodig hebben tot interne resources
+  - Vervangt de noodzaak van een VPN of reverse proxy
+  - Niet bedoeld voor interne users op het corporate netwerk; onnodig gebruik door interne users kan onverwachte performance problemen veroorzaken
+
+- Hoe Application Proxy werkt (stappen, examen kernstof)
+  1. User benadert de app via een endpoint, wordt doorgestuurd naar de Entra sign in pagina
+  2. Na succesvolle sign in stuurt Entra ID een token naar het client device
+  3. Client stuurt het token naar de Application Proxy service, die UPN en SPN uit het token haalt, en het verzoek doorstuurt naar de Application Proxy connector
+  4. Bij geconfigureerde SSO: de connector voert eventuele extra authenticatie uit namens de user
+  5. Connector stuurt het verzoek naar de on premises applicatie
+  6. Response gaat terug via de connector en Application Proxy service naar de user
+
+- Onthouden voor examen
+  - Application Proxy = cloud service + on premises connector samen, niet 1 los onderdeel
+  - Vervangt VPN/reverse proxy specifiek voor remote toegang, niet bedoeld voor interne netwerkgebruikers
+  - De flow gebruikt zowel UPN (user identity) als SPN (service identity), zelfde concept als je eerder zag bij de Kerberos/KCD flow
+  - Werkt met meerdere auth types: Integrated Windows Authentication, form/header based, en MSAL geintegreerde apps
 
 
 
