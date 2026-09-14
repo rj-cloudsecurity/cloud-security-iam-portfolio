@@ -456,11 +456,318 @@ Which statement best describes the Cloud Application Administrator role?
   - De flow gebruikt zowel UPN (user identity) als SPN (service identity), zelfde concept als je eerder zag bij de Kerberos/KCD flow
   - Werkt met meerdere auth types: Integrated Windows Authentication, form/header based, en MSAL geintegreerde apps
 
+---
 
+### Integrate custom SaaS apps for single sign-on
 
+- Wat mogelijk is
+  - Entra ID als identity systeem voor bijna elke app
+  - Veel apps staan al vooraf geconfigureerd in de App Gallery, minimale setup nodig
+  - Apps die niet in de gallery staan: handmatig configureerbaar voor SSO, via SAML-based of OIDC-based SSO
 
+- Waarom delegeren aan een centrale identity provider
+  - Apps hoeven zelf geen username/password beheer meer te doen, dat delegeren ze aan Entra ID
+  - Maakt scenario's mogelijk zoals Conditional Access (locatie vereisten, MFA vereisten)
+  - SSO; 1x inloggen, automatisch ingelogd bij alle apps die dezelfde centrale directory delen
 
+- Microsoft identity platform
+  - Biedt identity as a service voor developers, ondersteunt industry standard protocollen: OAuth 2.0 en OpenID Connect
+  - Open source libraries beschikbaar voor verschillende platforms
+  - Laat developers apps bouwen die met elke Microsoft identity kunnen inloggen, en tokens krijgen voor Microsoft Graph, andere Microsoft APIs, of eigen APIs
 
+- Protocol vergelijkingen (examen kernstof)
+  - OAuth vs OpenID Connect (OIDC); OAuth is voor authorization, OIDC is voor authentication. OIDC is gebouwd op OAuth 2.0, vergelijkbare terminologie/flow. Je kunt in 1 request zowel authenticaten via OIDC als autoriseren via OAuth 2.0
+  - OAuth vs SAML; OAuth is voor authorization, SAML is voor authentication
+  - OIDC vs SAML; beide zijn voor authentication en maken SSO mogelijk. SAML wordt vaak gebruikt met IdPs zoals AD FS gefedereerd met Entra ID, dus vaker in enterprise apps. OIDC wordt vaker gebruikt bij pure cloud apps: mobile apps, websites, web APIs
+
+- Onthouden voor examen
+  - OAuth = authorization protocol, OIDC en SAML = authentication protocollen
+  - OIDC is gebouwd op OAuth 2.0, dus die twee combineren makkelijk in 1 flow
+  - SAML past beter bij enterprise/gefedereerde scenario's (bv. met AD FS), OIDC past beter bij moderne cloud only apps
+
+---
+
+### Implement application-based user provisioning
+
+- Wat app provisioning is
+  - Automatisch aanmaken van user identities en roles in cloud (SaaS) applicaties die users nodig hebben
+  - Bevat ook: onderhoud en verwijdering van identities zodra status/rol verandert
+  - Voorbeeld: een Entra user automatisch provisionen in Dropbox, Salesforce, ServiceNow, etc.
+
+- Wat provisioning mogelijk maakt (examen kernstof)
+  - Automate provisioning; nieuwe accounts automatisch aanmaken bij het aannemen van nieuwe mensen
+  - Automate deprovisioning; accounts automatisch deactiveren bij vertrek
+  - Synchronize data; identities in apps/systemen actueel houden op basis van wijzigingen in de directory of het HR systeem
+  - Provision groups; groups provisionen naar apps die dat ondersteunen
+  - Govern accesss; monitoren en auditen wie geprovisioned is
+  - Brown field deployment; bestaande identities matchen tussen systemen, ook als users al bestaan in het doelsysteem
+  - Rich customization; attribute mappings aanpasbaar om te bepalen welke user data van source naar target systeem stroomt
+  - Alerts; provisioning service geeft alerts bij kritieke events, Log Analytics integratie mogelijk voor custom alerts
+
+- Manual vs automatic provisioning
+  - Manual; geen automatische Entra provisioning connector beschikbaar, accounts handmatig aanmaken (bv. direct in het admin portal van de app, of via een spreadsheet upload)
+  - Automatic; een Entra provisioning connector bestaat al voor de app, setup tutorial volgen
+  - Apps met automatic provisioning support hebben een Provisioning icoon in de gallery, ook zichtbaar op de Provisioning tab nadat de app is toegevoegd
+
+- System for Cross-domain Identity Management (SCIM)
+  - Probleem dat het oplost: elke app implementeert dezelfde basisacties (users aanmaken/updaten, aan groups toevoegen, deprovisionen) net iets anders, met andere endpoints/methodes/schema's
+  - SCIM biedt een gemeenschappelijk user schema om users in/uit/rond apps te bewegen
+  - Wordt de standaard voor provisioning; in combinatie met federation standards (SAML, OIDC) geeft dit een end to end, standards based oplossing voor access management
+
+- SCIM technisch (examen kernstof)
+  - Standaard definitie van 2 endpoints: /Users en /Groups
+  - Gebruikt standaard REST verbs om objecten te maken/updaten/verwijderen
+  - Voorgedefinieerd schema voor gemeenschappelijke attributes: group name, username, first name, last name, email
+  - Apps met een SCIM 2.0 REST API verminderen/elimineren de pijn van een eigen, proprietary user management API
+  - Voorbeeld: elke SCIM compliant client weet hoe een HTTP POST van een JSON object naar /Users te doen om een nieuwe user aan te maken
+  - Developers die een SCIM endpoint bouwen kunnen integreren met elke SCIM compliant client zonder custom werk, en kunnen open source SCIM libraries gebruiken in plaats van alles zelf te bouwen
+
+- Onthouden voor examen
+  - SCIM 2.0 heeft altijd de 2 endpoints /Users en /Groups
+  - Automatic provisioning vereist een bestaande Entra provisioning connector, herkenbaar aan het Provisioning icoon in de gallery
+  - SCIM + SAML/OIDC samen = end to end, standards based access management oplossing
+  - Provisioning omvat niet alleen aanmaken, maar ook synchronisatie en deprovisioning gedurende de hele identity lifecycle
+
+---
+
+### Monitor and audit access to Microsoft Entra integrated enterprise applications
+
+- Usage and insights report
+  - Application centric view van sign in data
+  - Beantwoordt vragen zoals: top gebruikte applicaties, applicaties met meeste failed sign ins, top sign in errors per applicatie
+
+- Toegang tot het report (stappen)
+  1. Entra admin center
+  2. Identity > Applications > Enterprise applications
+  3. Activity sectie > Usage & insights
+
+- Gebruik van het report
+  - Toont lijst van applicaties met 1 of meer sign in poging(en), sorteerbaar op successful sign ins, failed sign ins, en success rate
+  - Load more om meer applicaties te zien, date range instelbaar
+  - Focus op 1 specifieke app mogelijk: view sign-in activity toont sign in activiteit over tijd plus top errors
+  - Selecteren van een dag in de usage graph geeft gedetailleerde lijst van sign in activiteiten die dag
+
+- Audit logs
+  - Bevatten records van system activities, voor compliance
+  - Toegankelijk voor rollen: Security Administrator, Security Reader, Report Reader, Global Reader, of Administrator
+  - Te vinden via: Monitoring sectie > Audit logs
+
+- Standaard velden in de audit log list view (examen kernstof)
+  - Datum en tijd van de gebeurtenis
+  - Service die de gebeurtenis heeft gelogd
+  - Category en Activity name (wat er is gebeurd)
+  - Status van de activiteit (success/failure)
+  - Target
+  - Initiator/actor (wie de activiteit heeft uitgevoerd)
+  - Kolommen aanpasbaar via Columns in de toolbar
+  - Item selecteren geeft meer gedetailleerde info
+
+- Enterprise applications audit logs
+  - Application based audit reports beantwoorden vragen zoals: welke apps toegevoegd/geupdatet/verwijderd zijn, of een service principal is gewijzigd, of app namen zijn gewijzigd, wie consent heeft gegeven aan een app
+  - Te vinden via: Activity sectie > Audit logs op het Enterprise applications scherm, met Application Type al voorgeselecteerd op Enterprise applications
+
+- Onthouden voor examen
+  - Usage & insights report = focus op sign in gedrag en errors per app
+  - Audit logs (algemeen) = bredere systeemactiviteit, met wie/wat/wanneer/status/target
+  - Enterprise applications audit logs = specifiek gefilterd op app gerelateerde wijzigingen (toevoegen, verwijderen, consent geven, etc.)
+  - Minimale rol vereist voor audit logs: Report Reader (of hoger: Security Reader/Administrator/Global Reader)
+ 
+---
+
+### Create and manage application collections
+
+- Wat een collection is
+  - My Apps portal toont standaard alle apps waar een user toegang tot heeft op 1 pagina
+  - Collections groeperen gerelateerde apps (bv. per rol, taak, project) op een eigen tab, voor overzicht
+  - Werkt als een filter op apps die de user al mag gebruiken; user ziet alleen die apps binnen de collection die ook daadwerkelijk aan hem toegewezen zijn
+  - Vereist Entra ID Premium P1 of P2
+
+- Admin collection aanmaken (via Azure/Entra portal, examen kernstof)
+  1. Entra admin center, als admin
+  2. Identity > Applications > Enterprise Applications
+  3. Manage > App Launchers
+  4. New collection
+  5. Naam invoeren (aanbevolen: niet het woord "collection" in de naam gebruiken), Description invoeren
+  6. Applications tab > + Add application, apps selecteren of zoeken, Add
+  7. Volgorde van apps aanpasbaar via de pijltjes
+  8. Owners tab > + Add users and groups, owners selecteren, Select
+  9. Review + Create
+  - Belangrijk: als je users/groups als owner toewijst, kunnen zij de collection alleen beheren via de Azure portal, niet via My Apps
+
+- My Apps portal (myapps.microsoft.com)
+  - Los, web based portal voor het beheren en starten van applicaties
+  - Vereist een organizational account plus toegewezen toegang door de Entra admin
+  - Los van de Azure portal, geen Azure of M365 subscription nodig
+  - Users gebruiken het om: apps te ontdekken waar ze toegang tot hebben, nieuwe apps aan te vragen (self service), eigen persoonlijke collections te maken, toegang tot apps te beheren
+  - Elke app waar een user toegang tot heeft staat standaard in de default Apps collection; user kan apps daaruit verwijderen
+
+- Collection aanmaken via My Apps (stappen)
+  1. My Apps portal openen
+  2. Ellipsis (...) op het apps scherm
+  3. Manage collections
+  4. Create collection
+  5. + Add apps, gewenste apps selecteren
+  6. Add selected apps
+  7. Naam geven, Create collection
+
+- Onthouden voor examen
+  - Collections vereisen altijd P1 of P2, geen gratis feature
+  - Admin collections (via Entra/Azure portal) vs persoonlijke collections (via My Apps) zijn 2 losse concepten met eigen aanmaakproces
+  - Een collection filtert alleen binnen wat een user al mag; het geeft zelf geen extra toegang
+  - Owners van een admin collection beheren die uitsluitend via de Azure portal, niet via My Apps
+
+---
+
+## Module Assessment — Module 2 (Implement and monitor the integration of enterprise apps for SSO)
+
+**Score:** 100%
+
+### Vraag 1
+What service and connector work together to securely pass a user sign-on token from Microsoft Entra ID to a web application running in an organization's on-premises datacenter?
+
+- ✅ The Microsoft Entra Application Proxy service and Application Proxy connector
+- An Application Proxy connector and the Azure Firewall service
+- The Microsoft Entra Application Proxy service and Application Gateway
+
+### Vraag 2
+Which user provisioning mode(s) are supported for applications in the Microsoft Entra ID gallery?
+
+- Administrator approved and automatic.
+- You should only use Manual Provisioning to ensure security.
+- ✅ Manual and automatic
+
+### Vraag 3
+Which of the following groups of information can be found in the Microsoft Entra ID Usage and insights report?
+
+- The top used application in your organization and Who gave consent to an application and The top sign-in errors for each application
+- The top used application in your organization and The applications with the most failed sign-ins and The service that logged the occurrence
+- ✅ The top used applications in your organization and The application with the most failed sign-ins and The top sign-in errors for each application
+
+---
+---
+
+## Learning Path 4: Implement access management for apps
+### Module 3: Implement app registration
+
+### Introduction
+
+- Wat deze module behandelt
+  - Line of business application registration strategie plannen
+  - Application registrations implementeren
+  - Application permissions configureren
+  - Application governance proces opzetten en onderhouden
+
+- Learning objectives
+  - Plan your line-of-business application registration strategy
+  - Implement application registrations
+  - Configure application permissions
+  - Establish and maintain an application governance process
+
+- Prerequisites
+  - Ervaring met Microsoft Cloud admin portals
+  - Eerdere ervaring met cloud en on premises applicaties
+
+---
+
+### Plan your line of business application registration strategy
+
+- Waarom apps integreren met Entra ID (examen kernstof)
+  - Application authentication en authorization
+  - User authentication en authorization
+  - SSO via federation of password
+  - User provisioning en synchronization
+  - Role based access control; app roles definieren voor role based authorization checks
+  - OAuth authorization services; gebruikt door M365 en andere Microsoft apps om toegang tot APIs/resources te autoriseren
+  - Application publishing en proxy; app vanuit een private netwerk naar internet publiceren
+  - Directory schema extension attributes; schema van service principal/user objects uitbreiden met extra data
+
+- 2 representaties van een applicatie in Entra ID
+  - Application object; definieert en beschrijft de app aan Entra ID
+  - Service principal; de instantie van de app binnen een specifieke directory
+
+- Application object, details
+  - Beheerd via App Registrations in de Azure portal
+  - Bestaat alleen in de home directory, ook bij een multitenant app
+  - Bevat: name/logo/publisher, redirect URIs, secrets (symmetric/asymmetric keys), API dependencies (OAuth), published APIs/resources/scopes (OAuth), app roles (RBAC), SSO metadata/config, user provisioning metadata/config, proxy metadata/config
+
+- Manieren waarop application objects ontstaan
+  - App registration in de Azure portal
+  - Nieuwe app aanmaken in Visual Studio, geconfigureerd voor Entra authenticatie
+  - Admin voegt app toe uit de app gallery (creeert ook meteen een service principal)
+  - Via Microsoft Graph API of PowerShell
+  - Diverse andere developer paden
+
+- Service principal, details
+  - Beheerd via Enterprise Applications in de Azure portal
+  - Governeert hoe een app verbindt met Entra ID, is de instantie van de app in jouw directory
+  - Een app heeft max 1 application object (in de home directory), maar kan meerdere service principals hebben, 1 per directory waar hij actief is
+  - Bevat: referentie naar het application object (via application ID), local user/group app role assignments, local user/admin granted permissions, local policies (incl. Conditional Access), alternate local settings (claims transformation rules, attribute mappings, directory specific app roles, directory specific naam/logo)
+
+- Manieren waarop service principals ontstaan
+  - User logt in bij een third party app die geintegreerd is met Entra ID, en geeft consent (eerste persoon die consent geeft triggert het aanmaken van de service principal)
+  - User logt in bij Microsoft online services zoals M365 (creeert service principals voor de onderliggende services)
+  - Admin voegt app toe uit de gallery (creeert ook het application object)
+  - App toevoegen voor gebruik met Application Proxy
+  - App connecten voor SSO via SAML of password SSO
+  - Programmatisch via Microsoft Graph API of PowerShell
+
+- Relatie tussen application object en service principal
+  - 1 application object in de home directory, gerefereerd door 1 of meer service principals (1 per directory waar de app actief is, incl. de home directory zelf)
+  - Microsoft onderhoudt zelf 2 interne directories voor het publiceren van apps: 1 voor Microsoft apps, 1 voor preintegrated third party apps (app gallery)
+  - App publishers/vendors moeten een eigen publishing directory hebben
+
+- Uitzonderingen bij service principals
+  - Niet elke service principal wijst terug naar een application object; vroeger (bij de originele Entra ID opzet) was de service principal alleen al genoeg, vergelijkbaar met een Windows Server AD service account
+  - Nog steeds mogelijk om via PowerShell een service principal aan te maken zonder eerst een application object
+  - Microsoft Graph API vereist wel altijd eerst een application object voordat je een service principal kunt maken
+  - Claims transformation rules en attribute mappings (user provisioning) zijn alleen beschikbaar via de UI, niet programmatisch
+
+- Process flow bij het toevoegen van een nieuwe app registration
+  1. User vraagt registratie aan, request token wordt uitgegeven
+  2. Authorization endpoint stuurt authentication terug
+  3. User geeft consent voor de app registration
+  4. Service (principal) wordt aangemaakt vanuit de applicatie
+  5. Token wordt teruggegeven aan de user
+
+- Wie mag apps toevoegen
+  - Rollen: Application Administrator, Cloud Application Administrator
+  - Default: alle users mogen zelf apps registreren die ze ontwikkelen, en zelf beslissen welke apps toegang krijgen tot organisatiedata via consent
+  - Eerste user die consent geeft aan een app triggert het aanmaken van de service principal, daarna wordt consent info opgeslagen op de bestaande service principal
+
+- Waarom user self-service registratie/consent oke is (redenen, geen technische details, examen kernstof)
+  - Apps gebruikten AD al jaren zonder registratie nodig, nu heeft de organisatie juist beter zicht op welke apps de directory gebruiken en waarom
+  - Delegeren van deze taak elimineert de noodzaak van een admin driven registratie/publishing proces (vroeger bij AD FS moest een admin elke app als relying party toevoegen)
+  - Users die met hun org account inloggen verliezen automatisch toegang als ze de organisatie verlaten
+  - Gedeelde data met apps is te auditen
+  - API owners (via Entra ID OAuth) bepalen zelf welke permissions users mogen toestaan, en welke permissions altijd admin consent vereisen
+  - Elke keer dat een user data deelt met een app wordt dit gelogd, terug te zien in Audit Reports
+
+- Self service registratie/consent uitschakelen (2 losse instellingen)
+  - Consent uitschakelen; Enterprise applications > User settings > "Users can consent to apps accessing company data on their behalf" op No. Gevolg: admin moet dan voor elke nieuwe app consent geven
+  - Registratie uitschakelen; Entra ID > User settings > "Users can register applications" op No
+
+- Tenancy en app scope (single vs multitenant, examen kernstof)
+  - Single tenant; app alleen beschikbaar in de home tenant waarin hij geregistreerd is
+  - Multitenant; app beschikbaar voor users in de home tenant en andere tenants
+
+- Audience opties bij app registration
+
+| Audience | Single/Multi | Wie kan inloggen |
+|---|---|---|
+| Accounts in this directory only | Single tenant | Alle user/guest accounts in jouw eigen directory; geschikt voor puur interne doelgroep |
+| Accounts in any Microsoft Entra directory | Multitenant | Alle work/school accounts van Microsoft, incl. scholen/bedrijven met M365; geschikt voor business/educatieve klanten |
+| Accounts in any Microsoft Entra directory and personal Microsoft accounts | Multitenant | Work/school EN personal Microsoft accounts (Skype, Xbox, Outlook.com); breedste mogelijke doelgroep |
+
+- Best practices voor multitenant apps
+  - Test de app in een tenant met geconfigureerde Conditional Access policies
+  - Least privilege; app vraagt alleen de permissions die echt nodig zijn
+  - Duidelijke namen/beschrijvingen geven aan permissions die de app blootstelt, zodat users/admins snappen waarmee ze instemmen
+
+- Onthouden voor examen
+  - Application object = 1x per app, in de home directory. Service principal = 1x per directory waar de app actief is
+  - Microsoft Graph API vereist altijd eerst een application object; PowerShell kan een service principal ook los aanmaken
+  - Claims transformation rules en attribute mappings zijn alleen via de UI beschikbaar, niet programmatisch
+  - Single tenant = alleen eigen directory, Multitenant = ook andere Entra directories (en evt. personal accounts)
 
 
 
