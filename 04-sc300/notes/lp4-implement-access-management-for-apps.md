@@ -769,10 +769,280 @@ Which of the following groups of information can be found in the Microsoft Entra
   - Claims transformation rules en attribute mappings zijn alleen via de UI beschikbaar, niet programmatisch
   - Single tenant = alleen eigen directory, Multitenant = ook andere Entra directories (en evt. personal accounts)
 
+---
 
+### Implement application registration
 
+- Waarom registreren
+  - Elke app waar het Microsoft identity platform IAM voor moet doen, moet geregistreerd worden
+  - Registratie in de Azure portal, zodat het platform authentication en authorization services kan leveren aan de app en zijn users
+  - Geldt voor: client applications (web/mobile) en web APIs die een client app ondersteunen
+  - Registratie zet een trust relationship op tussen de applicatie en het identity platform
 
+---
 
+### Register an application
+
+- Wat registratie doet
+  - Zet een unidirectionele trust relationship op: de app vertrouwt het Microsoft identity platform, niet andersom
+
+- App registreren (stappen)
+  1. Entra admin center, Administrator account
+  2. Identity > Applications > App registrations
+  3. + New registration
+  4. Naam geven (bv. Demo app), default values gebruiken, redirect URI niet verplicht op dit moment
+  5. Redirect naar het Demo app scherm
+
+- Redirect URI
+  - De locatie waar het identity platform de user's client naartoe stuurt met security tokens na authenticatie
+  - In productie vaak een publiek endpoint, tijdens development ook lokale endpoints toe te voegen
+  - Geconfigureerd via Platform configurations
+
+- Platform configuratie instellen (stappen)
+  1. App selecteren in App registrations
+  2. Manage > Authentication
+  3. Platform configurations > Add a platform
+  4. Platform type kiezen
+
+- Platform types en instellingen (examen kernstof)
+
+| Platform | Configuratie |
+|---|---|
+| Web | Redirect URI handmatig invullen, voor standaard server based web apps |
+| Single-page application | Redirect URI handmatig invullen, voor client side apps in JavaScript/Angular/Vue/React/Blazor WebAssembly |
+| iOS/macOS | App Bundle ID invullen (uit XCode), redirect URI wordt automatisch gegenereerd |
+| Android | Package name + Signature hash invullen, redirect URI wordt automatisch gegenereerd |
+| Mobile and desktop applications | Suggested redirect URI kiezen of custom opgeven. Voor desktop: aanbevolen https://login.microsoftonline.com/common/oauth2/nativeclient. Voor mobile apps zonder recente MSAL of broker |
+
+- Credentials toevoegen
+  - Gebruikt door confidential client applications (web apps, web APIs, service/daemon apps) om zichzelf te authenticaten zonder user interactie
+  - 2 types: certificates en client secrets
+
+- Certificate toevoegen
+  - Aanbevolen credential type, hogere assurance dan een client secret
+  - Toegestane formaten: .cer, .pem, .crt
+  - Toegevoegd via Certificates & secrets
+
+- Client secret toevoegen (stappen)
+  1. App selecteren in App registrations
+  2. Certificates and secrets > New client secret
+  3. Description invullen, duration kiezen
+  4. Add
+  5. Secret waarde direct noteren, wordt daarna nooit meer getoond
+  - Simpeler te gebruiken dan een certificate, vaak gebruikt tijdens development, maar minder veilig; certificates aanbevolen voor productie
+
+- Web API registreren
+  - Zelfde registratieproces, maar redirect URI en platform settings kunnen overgeslagen worden (geen interactieve user login)
+  - Credentials alleen nodig als de API zelf weer een downstream API benadert
+
+- Scope toevoegen (voorbeeld: Employees.Read.All, stappen)
+  1. Azure portal, juiste tenant kiezen indien meerdere
+  2. Entra ID > App registrations > eigen API app registration
+  3. Expose an API > Add a scope
+  4. Application ID URI instellen indien nog niet gedaan (default: api://, of custom zoals https://contoso.com/api)
+  5. Scope attributes invullen
+
+- Scope velden (examen kernstof)
+
+| Veld | Voorbeeld |
+|---|---|
+| Scope name | Employees.Read.All |
+| Who can consent | Admins and users, of Admins only voor high privilige permissions |
+| Admin consent display name | Read-only access to employee records |
+| Admin consent description | Uitgebreide beschrijving voor admins |
+| User consent display name | Zichtbaar voor users, alleen als "Admins and users" gekozen is |
+| User consent description | Uitgebreide beschrijving voor users |
+
+  - State op Enabled zetten, Add scope
+
+- Pre-authorized client applications (optioneel)
+  - Voorkomt consent prompt voor vertrouwde client apps
+  - Authorized client applications > Add a client application > Application (client) ID invullen > scopes selecteren > Add application
+  - Alleen doen bij apps die je echt vertrouwt, want users krijgen dan geen kans meer om consent te weigeren
+
+- Scope met verplichte admin consent (voorbeeld: Employees.Write.All)
+  - Zelfde proces, maar Who can consent = Admins only
+  - Typisch gebruikt voor high privilege operaties, vaak door backend/daemon apps zonder interactieve user login
+  - User consent display name en description blijven leeg
+
+- Scopes verifieren
+  - Volledige scope string = Application ID URI + Scope name
+  - Voorbeeld: https://contoso.com/api/Employees.Read.All
+
+- Scopes gebruiken
+  - Client app registration krijgt toegang tot de web API en de gedefinieerde scopes
+  - Client krijgt een OAuth 2.0 access token met een scope (scp) claim die de toegestane permissions bevat
+  - Web API evalueert de scp claim in het ontvangen token om toegang op runtime te bepalen
+  - Extra scopes later toevoegbaar indien nodig
+
+- Wat er achter de schermen gebeurt (examen kernstof)
+  1. App registration wordt aangemaakt in de home tenant
+  2. App wordt geinstantieerd met een security principal in Entra ID
+  3. Security principal krijgt consent, van de eerste user of een admin, afhankelijk van hoe de exposed API is opgezet
+  4. Security principal krijgt het security token zodra de user de app benadert en de API gebruikt
+
+- Onthouden voor examen
+  - Certificates zijn veiliger dan client secrets, aanbevolen voor productie
+  - Web API registratie slaat redirect URI en platform settings over, tenzij de API zelf een downstream API benadert
+  - Scope string = Application ID URI + Scope name
+  - Admins only consent wordt gebruikt voor high privilege scopes, vaak bij backend/daemon apps
+
+---
+
+### Configure permission for an application
+
+- Wat deze unit behandelt
+  - Basisconcepten van het authorization model: scopes, permissions, en consent
+  - Regelt hoe apps toegang krijgen tot data via het OAuth 2.0 protocol
+
+- Scopes en permissions
+  - Microsoft identity platform gebruikt OAuth 2.0; laat een third party app namens een user toegang krijgen tot web hosted resources
+  - Elke resource heeft een Application ID URI (resource identifier), bv:
+    - Microsoft Graph; https://graph.microsoft.com
+    - M365 Mail API; https://outlook.office.com
+    - Azure Key Vault; https://vault.azure.net
+  - Resources definieren zelf fijnmazige permissions (scopes), bv. calendar lezen, calendar schrijven, mail versturen namens de user
+  - Doel: apps vragen alleen de permissions aan die ze echt nodig hebben (least privilege), users/admins weten precies waar de app toegang toe heeft
+
+- Permission strings (voorbeeld Microsoft Graph)
+  - Calendar lezen; Calendars.Read
+  - Calendar schrijven; Calendars.ReadWrite
+  - Mail versturen; Mail.Send
+  - Apps vragen deze scopes aan via het authorize endpoint; sommige high privilege permissions vereisen het administrator consent endpoint
+
+- 2 permission types (examen kernstof)
+  - Delegated permissions; voor apps met een ingelogde user aanwezig. User of admin geeft consent, app handelt namens de ingelogde user. Sommige delegated permissions vereisen altijd admin consent (high privilege)
+  - Application permissions; voor apps zonder ingelogde user (background services, daemons). Alleen een admin kan hiervoor consent geven
+
+- Effective permissions (belangrijk verschil, examen kernstof)
+  - Delegated permissions; effectieve rechten = het minst brede snijpunt tussen wat de app is toegestaan EN wat de ingelogde user zelf mag. App kan nooit meer rechten hebben dan de ingelogde user zelf
+    - Voorbeeld: app heeft User.ReadWrite.All delegated permission. Als de ingelogde user application administrator is, kan de app alle profielen updaten. Als de ingelogde user geen adminrol heeft, kan de app alleen het eigen profiel van die user updaten
+  - Application permissions; effectieve rechten = het volledige niveau dat de permission zelf impliceert, ongeacht wie er is ingelogd (er is namelijk geen ingelogde user)
+    - Voorbeeld: app met User.ReadWrite.All application permission kan altijd alle user profielen updaten
+
+- OpenID Connect (OIDC) scopes
+  - 4 well defined scopes, ook gehost op Microsoft Graph: openid, email, profile, offline_access
+  - address en phone OIDC scopes worden niet ondersteund
+  - OIDC scopes aanvragen geeft ook toegang tot het UserInfo endpoint
+
+- openid scope
+  - Verplicht als een app sign in via OIDC uitvoert
+  - Verschijnt op consent pagina als "sign you in" (werk account) of "view your profile..." (personal account)
+  - Geeft een unieke user identifier via de sub claim, en toegang tot het UserInfo endpoint
+  - Gebruikt bij het token endpoint om ID tokens te verkrijgen, voor authenticatie
+
+- email scope
+  - Combineerbaar met openid en andere scopes
+  - Geeft toegang tot het primaire email adres via de email claim
+  - Claim alleen aanwezig als de user account daadwerkelijk een email addres heeft gekoppeld; apps moeten hiermee rekening houden
+
+- profile scope
+  - Combineerbaar met openid en andere scopes
+  - Geeft toegang tot substantiele user info: given name, surname, preferred username, object ID, en meer
+
+- offline_access scope
+  - Geeft de app langdurige toegang namens de user
+  - Verschijnt op consent pagina als "Maintain access to data you have given it access to"
+  - Nodig om refresh tokens te krijgen; zonder deze scope krijg je alleen een kortlevende access token (meestal 1 uur geldig)
+  - Op v2.0 endpoint: moet expliciet aangevraagd worden om refresh tokens te krijgen
+  - Uitzondering: bij een Single Page Application (SPA) wordt de refresh token altijd verstrekt, ongeacht deze scope
+  - Verschijnt zelfs op consent screens bij flows die geen refresh token geven (implicit flow), om toekomstige overstap naar code flow te ondersteunen
+
+- Individuele user consent aanvragen
+  - App specificeert gewenste permissions via de scope query parameter (spatie gescheiden lijst)
+  - Elke permission = permission value + resource identifier (Application ID URI)
+  - Platform checkt of er al eerder consent is gegeven (door de user zelf, of door een admin namens de hele organisatie); zo niet, wordt de user om consent gevraagd
+  - offline_access en user.read worden automatisch meegenomen in de initiele consent, ongeacht wat er expliciet is aangevraagd, omdat ze basaal nodig zijn voor correcte app functionaliteit
+  - Eenmaal goedgekeurd: consent wordt onthouden, geen herhaalde consent vraag bij volgende logins
+
+- Consent aanvragen voor de hele tenant
+  - Bij organisatiebrede licenties/subscripties kan een admin consent geven namens alle users in de tenant
+  - Bij tenant wide admin consent: users zien geen consent pagina meer voor die app
+  - Application permissions moeten altijd via het admin consent endpoint aangevraagd worden
+
+- Onthouden voor examen
+  - Delegated permissions: effectief = snijpunt van app rechten EN user rechten (nooit meer dan de user zelf mag)
+  - Application permissions: effectief = volledige permission, want geen user om tegen te toetsen
+  - offline_access is nodig voor refresh tokens, behalve bij SPA's waar dit altijd al gebeurt
+  - openid, email, profile, offline_access zijn de 4 OIDC scopes; address en phone worden niet ondersteund
+
+---
+
+### Grant tenant-wide admin consent to applications
+
+- Wat het is
+  - Tenant-wide admin consent geven aan zelf ontwikkelde of direct geregistreerde apps, via App registrations in de Azure portal
+  - Waarschuwing: geeft de app en de publisher toegang tot organisatiedata, permissions altijd zorgvuldig reviewen voor consent
+
+- Wie mag dit doen
+  - User geautoriseerd om te consenten namens de organisatie, o.a. Privileged Role Administrator
+  - Ook mogelijk via een custom directory role die de permission bevat om apps permissions te geven
+
+- Consent geven via App registrations (stappen)
+  1. App registrations > Demo app
+  2. Application (client) ID en Directory (tenant) ID noteren
+  3. Manage > API permissions
+  4. Configured permissions > Grant admin consent
+  5. Bevestigen met Yes
+  - Waarschuwing: dit revoked eerder tenant wide gegeven permissions; permissions die users zelf al eerder namens zichzelf hadden gegeven blijven onaangetast
+
+- Consent geven via Enterprise applications (alternatieve manier, stappen)
+  1. Enterprise applications > Demo app
+  2. Security > Permissions
+  3. Grant admin consent
+  4. Inloggen als Privileged Role Administrator
+  5. Permissions requested dialog reviewen, Accept
+
+- URL construeren voor tenant-wide admin consent
+  - Format: `https://login.microsoftonline.com/{tenant-id}/adminconsent?client_id={client-id}`
+  - {client-id} = application's client ID (app ID)
+  - {tenant-id} = tenant ID of geverifieerde domeinnaam
+  - Altijd permissions zorgvuldig reviewen voor consent
+
+- Admin-restricted permissions (examen kernstof)
+  - Sommige high privilege permissions zijn admin-restricted, bv:
+    - User.Read.All; alle user profielen lezen
+    - Directory.ReadWrite.All; schrijven naar de organisatie directory
+    - Groups.Read.All; alle groups in de directory lezen
+  - Consumer users kunnen dit soort permissions wel zelf goedkeuren; organizational users niet, zij krijgen een foutmelding dat ze niet geautoriseerd zijn
+  - Voor deze permissions: direct aanvragen bij een company administrator via het admin consent endpoint
+  - Bij delegated high privilege permissions goedgekeurd via admin consent endpoint: geldt voor alle users in de tenant
+  - Bij application permissions goedgekeurd via admin consent endpoint: geldt niet namens een specifieke user, wordt direct aan de client applicatie zelf gegeven. Alleen relevant voor daemon/non-interactive apps
+
+- Admin consent endpoint gebruiken
+  - Eenmaal admin consent gegeven: users hoeven verder niks te doen, krijgen gewoon een access token met de geconsente permissions via de normale auth flow
+  - Bij normaal inloggen via het authorize endpoint: platform detecteert of de user een admin rol heeft en vraagt of hij namens de hele tenant wil consenten
+  - Los, dedicated admin consent endpoint beschikbaar om proactief admin consent te vragen, en verplicht voor application permissions (die niet via het gewone authorize endpoint aan te vragen zijn)
+  - High privilege operatie, alleen gebruiken als het scenario dit echt vereist
+
+- Permissions aanvragen in de app registration portal
+  - Apps kunnen zowel delegated als application permissions statisch vastleggen in de app registration
+  - Maakt gebruik van /.default scope en de "Grant admin consent" optie in de portal mogelijk
+  - Best practice: statisch gedefinieerde permissions moeten een superset zijn van wat de app dynamisch/incrementeel aanvraagt
+  - Stappen: App registrations > API Permissions > Add a permission > Microsoft Graph kiezen > gewenste permissions toevoegen > opslaan
+
+- Aanbevolen: user laten inloggen in de app
+  - Apps met een admin consent flow hebben meestal een aparte pagina/view waar de admin de permissions kan goedkeuren (onderdeel van sign-up flow, settings, of los "connect" scherm)
+  - Vaak pas tonen nadat de user al is ingelogd met een werk/school account, zodat je de organisatie van de admin al kent
+
+- Permissions gebruiken, admin consent request opbouwen (technisch, examen kernstof)
+  - Na consent: app kan access tokens ophalen, die alle toegekende permissions voor 1 specifieke resource bevatten
+  - Voorbeeld request: GET naar `login.microsoftonline.com/{tenant}/v2.0/adminconsent` met parameters client_id, state, redirect_uri, scope
+
+- Parameters bij het admin consent request (examen kernstof)
+
+| Parameter | Verplicht | Beschrijving |
+|---|---|---|
+| tenant | Ja | Tenant ID, friendly name, of "organizations". Nooit "common" gebruiken, personal accounts kunnen geen admin consent geven buiten tenant context |
+| client_id | Ja | Application (client) ID van de app |
+| redirect_uri | Ja | Moet exact matchen met een geregistreerde redirect URI |
+| state | Aanbevolen | Vrije waarde om state van de user te encoderen, komt terug in de token response |
+| scope | Ja | Set van gevraagde permissions, statisch (/.default) of dynamisch, kan ook OIDC scopes bevatten |
+
+  - Na dit request moet een tenant administrator inloggen om de gevraagde permissions in de scope parameter goed te keuren
+
+- Onthouden voor examen
+  - Consent geven via App registrations revoked eerdere tenant wide consents; via Enterprise applications gebeurt
 
 
 
