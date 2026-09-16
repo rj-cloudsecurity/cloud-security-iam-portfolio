@@ -1044,6 +1044,565 @@ Which of the following groups of information can be found in the Microsoft Entra
 - Onthouden voor examen
   - Consent geven via App registrations revoked eerdere tenant wide consents; via Enterprise applications gebeurt
 
+---
+
+### Implement application authorization
+
+- Wat app roles zijn
+  - Worden gebruikt om permissions aan users toe te wijzen
+  - Gedefinieerd via de Azure portal
+  - Bij sign in geeft Entra ID een roles claim mee, voor elke rol die de user individueel heeft gekregen of via group membership
+
+- 2 manieren om app roles te declareren (Azure portal)
+  - App roles UI (Preview)
+  - App manifest editor
+
+- Onthouden voor examen
+  - Roles claim in de token bevat zowel individueel toegewezen rollen als rollen via group membership
+  - App roles zijn te configureren via een simpele UI (preview) of direct via het app manifest
+ 
+---
+
+### Exercise: add app roles to an application and receive tokens
+  - [04-sc300/labs/22-add-App-roles-to-an-application-and-receive-tokens](../../04-sc300/labs/22-add-App-roles-to-an-application-and-receive-tokens.md)
+
+---
+
+### Manage and monitor application by using app governance
+
+- Waarom dit belangrijk is
+  - Cyberattacks exploiteren steeds vaker de apps in je on premises en cloud infrastructuur
+  - Dienen als startpunt voor privilege escalation, lateral movement, en data exfiltratie
+  - Vereist zichtbaarheid in app compliance posture, en detectie/respons op anomaal gedrag van apps
+
+- Wat app governance is
+  - Add on feature bovenop Defender for Cloud Apps
+  - Specifiek voor OAuth enabled apps die M365 data benaderen via Microsoft Graph APIs
+  - Biedt zichtbaarheid, remediation, en governance over hoe deze apps en hun users toegang hebben tot, gebruiken en delen van gevoelige M365 data
+  - Werkt via actionable insights, automated policy alerts, en acties
+
+- 4 kernonderdelen (examen kernstof)
+  - Insights; overzicht van alle third party apps voor M365 in de tenant op 1 dashboard, incl. status en alert activiteiten
+  - Governance; proactieve of reactieve policies voor app/user patronen en gedrag, beschermt tegen non compliant of malicious apps, beperkt toegang van risky apps tot data
+  - Detection; alerts/notificaties bij anomalieen in app activiteit, of bij gebruik van non compliant/malicious/risky apps
+  - Remediation; automatische remediation mogelijkheden, plus tijdige remediation controls om te reageren op gedetecteerde anomale app activiteit
+
+- Defender for Cloud Apps sync inschakelen (stappen)
+  1. Office 365 moet verbonden zijn in Defender for Cloud Apps
+  2. Office 365 Microsoft Entra ID apps moeten enabled zijn
+  3. Defender for Cloud Apps portal openen (portal.cloudappsecurity.com)
+  4. Gear icon rechtsboven > Settings
+  5. Threat Protection > App Governance
+  6. Enable App Governance integration > Save
+  7. Verificatie: nieuwe app governance policies verschijnen in Defender for Cloud Apps (kan enkele minuten duren)
+
+- Policies die verschijnen na activatie
+  - Microsoft 365 OAuth app Reputation
+  - Microsoft 365 OAuth Phishing Detection
+  - Microsoft 365 OAuth App Governance
+
+- Onthouden voor examen
+  - App governance is specifiek gericht op OAuth apps die via Microsoft Graph bij M365 data komen, niet op apps in het algemeen
+  - Het is een add on feature bovenop Defender for Cloud Apps, geen los product
+  - De 4 pijlers zijn Insights, Governance, Detection, Remediation
+  - Na activatie verschijnen automatisch 3 specifieke policies gericht op OAuth app reputation en phishing detection
+ 
+---
+
+## Module Assessment — Module 3 (Implement app registration)
+
+**Score:** 100%
+
+### Vraag 1
+Microsoft maintains which of the following directories and uses them to publish applications?
+
+- SaaS directory
+- ✅ App gallery directory
+- Single-sign-on app connected directory
+
+### Vraag 2
+Which one of the following is a best practice for building multitenant apps?
+
+- ✅ Follow the principle of least user access to ensure that your app only requests permissions it actually needs.
+- Test your app in each tenant to ensure functionality.
+- Use names and descriptions that are only meaningful to your team.
+
+### Vraag 3
+Which two ways do you declare app roles by using the Azure portal?
+
+- Certificates and secrets.
+- Use the App manifest editor and API permissions.
+- ✅ Use the App roles and App manifest editor.
+
+---
+---
+
+# SC-300: Microsoft Identity and Access Administrator
+## Learning Path 4: Implement access management for apps
+### Module 4: Register Apps Using Microsoft Entra ID
+### Introduction
+
+- Wat app registration is
+  - Proces waarmee het identity systeem weet welke applicaties gebruikt worden
+  - Bevestigt dat de user toegang heeft tot de app, en dat de app toegang heeft tot benodigde resources
+  - Waarborgt security en privacy van users, apps, en data
+
+- Scenario ter illustratie
+  - Developer bouwt een app die authenticatie/autorisatie nodig heeft
+  - Registratie bij Entra ID geeft de app een identity configuratie, integreerbaar met het Microsoft identity platform
+
+- Wat registratie mogelijk maakt
+  - Custom branding; eigen branding op het sign in scherm, belangrijk omdat dit de eerste indruk is die een user van de app krijgt
+  - Tenant configuration; kiezen tussen single tenant (eigen organisatie) of multitenant (accounts van andere tenants toestaan), evt. ook personal Microsoft accounts of social accounts (LinkedIn, Google, etc.)
+  - Permission management; scope permissions aanvragen (bv. user.read om het profiel van de ingelogde user te lezen), scopes definieren voor toegang tot de eigen web API
+  - Secure authentication; veilige authenticatie methodes configureren. Voor confidential client applications (bv. web apps met vertrouwde backend servers): client secrets, certificates, of modernere opties zoals managed identities
+
+- Learning objectives
+  - Benefits of registering an app
+  - Single-tenant versus multitenant apps
+  - What happens when an app is registered
+  - Relationship between application objects and service principals
+
+- Doel van de module
+  - App registreren bij Entra ID en configureren voor integratie met het identity platform
+  - Sign in branding aanpassen
+  - Scope permissions aanvragen
+  - Secrets delen met het identity platform om de app's identity te bewijzen
+  - Single tenant vs multitenant, application objects vs service principal objects, en hun onderlinge relatie
+ 
+---
+
+### Plan for app registration
+
+- Wat het is
+  - Ervoor zorgen dat het identity systeem weet welke applicaties gebruikt worden
+  - Bevestigt user toegang tot de app, en app toegang tot benodigde resources
+  - Waarborgt security en privacy van users, apps, en data
+
+- Voordelen van registreren
+  - Custom branding op het sign in scherm
+  - Tenant configuratie: single tenant (eigen organisatie) of multitenant (work/school accounts van andere tenants), evt. ook personal Microsoft accounts of social accounts (LinkedIn, Google)
+  - Scope permissions aanvragen, bv. user.read voor het profiel van de ingelogde user
+  - Eigen scope definieren voor toegang tot je web API
+  - Secret delen met het identity platform, relevant bij confidential client applications (apps die credentials veilig kunnen bewaren, zoals een web app met een trusted backend server)
+
+- Single tenant versus multitenant
+  - Single tenant; alleen beschikbaar in de tenant waar de app geregistreerd is (home tenant)
+  - Multitenant; beschikbaar voor users in de home tenant EN andere tenants, bewust te kiezen wanneer nodig
+  - Bij multitenant: een service principal object wordt aangemaakt per tenant waar de app users heeft
+    - In de source tenant: bij app registration zelf
+    - In andere tenants: bij de eerste user authenticatie daar
+
+- Audience opties
+
+| Audience | Single/Multi | Wie kan inloggen |
+|---|---|---|
+| Accounts in this directory only | Single tenant | Alle user/guest accounts in eigen directory |
+| Accounts in any Microsoft Entra directory | Multitenant | Work/school accounts van elke Microsoft tenant, incl. scholen/bedrijven met M365 |
+| Accounts in any Microsoft Entra directory and personal Microsoft accounts | Multitenant | Work/school EN personal accounts (Skype, Xbox, Outlook.com) |
+
+- Wat er gebeurt bij registratie
+  - App krijgt een unieke identifier, gedeeld met het identity platform bij token requests
+  - Confidential client applications delen ook hun secret of public key (afhankelijk van certificates vs secrets)
+  - Belangrijk: sinds augustus 2024 krijgen nieuwe apps standaard v2 access tokens (i.p.v. v1), voor verbeterde security. Dit beinvloedt token format en welke claims erin zitten
+
+- 2 representaties van een applicatie
+  - Application object; de definitie van de app (met uitzonderingen)
+  - Service principal; de instantie van de app, verwijst meestal naar een application object. 1 application object kan door meerdere service principals across directories gerefereerd worden
+
+- Wat het identity platform doet
+  - Identificeert de app op basis van ondersteunde authentication protocollen
+  - Biedt alle identifiers, URLs, secrets, en gerelateerde info nodig voor authenticatie
+  - Bewaart data nodig voor runtime authenticatie
+  - Bewaart data om te bepalen welke resources een app nodig heeft, en onder welke omstandigheden een request wordt gehonoreerd
+  - Biedt infrastructuur voor app provisioning binnen de developer's eigen tenant, en naar andere Entra tenants
+  - Handelt user consent af tijdens token requests, faciliteert dynamische provisioning van apps across tenants
+
+- Consent
+  - Proces waarbij een resource owner autorisatie geeft aan een client applicatie om protected resources te benaderen, onder specifieke permissions, namens de resource owner
+  - Entra ID laat users en admins dynamisch consent geven of weigeren
+  - Uiteindelijk bepalen admins: wat apps mogen doen, welke users specifieke apps mogen gebruiken, en hoe directory resources benaderd worden
+
+- Onthouden voor examen
+  - Sinds augustus 2024: nieuwe apps krijgen standaard v2 tokens, niet v1
+  - Bij multitenant apps: service principal ontstaat per tenant, in de source tenant bij registratie, elders bij eerste user login
+  - Consent is het mechanisme waarmee zowel users als admins bepalen wat een app mag doen namens hen
+
+---
+
+### Explore application objects and service principals
+
+- Na registratie
+  - Je hebt een globally unique instance van de app (het application object) in je home tenant
+  - Je hebt een globally unique ID (app/client ID)
+  - In het Entra admin center voeg je vervolgens secrets/certificates, scopes, branding, etc. toe
+  - Registreren via het Entra admin center: application object EN service principal worden automatisch samen aangemaakt
+  - Registreren via Microsoft Graph APIs: het aanmaken van de service principal is een aparte, losse stap
+
+- Security best practice
+  - Voor application authentication (workload identities): certificates aanbevolen boven passwords/secrets
+  - Voor Azure workloads: managed identities de voorkeur, elimineren credential management volledig
+
+- Application object, details
+  - Resideert in de home tenant (waar de app geregistreerd is)
+  - Dient als template/blueprint om 1 of meer service principal objects te maken, 1 per tenant waar de app gebruikt wordt
+  - Vergelijkbaar met een class in object oriented programming: statische properties die worden toegepast op alle aangemaakte service principals
+
+- Application object beschrijft 3 aspecten
+  - Hoe de service tokens kan uitgeven om toegang tot de app te krijgen
+  - Welke resources de app mogelijk nodig heeft
+  - Welke acties de app kan uitvoeren
+
+- Application object bevat o.a.
+  - Naam, logo, publisher
+  - Redirect URIs
+  - Authentication credentials: certificates (aanbevolen) of client secrets (alleen als certificates niet haalbaar zijn)
+  - API dependencies (OAuth)
+  - Published APIs/resources/scopes (OAuth)
+  - App roles
+  - SSO metadata/config
+  - User provisioning metadata/config
+  - Proxy metadata/config
+
+- Service principal object, waarom nodig
+  - Elke entiteit die toegang wil tot resources binnen een Entra tenant moet een security principal hebben, zowel users (user principal) als apps (service principal)
+  - Security principal definieert de access policy en permissions voor die entiteit
+  - Maakt authenticatie bij sign in en autorisatie bij resource toegang mogelijk
+
+- 3 types service principal
+  - Application; lokale representatie/instantie van een global application object binnen 1 tenant. Concrete instantie, erft properties van het application object. Ontstaat zodra een app permissie krijgt om resources in een tenant te benaderen
+  - Managed identity (aanbevolen voor Azure workloads); representeert een managed identity, elimineert credential management, geeft een identity voor apps om te connecten met resources die Entra authenticatie ondersteunen
+  - Legacy; representeert een oudere app, gemaakt voordat app registrations bestonden, of via legacy experiences. Kan credentials, service principal names, reply URLs, etc. hebben. Migreren naar moderne app registrations aanbevolen waar mogelijk
+
+- Service principal bevat o.a.
+  - Referentie terug naar het application object via de application ID property
+  - Local user/group app role assignments
+  - Local user/admin permissions gegeven aan de app
+  - Local policies, incl. Conditional Access
+  - Alternate local settings voor de app
+
+- Relatie tussen application object en service principal
+  - Application object = globale representatie, bruikbaar across alle tenants
+  - Service principal = lokale representatie, specifiek voor 1 tenant
+  - Application object dient als template waaruit gemeenschappelijke/default properties worden afgeleid voor elke service principal
+  - Application object heeft: 1 op 1 relatie met de software applicatie zelf, 1 op meer relatie met zijn service principal(s)
+  - Service principal moet in elke tenant waar de app gebruikt wordt aangemaakt worden, om een identity voor sign in/resource toegang te vestigen
+  - Single tenant app; slechts 1 service principal (in de home tenant), aangemaakt en geconsent tijdens registratie
+  - Multitenant app; extra service principal per tenant waar een user daar consent heeft gegeven voor gebruik
+
+- Beheer van application objects en service principals
+  - Altijd een management strategie/proces nodig voor het onderhouden van service principals
+
+- Gevolgen van wijzigingen en verwijdering
+  - Wijzigingen aan het application object worden alleen gereflecteerd in de service principal van de home tenant
+  - Application object verwijderen verwijdert ook de service principal in de home tenant
+  - Application object herstellen via het Entra admin center herstelt NIET automatisch de bijbehorende service principal
+  - Service principals in andere tenants (bij multitenant apps) blijven onafhankelijk bestaan van het application object in de home tenant
+
+- Service principals terugvinden
+  - Via de app registration overview > Managed application in local directory
+
+- Belangrijk
+  - Bij workload identities (non human identities zoals apps): altijd security implicaties van credential management overwegen, managed identities verkiezen voor Azure resources waar mogelijk
+
+- Onthouden voor examen
+  - App registration via portal = application object + service principal automatisch samen; via Graph API = apart, 2 stappen
+  - Application object verwijderen verwijdert de home tenant service principal, maar herstellen van het application object herstelt die service principal niet automatisch terug
+  - 3 service principal types: Application, Managed identity, Legacy
+  - Multitenant apps krijgen per tenant een eigen, onafhankelijke service principal
+ 
+  ---
+
+### Create app registrations
+
+- Wat deze unit behandelt
+  - Voorbeeld: een Single-Page Application (SPA) registreren in Entra ID
+  - Kernproces vergelijkbaar voor andere app types (web apps, mobile apps); verschillen zitten in de platform specifieke configuratie
+
+- App registration aanmaken (stappen)
+  1. Entra admin center, minimaal Application Developer rol
+  2. Identity > Applications > App registrations > New registration
+  3. Naam invoeren (users kunnen deze naam zien, later aan te passen)
+  4. Supported account types kiezen; voor de meeste single tenant apps: "Accounts in this organizational directory only". Redirect URI op dit moment NIET invullen
+  5. Register
+  - Application (client) ID en Directory (tenant) ID van de Overview pagina noteren, nodig voor de app code
+
+- Single-Page Application platform configureren (voor MSAL.js 2.0+)
+  - MSAL.js 2.0+ ondersteunt authorization code flow met PKCE (Proof Key for Code Exchange) en CORS (Cross-Origin Resource Sharing), veiliger dan de legacy implicit grant flow
+
+- Stappen
+  1. App registration selecteren
+  2. Manage > Authentication
+  3. + Add a platform
+  4. Web applications > Single-page application tile
+  5. Redirect URIs invullen, bv. http://localhost:3000/ voor lokale development
+  6. Checkboxes onder Implicit grant and hybrid flows NIET aanvinken, legacy patronen niet meer aanbevolen
+  7. Save
+
+- Security note
+  - SPA platform configuratie schakelt automatisch authorization code flow met PKCE in
+  - PKCE veiliger dan legacy implicit grant flow, moderne SPAs zouden dit moeten gebruiken
+
+- Registratie compleet, wat dit betekent
+  - Redirect URI geconfigureerd; hier stuurt het platform de client en security tokens naartoe
+  - App registration ondersteunt nu authorization code flow met PKCE en CORS
+
+- Vervolgstappen na registratie
+  - API permissions configureren indien de app Microsoft Graph of andere APIs nodig heeft
+  - Certificates of client secrets toevoegen indien vereist door het app type (niet nodig voor SPAs met authorization code flow)
+  - Configuratie testen met de eigen app code
+
+- Best practice
+  - Nieuwe app registrations zijn standaard verborgen voor users
+  - Zichtbaar maken op de My Apps pagina: Enterprise apps > Properties > "Visible to users?" op Yes zetten
+
+- Onthouden voor examen
+  - SPA gebruikt authorization code flow met PKCE, niet de legacy implicit grant flow
+  - Bij SPA registratie: redirect URI pas instellen bij de platform configuratiestap, niet tijdens de initiele registratie
+  - Nieuwe apps zijn standaard onzichtbaar voor users tot je ze expliciet zichtbaar maakt via Enterprise apps Properties
+
+---
+
+### Configure app authentication
+
+- Platform configuratie algemeen
+  - Settings per app type (incl. redirect URIs) worden ingesteld in Platform configurations
+  - Web en Single-page applications; redirect URI handmatig invullen
+  - Mobile en desktop; redirect URIs vaak automatisch gegenereerd bij het instellen van andere settings
+  - Platform specifieke configuratie zorgt dat de app de juiste authentication flow en security settings gebruikt voor die specifieke omgeving
+
+- Configureren (stappen)
+  1. App registrations > eigen app selecteren
+  2. Manage > Authentication
+  3. Platform configurations > Add a platform
+  4. Platform type tile selecteren
+
+- Platform types en instellingen (examen kernstof)
+
+| Platform | Configuratie |
+|---|---|
+| Web | Redirect URI voor server side app. Hier stuurt het platform users en security tokens naartoe na authenticatie. Front channel sign out URLs en token settings ook configureerbaar |
+| Single-page application | Redirect URI voor client side JavaScript app (Angular, React, Vue.js, Blazor WebAssembly). Gebruikt authorization code flow met PKCE. Front channel sign out URLs ook configureerbaar |
+| iOS / macOS | App Bundle ID invullen (Build Settings of Info.plist in XCode). Redirect URI automatisch gegenereerd |
+| Android | Package name (AndroidManifest.xml) + Signature hash genereren. Redirect URI automatisch gegenereerd |
+| Mobile and desktop applications | Suggested redirect URI kiezen of custom opgeven. Desktop met embedded browser: https://login.microsoftonline.com/common/oauth2/nativeclient. Desktop met system browser: http://localhost. Keuze hangt af van de gebruikte authentication library |
+
+  - Configure om de platform configuratie af te ronden
+
+- Security note
+  - Elk platform type heeft eigen security vereisten
+  - SPAs gebruiken altijd authorization code flow met PKCE
+  - Web applications kunnen verschillende flows gebruiken, afhankelijk van configuratie
+
+- Redirect URI, wat het is
+  - Ook wel reply URL genoemd
+  - Locatie waar de authorization server de user naartoe stuurt na succesvolle autorisatie, met een authorization code of access token
+  - Moet correct geregistreerd zijn tijdens app registration, anders komt de code/token niet goed aan
+
+- Kritieke security vereisten voor redirect URIs (examen kernstof)
+  - HTTPS verplicht; uitzondering voor localhost tijdens development
+  - Case sensitive; moet exact matchen met het URL path van de draaiende applicatie
+  - Trailing slash gedrag:
+    - Redirect URI zonder path segment; krijgt een trailing slash (/) toegevoegd in de response
+    - Redirect URI met path segment; geen trailing slash toegevoegd
+  - Niet ondersteunde speciale tekens: ! $ ' ( ) , ;
+
+- Best practice
+  - Redirect URIs altijd eerst testen in een development omgeving voordat je naar productie gaat, voor correcte token handling en security
+
+- Onthouden voor examen
+  - SPA = altijd authorization code flow met PKCE
+  - Redirect URI moet altijd https zijn, behalve localhost tijdens development
+  - Redirect URIs zijn case sensitive en ondersteunen geen: ! $ ' ( ) , ;
+  - Trailing slash gedrag verschilt afhankelijk van of de URI al een path segment bevat
+ 
+---
+
+### Configure API permissions
+
+- Context (herhaling van eerdere units)
+  - Microsoft identity platform gebruikt OAuth 2.0
+  - Elke web hosted resource heeft een Application ID URI
+  - Resources definieren permissions (scopes), verdelen functionaliteit in kleinere brokken
+  - Microsoft Graph voorbeeld: calendar lezen, calendar schrijven, mail versturen namens de user
+
+- Security voordelen
+  - Fijnmazige controle over data en API functionaliteit
+  - Apps vragen permissions aan, users/admins moeten goedkeuren voordat de app toegang krijgt
+  - Kleine permission sets laten apps alleen aanvragen wat ze echt nodig hebben
+
+- Least privilege principe
+  - Users/admins weten precies waar de app toegang toe heeft
+  - Meer vertrouwen dat de app geen kwaadaardige intenties heeft
+  - Developers moeten altijd least privilege toepassen; alleen aanvragen wat echt nodig is
+
+- API permissions configureren (delegated permissions voorbeeld, stappen)
+  1. Entra admin center > Applications > App registrations > eigen client applicatie
+  2. API permissions > Add a permission > Microsoft Graph
+  3. Delegated permissions selecteren (meest gebruikte permissions staan bovenaan de lijst)
+  4. Gewenste permissions selecteren
+  5. Add permissions
+
+- Belangrijk over delegated permissions
+  - Werken namens de ingelogde user; de app kan alleen data benaderen die de user zelf ook zou kunnen benaderen
+  - Extra beveiligingslaag bovenop de permissions van de app zelf
+
+- Basis OIDC permissions (voorbeeld, examen kernstof)
+
+| Permission | Beschrijving | Use case |
+|---|---|---|
+| email | View users' email address | Email tonen in de app UI |
+| offline_access | Maintain access to data you gave it access to | Refresh tokens voor langdurige toegang |
+| openid | Sign users in | Basis authenticatie, verplicht voor sign in |
+| profile | View users' basic profile | Naam en basisprofiel info tonen |
+
+  - Dit zijn de meest gebruikte basis OIDC scopes; extra permissions nodig afhankelijk van de specifieke app vereisten
+
+- Admin consent
+  - Admin kan consent geven namens alle users in de organisatie, geen individuele user consent meer nodig
+  - Nuttig voor organisatie brede apps waar admin goedkeuring gewenst of verplicht is volgens beleid
+
+- Onthouden voor examen
+  - Delegated permissions zijn altijd beperkt tot wat de ingelogde user zelf mag; extra beveiligingslaag bovenop de app permissions zelf
+  - email, offline_access, openid, profile zijn de meest voorkomende basis OIDC scopes bij een nieuwe app
+  - Admin consent elimineert de noodzaak van losse user consent per persoon
+ 
+---
+
+### Create app roles
+
+- Wat een app role is
+  - Custom claim, toepasbaar op users, groups, of applicaties
+  - Verschijnt in het token dat gegenereerd wordt als een user authenticeert
+  - Data in het token gebruikt door de app voor autorisatie doeleinden
+
+- Kernvoordelen (examen kernstof)
+  - Alternatief voor group claims; voorkomt group overage issues, vereist geen Entra ID P1 licentie
+  - Fijnmazige autorisatie; precieze controle over wat users mogen binnen de app
+  - Vereenvoudigde code; app checkt op specifieke role claims i.p.v. groups naar permissions te mappen
+
+- Hoe in te stellen
+  - Bij het aanmaken van app roles: Allowed member types op Users/Groups zetten
+
+- Hoe app roles verschijnen in tokens
+  - Nadat de app admin roles heeft aangemaakt, kunnen IT admins users/groups toewijzen
+  - App krijgt een roles claim in het token (ID tokens voor apps, access tokens voor APIs), met alle toegewezen rollen van de ingelogde user
+  - Voorbeeld token bevat o.a. "roles": ["Approver", "Reviewer"]
+
+- Best practices (examen kernstof)
+  - Altijd een baseline user role definieren zonder verhoogde rechten
+  - Bij assignment vereiste apps: alleen users met directe assignment of group membership kunnen de app gebruiken
+  - Assignment vereist altijd 1 van de gedefinieerde app roles; zonder baseline role zouden alle toegewezen users automatisch de enige (mogelijk elevated, bv. "admin") rol krijgen, wat least privilege schendt
+  - Aanbevolen: baseline rol (bv. "user" of "reader") definieren, zodat gewone users/groups die krijgen i.p.v. een elevated rol
+
+- Voordelen van app roles t.o.v. group based authorization
+  - Voorkomt group overage claims
+  - Vereenvoudigde autorisatie logica; code checkt simpelweg op bv. "admin" role claim, i.p.v. group IDs te doorlopen en te bepalen welke admin rechten geven
+  - Duidelijkere intentie; rolnamen zoals "admin", "editor", "viewer" zijn beschrijvender dan group GUIDs
+  - Minder complexiteit; geen group ID mappings nodig in de applicatiecode
+  - Betere portability; app roles makkelijk te repliceren over verschillende omgevingen
+
+- Onthouden voor examen
+  - App roles vereisen geen P1 licentie, in tegenstelling tot sommige group based features (zoals dynamic groups)
+  - Altijd een baseline/default role definieren om te voorkomen dat iedereen automatisch de enige (elevated) rol krijgt
+  - Roles claim in het token toont alle toegewezen rollen van de ingelogde user
+ 
+---
+
+## Module Assessment — Module 4 (Register Apps Using Microsoft Entra ID)
+
+**Score:** 100%
+
+### Vraag 1
+What does the Microsoft identity platform do with the unique identifier of a registered app?
+
+- It stores the identifier in the Microsoft Entra Application object.
+- It shares the identifier with all Microsoft Entra directories.
+- ✅ It shares the identifier with the Microsoft identity platform when the app requests tokens.
+
+### Vraag 2
+What is the purpose of registering an app in Microsoft Entra?
+
+- To request scope permissions for the user's device.
+- To customize the branding of your application in the sign in dialog box.
+- ✅ To ensure that your identity system is aware of what applications are being used and to confirm the user has access to the app and that the app has access to any needed resources.
+
+### Vraag 3
+What is the principle of least privilege and how does it relate to third party app permissions in the Microsoft identity platform?
+
+- The principle of least privilege states that third party apps should request all possible permissions to ensure full functionality.
+- The principle of least privilege states that third party apps should not request any permissions to ensure user privacy.
+- ✅ The principle of least privilege states that third party apps should only request the permissions they need to perform their function, ensuring fine-grained control over data and API functionality.
+
+---
+
+### Summary — Module 4 (Register Apps Using Microsoft Entra ID)
+
+- Wat app registration is
+  - Fundamenteel proces om een identity configuratie voor je app op te zetten binnen het Microsoft identity platform
+  - Zorgt voor veilige integratie en fijnmazige controle over authenticatie en autorisatie
+
+- Kern leeruitkomsten van deze module
+
+- Plannen en configureren van app registration
+  - Relatie tussen application objects en service principals
+  - Juiste supported account types kiezen (single tenant vs multitenant)
+  - Plannen voor security vereisten en authentication flows
+
+- Moderne authenticatie implementeren
+  - SPA's configureren met authorization code flow en PKCE
+  - Platform specifieke authentication settings instellen
+  - Veilige redirect URI patronen implementeren
+
+- API permissions en autorisatie beheren
+  - Delegated permissions configureren volgens least privilege
+  - Verschil tussen delegated en application permissions
+  - Juiste consent workflows implementeren
+
+- Geavanceerde security features
+  - App roles maken en beheren voor fijnmazige autorisatie
+  - Baseline user roles ontwerpen om privilege escalation te voorkomen
+  - Certificate based authenticatie boven client secrets
+
+- Behandelde security best practices
+  - Moderne authentication flows; authorization code flow met PKCE, correcte token handling/validatie, veilig credential management (certificates boven secrets)
+  - Access control; least privilege bij permission requests, role based access control via app roles, duidelijke scheiding tussen user en application permissions
+  - Workload identity security; managed identities als voorkeur voor Azure workloads, veilig service principal beheer, certificate based authenticatie
+
+- Moderne terminologie en tools
+  - Microsoft Entra admin center als primaire management interface
+  - Workload identities voor non human identity management
+  - Application objects en service principals relatie
+  - PKCE en CORS voor moderne web app security
+
+- Onthouden voor examen
+  - Deze module vat samen wat je al in detail hebt geleerd: application object vs service principal, single/multitenant, PKCE bij SPAs, app roles vs group claims, en de voorkeur voor managed identities/certificates boven secrets
+
+---
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
