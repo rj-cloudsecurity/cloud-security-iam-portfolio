@@ -78,9 +78,46 @@
 
 ---
 
+### Configure entitlement management
 
+- Rollen bij het opzetten
+  - Administrator; delegeert beheer van resources
+  - Catalog creator; delegeert beheer van resources
+  - Catalog owner; delegeert beheer van resources, en delegeert beheer van access packages via de access package manager rol
 
+- Toegang beheren voor users binnen de organisatie
+  - Access package manager; laat employees toegang aanvragen tot resources
+  - Requestor; vraagt toegang aan tot resources, kan ook zien welke resources hij al heeft
+  - Approver; keurt requests goed
 
+- Toegang beheren voor users buiten de organisatie
+  - Administrator; werkt samen met een externe partnerorganisatie
+  - Access package manager; werkt samen met een externe partnerorganisatie
+  - Requestor; vraagt toegang aan als externe user, kan zien welke resources al toegekend zijn
+  - Approver; keurt requests goed
+
+- Dagelijks beheer (access package manager taken)
+  - Resources van een project updaten
+  - Duur van een project updaten
+  - Manier van goedkeuren updaten
+  - Betrokken personen updaten
+  - Specifieke users direct toewijzen aan een access package
+
+- Assignments en rapportages
+  - Administrator; ziet wie assignments heeft op een access package, en welke resources aan users toegewezen zijn
+
+- Programmatisch beheren
+  - Access packages, catalogs, policies, requests, en assignments beheerbaar via Microsoft Graph
+  - Vereist een user in de juiste rol, met een applicatie die de delegated permission EntitlementManagement.ReadWrite.All heeft
+  - Aanroepbaar via de entitlement management API
+
+- Onthouden voor examen
+  - Catalog owner kan zowel resources beheren als access package management delegeren naar een access package manager
+  - Access package manager is de dagelijkse beheerrol (resources, duur, approval flow, mensen, directe assignments)
+  - Requestor en Approver zijn de rollen aan de gebruikerskant van het proces, zowel intern als extern
+  - Programmatisch beheer via Graph vereist de EntitlementManagement.ReadWrite.All permission
+
+---
 
 
 
