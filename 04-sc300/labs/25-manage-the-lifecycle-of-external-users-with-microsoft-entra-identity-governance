@@ -1,0 +1,35 @@
+# Exercise: Manage the Lifecycle of External Users with Microsoft Entra Identity Governance
+
+**Bron:** SC-300 Learning Path; Plan and implement an identity governance strategy
+
+## Doel
+Instellen wat er gebeurt met een externe (guest) user die via een access package is binnengekomen, zodra die zijn laatste access package assignment verliest.
+
+## Wat niet kan (vereist Entra ID P1, P2, EMS E3, of EMS E5)
+- ID Governance openen geeft direct een 401 error, zoals eerder al bevestigd
+- Entitlement management > Settings is dus niet bereikbaar
+
+## Stappen (theorie, volledige flow)
+1. Microsoft Entra admin center > ID Governance > Entitlement management > Settings > Edit
+2. Manage the lifecycle of external users sectie bekijken
+3. Block external user from signing in to this directory: Yes/No instellen
+   - Bij Yes: user kan niet meer inloggen, en kan ook geen nieuwe access package meer aanvragen in deze directory
+   - Niet instellen op Yes als de user later mogelijk weer toegang tot andere packages nodig heeft
+4. Remove external user: Yes/No instellen
+   - Verwijdert alleen accounts die via entitlement management zijn uitgenodigd
+   - Guest die al in de directory was voordat ze een access package assignment kregen, blijven bestaan
+   - Guest die specifiek via een access package assignment is uitgenodigd, wordt wel verwijderd, ook als ze later aan andere (niet package gerelateerde) resources zijn toegevoegd
+5. Number of days before removing external user from this directory instellen (0 = direct verwijderen zodra laatste assignment verloopt)
+6. Save
+
+## Default gedrag (examen kernstof)
+- Standaard: user wordt geblokkeerd van sign in zodra hun laatste access package assignment verloopt
+- Na 30 dagen: guest account wordt automatisch verwijderd uit de directory
+
+## Resultaat
+Niet uitvoerbaar. ID Governance blijft volledig geblokkeerd (401 error) zonder P1/P2/EMS licentie, consistent met de eerdere exercises in deze module.
+
+## Wat dit aantoont
+- Begrip van de default lifecycle van externe users binnen entitlement management (geblokkeerd bij verlies van laatste assignment, verwijderd na 30 dagen)
+- Kennis van het onderscheid tussen blokkeren van sign in en daadwerkelijk verwijderen van het account, als 2 losse instellingen
+- Begrip dat entitlement management alleen accounts verwijdert die het zelf heeft uitgenodigd, niet elke guest in de directory
