@@ -40,7 +40,7 @@ Een catalog aanmaken binnen Entitlement Management, resources toevoegen, catalog
 2. Bevestigen met Yes
 
 ## Resultaat
-Volledig niet uitvoerbaar in de sandbox. In tegenstelling tot eerdere premium gated features (die een landingspagina met upgrade optie toonden), geeft Identity Governance hier direct een harde 401 "No access" foutmelding, zonder enige UI te tonen.
+Niet uitvoerbaar. In tegenstelling tot eerdere premium gated features (die een landingspagina met upgrade optie toonden), geeft Identity Governance hier direct een harde 401 "No access" foutmelding, zonder enige UI te tonen.
 
 ## Wat dit aantoont
 - Begrip van de opbouw van entitlement management: catalog als container, resources daarin, owners voor delegatie
