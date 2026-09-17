@@ -1576,7 +1576,7 @@ What is the principle of least privilege and how does it relate to third party a
   - PKCE en CORS voor moderne web app security
 
 - Onthouden voor examen
-  - Deze module vat samen wat je al in detail hebt geleerd: application object vs service principal, single/multitenant, PKCE bij SPAs, app roles vs group claims, en de voorkeur voor managed identities/certificates boven secrets
+  - Application object vs service principal, single/multitenant, PKCE bij SPAs, app roles vs group claims, en de voorkeur voor managed identities/certificates boven secrets
 
 ---
 ---
