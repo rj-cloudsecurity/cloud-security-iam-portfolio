@@ -666,14 +666,196 @@ What is an access package?
 - An access package is a used to create a transitive trust between B2B organizations.
 
 ---
+---
 
+# SC-300: Microsoft Identity and Access Administrator
+## Learning Path 5: Plan and implement an identity governance strategy
+### Module 3: Plan and implement privileged access
+### Introduction
 
+- Waarom dit belangrijk is
+  - Organisaties willen het aantal mensen met toegang tot gevoelige info/resources minimaliseren
+  - Minder toegang = kleinere kans op misbruik door kwaadwillenden, en minder kans op onbedoelde impact door een geautoriseerde user
+  - Users hebben soms toch privileged operaties nodig in Entra ID, Azure, M365, of SaaS apps
+  - Oplossing: just-in-time privileged access, met tracking/oversight van wat users met die rechten doen
 
+- Learning objectives
+  - Define a privileged access strategy for administrative users (resources, roles, approvals, thresholds)
+  - Configure PIM for Azure Roles
+  - Configure PIM for Azure resources
+  - Assign roles
+  - Manage PIM requests
+  - Analyze PIM audit history and reports
+  - Create and manage emergency access accounts
+  - Configure privileged access groups
 
+---
 
+### Define a privileged access strategy for administrative users
 
+- Wat PIM is
+  - Service in Entra ID voor het beheren van toegang tot privileged resources
+  - Beheert, controleert, en monitort toegang tot belangrijke resources: Entra ID, Azure, en andere Microsoft Online Services (M365, Intune)
+  - Vereist Entra ID Premium P2
 
+- Wat PIM doet (examen kernstof)
+  - Time-based en approval-based role activation
+  - Just-in-time privileged access tot Entra ID en Azure resources
+  - Time-bound access met start/end datums
+  - Approval vereisen om privileged roles te activeren
+  - MFA afdwingen bij elke role activatie
+  - Justification vereisen om te snappen waarom een user activeert
+  - Notificaties bij activatie van privileged roles
+  - Access reviews om te checken of users de rol nog nodig hebben
+  - Audit history downloaden voor interne/externe audits
 
+- Stakeholders identificeren (2 aparte tabellen, PIM voor Entra roles vs Azure roles)
+  - Voor Entra roles: identity architect/Global Admin, service owner/line manager, security owner, IT support manager/helpdesk, privileged role users (pilot)
+  - Voor Azure roles: subscription/resource owner, security owner, IT support manager/helpdesk, Azure role users (pilot)
+  - Elke stakeholder krijgt een actie: SO (approval), R (review/input), I (informed)
+
+- Starten met PIM
+  - Volg "Start using Privileged Identity Management" voor voorbereiding
+  - Voor Azure resources: "Discover Azure resources to manage in Privileged Identity Management"
+  - Alleen owners van subscriptions/management groups kunnen resources onder PIM management brengen
+  - Eenmaal onder management: beschikbaar op alle niveaus (management group, subscription, resource group, resource)
+  - Global Admin kan access elevaten om alle Azure subscriptions te managen, maar approval van subscription owners wordt aangeraden
+
+- Least privilege afdwingen, Entra roles (stappen, examen kernstof)
+  1. Granulariteit van rollen begrijpen (welke rol is het minst bevoorrecht voor een specifieke taak)
+  2. Lijst maken wie privileged roles heeft (PIM Discovery and insights preview kan helpen)
+  3. Voor elke Global Administrator: waarom nodig, dan verwijderen en vervangen door built-in of custom rollen met minder rechten (ter referentie: Microsoft zelf heeft maar ~10 Global Admins)
+  4. Voor andere Entra roles: assignments reviewen, overbodige toewijzingen verwijderen
+  - Laatste 2 stappen te automatiseren via access reviews in PIM: reviewers = Members (self), Require reason on approval aan laten staan
+  - Access reviews vereisen email; secondary email invullen als accounts die missen
+
+- Least privilege afdwingen, Azure roles
+  - Zelfde soort access review proces per subscription/resource
+  - Doel: Owner en User Access Administrator assignments minimaliseren
+  - Vaak gedelegeerd aan de resource/subscription owner zelf (kennen de specifieke/custom rollen het beste)
+  - Global Admin kan elevaten om toegang tot alle subscriptions te krijgen, en met elke owner samenwerken
+
+- Welke rollen beschermen met PIM
+
+- Entra roles, top 10 meest gemanaged door PIM (examen kernstof)
+  1. Global Administrator
+  2. Security Administrator
+  3. User Administrator
+  4. Exchange Administrator
+  5. SharePoint Administrator
+  6. Intune Administrator
+  7. Security Reader
+  8. Service Administrator
+  9. Billing Administrator
+  10. Skype for Business Administrator
+  - Microsoft's advies: begin met Global Administrator en Security Administrator (grootste potentiële schade bij compromise)
+  - Rollen met guest users toegewezen: extra kwetsbaar, aanbevolen om altijd via PIM te managen
+  - Reader roles (Directory Reader, Message Center Reader, Security Reader) worden soms onderschat, maar kunnen alsnog gevoelige data blootleggen; overweeg ook deze te beschermen
+
+- Azure roles
+  - Eerst bepalen welke subscriptions/resources het meest vitaal zijn (gevoelige data, klant-facing apps)
+  - Groeperen naar severity level (low/medium/high) bij compromise, prioriteren op basis daarvan
+  - PIM voor Azure resources ondersteunt ook time-bound service accounts; behandel ze net als gewone user accounts
+  - Voor minder kritieke resources: niet elke rol via PIM nodig, maar Owner en User Access Administrator altijd beschermen
+
+- Group vs individuele role assignment
+  - Overweeg een group te gebruiken als: veel users dezelfde rol hebben, of je de assignment wilt delegeren
+  - Veel users: role-assignable group aanmaken, group als eligible instellen voor de rol. Elke user activeert zijn eigen group membership via PIM, niet de group zelf
+  - Delegeren: group owner beheert membership. Voor Entra role-assignable groups: alleen Privileged Role Administrator, Global Administrator, en group owners kunnen membership beheren
+  - Aanbevolen: Entra role-assignable groups onder PIM management brengen (heet dan een "privileged access group"), zodat ook group owners hun Owner-rol moeten activeren voordat ze membership kunnen wijzigen
+
+- Permanent vs eligible role assignments (examen kernstof)
+  - Permanently active = normale toewijzing, altijd actief
+  - Eligible = alleen via PIM te activeren, tijdelijk
+  - Microsoft advies: 0 permanent actieve assignments, behalve 2 break-glass emergency access accounts (die wel permanent Global Administrator moeten zijn)
+  - Overwegingen voor toch een permanente rol: hoe vaak wordt geëlevaeerd (zelden = geen permanente rol nodig), organisatie-specifieke gevallen (bv. moeilijk bereikbare executive)
+  - Aanbevolen: recurring access reviews instellen voor users met permanente role assignments
+
+- PIM settings ontwerpen (voorbeeldtabellen, examen kernstof)
+
+**Entra roles voorbeeld**
+
+| Setting | Global Administrator | Exchange Administrator | Helpdesk Administrator |
+|---|---|---|---|
+| Require MFA | Yes | Yes | No |
+| Notification | Yes | Yes | No |
+| Incident ticket | Yes | No | Yes |
+| Require approval | Yes | No | No |
+| Approver | Other Global Administrators | None | None |
+| Activation Duration | 1 hour | 2 hour | 8 hour |
+| Permanent admin | Emergency access accounts | None | None |
+
+**Azure roles voorbeeld**
+
+| Setting | Owner (kritieke subscriptions) | User Access Administrator (minder kritiek) | Virtual Machine Contributor |
+|---|---|---|---|
+| Require MFA | Yes | Yes | No |
+| Notification | Yes | Yes | Yes |
+| Require approval | Yes | No | No |
+| Approver | Other owners | None | None |
+| Activation Duration | 1 hour | 1 hour | 3 hour |
+
+- Uitleg van elke setting
+  - Require MFA; verplicht voor alle admin rollen aanbevolen, zeker bij guest users
+  - Notification; Global/Privileged Role/Security Administrators krijgen email bij activatie. Alternative email instellen als admin-accounts geen email hebben
+  - Incident ticket; user moet een ticketnummer opgeven bij activatie, helpt tracking en approvers context geven
+  - Require approval; aanbevolen voor de rollen met de meeste permissions (meest voorkomend: Global Administrator, User Administrator, Exchange Administrator, Security Administrator, Password Administrator)
+  - Approver; default = alle privileged role administrators. Een user die zowel eligible als approver is voor dezelfde rol kan zichzelf niet goedkeuren. Aanbevolen: kies approvers die de rol/gebruikers goed kennen, niet zomaar een Global Administrator
+  - Activation duration; hoe lang de rol actief blijft na activatie voordat die verloopt
+  - Permanent admin; lijst users die nooit hoeven te activeren (aanbevolen: alleen voor emergency access accounts)
+  - Active admin (Azure specifiek); users die nooit hoeven te activeren, maar wel een expiratiedatum kunnen hebben (i.t.t. "permanent" bij Entra roles)
+  - Active expiration; hoe lang een active Azure role assignment geldig is (15 dagen tot permanent)
+  - Eligible expiration; hoe lang een eligible Azure role assignment geldig is (15 dagen tot permanent eligible)
+
+- Onthouden voor examen
+  - PIM vereist altijd P2
+  - Aanbevolen: 0 standing/permanent admins, behalve 2 emergency access accounts
+  - Top prioriteit om te beschermen: Global Administrator en Security Administrator
+  - Guest users met een rol: altijd via PIM managen
+  - Group-based eligible assignment: user activeert zijn group membership, niet de group zelf
+  - Role-assignable group onder PIM = "privileged access group"
+  - Een user die eligible EN approver is voor dezelfde rol, kan zichzelf niet goedkeuren
+ 
+---
+
+### Configure Privileged Identity Management for Azure resources
+
+- Voor wie relevant
+  - Organisaties die PIM al gebruiken voor Entra roles
+  - Management group en subscription owners die productie resources willen beveiligen
+
+- Discover resources, wat het is
+  - Bij eerste gebruik moet je resources ontdekken en selecteren om onder PIM management te brengen
+  - Geen limiet aan het aantal resources; aanbevolen om te starten met meest kritieke productie resources
+
+- Stappen (examen kernstof)
+  1. Entra admin center > Microsoft Entra Privileged Identity Management > Azure resources
+  2. Eerste keer: Discover resources page verschijnt. Al beheerde resources: lijst wordt getoond als een andere admin al beheert
+  3. Discover resources selecteren om de discovery experience te starten
+  4. Filteren op Resource state en Select resource type (management groups/subscriptions waar je write permission op hebt); aanbevolen om initieel met "All" te starten
+  5. Management group of subscription resource zoeken/selecteren om te beheren
+     - Bij management van een management group of subscription: child resources vallen daar automatisch ook onder
+     - Nieuwe child resource later toevoegen aan een al beheerde management group: opzoeken in PIM om alsnog onder management te brengen
+  6. Unmanaged resources selecteren die je wilt beheren
+  7. Manage resource om het beheer te starten
+  8. Bevestigen (Yes) bij de onboarding confirmatie melding
+
+- Onthouden voor examen
+  - Management group of subscription onder PIM brengen = child resources automatisch mee onder beheer
+  - Nieuwe resources die later worden toegevoegd, moet je zelf opnieuw opzoeken en onboarden in PIM
+  - Alleen owners van subscriptions/management groups kunnen resources initieel onder PIM management brengen
+
+---
+
+### Exercise: configure Privileged Identity Management for Microsoft Entra roles
+  - [04-sc300/labs/26-configure-privileged-identity-management-for-microsoft-entra-roles](../../04-sc300/labs/26-configure-privileged-identity-management-for-microsoft-entra-roles.md)
+
+---
+
+### Exercise: assign Microsoft Entra roles in Privileged Identity Managements
+  - [04-sc300/labs/27-assign-microsoft-entra-roles-in-privileged-identity-management](../../04-sc300/labs/27-assign-microsoft-entra-roles-in-privileged-identity-management.md)
+
+---
 
 
 
