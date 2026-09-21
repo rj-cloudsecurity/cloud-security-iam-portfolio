@@ -1005,19 +1005,307 @@ Which roles can only be assigned using Privileged Identity Management?
 - Transient roles.
 
 ---
---
+---
 
+# SC-300: Microsoft Identity and Access Administrator
+## Learning Path 5: Plan and implement an identity governance strategy
+### Module 4: Monitor and maintain Microsoft Entra ID
+### Introduction
 
+- Wat deze module behandelt
+  - Entra ID audit en diagnostic logs geven rijk inzicht in hoe users toegang krijgen tot je Azure oplossing
+  - Monitoren, troubleshooten, en analyseren van sign-in data
 
+- Learning objectives
+  - Analyze and investigate sign-in logs to troubleshoot access issues
+  - Review and monitor Microsoft Entra audit logs
+  - Enable and integrate Microsoft Entra diagnostic logs with Log Analytics / Microsoft Sentinel
+  - Export sign-in and audit logs to a third-party SIEM tool
+  - Review Microsoft Entra activity by using Log Analytics / Microsoft Sentinel, excluding KQL use
+  - Analyze Microsoft Entra workbooks/reporting
+  - Monitor security posture with identity secure score
+  - Configure notifications
+ 
+---
 
+### Analyze and investigate sign-in logs to troubleshoot access issues
 
+- Reporting architectuur onderdelen (examen kernstof)
+  - Activity
+    - Sign-ins; gebruik van managed apps + user sign-in activiteiten
+    - Audit logs; system activity info over user/group management, managed apps, directory activiteiten
+    - Provisioning logs; activiteit van de provisioning service (bv. group aanmaken in ServiceNow, user geimporteerd uit Workday)
+  - Security
+    - Risky sign-ins; indicator dat een sign-in poging niet door de legitieme owner is gedaan
+    - Users flagged for risk; indicator dat een account mogelijk gecompromitteerd is
 
+- Wie heeft toegang tot de data
+  - Security Administrator, Security Reader of Administrator, Global Reader, Report Reader
+  - Elke user (niet-admin) kan zijn eigen sign-ins bekijken
 
+- Licentie vereiste
+  - Sign-in activity report beschikbaar in ALLE edities van Entra ID, ook via Microsoft Graph API
 
+- Sign-ins report, waar te vinden
+  - Entra ID > Monitoring > Sign-ins
+  - Kan tot 2 uur duren voordat sign-ins verschijnen
+  - Belangrijk: toont alleen interactive sign-ins (handmatig met username/password). Non-interactive (bv. service-to-service auth) worden NIET getoond
 
+- Default lijst velden
+  - Sign-in date, related user, application, sign-in status, risk detection status, MFA requirement status
+  - Aanpasbaar via Columns in de toolbar
+  - Beperking: geen velden met meerdere waardes per sign-in als kolom (bv. authentication details, Conditional Access data, netwerk locatie)
+  - Item selecteren voor gedetailleerde info
 
+- Conditional Access troubleshooten via sign-in reports
+  - Conditional Access tab bij een sign-in record toont CA status en details per toegepaste policy
 
+- Filters beschikbaar (examen kernstof)
+  - Request ID, User (naam/UPN), Application, Status (Success/Failure/Interrupted), IP address, Location (city/state/country), Resource, Resource ID, Client app, Operating system, Device browser, Correlation ID
+  - Conditional Access status: Not applied (geen policy van toepassing), Success (1+ policy toegepast), Failure (user/app conditie voldaan maar grant controls niet voldaan of block ingesteld)
 
+- Client app types (voorbeelden, niet allemaal uit het hoofd leren)
+  - Modern authentication ondersteunend: Browser, Mobile apps and desktop clients
+  - Legacy/overig: Authenticated SMTP, Autodiscover, Exchange ActiveSync, Exchange Online PowerShell, Exchange Web Services, IMAP4, MAPI over HTTP, Offline Address Book, Outlook Anywhere (RPC over HTTP), Outlook Service, POP3, Reporting Web Services, Other clients
+
+- Sign-in activiteiten downloaden
+  - CSV of JSON, max 250.000 meest recente records
+  - Beperkt door de Entra ID report retention policies
+
+- Extra entry points naar sign-in data
+  - Identity Protection (Security > Identity Protection)
+  - Users
+  - Groups
+  - Enterprise applications
+
+- Users sign-in data in Identity Protection
+  - Sign-in graph toont wekelijkse aggregaties, default periode 30 dagen
+  - Dag selecteren geeft overzicht van sign-in activiteiten die dag: wie, welke app, status, MFA status
+  - Item selecteren geeft meer detail: User ID, User, Username, Application ID, Application, Client, Location, IP address, Date, MFA Required, Sign-in status
+  - Let op: IP naar fysieke locatie mappen is altijd een best-effort inschatting (VPN's/mobiele providers geven IP's uit centrale pools, vaak ver van de werkelijke locatie)
+
+- Usage of managed applications (app centric view)
+  - Beantwoordt: wie gebruikt mijn apps, top 3 apps, hoe presteert een nieuwe app
+  - Entry point: Enterprise applications > Overview, top 3 apps, laatste 30 dagen
+  - App usage graph toont wekelijkse aggregaties, focus op 1 specifieke app mogelijk
+  - Dag selecteren geeft gedetailleerde sign-in activiteiten lijst
+  - Sign-ins optie geeft volledig overzicht van alle sign-in events naar de apps
+
+- Microsoft 365 activity logs
+  - Bekijkbaar via het M365 admin center
+  - M365 en Entra activity logs delen veel van dezelfde directory resources
+  - Alleen het M365 admin center geeft een volledig overzicht van M365 activity logs specifiek
+  - Ook programmatisch toegankelijk via de Office 365 Management APIs
+
+- Onthouden voor examen
+  - Sign-ins report toont alleen interactive sign-ins, geen service-to-service authenticatie
+  - Sign-in report vereist geen premium licentie, werkt op elke Entra ID editie
+  - Conditional Access status in sign-in logs: Not applied vs Success vs Failure zijn 3 losse, specifieke betekenissen
+  - Download beperkt tot 250.000 meest recente records, en begrensd door retention policy
+
+---
+
+### Review and monitor Microsoft Entra audit logs
+
+- Wat audit logs bieden
+  - Records van system activities, voor compliance
+  - Toegang: Entra ID > Monitoring > Audit logs
+
+- Default lijst velden
+  - Datum/tijd, service die het loggede, category + activity name (wat), status (success/failure), target, initiator/actor (wie)
+  - Aanpasbaar via Columns in de toolbar
+  - Item selecteren voor meer detail
+
+- Filters beschikbaar (examen kernstof)
+  - Service, Category, Activity, Status, Target, Initiated by (Actor), Date range
+
+- Service filter, opties
+  - All, Microsoft Entra Management UX, Access Reviews, Account Provisioning, Application Proxy, Authentication Methods, B2C, Conditional Access, Core Directory, Entitlement Management, Hybrid Authentication, Identity Protection, Invited Users, MIM Service, MyApps, Privileged Identity Management (PIM), Self-service Group Management, Self-service Password Management, Terms of Use
+
+- Category filter, opties 
+  - All, Administrative unit, ApplicationManagement, Authentication, Authorization, Contact, Device, DeviceConfiguration, DirectoryManagement, EntitlementManagement, GroupManagement, KerberosDomain, KeyManagement, Label, Other, PermissionGrantPolicy, Policy, ResourceManagement, RoleManagement, UserManagement
+
+- Activity filter
+  - Gebaseerd op de gekozen Category + activity resource type, specifieke activiteit of "all" selecteerbaar
+  - Volledige lijst van audit activity types op te halen via Graph API: `graph.windows.net/<tenantdomain>/activities/auditActivityTypesV2?api-version=beta`
+
+- Status filter
+  - All, Success, Failure
+
+- Target filter
+  - Zoeken op begin van naam of UPN, case-sensitive
+
+- Initiated by filter
+  - Zoeken op begin van actor naam of UPN, case-sensitive
+
+- Date range filter
+  - 7 days, 24 hours, of Custom (start/end tijd instelbaar)
+
+- Downloaden
+  - Max 250.000 records, CSV of JSON
+  - Begrensd door Entra report retention policies
+
+- Extra entry points naar audit data
+  - Users and groups
+  - Enterprise applications
+
+- Users and groups audit logs
+  - Beantwoordt: welke user updates, hoeveel users gewijzigd, hoeveel passwords gewijzigd, wat heeft een admin gedaan, welke groups toegevoegd, membership wijzigingen, group owner wijzigingen, license assignments
+  - Users tab > Audit logs; UserManagement staat al preselected als category
+  - Groups tab > Audit logs; GroupManagement staat al preselected als category
+
+- Enterprise applications audit logs
+  - Beantwoordt: welke apps toegevoegd/geupdatet/verwijderd, service principal wijzigingen, naam wijzigingen, wie consent gaf
+  - Enterprise applications > Activity > Audit logs; Enterprise applications staat al preselected als Application Type
+
+- Microsoft 365 activity logs (herhaling)
+  - Bekijkbaar via M365 admin center, deelt veel directory resources met Entra logs
+  - Alleen M365 admin center geeft volledig overzicht van M365 activity specifiek
+  - Ook programmatisch via Office 365 Management APIs
+
+- Onthouden voor examen
+  - Users/Groups/Enterprise applications tabs zijn allemaal shortcuts naar dezelfde audit logs, alleen met een preselected category/filter
+  - Max 250.000 records downloadbaar, begrensd door retention policy
+  - Target en Initiated by filters zijn case-sensitive
+
+---
+
+### Exercise: connect data from Microsoft Entra ID to Microsoft Sentinel 
+  - [04-sc300/labs/29-connect-data-from-microsoft-entra-id-to-microsoft-sentinel](../../04-sc300/labs/29-connect-data-from-microsoft-entra-id-to-microsoft-sentinel.md)
+
+---
+
+### Export logs to third-party security information and event management system
+
+- Achtergrond
+  - Sinds de introductie van Azure Monitor consolideren steeds meer Azure services (o.a. Azure Resource Manager, Microsoft Defender for Cloud) hun security logs naar 1 gemeenschappelijke logging pipeline
+  - Integratie vereenvoudigd via routing naar 1 Azure Event Hubs, meerdere diagnostic settings per resource mogelijk
+
+- Hoe integratie met SIEM tools werkt
+  - Azure heeft connectors gebouwd met top SIEM partners, die data uit Azure Monitor halen via Azure Event Hubs
+  - Dit is de door Microsoft aanbevolen aanpak voor SIEM integratie, simpel, schaalbaar, beheersbaar
+
+- AzLog (Azure Log Integration tool), context
+  - Ouder tool, hielp vroeger met consolideren/vertalen/doorsturen van logs naar SIEM tools
+  - Ontstond toen Azure Monitor nog niet bestond en er weinig standaardisatie was in hoe Azure services log data blootstelden (sommige naar storage account, andere via API, etc.)
+  - Wordt nog ondersteund voor bestaande gebruikers, maar Event Hubs is de aanbevolen weg vooruit
+
+- Integratie aanbevelingen per SIEM tool (examen kernstof, herkennen)
+
+| SIEM Tool | Gebruikt nu AzLog | Onderzoekt nu SIEM opties |
+|---|---|---|
+| Splunk | Migreren naar Azure Monitor Add-On for Splunk | Gebruik Azure Monitor Add-On for Splunk |
+| IBM QRadar | Migreren naar Microsoft Azure DSM + Event Hubs Protocol | Gebruik Microsoft Azure DSM + Event Hubs Protocol |
+| ArcSight | ArcSight Azure Event Hubs smart connector beschikbaar | (geen aparte aanbeveling genoemd) |
+
+- Integratie roadmap, bekende gaps tussen AzLog en Azure Monitor (examen relevant)
+  - Microsoft Entra logs; enige logtype dat via AzLog wel direct geintegreerd was, maar nog niet volledig beschikbaar is in Azure Monitor
+  - Azure VM logs; AzLog kon guest OS logs (bv. Windows Security Events) integreren met bepaalde SIEMs. Azure Monitor heeft agents voor Linux/Windows die OS logs naar Event Hubs kunnen routeren, maar volledige end-to-end SIEM integratie is nog niet triviaal
+  - End-to-end setup; AzLog had een script voor volledige automatische setup. Azure Monitor kan diagnostic settings scripten, en werkt samen met het Azure Policy team aan naadloze enablement via Resource Manager policies
+  - Integratie met andere SIEM tools; AzLog kon generieke JSON logs naar schijf pushen voor niet-officieel ondersteunde tools (bv. LogRhythm). Aanbeveling: samenwerken met de tool-producent voor een eigen Azure Monitor Event Hubs integratie
+
+- Onthouden voor examen
+  - Azure Event Hubs is de centrale, aanbevolen methode om logs naar externe SIEM tools te routeren
+  - AzLog is de oudere/legacy tool, wordt uitgefaseerd ten gunste van Azure Monitor + Event Hubs
+  - Microsoft Entra logs zijn specifiek genoemd als bekende gap tussen wat AzLog kon en wat Azure Monitor nu kan
+
+---
+
+### Analyze Microsoft Entra workbooks and reporting
+
+- Wat de usage and insights report biedt
+  - Application centric view van sign-in data
+  - Beantwoordt: meest gebruikte apps, apps met meeste failed sign-ins, top sign-in errors per app
+
+- Prerequisites 
+  - Entra tenant
+  - Entra ID P1 of P2 licentie
+  - User in Security Administrator, Security Reader, of Report Reader rol
+  - Elke user (niet-admin) kan wel zijn eigen sign-ins bekijken
+
+- Toegang tot het report (stappen)
+  1. Azure portal, juiste directory selecteren
+  2. Microsoft Entra ID > Enterprise applications
+  3. Activity sectie > Usage and insights
+
+- Gebruik van het report
+  - Lijst van apps met 1+ sign-in poging, sorteerbaar op successful sign-ins, failed sign-ins, success rate
+  - Load more voor extra apps, date range instelbaar
+  - Focus op 1 specifieke app: view sign-in activity toont activiteit over tijd + top errors
+  - Dag selecteren in de usage graph geeft gedetailleerde sign-in activiteiten lijst
+
+- Onthouden voor examen
+  - Deze specifieke usage and insights report (in Enterprise applications) vereist wél P1/P2, in tegenstelling tot de algemene Sign-ins report (Monitoring > Sign-ins) die op elke licentie werkt
+  - Dit is een belangrijk onderscheid: er zijn dus 2 verschillende sign-in gerelateerde reports met verschillende licentievereisten, makkelijk te verwarren op het examen
+
+---
+
+### Monitor security posture with Identity Secure Score
+
+- Wat het is
+  - Percentage dat aangeeft hoe goed je aansluit bij Microsoft's best practices voor security
+  - Elke improvement action is afgestemd op jouw specifieke configuratie
+
+- Waarvoor het helpt
+  - Objectief meten van identity security posture
+  - Plannen van verbeteringen
+  - Successen van verbeteringen terugzien
+
+- Wat het dashboard toont
+  - De secure score zelf
+  - Vergelijking met andere tenants in dezelfde industrie/grootte
+  - Trend grafiek van scoreveranderingen over tijd
+  - Lijst van mogelijke verbeteringen
+
+- Waarom improvement actions volgen
+  - Verbetert security posture en score
+  - Maakt gebruik van features die al deel uitmaken van je identity investeringen
+
+- Hoe je bij je score komt
+  - Beschikbaar in ALLE edities van Entra ID (geen premium licentie vereist)
+  - Azure portal > Microsoft Entra ID > Security > Identity Secure Score
+
+- Hoe controls gescoord worden (examen kernstof)
+  - Binair; 100% van de score als een feature/setting volgens aanbeveling geconfigureerd is
+  - Percentage van totale configuratie; bv. max 10.71% als je ALLE users met MFA beschermt, maar slechts 5 van 100 users beschermd = partial score (5/100 * 10.71% = 0.53%)
+
+- Hoe je je score moet interpreteren
+  - Score verbetert door aanbevolen security features te configureren of security taken uit te voeren (bv. reports lezen)
+  - Sommige acties tellen mee voor partial completion (zoals MFA per user)
+  - Score is direct representatief voor de Microsoft security services die je gebruikt
+  - Belangrijk: security moet in balans zijn met bruikbaarheid; elke control heeft impact op users. Controls met weinig impact op de dagelijkse workflow zouden weinig tot geen effect moeten hebben op user ervaring
+
+- Onthouden voor examen
+  - Identity Secure Score is beschikbaar op ELKE licentie, geen P1/P2 nodig (in tegenstelling tot de vorige unit's usage/insights report)
+  - 2 scoringsmethodes: binair (aan/uit) of proportioneel (percentage van totale populatie/configuratie)
+  - Score benadrukt expliciet de balans tussen security en usability, niet puur "hoe strenger hoe beter"
+
+---
+
+## Module Assessment — Module 4 (Monitor and maintain Microsoft Entra ID)
+
+**Score:** 100%
+
+### Vraag 1
+What is the purpose of the audit logs?
+
+- Microsoft Entra audit logs provide a comparison of budgeted Azure usage compared to actual.
+- ✅ Microsoft Entra audit logs provide records of system activities for compliance reporting.
+- Microsoft Entra audit logs allow customer to monitor activity when provisioning new services within Azure.
+
+### Vraag 2
+Can Azure export logging data to third-party SIEM (security information and event management) tools?
+
+- ✅ Yes, Azure supports exporting log data to several common third-party SIEM tools.
+- No, Azure only supports the export to Azure Sentinel.
+- Yes, Splunk is the third party SIEM Azure can export to.
+
+### Vraag 3
+John wants to configure email notifications to be sent from Microsoft Entra Domain Services (AD DS) when issues are detected. In Azure, where would notifications be configured?
+
+- Azure Microsoft Portal > Microsoft Entra ID > Monitoring > Notifications > Add email recipient.
+- ✅ Azure Microsoft Portal > Microsoft Entra Domain Services > Notification settings > Add email recipient.
+- Azure Microsoft Portal > Notification Hubs > Microsoft Entra ID > Add email recipient.
 
 
 
