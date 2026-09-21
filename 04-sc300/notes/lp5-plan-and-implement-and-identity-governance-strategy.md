@@ -857,6 +857,175 @@ What is an access package?
 
 ---
 
+### Exercise: assign Azure resource roles in Privileged Identity Management
+  - [04-sc300/labs/28-assign-azure-resource-roles-in-privileged-identity-management](../../04-sc300/labs/28-assign-azure-resource-roles-in-privileged-identity-management.md)
+
+---
+
+### Plan and configure Privileged Access Groups
+
+- Wat het is
+  - PIM ondersteunt eligibility voor membership of ownership van privileged access groups
+  - Entra ID built-in roles toewijsbaar aan cloud groups, PIM beheert member/owner eligibility en activatie
+  - Laat workload specifieke admins snel toegang geven tot meerdere rollen tegelijk, via 1 just-in-time request
+
+- Voorbeeldscenario
+  - Tier 0 Office Admins hebben dagelijks just-in-time toegang nodig tot Exchange Admin, Office Apps Admin, Teams Admin, en Search Admin
+  - Oplossing: 1 role-assignable group "Tier 0 Office Admins" aanmaken, eligible maken voor die 4 rollen (of elke andere Entra built-in role)
+  - Privileged Access inschakelen in de Activity sectie van de group
+  - Admins/owners toewijzen aan de group; bij elevatie van de group krijgen ze in 1 keer alle 4 de rollen
+
+- Verschillende policies per role-assignable group
+  - Scenario: organisaties met B2B partners als guests
+  - In plaats van 1 uniforme just-in-time policy voor alle assignments, kun je 2 losse privileged access groups maken met elk hun eigen policy
+  - Bv. minder strikte eisen voor vertrouwde eigen employees, strengere eisen (zoals verplichte approval workflow) voor externe partners die activeren
+
+- Onthouden voor examen
+  - Privileged access group = een role-assignable group die meerdere Entra rollen tegelijk kan geven via 1 activatie
+  - Elke privileged access group kan zijn eigen policy hebben, dus verschillende strengheid mogelijk per doelgroep (eigen employees vs externe partners)
+  - Vermindert het aantal losse just-in-time activaties dat een user moet doen als hij meerdere rollen nodig heeft
+
+---
+
+### Analyze Privileged Identity Management audit history and reports
+
+- Wat je kunt bekijken
+  - Activity, activations, en audit history voor privileged access group members en owners in de organisatie
+
+- Belangrijk over uitbestede resource management
+  - Bij Azure delegated resource management (uitbesteed aan een service provider): role assignments geautoriseerd door die service provider worden hier NIET getoond
+
+- Resource audit bekijken (alle activiteit van de group, stappen)
+  1. PIM > Groups
+  2. Gewenste privileged access group selecteren
+  3. Activity > Resource audit
+  4. Filteren op vooraf ingestelde of custom datumrange
+
+- My audit bekijken (eigen persoonlijke activiteit, stappen)
+  1. PIM > Groups
+  2. Gewenste privileged access group selecteren
+  3. Activity > My audit
+  4. Filteren op vooraf ingestelde of custom datumrange
+
+- Onthouden voor examen
+  - Resource audit = alle activiteit binnen de group, My audit = alleen je eigen persoonlijke activiteit
+  - Azure delegated resource management (Lighthouse) assignments vallen buiten deze audit view, apart aandachtspunt
+
+---
+
+### Create and manage emergency access accounts
+
+- Waarom belangrijk
+  - Voorkomen van accidentele volledige lockout uit Entra ID
+  - Als admin kun je niet inloggen als/activeren namens een andere user's account
+  - Oplossing: 2 of meer emergency access accounts (break-glass accounts)
+
+- Wat emergency access accounts zijn
+  - Highly privileged, niet aan een specifiek individu gebonden
+  - Alleen te gebruiken in emergency/break-glass scenario's, waar normale admin accounts niet werken
+  - Aanbevolen: toegang tot deze accounts strikt beperken, alleen gebruiken indien echt nodig
+
+- Wanneer je zo'n account nodig hebt (voorbeelden, examen kernstof)
+  - Federated users, federatie tijdelijk onbeschikbaar (netwerkstoring of identity provider outage)
+  - Admins geregistreerd met MFA, maar devices/service niet beschikbaar (bv. netwerkstoring)
+  - De laatste Global Administrator heeft de organisatie verlaten; Entra ID voorkomt verwijdering van de laatste GA account in de cloud, maar niet on-premises verwijdering/uitschakeling
+  - Onvoorziene omstandigheden zoals een natuurramp waarbij mobiele netwerken uitvallen
+
+- Emergency access accounts aanmaken, vereisten (examen kernstof)
+  - Cloud-only accounts, .onmicrosoft.com domain, niet gefedereerd of gesynchroniseerd vanuit on-premises
+  - Niet gekoppeld aan een individuele employee (geen persoonlijke telefoon, hardware token, of andere employee-specifieke credential)
+  - Geregistreerde devices op een bekende, veilige locatie bewaren, met meerdere communicatiewegen naar Entra ID
+  - Authenticatiemechanisme moet afwijken van dat van andere admin accounts (incl. andere emergency accounts). Bv. als normale MFA via on-prem gebeurt, gebruik dan iets anders voor emergency accounts (evt. Conditional Access met third-party MFA via Custom controls)
+  - Device/credential mag niet verlopen of onderhevig zijn aan automatische cleanup wegens inactiviteit
+  - Global Administrator rol moet permanent toegewezen zijn aan deze accounts (niet eligible)
+
+- Uitsluiten van phone-based MFA (minstens 1 account)
+  - Algemeen advies: MFA verplicht voor iedereen, zeker admins
+  - Maar: minstens 1 emergency account moet een ander MFA-mechanisme hebben dan de rest, ook anders dan third-party MFA oplossingen
+  - Als een Conditional Access policy MFA afdwingt voor alle admins: emergency accounts hiervan uitsluiten en een ander mechanisme instellen
+  - Geen per-user MFA policy op deze accounts
+
+- Uitsluiten van Conditional Access policies (minstens 1 account)
+  - Tijdens een emergency wil je niet dat een policy je blokkeert
+  - Minstens 1 emergency account moet uitgesloten zijn van ALLE Conditional Access policies
+
+- Federation guidance (alternatief voor AD FS gebruikers)
+  - Emergency account's MFA claim kan geleverd worden door de eigen identity provider (bv. via een smartcard-gebaseerd certificaat/key pair)
+  - AD FS levert dan een claim aan Entra ID dat MFA is voldaan
+  - Ook dan: organisaties moeten alsnog cloud-based emergency accounts hebben, voor als federatie zelf niet werkt
+
+- Sign-in en audit logs monitoren
+  - Sign-in/audit activiteit van emergency accounts monitoren, notificaties naar andere admins triggeren
+  - Azure Log Analytics inzetten om sign-in logs te monitoren en email/SMS alerts te sturen bij elke sign-in op een break-glass account
+
+- Accounts regelmatig valideren (checklist, examen kernstof)
+  - Security-monitoring staff informeren dat de check plaatsvindt
+  - Break-glass proces gedocumenteerd en actueel houden
+  - Admins/security officers trainen in het proces
+  - Credentials (vooral wachtwoorden) updaten, en valideren dat de accounts nog kunnen inloggen en admin-taken uitvoeren
+  - Controleren dat er geen MFA/SSPR geregistreerd is op een individueel device of persoonlijke gegevens
+  - Als MFA wel op een device geregistreerd is: zorgen dat dit device toegankelijk is voor alle admins die het nodig kunnen hebben, en dat het via 2 onafhankelijke netwerkpaden kan communiceren (bv. wifi + cellulair)
+
+- Validatiefrequentie
+  - Minimaal elke 90 dagen
+  - Bij recente wijzigingen in IT-staff (functiewijziging, vertrek, nieuwe medewerker)
+  - Bij wijzigingen in de Entra subscriptions van de organisatie
+
+- Onthouden voor examen
+  - Minimaal 2 emergency access accounts, cloud-only, .onmicrosoft.com domain
+  - Global Administrator rol permanent toegewezen (niet eligible) aan deze accounts
+  - Minstens 1 account uitgesloten van alle Conditional Access policies EN met een afwijkend MFA-mechanisme
+  - Validatie minimaal elke 90 dagen, of bij personeelswijzigingen/subscription wijzigingen
+
+---
+
+## Module Assessment — Module 3 (Plan and implement privileged access)
+
+**Score:** 100%
+
+### Vraag 1
+How can Discovery and insights for privileged identity management help an organization?
+
+- ✅ Discovery and insights can find privileged role assignments across Microsoft Entra ID, and then provide recommendations on how to secure them using Microsoft Entra governance features like Privileged Identity Management (PIM).
+- Discovery and insights can find when guest's access resources across Microsoft Entra ID.
+- Discovery and insights can find security group assignments across Microsoft Entra ID, and then provide recommendations on how to secure them using Microsoft Entra governance features like Privileged Identity Management (PIM).
+
+### Vraag 2
+Whether to assign a role to a group instead of to individual users is a strategic decision. When planning, consider assigning a role to a group to manage role assignments when the desired outcome is to delegate assigning the role and what else?
+
+- You want to use conditional access policies.
+- Many Azure resources need to be managed.
+- ✅ Many users are assigned to a role.
+
+### Vraag 3
+Which roles can only be assigned using Privileged Identity Management?
+
+- Permanently active roles.
+- ✅ Eligible roles.
+- Transient roles.
+
+---
+--
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
