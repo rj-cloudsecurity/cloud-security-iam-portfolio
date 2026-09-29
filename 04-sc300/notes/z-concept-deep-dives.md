@@ -59,15 +59,18 @@ Voor MFA-uitzonderingen op basis van kantoorlocatie: named locations met een pub
 Wanneer gebruikers zelf risico moeten kunnen oplossen (zonder helpdesk): een policy die toegang toestaat maar een wachtwoordwijziging vereist, in combinatie met SSPR en MFA voor self-service unblocking.
 
 ### NPS extension voor VPN MFA
-Wanneer een VPN-server geen native Azure MFA ondersteunt: de NPS (Network Policy Server) extension for Azure MFA installeren. Valideert credentials tegen on-prem AD en triggert daarna Azure MFA. Application Proxy, Password Protection proxy en PTA proxy zijn hier geen van alle het juiste antwoord.
+Wanneer een VPN-server geen native Azure MFA ondersteunt: de NPS (Network Policy Server) extension for Azure MFA installeren. Valideert credentials tegen on-prem AD en triggert daarna Azure MFA. 
 
 ### MFA methode kiezen op basis van scenario-beperkingen
-- Gedeelde desktops, geen mobiel toegestaan, geen biometrie → FIDO2 security keys
-- Remote locatie zonder wifi/mobiel bereik maar laptop heeft internet → Microsoft Authenticator app werkt nog (code wordt offline gegenereerd, alleen de app zelf hoeft niet online te zijn op het moment van code genereren)
+- Gedeelde desktops, geen mobiel toegestaan, geen biometrie > FIDO2 security keys
+- Remote locatie zonder wifi/mobiel bereik maar laptop heeft internet > Microsoft Authenticator app werkt nog (code wordt offline gegenereerd, alleen de app zelf hoeft niet online te zijn op het moment van code genereren)
 - Security questions worden nooit geaccepteerd als MFA-methode in Microsoft 365
 
 ### Security Operator rol (Identity Protection)
 Kan: alle Identity Protection rapporten en de Overview bekijken, user risk dismissen, safe sign-in bevestigen, compromise bevestigen. Kan geen wachtwoorden resetten; dat vereist een andere rol.
+
+### Authentication Strengths vs device-based controls
+Authentication Strengths (binnen Conditional Access) laat je per policy afdwingen welke specifieke authenticatiemethoden geaccepteerd worden, bijvoorbeeld "alleen phishing-resistant methoden zoals FIDO2" voor admins, terwijl andere gebruikers een bredere set methoden (waaronder wachtwoord) mogen blijven gebruiken. Dit is een eigenschap van de authenticatiemethode van de gebruiker, niet van het device. Hybrid Entra ID Join is een eigenschap van het device (gekoppeld aan zowel on-prem AD als Entra ID) en heeft geen invloed op welke authenticatiemethode geaccepteerd wordt. Vuistregel: WIE inlogt en HOE > Authentication methods/strengths; WELK apparaat gebruikt wordt > device compliance/join status (Intune, Hybrid Join).
 
 ## Domain 3: Implement access management for apps
 
@@ -129,3 +132,4 @@ Sign-in logs worden 30 dagen bewaard in Entra ID (zonder aanvullende export naar
 
 ### Tijdelijke toegang voor externe partners
 Voor tijdgebonden toegang (bijvoorbeeld 90 dagen) van partner-gebruikers tot een resource: access package via entitlement management, gekoppeld aan een connected organization voor die partner.
+
