@@ -30,12 +30,12 @@ Om specifieke gebruikers uit te sluiten van synchronisatie (bijvoorbeeld op basi
 Vaste volgorde: domeinnaam toevoegen, TXT-record aanmaken in DNS, domein verifieren, daarna pas instellen als primary domain.
 
 ### Drie soorten gebruikers in Entra ID
-Een steeds terugkerend onderscheid dat nodig is om provisioning-vragen goed te lezen:
+Een steeds terugkerend onderscheid dat nodig is om provisioning-scenario's goed te kunnen beoordelen:
 - Cloud-only user: alleen aangemaakt in Entra ID, geen on-prem bron
 - Directory-synced user: bron is on-premises AD, komt via Entra Connect (of Cloud Sync) binnen; wijzigingen horen op de bron plaats te vinden, niet direct in Entra ID
 - Guest (B2B) user: externe identiteit, geauthenticeerd via de eigen identity provider van de gast
 
-Vuistregel bij scenario-vragen: kijk eerst naar waar het account origineel vandaan komt voordat je bepaalt welke beheeractie (bijv. wachtwoord resetten, attribuut wijzigen) uberhaupt mogelijk is.
+Vuistregel: kijk eerst naar waar het account origineel vandaan komt voordat je bepaalt welke beheeractie (bijv. wachtwoord resetten, attribuut wijzigen) uberhaupt mogelijk is.
 
 ### Zelfregistratie van gebruikers blokkeren (Set-MsolCompanySettings)
 Om te voorkomen dat gebruikers zelf een Entra ID tenant of resource kunnen aanmaken via self-service sign-up (bijvoorbeeld via een consumer Microsoft 365-aanmelding), gebruik je de PowerShell-cmdlet `Set-MsolCompanySettings -AllowAdHocSubscriptions $false`. Dit is een tenant-brede instelling en geen Conditional Access policy of external collaboration setting.
@@ -78,7 +78,7 @@ Voor MFA-uitzonderingen op basis van kantoorlocatie: named locations met een pub
 Wanneer gebruikers zelf risico moeten kunnen oplossen (zonder helpdesk): een policy die toegang toestaat maar een wachtwoordwijziging vereist, in combinatie met SSPR en MFA voor self-service unblocking.
 
 ### NPS extension voor VPN MFA
-Wanneer een VPN-server geen native Azure MFA ondersteunt: de NPS (Network Policy Server) extension for Azure MFA installeren. Valideert credentials tegen on-prem AD en triggert daarna Azure MFA. Application Proxy, Password Protection proxy en PTA proxy zijn hier geen van alle het juiste antwoord.
+Wanneer een VPN-server geen native Azure MFA ondersteunt: de NPS (Network Policy Server) extension for Azure MFA installeren. Valideert credentials tegen on-prem AD en triggert daarna Azure MFA. Application Proxy, Password Protection proxy en PTA proxy lossen dit scenario niet op.
 
 ### MFA methode kiezen op basis van scenario-beperkingen
 - Gedeelde desktops, geen mobiel toegestaan, geen biometrie → FIDO2 security keys
@@ -109,13 +109,13 @@ Bron: https://learn.microsoft.com/en-us/entra/identity/authentication/concept-ss
 Kan: alle Identity Protection rapporten en de Overview bekijken, user risk dismissen, safe sign-in bevestigen, compromise bevestigen. Kan geen wachtwoorden resetten; dat vereist een andere rol.
 
 ### Authentication Strengths vs device-based controls
-Authentication Strengths (binnen Conditional Access) laat je per policy afdwingen welke specifieke authenticatiemethoden geaccepteerd worden, bijvoorbeeld "alleen phishing-resistant methoden zoals FIDO2" voor admins, terwijl andere gebruikers een bredere set methoden (waaronder wachtwoord) mogen blijven gebruiken. Dit is een eigenschap van de authenticatiemethode van de gebruiker, niet van het device. Hybrid Entra ID Join is een eigenschap van het device (gekoppeld aan zowel on-prem AD als Entra ID) en heeft geen invloed op welke authenticatiemethode geaccepteerd wordt. WIE inlogt en HOE → Authentication methods/strengths;WELK apparaat gebruikt wordt → device compliance/join status (Intune, Hybrid Join).
+Authentication Strengths (binnen Conditional Access) laat je per policy afdwingen welke specifieke authenticatiemethoden geaccepteerd worden, bijvoorbeeld "alleen phishing-resistant methoden zoals FIDO2" voor admins, terwijl andere gebruikers een bredere set methoden (waaronder wachtwoord) mogen blijven gebruiken. Dit is een eigenschap van de authenticatiemethode van de gebruiker, niet van het device. Hybrid Entra ID Join is een eigenschap van het device (gekoppeld aan zowel on-prem AD als Entra ID) en heeft geen invloed op welke authenticatiemethode geaccepteerd wordt. Vuistregel: WIE inlogt en HOE → Authentication methods/strengths; WELK apparaat gebruikt wordt → device compliance/join status (Intune, Hybrid Join).
 
 ### Legacy authentication blokkeren via Conditional Access
 Om verouderde authenticatieprotocollen (die geen MFA ondersteunen, zoals oudere mailprotocollen) te blokkeren: een Conditional Access policy met als conditie "Client apps" ingesteld op "Other clients" (legacy authentication), met als grant control "Block access". Dit is de aanbevolen route sinds Security Defaults en losse protocol-instellingen in Exchange Online minder fijnmazig zijn.
 
 ### Identity Protection: welke rol voor welke taak
-Twee taken die vaak door elkaar worden gehaald in scenario-vragen:
+Twee taken die vaak door elkaar worden gehaald:
 - Een User Risk Policy (of Sign-in Risk Policy) configureren/wijzigen: vereist Global Administrator (of Security Administrator, afhankelijk van het exacte beleidsonderdeel) - dit is een beleidswijziging met impact op de hele tenant
 - Alleen het Risky Users-rapport bekijken (zonder iets te wijzigen): Security Reader of Security Administrator is voldoende
 
@@ -168,13 +168,13 @@ Onderscheid met andere features die er qua naam op lijken:
 - App governance (binnen Defender for Cloud Apps) = OAuth permissies en consent van reeds bekende/geregistreerde apps beoordelen en beperken
 - Conditional Access met session controls = real-time restricties afdwingen (downloads blokkeren, etc.) op apps die al bekend en geintegreerd zijn
 
-Vuistregel: zodra een vraag gaat over "welke apps gebruiken onze mensen eigenlijk, die we niet kennen" → Cloud App Discovery. Zodra het gaat over "wat mag een bekende/geregistreerde app doen" → app governance of Conditional Access.
+Vuistregel: gaat het om zichtbaarheid in "welke apps gebruiken onze mensen eigenlijk, die we niet kennen" → Cloud App Discovery. Gaat het om "wat mag een bekende/geregistreerde app doen" → app governance of Conditional Access.
 
 ### OAuth app policies in Defender for Cloud Apps
 Om automatisch gewaarschuwd te worden wanneer een app riskante OAuth-permissies aanvraagt (bijvoorbeeld volledige mailbox-toegang), configureer je een OAuth app policy binnen Defender for Cloud Apps (onderdeel van app governance). Dit is iets anders dan Cloud App Discovery (dat gaat over onbekende apps zichtbaar maken) en iets anders dan admin consent workflows (dat gaat over het proces om consent goed te keuren, niet over doorlopende monitoring van al toegekende permissies).
 
 ### Azure AD Application Proxy - architectuur
-Application Proxy publiceert on-premises webapplicaties naar externe gebruikers zonder dat er inbound firewall-regels nodig zijn. De connector (geinstalleerd on-premises) legt zelf een uitgaande HTTPS-verbinding naar de Application Proxy service, waarna al het verkeer via die uitgaande tunnel loopt. Vuistregel: zodra een vraag zegt dat er expliciet **geen** inbound firewall-poorten open mogen, is dat de sterkste hint richting Application Proxy in plaats van bijvoorbeeld een VPN of reverse proxy in het datacenter.
+Application Proxy publiceert on-premises webapplicaties naar externe gebruikers zonder dat er inbound firewall-regels nodig zijn. De connector (geinstalleerd on-premises) legt zelf een uitgaande HTTPS-verbinding naar de Application Proxy service, waarna al het verkeer via die uitgaande tunnel loopt. Vuistregel: zodra een scenario expliciet vereist dat er **geen** inbound firewall-poorten open mogen, is dat de sterkste indicatie richting Application Proxy in plaats van bijvoorbeeld een VPN of reverse proxy in het datacenter.
 
 Bron: https://learn.microsoft.com/en-us/entra/identity/app-proxy/what-is-application-proxy
 
