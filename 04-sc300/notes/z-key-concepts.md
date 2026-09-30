@@ -1,6 +1,6 @@
 # Key Concepts
 
-Verdiepende samenvattingen van Entra ID concepten die tijdens het oefenen naar boven kwamen als punten die extra aandacht nodig hadden.
+Samenvattingen van Entra ID concepten die tijdens het oefenen naar boven kwamen als punten die extra aandacht nodig hadden.
 
 ## Domain 1: Implement identities
 
@@ -47,6 +47,12 @@ Om te voorkomen dat gebruikers zelf een Entra ID tenant of resource kunnen aanma
 Licenties die via group-based licensing aan een groep zijn gekoppeld, worden alleen toegekend aan de directe leden van die groep. Geneste groepen (een groep als lid van een andere groep) erven de licentie niet door naar hun eigen leden. Voor een gebruiker die licentie moet krijgen via een nested group, moet die gebruiker dus direct lid zijn van de groep waaraan de licentie is gekoppeld, of de licentie moet los aan de bovenliggende groep(en) zelf worden gekoppeld.
 
 Bron: https://learn.microsoft.com/en-us/entra/identity/users/licensing-groups-assign
+
+### System-Assigned vs User-Assigned Managed Identity
+Een System-Assigned Managed Identity (S-AMI) is gekoppeld aan de levenscyclus van de resource zelf (bijv. een VM of AKS-cluster): wordt de resource verwijderd, dan verdwijnt ook de identity. Bij het opnieuw aanmaken van diezelfde resource (bijvoorbeeld tijdens een disaster recovery-oefening) moet je dan opnieuw rechten toekennen, en gaat elke koppeling naar externe resources (zoals AcrPull op een Container Registry) verloren. Een User-Assigned Managed Identity (U-AMI) is een losstaand Azure-resource dat los van de levenscyclus van één specifieke resource bestaat en aan meerdere resources gekoppeld kan worden. Voor scenario's waarin resources regelmatig verwijderd/opnieuw aangemaakt worden (DR-oefeningen, geautomatiseerde herbouw) is een U-AMI stabieler, omdat de identity (en de daaraan gekoppelde rechten) behouden blijft ongeacht wat er met de onderliggende resource gebeurt.
+
+### Self-service group management combineren met delegatie
+Om gebruikers zelf Microsoft 365-groepen te laten aanmaken, maar wel beperkt tot een specifieke groep gebruikers: self-service group management inschakelen in de Entra ID Group settings, gecombineerd met het beperken van wie mag aanmaken (bijvoorbeeld via een specifieke security group als toegestane makers). Voor verdergaande delegatie van beheertaken naar een subset van de organisatie (zonder volledige tenant-brede adminrechten) zijn Administrative Units het middel om rechten te scopen tot een specifieke afdeling of gebruikersgroep.
 
 ## Domain 2: Implement authentication and access management
 
@@ -124,6 +130,9 @@ Vuistregel: rapportages *bekijken* vraagt een lagere rol dan risk-based policies
 ### User Risk vs Sign-in Risk bij leaked credentials
 Wanneer credentials van een gebruiker zijn uitgelekt (bijvoorbeeld gevonden op de dark web), is dat een **user risk** signaal (het account zelf is gecompromitteerd), niet een sign-in risk signaal (dat gaat over de omstandigheden van een specifieke inlogpoging, zoals een onmogelijke reis of anoniem IP). Remediatie hoort dus in een User Risk Policy te worden geconfigureerd (bijvoorbeeld: bij hoog risico wachtwoordwijziging vereisen), niet in een Sign-in Risk Policy.
 
+### Azure RBAC en Key Vault Access Policy samen op dezelfde Key Vault
+Wanneer een Key Vault zowel Azure RBAC-roltoewijzingen als een (legacy) Access Policy heeft voor dezelfde gebruiker, worden deze niet tegen elkaar afgewogen of overschreven: de effectieve rechten zijn de **unie** van beide modellen. De gebruiker krijgt dus alles wat via RBAC is toegewezen, plus alles wat via de access policy is toegewezen - ongeacht welk model "strenger" is. Dit kan onbedoeld de toegang verbreden, wat precies de reden is waarom Microsoft aanraadt om nog maar één model (bij voorkeur RBAC) consistent te gebruiken per vault in plaats van beide te combineren.
+
 ## Domain 3: Implement access management for apps
 
 ### App registration - juiste rol toewijzen
@@ -178,6 +187,15 @@ Application Proxy publiceert on-premises webapplicaties naar externe gebruikers 
 
 Bron: https://learn.microsoft.com/en-us/entra/identity/app-proxy/what-is-application-proxy
 
+### B2C custom attributes tijdens sign-up toevoegen
+Om tijdens de sign-up journey van een B2C-toepassing een volledig nieuw custom attribuut te verzamelen (bijvoorbeeld een loyaliteitsnummer, naast standaardvelden zoals e-mail en wachtwoord), volstaat een built-in user flow niet - die biedt beperkte, vooraf gedefinieerde opties voor welke attributen verzameld worden. Voor een op maat gemaakte sign-up journey met een nieuw custom attribuut, validatie en garantie dat het veld bij elk sign-up-pad (ook via social login) wordt afgedwongen, is een **custom policy** nodig binnen de Identity Experience Framework - dit geeft volledige controle over de journey, in tegenstelling tot de beperktere built-in user flows.
+
+### Least privilege bij app-registratie: flow en permission type kiezen
+Voor een app die alleen mag handelen wanneer er een gebruiker actief is ingelogd (en dus niet als achtergrondservice): gebruik de **Authorization Code flow** met **Delegated permissions**, geschaald tot precies wat nodig is (bijv. `User.Read` in plaats van het bredere `User.Read.All`). Delegated permissions zijn gebonden aan de ingelogde gebruiker en diens consent; Application permissions werken app-only, zonder ingelogde gebruiker, en zijn dus ongeschikt wanneer de eis is dat acties alleen plaatsvinden terwijl een gebruiker actief is aangemeld. Client credentials flow en Application permissions horen bij service-to-service scenario's zonder gebruikersinteractie.
+
+### App-consent centraal beperken voor high-privilege permissies
+Om te voorkomen dat gebruikers (of zelfs admins zonder formele review) toestemming kunnen geven aan multi-tenant apps voor high-privilege permissies zoals `Directory.ReadWrite.All`: schakel admin consent verplicht in voor alle applicaties (zodat niemand zonder review kan consenten) en combineer dit met een formeel goedkeuringsproces, bijvoorbeeld via Microsoft Entra Permissions Management of een workflow in Entitlement Management. Een gedeeltelijke maatregel zoals "user consent toestaan voor verified publishers met geselecteerde permissies" voldoet niet wanneer de eis is dat **niemand** zonder formele review high-privilege consent mag geven.
+
 ## Domain 4: Plan and implement identity governance
 
 ### Access reviews - welke resources, welke licentie
@@ -216,6 +234,12 @@ Wanneer alert-meldingen (bijvoorbeeld vanuit Identity Protection of Azure Monito
 
 ### Audit logs exporteren voor een SIEM
 Voor integratie met een externe SIEM (los van de directe Sentinel-connector) exporteer je audit logs bij voorkeur in JSON-formaat; dat behoudt de volledige structuur van de loggegevens. CSV is geschikter voor handmatige analyse in bijvoorbeeld Excel, maar verliest structuur die de meeste SIEM-integraties verwachten.
+
+### Alerting op specifieke PIM-activaties zonder alert fatigue
+Om alleen gewaarschuwd te worden bij activatie van specifieke, hoog-risico rollen (en niet bij elke willekeurige PIM-activatie) - bijvoorbeeld alleen buiten kantoortijden - configureer je een Azure Monitor alert rule op de AuditLogs, gefilterd op rolnaam en tijdsvenster. PIM's eigen ingebouwde notificaties zijn niet zo fijnmazig instelbaar per rol/tijdvak; voor die precisie is een losse, op maat gemaakte Azure Monitor alert rule het geschikte middel.
+
+### Licentiegeschiedenis auditen (ook na verwijdering)
+Voor een audit-rapport dat moet aantonen wie een specifieke licentie op enig moment binnen een periode heeft gehad - inclusief gebruikers bij wie de licentie inmiddels weer is verwijderd - is een momentopname van de huidige licentiestatus (zoals het License Assignment-rapport of Active Users-rapport) niet voldoende: die tonen alleen de actuele toestand. Voor een historisch overzicht van toekenningen én verwijderingen binnen een periode gebruik je de **Entra ID audit logs**, gefilterd op de "Assign license" (en "Remove license") activiteit.
 
 ### Automatisch verwijderen van externe gebruikers na X dagen
 Voor het instellen van automatische verwijdering van externe (guest) gebruikers na een vaste periode van inactiviteit (bijvoorbeeld 90 dagen) is de instelling te vinden onder **Identity Governance > Settings** (niet onder Access packages, Terms of use, of Access reviews - dat zijn gerelateerde maar losstaande features die deze automatische opschoning niet zelf regelen).
