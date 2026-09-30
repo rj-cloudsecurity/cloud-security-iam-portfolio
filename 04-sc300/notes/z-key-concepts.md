@@ -1,4 +1,4 @@
-# Concept Deep-Dives
+# Key Concepts
 
 Verdiepende samenvattingen van Entra ID concepten die tijdens het oefenen naar boven kwamen als punten die extra aandacht nodig hadden.
 
