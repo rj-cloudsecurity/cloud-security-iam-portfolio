@@ -79,11 +79,11 @@ Om gebruikers zelf Microsoft 365-groepen te laten aanmaken, maar wel beperkt tot
 
 ## Domain 2: Implement authentication and access management
 
-### Conditional Access - kernwoorden: WANNEER geldt het, WAT dwingt het af
+### Conditional Access - kernwoorden: VOORWAARDE (de "als") en EIS (de "dan")
 
 Elke CA-policy is één zin: **Als** [wie + welke app + welke conditie], **dan** [grant of session control]. Een eis bevat vaak beide helften. Splits ze eerst; dan wijst het kernwoord naar het onderdeel.
 
-**WANNEER (de "als"-kant: users, resources, conditions)**
+**VOORWAARDE - op wie, welke app, waarvandaan, met welk device of risico het van toepassing is (de "als"-kant: users, resources, conditions)**
 
 | Kernwoord in de eis | Onderdeel |
 |---|---|
@@ -94,7 +94,7 @@ Elke CA-policy is één zin: **Als** [wie + welke app + welke conditie], **dan**
 | gelekte credentials, anonymous IP, risicovolle login | Conditions > User risk / Sign-in risk (komt uit Identity Protection) |
 | oude protocollen, legacy | Conditions > Client apps |
 
-**AFDWINGEN (de "dan"-kant)**
+**EIS - wat er dan van de gebruiker wordt gevraagd of afgedwongen (de "dan"-kant)**
 
 | Kernwoord in de eis | Onderdeel |
 |---|---|
@@ -104,7 +104,7 @@ Elke CA-policy is één zin: **Als** [wie + welke app + welke conditie], **dan**
 | elke X dagen opnieuw inloggen | Session > Sign-in frequency |
 | geen downloads, web-only, read-only | Session > App enforced restrictions of Conditional Access App Control (met een session policy in Defender for Cloud Apps) |
 
-**Wie doet wat (de rest hoort niet bij "wanneer" of "afdwingen" in CA)**
+**Wie doet wat (de rest hoort niet bij "voorwaarde" of "eis" in CA)**
 
 - Authentication Methods policy: welke methoden *beschikbaar* zijn voor gebruikers/groepen. Heeft **geen condities** (geen locatie, app of risico). Moet iets alleen buiten het netwerk of alleen voor één app gelden, dan is dit nooit het juiste middel.
 - Authentication strength: *welke* methoden in een CA-policy geaccepteerd worden.
@@ -120,7 +120,7 @@ Elke CA-policy is één zin: **Als** [wie + welke app + welke conditie], **dan**
 - FIDO2 alleen buiten het netwerk: CA met Locations + grant authentication strength (niet de Authentication Methods policy).
 - Meerdere risicovolle sign-ins vanaf Tor leiden tot een automatische reactie: Identity Protection risk policy (user risk), geen CA-IP-lijst.
 
-**Vuistregel in één zin:** *voorwaarde of "wanneer" = condition; eis of "moet" = grant; "tijdens de sessie" = session control.*
+**Vuistregel in één zin:** *waar, welk device, wie of welk risico = voorwaarde (condition); "moet" of "vereist" = eis (grant); "tijdens de sessie" = session control.*
 
 ### Security Token Service (STS) - wie geeft het token uit
 
@@ -327,7 +327,7 @@ Om tijdens de sign-up journey van een B2C-toepassing een volledig nieuw custom a
 
 Voor een app die alleen mag handelen wanneer er een gebruiker actief is ingelogd (en dus niet als achtergrondservice): gebruik de Authorization Code flow met Delegated permissions, geschaald tot precies wat nodig is (bijv. User.Read in plaats van het bredere User.Read.All). Delegated permissions zijn gebonden aan de ingelogde gebruiker en diens consent; Application permissions werken app-only, zonder ingelogde gebruiker.
 
-Hetzelfde principe geldt voor een externe/third-party vendor die alleen read-only API-toegang tot Microsoft Graph nodig heeft: de permissies beperken tot read-only **in de app registration zelf** (bijv. alleen `.Read`-scopes, geen `.ReadWrite`). Dat is de enige plek waar de daadwerkelijke rechten van een applicatie worden vastgelegd - Conditional Access (regelt wanneer/vanaf waar), B2B guest-restricties (regelt gebruikers, niet apps) en Defender for Cloud Apps API-controls (monitoring, geen permissie-afdwinging) doen dit geen van alle rechtstreeks.
+Hetzelfde principe geldt voor een externe/third-party vendor die alleen read-only API-toegang tot Microsoft Graph nodig heeft: de permissies beperken tot read-only **in de app registration zelf** (bijv. alleen `.Read`-scopes, geen `.ReadWrite`). Dat is de enige plek waar de daadwerkelijke rechten van een applicatie worden vastgelegd - Conditional Access (regelt onder welke voorwaarden/vanaf waar), B2B guest-restricties (regelt gebruikers, niet apps) en Defender for Cloud Apps API-controls (monitoring, geen permissie-afdwinging) doen dit geen van alle rechtstreeks.
 
 Om te voorkomen dat gebruikers (of admins zonder formele review) toestemming geven aan multi-tenant apps voor high-privilege permissies zoals Directory.ReadWrite.All: admin consent verplicht stellen voor alle applicaties, gecombineerd met een formeel goedkeuringsproces (bijv. Microsoft Entra Permissions Management of een Entitlement Management-workflow). Een gedeeltelijke maatregel zoals "user consent toestaan voor verified publishers met geselecteerde permissies" voldoet niet wanneer de eis is dat niemand zonder formele review high-privilege consent mag geven.
 
