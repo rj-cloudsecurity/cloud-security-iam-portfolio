@@ -13,7 +13,7 @@ Wanneer een gebruiker disabled wordt in on-premises Active Directory, bepaalt de
 - Federation (AD FS): valideert ook real-time tegen on-prem AD, zelfde direct effect als PTA
 - Conditional Access, Password Protection en password writeback lossen dit niet op; het zijn geen authenticatie-methoden en hebben geen invloed op de sync-timing
 
-Let op een veelvoorkomende valkuil in antwoordsleutels: PHS "forceert" nooit een wachtwoordwijziging - het synchroniseert alleen de bestaande hash. Het echte voordeel van PTA boven PHS in een overname/fusie-scenario (nog gescheiden tenants, geen forest trust) is niet "password reset forceren", maar de real-time, zonder sync-vertraging validatie tegen de nog zelfstandige on-prem AD van het overgenomen bedrijf tijdens een gevoelige transitieperiode.
+Let op een veelvoorkomende misvatting: PHS "forceert" nooit een wachtwoordwijziging - het synchroniseert alleen de bestaande hash. Het echte voordeel van PTA boven PHS in een overname/fusie-scenario (nog gescheiden tenants, geen forest trust) is niet "password reset forceren", maar de real-time, zonder sync-vertraging validatie tegen de nog zelfstandige on-prem AD van het overgenomen bedrijf tijdens een gevoelige transitieperiode.
 
 Bron: https://learn.microsoft.com/en-us/entra/identity/hybrid/connect/whatis-hybrid-identity
 
@@ -43,7 +43,7 @@ Twee verschillende sync-technologieën met elk hun eigen filtering- en attribuut
 - OU's/objecten uitsluiten: via **scoping filters in de Cloud Sync configuratie** zelf, niet via de Connect-wizard en niet via de Synchronization Rules Editor (die bestaat niet in Cloud Sync)
 - Attribuut-mapping: eigen, eenvoudigere attribute-mapping binnen de Cloud Sync provisioning configuratie
 
-Vuistregel: zodra de vraag expliciet "Cloud Sync" noemt, zijn antwoorden met "Azure AD Connect wizard" of "Synchronization Rules Editor" vrijwel altijd fout - zoek naar "scoping filters" of "provisioning configuration". Noemt de vraag gewoon "Connect" (zonder Cloud Sync), dan zijn wizard/Sync Rules Editor juist wel relevant.
+Vuistregel: gaat het om Cloud Sync, dan zijn de Azure AD Connect wizard en de Synchronization Rules Editor de verkeerde gereedschappen - zoek naar "scoping filters" en "provisioning configuration". Gaat het gewoon om Connect (zonder Cloud Sync), dan zijn wizard en Sync Rules Editor juist wel relevant.
 
 Voor troubleshooting van Cloud Sync-synchronisatiefouten geven de **Azure AD Provisioning Agent logs** het meeste detail (exacte object, attribuut, foutcode); **Microsoft Entra Connect Health** laat alleen zien *dat* er een probleem is (dashboard/health-niveau), niet *waarom*.
 
@@ -71,13 +71,56 @@ Bron: https://learn.microsoft.com/en-us/entra/identity/users/licensing-groups-as
 
 Een System-Assigned Managed Identity (S-AMI) is gekoppeld aan de levenscyclus van de resource zelf (bijv. een VM of AKS-cluster): wordt de resource verwijderd, dan verdwijnt ook de identity. Bij het opnieuw aanmaken van diezelfde resource (bijvoorbeeld tijdens een disaster recovery-oefening) moet je dan opnieuw rechten toekennen, en gaat elke koppeling naar externe resources (zoals AcrPull op een Container Registry) verloren. Een User-Assigned Managed Identity (U-AMI) is een losstaand Azure-resource dat los van de levenscyclus van één specifieke resource bestaat en aan meerdere resources gekoppeld kan worden. Voor scenario's waarin resources regelmatig verwijderd/opnieuw aangemaakt worden (DR-oefeningen, geautomatiseerde herbouw) is een U-AMI stabieler, omdat de identity (en de daaraan gekoppelde rechten) behouden blijft ongeacht wat er met de onderliggende resource gebeurt.
 
-Credential rotation van een managed identity is altijd automatisch en platform-beheerd - er is geen admin-handeling of scheduled task voor nodig, en dit is ook niet zichtbaar te configureren. Een vraag die suggereert dat je zelf periodiek een managed identity moet "roteren" gaat in werkelijkheid meestal over het wisselen van *welke* (vooraf geprovisionde) U-AMI een resource actief gebruikt, bijvoorbeeld via een config-waarde die door automation wordt aangepast.
+Credential rotation van een managed identity is altijd automatisch en platform-beheerd - er is geen admin-handeling of scheduled task voor nodig, en dit is ook niet zichtbaar te configureren. Wordt er gesproken over periodiek zelf een managed identity "roteren", dan gaat dat in werkelijkheid meestal over het wisselen van *welke* (vooraf geprovisionde) U-AMI een resource actief gebruikt, bijvoorbeeld via een config-waarde die door automation wordt aangepast.
 
 ### Self-service group management combineren met delegatie
 
 Om gebruikers zelf Microsoft 365-groepen te laten aanmaken, maar wel beperkt tot een specifieke groep gebruikers: self-service group management inschakelen in de Entra ID Group settings, gecombineerd met het beperken van wie mag aanmaken (bijvoorbeeld via een specifieke security group als toegestane makers). Voor verdergaande delegatie van beheertaken naar een subset van de organisatie (zonder volledige tenant-brede adminrechten) zijn Administrative Units het middel om rechten te scopen tot een specifieke afdeling of gebruikersgroep.
 
 ## Domain 2: Implement authentication and access management
+
+### Conditional Access - kernwoorden: WANNEER geldt het, WAT dwingt het af
+
+Elke CA-policy is één zin: **Als** [wie + welke app + welke conditie], **dan** [grant of session control]. Een eis bevat vaak beide helften. Splits ze eerst; dan wijst het kernwoord naar het onderdeel.
+
+**WANNEER (de "als"-kant: users, resources, conditions)**
+
+| Kernwoord in de eis | Onderdeel |
+|---|---|
+| buiten het bedrijfsnetwerk, land, risicoland, VPN | Conditions > Locations (named locations) |
+| BYOD, unmanaged, joined, hybrid joined, compliant device | Conditions > Filter for devices (bijv. `trustType`) |
+| deze specifieke/gevoelige app(s) | Target resources (app, authentication context, filter for apps) |
+| admins, guests, specifieke rollen | Users (include/exclude) |
+| gelekte credentials, anonymous IP, risicovolle login | Conditions > User risk / Sign-in risk (komt uit Identity Protection) |
+| oude protocollen, legacy | Conditions > Client apps |
+
+**AFDWINGEN (de "dan"-kant)**
+
+| Kernwoord in de eis | Onderdeel |
+|---|---|
+| MFA vereisen, compliant device vereisen, wachtwoordwijziging | Grant controls |
+| FIDO2, phishing-resistant, "alleen deze methoden" | Grant > Require authentication strength |
+| blokkeren | Grant > Block access |
+| elke X dagen opnieuw inloggen | Session > Sign-in frequency |
+| geen downloads, web-only, read-only | Session > App enforced restrictions of Conditional Access App Control (met een session policy in Defender for Cloud Apps) |
+
+**Wie doet wat (de rest hoort niet bij "wanneer" of "afdwingen" in CA)**
+
+- Authentication Methods policy: welke methoden *beschikbaar* zijn voor gebruikers/groepen. Heeft **geen condities** (geen locatie, app of risico). Moet iets alleen buiten het netwerk of alleen voor één app gelden, dan is dit nooit het juiste middel.
+- Authentication strength: *welke* methoden in een CA-policy geaccepteerd worden.
+- Identity Protection: **detecteert** risico (en kan via risk policies reageren). In CA is het alleen een conditie.
+- Intune compliance policy: definieert wát "compliant" is. CA eist het.
+- Intune enrollment restrictions: wie/welk platform zich mag *registreren*. Geen toegangscontrole.
+- Named location = alleen de definitie van een plek; het blokkeert niets zonder CA-policy.
+
+**Voorbeelden die hier uit volgen:**
+- Blokkeren vanuit risicolanden, tenzij via VPN: policy met Locations (risicolanden), exclude de VPN-locatie, grant Block.
+- Guests: alleen werk-e-mail én elke 30 dagen opnieuw inloggen: domeinen/identity providers regelen de eerste eis, CA sign-in frequency de tweede.
+- Alle Windows-devices moeten (hybrid) joined zijn: CA met filter for devices op `trustType`.
+- FIDO2 alleen buiten het netwerk: CA met Locations + grant authentication strength (niet de Authentication Methods policy).
+- Meerdere risicovolle sign-ins vanaf Tor leiden tot een automatische reactie: Identity Protection risk policy (user risk), geen CA-IP-lijst.
+
+**Vuistregel in één zin:** *voorwaarde of "wanneer" = condition; eis of "moet" = grant; "tijdens de sessie" = session control.*
 
 ### Security Token Service (STS) - wie geeft het token uit
 
@@ -87,7 +130,7 @@ De STS is de component die een gebruiker authenticeert, claims verzamelt en een 
 - Conditional Access: beslist of een token uberhaupt mag worden uitgegeven (MFA vereisen, device compliance, locatie) - de "portier", niet de tokenfabriek
 - Enterprise Application: consumeert/vertrouwt het token, geeft het zelf niet uit
 
-Vuistregel bij examenwoorden als "token issuance", "claims issuance", "SAML assertion", "federation", "trust relationship" → denk aan de STS, niet aan Conditional Access of een Enterprise App.
+Vuistregel bij termen als "token issuance", "claims issuance", "SAML assertion", "federation", "trust relationship" → denk aan de STS, niet aan Conditional Access of een Enterprise App.
 
 ### Sign-in risk remediation zonder toegang te blokkeren
 
@@ -172,6 +215,8 @@ Belangrijk: zo'n Authentication Strengths-policy wordt geschaald door de policy 
 
 Authentication Context is een apart, gerelateerd concept: het is alleen een **label** op een gevoelige resource/actie (bijv. "HighSecurity"), dat zelf niets afdwingt. De daadwerkelijke handhaving (step-up MFA, phishing-resistant methode) gebeurt via een Conditional Access policy die op die Authentication Context reageert. Authentication Context = trigger/label, Conditional Access = handhaving.
 
+TAP (Temporary Access Pass) is geen phishing-resistant methode en zit dus niet in de ingebouwde strength *Phishing-resistant MFA*; je voegt het toe via een **custom authentication strength** (bijv. FIDO2 + Windows Hello + TAP). TAP omzeilt MFA niet: het telt zelf als sterke authenticatie (denk aan bootstrap of herstel). Break-glass accounts sluit je volgens Microsoft juist uit van CA-policies en beveilig je met een lang wachtwoord of FIDO2.
+
 ### Legacy authentication blokkeren of uitsluiten via Conditional Access
 
 Om verouderde authenticatieprotocollen (die geen MFA ondersteunen, zoals oudere mailprotocollen) te blokkeren: een Conditional Access policy met als conditie "Client apps" ingesteld op "Other clients" (legacy authentication), met als grant control "Block access". Dit is de aanbevolen route sinds Security Defaults en losse protocol-instellingen in Exchange Online minder fijnmazig zijn.
@@ -227,7 +272,7 @@ Twee te onderscheiden Entra-features voor externe samenwerking:
 - B2B Collaboration: guest users, uitnodigingen, redemption, toegang tot apps/SharePoint/M365-resources - het "klassieke" externe-gebruikersmodel
 - B2B Direct Connect: specifiek voor Teams Shared Channels, directe cross-tenant samenwerking zonder dat er een guest-account wordt aangemaakt
 
-Vuistregel: zie je "guest user", "invitation", "external user" → B2B Collaboration. Zie je "Teams shared channel" of "geen gastaccount nodig" → B2B Direct Connect. Een vraag over het beperken van welke *apps* een partner-tenant mag openen is geen Direct Connect-scenario, ook al klinkt "application-level" verleidelijk.
+Vuistregel: zie je "guest user", "invitation", "external user" → B2B Collaboration. Zie je "Teams shared channel" of "geen gastaccount nodig" → B2B Direct Connect. Het beperken van welke *apps* een partner-tenant mag openen is geen Direct Connect-scenario, ook al klinkt "application-level" verleidelijk.
 
 ### App access vs app permissions
 
@@ -286,6 +331,12 @@ Hetzelfde principe geldt voor een externe/third-party vendor die alleen read-onl
 
 Om te voorkomen dat gebruikers (of admins zonder formele review) toestemming geven aan multi-tenant apps voor high-privilege permissies zoals Directory.ReadWrite.All: admin consent verplicht stellen voor alle applicaties, gecombineerd met een formeel goedkeuringsproces (bijv. Microsoft Entra Permissions Management of een Entitlement Management-workflow). Een gedeeltelijke maatregel zoals "user consent toestaan voor verified publishers met geselecteerde permissies" voldoet niet wanneer de eis is dat niemand zonder formele review high-privilege consent mag geven.
 
+### Service principal credentials: secrets blokkeren en CA voor workload identities
+
+Om te voorkomen dat een service principal met een gestolen client secret kan inloggen: certificaten verplicht stellen en secrets blokkeren. Dat doe je met een **app management policy** (tenant-breed of per app), niet met een schakelaar op de app registration zelf. Aanvullend beperkt **Conditional Access voor workload identities** (Workload Identities Premium) waar een service principal vandaan mag komen.
+
+Let op de beperkingen: CA voor workload identities ondersteunt alleen **locatie** en **service principal risk** als conditie, alleen **Block** als actie, en alleen single-tenant service principals. MFA of device compliance bestaan niet voor een service principal. CA dwingt zelf geen certificaten af; dat doet de app management policy.
+
 ## Domain 4: Plan and implement identity governance
 
 ### Access reviews - welke resources, welke licentie
@@ -314,7 +365,7 @@ Twee PIM-instellingen die makkelijk worden verward:
 - Activation duration: hoe lang een geactiveerde rol actief/bruikbaar blijft nadat iemand hem heeft geactiveerd
 - Request/approval duration: hoe lang een **pending approval-aanvraag** geldig blijft staan voordat die automatisch verloopt als niemand erop reageert - zegt niets over hoe snel de approval zelf moet gebeuren, alleen over de levensduur van het verzoek in de wachtrij
 
-Vuistregel: een eis geformuleerd als "approval must occur within X minutes, otherwise the request expires" beschrijft letterlijk het expiry-gedrag van **request duration**, niet van activation duration - lees dit soort eisen woord voor woord, de twee termen worden in antwoordsleutels regelmatig door elkaar gebruikt.
+Vuistregel: een eis geformuleerd als "approval must occur within X minutes, otherwise the request expires" beschrijft letterlijk het expiry-gedrag van **request duration**, niet van activation duration - lees dit soort eisen woord voor woord, want de twee termen worden vaak door elkaar gebruikt.
 
 Voor resource-roles (zoals rollen op een Key Vault, niet een Entra ID-rol) met verplichte approval en justification-logging zijn twee configuraties nodig: PIM for resource roles inschakelen EN de specifieke Azure RBAC-rol daarbinnen via PIM configureren - een van de twee alleen is onvolledig.
 
@@ -345,6 +396,8 @@ Wanneer alert-meldingen naar een ander e-mailadres, Teams of een ITSM-systeem (z
 - Azure Monitor Action Groups: het daadwerkelijke **transportmiddel** - verstuurt naar e-mail, SMS, Teams-webhook, of triggert een ServiceNow-integratie via webhook/Logic App
 
 Log Analytics workspace alerts zijn alleen relevant wanneer je zelf custom alerts bouwt op KQL-queries - niet nodig wanneer je al bestaande Connect Health-alerts wil doorsturen. Microsoft Defender for Identity staat hier volledig los van (gaat over on-prem AD-dreigingen zoals lateral movement, niet over sync/AD FS-health).
+
+Om een wijziging in een gebruikerskenmerk (bijv. primair e-mailadres) niet alleen te detecteren maar ook automatisch terug te draaien: audit logs doorsturen (diagnostic settings of Sentinel) en een **analytics rule met een playbook (Logic App)** laten reageren. Sentinel alleen levert detectie en alerts; de herstelactie zit in het playbook. Identity Protection kijkt naar sign-in- en gebruikersrisico en detecteert zulke attribuutwijzigingen niet.
 
 ### Alerting op specifieke PIM-activaties zonder alert fatigue
 
