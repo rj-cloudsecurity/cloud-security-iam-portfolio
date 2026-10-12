@@ -22,6 +22,7 @@
 |----------|-------|-------|
 | Test 1 — Official Microsoft Practice Assessment 1 | 54% | 27/50. Weakest: D1 (administrative units, dynamic groups, WS-Fed, PTA vs PHS), D2 (Identity Protection, CBA, Global Secure Access), D3 (App Proxy, scope, Cloud Discovery), D4 (entitlement management, PIM for Groups, audit logs). |
 | Test 2 — Custom Exam Domain 1 | 85% | 17/20. Fouten: B2B direct connect vs collaboration, licentie voor dynamic groups (P1), directory extensions voor custom attributen. |
+| Test 3 — Custom Exam Domain 2 | 80% | 16/20. Fouten: security defaults blokkeren Conditional Access, MFA fraud alert (automatisch blokkeren), Global Secure Access compliant network, Identity Protection vereist P2. |
 
 ## Next Focus Areas after Test 1
 
@@ -59,3 +60,10 @@
   - Domain 1 — B2B direct connect = Teams shared channels zonder guest-account; B2B collaboration = guest users
   - Domain 1 — Dynamic groups vereisen Entra ID P1; de Intune admin center is een portal, geen licentie
   - Domain 1 — Custom attribuut uit on-prem AD naar Entra synchroniseren: directory extensions (cloudFiltered is een uitsluit-markering, geen sync)
+
+## Next Focus Areas after Test 3
+  - Domain 2 — Security defaults staan standaard aan in een nieuwe tenant en blokkeren Conditional Access; eerst uitzetten, ook met P1
+  - Domain 2 — Fraud alert: gebruiker meldt een ongevraagde MFA-prompt; optie "Automatically block users who report fraud" blokkeert het account
+  - Domain 2 — Global Secure Access: Compliant network (onder Conditions > Locations) herkent verkeer via GSA; een named location met IP-ranges kan dat niet
+  - Domain 2 — Identity Protection (sign-in en user risk policies) vereist Entra ID P2; P1 geeft alleen Conditional Access
+  - Domain 2 — PTA smart lockout: Entra-drempel lager dan AD-drempel, zodat Entra eerder blokkeert dan AD
