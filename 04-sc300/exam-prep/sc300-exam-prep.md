@@ -23,6 +23,7 @@
 | Test 1 — Official Microsoft Practice Assessment 1 | 54% | 27/50. Weakest: D1 (administrative units, dynamic groups, WS-Fed, PTA vs PHS), D2 (Identity Protection, CBA, Global Secure Access), D3 (App Proxy, scope, Cloud Discovery), D4 (entitlement management, PIM for Groups, audit logs). |
 | Test 2 — Custom Exam Domain 1 | 85% | 17/20. Fouten: B2B direct connect vs collaboration, licentie voor dynamic groups (P1), directory extensions voor custom attributen. |
 | Test 3 — Custom Exam Domain 2 | 80% | 16/20. Fouten: security defaults blokkeren Conditional Access, MFA fraud alert (automatisch blokkeren), Global Secure Access compliant network, Identity Protection vereist P2. |
+| Test 4 — Custom Exam Domain 3 | 70% | 14/20. Fouten: Enterprise applications vs App registrations, delegated vs application permissions, client credentials flow, snapshot report vs app connector, federated identity credential (GitHub Actions), Application Developer rol. |
 
 ## Next Focus Areas after Test 1
 
@@ -67,3 +68,12 @@
   - Domain 2 — Global Secure Access: Compliant network (onder Conditions > Locations) herkent verkeer via GSA; een named location met IP-ranges kan dat niet
   - Domain 2 — Identity Protection (sign-in en user risk policies) vereist Entra ID P2; P1 geeft alleen Conditional Access
   - Domain 2 — PTA smart lockout: Entra-drempel lager dan AD-drempel, zodat Entra eerder blokkeert dan AD
+
+## Next Focus Areas after Test 4
+  - Domain 3 — SSO (SAML) configureer je in Enterprise applications; App registrations is voor eigen apps en API's
+  - Domain 3 — Delegated permissions: namens een ingelogde gebruiker; application permissions: zonder gebruiker, altijd admin consent
+  - Domain 3 — Daemon zonder gebruiker: client credentials flow; met gebruiker: authorization code flow
+  - Domain 3 — Cloud Discovery: snapshot report = eenmalig logbestand uploaden; continuous report = automatisch; app connector = SaaS-app via API koppelen
+  - Domain 3 — Workload identity federation (bijv. GitHub Actions zonder secrets): federated identity credential op de app registration; managed identities bestaan alleen voor Azure-resources
+  - Domain 3 — Apps registreren bij "Users can register applications = No": Application Developer (least privilege)
+  - Domain 3 — Consent: user consent instellen via verified publishers + selected permissions; admin consent workflow voor aanvragen
