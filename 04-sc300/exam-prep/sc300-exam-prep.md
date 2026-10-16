@@ -24,6 +24,7 @@
 | Test 2 — Custom Exam Domain 1 | 85% | 17/20. Fouten: B2B direct connect vs collaboration, licentie voor dynamic groups (P1), directory extensions voor custom attributen. |
 | Test 3 — Custom Exam Domain 2 | 80% | 16/20. Fouten: security defaults blokkeren Conditional Access, MFA fraud alert (automatisch blokkeren), Global Secure Access compliant network, Identity Protection vereist P2. |
 | Test 4 — Custom Exam Domain 3 | 70% | 14/20. Fouten: Enterprise applications vs App registrations, delegated vs application permissions, client credentials flow, snapshot report vs app connector, federated identity credential (GitHub Actions), Application Developer rol. |
+| Test 5 — Custom Exam Domain 4 | 95% | 19/20. Fout: Lifecycle Workflows vereist Entra ID Governance. |
 
 ## Next Focus Areas after Test 1
 
@@ -77,3 +78,6 @@
   - Domain 3 — Workload identity federation (bijv. GitHub Actions zonder secrets): federated identity credential op de app registration; managed identities bestaan alleen voor Azure-resources
   - Domain 3 — Apps registreren bij "Users can register applications = No": Application Developer (least privilege)
   - Domain 3 — Consent: user consent instellen via verified publishers + selected permissions; admin consent workflow voor aanvragen
+
+## Next Focus Areas after Test 5
+  - Domain 4 — Lifecycle Workflows vereist Microsoft Entra ID Governance (of Entra Suite); Workload ID Premium is alleen voor workload identities
