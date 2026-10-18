@@ -8,7 +8,7 @@ The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Tes
 | Topic | Dojo question | Where in the portal | Status |
 |-------|---------------|---------------------|--------|
 | Group-based licensing: license assigned to a group, old license removed (`Set-MgGroupLicense`) | Q1 | M365 admin center > Billing > Licenses > [licentie] > Groups (of Set-MgGroupLicense) | Done |
-| Restrict self-service sign-up to verified domains (`Set-MsolCompanySettings`) | Q5 | | Todo |
+| Restrict self-service sign-up to verified domains (`Set-MsolCompanySettings`) | Q5 | PowerShell only: `Set-MsolCompanySettings` (geen portal-instelling) | Done |
 | Connect Sync: exclude users by attribute (inbound rule on the AD DS connector) | Q14 | | Todo |
 | Password Administrator scoped to an administrative unit | Q18 | | Todo |
 | Bulk remove direct license assignments (Licenses blade) | Q35 | | Todo |
