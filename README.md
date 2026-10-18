@@ -145,8 +145,8 @@ Planned:
 
 **Exam Prep**
 - [Exam Preparation](/04-sc300/exam-prep/sc300-exam-prep.md) — Progress, scores and study approach
+- [Hands-on Review](/04-sc300/exam-prep/sc300-hands-on-review.md) — Portal walkthroughs showing where and how each setting is configured
 - [Quick Reference](/04-sc300/exam-prep/sc300-quick-reference.md) — Key facts, comparisons and exam keywords
-
 
 **Labs** 
 - [View labs](/04-sc300/labs/)
