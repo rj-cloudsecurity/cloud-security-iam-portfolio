@@ -40,7 +40,7 @@ The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Tes
 ## Domain 4 — Plan and automate identity governance
 | Topic | Dojo question | Where in the portal | Status |
 |-------|---------------|---------------------|--------|
-| Entitlement management settings: automatic removal of external users | Q4 | | Todo |
+| Entitlement management settings: automatic removal of external users | Q4 | Identity Governance > Entitlement management > Control configurations | Done |
 | Access review of a group with guests | Q8 | | Todo |
 | Access package with expiration in the policy | Q33 | | Todo |
 | Diagnostic settings: Entra audit logs to a Log Analytics workspace | Q48 | | Todo |
