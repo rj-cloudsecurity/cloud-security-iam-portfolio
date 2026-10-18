@@ -7,7 +7,7 @@ The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Tes
 ## Domain 1 — Implement and manage user identities
 | Topic | Dojo question | Where in the portal | Status |
 |-------|---------------|---------------------|--------|
-| Group-based licensing: license assigned to a group, old license removed (`Set-MgGroupLicense`) | Q1 | | Todo |
+| Group-based licensing: license assigned to a group, old license removed (`Set-MgGroupLicense`) | Q1 | Q1: M365 admin center > Billing > Licenses > [licentie] > Groups (of Set-MgGroupLicense) | Done |
 | Restrict self-service sign-up to verified domains (`Set-MsolCompanySettings`) | Q5 | | Todo |
 | Connect Sync: exclude users by attribute (inbound rule on the AD DS connector) | Q14 | | Todo |
 | Password Administrator scoped to an administrative unit | Q18 | | Todo |
