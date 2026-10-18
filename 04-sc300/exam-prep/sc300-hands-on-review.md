@@ -1,6 +1,6 @@
 # SC-300 Hands-on Review
 
-Focus: not "which feature", but where and how it is configured. For every mistake from the practice exams: perform it in the portal (Microsoft Entra admin center, Microsoft Defender portal, PowerShell), write down the menu path, and mark it Done.
+Focus: not "which feature", but where and how it is configured. From the practice exams: perform it in the portal (Microsoft Entra admin center, Microsoft Defender portal, PowerShell), write down the menu path, and mark it Done.
 
 The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Test 7). A dash means the topic comes from a custom exam.
 
