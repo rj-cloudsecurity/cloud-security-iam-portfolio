@@ -1,6 +1,6 @@
 # SC-300 Hands-on Review
 
-Focus: not "which feature", but where and how it is configured. From the practice exams: perform it in the portal (Microsoft Entra admin center, Microsoft Defender portal, PowerShell), write down the menu path, and mark it Done.
+Focus: not "which feature", but where and how it is configured. For every mistake from the practice exams: perform it in the portal (Microsoft Entra admin center, Microsoft Defender portal, PowerShell), write down the menu path, and mark it Done.
 
 The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Test 7). A dash means the topic comes from a custom exam.
 
@@ -26,7 +26,7 @@ The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Tes
 ## Domain 3 — Plan and implement workload identities
 | Topic | Dojo question | Where in the portal | Status |
 |-------|---------------|---------------------|--------|
-| User provisioning to a SaaS app (SCIM) | Q10 | | Todo |
+| User provisioning to a SaaS app (SCIM) | Q10 | Entra ID > Enterprise applications > [app] > Provisioning > Automatic (Tenant URL + Secret token) | Todo |
 | Application Developer role: register apps when users cannot | Q16 | | Todo |
 | Daemon app to Microsoft Graph: register app, assign permissions, grant admin consent | Q20 | | Todo |
 | Admin consent workflow: reviewers and approval | Q21 | | Todo |
@@ -41,6 +41,6 @@ The Dojo column shows the question number in Tutorials Dojo Practice Exam 1 (Tes
 | Topic | Dojo question | Where in the portal | Status |
 |-------|---------------|---------------------|--------|
 | Entitlement management settings: automatic removal of external users | Q4 | Identity Governance > Entitlement management > Control configurations | Done |
-| Access review of a group with guests | Q8 | | Todo |
+| Access review of a group with guests (twijfelachtige Dojo-key: bij "blokkeren" past guest review met auto-apply Block sign-in) | Q8 | Identity Governance > Access reviews > New access review > Teams + Groups > Upon completion settings | Todo |
 | Access package with expiration in the policy | Q33 | | Todo |
 | Diagnostic settings: Entra audit logs to a Log Analytics workspace | Q48 | | Todo |
