@@ -18,7 +18,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
 | Invite a guest with PowerShell | Exam 1: Users #4 | A guest signs in with a personal address and must reach an enterprise app. Send the invitation with `New-AzureADMSInvitation`. | | |
-| Cross-tenant app-to-app access | Exam 1: Users #3 | An app in one tenant must call an app in a partner tenant. Create a credential (certificate or secret) on the app registration and check why a managed identity doesn't work across tenants. | | |
+| Cross-tenant app-to-app access | Exam 1: Users #3 | An app in one tenant must call an app in a partner tenant. Create a credential (certificate or secret) on the app registration and check why a managed identity doesn't work across tenants. | Entra admin center > Entra ID > App registrations > [app] > Certificates & secrets > New client secret | Done |
 | Exclude users from Connect Sync by attribute | Exam 1: Users #11 | Do not sync users with `extensionAttribute15 = NoSync`. Create the inbound rule on the AD DS connector with a scoping filter. | | |
 | Pass-through authentication and lockout | Exam 1: Auth #1 | On-prem lockout policy must apply to cloud sign-ins. Check the PTA setting and compare it with password hash sync and smart lockout. | | |
 
