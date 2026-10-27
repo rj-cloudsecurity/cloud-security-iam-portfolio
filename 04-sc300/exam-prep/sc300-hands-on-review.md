@@ -11,7 +11,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 | Group-based licensing | Exam 1: Governance #1 | Assign E5 to a group of all employees and remove the old E3 licenses. Do it in the portal and with `Set-MgGroupLicense`. | M365 admin center > Billing > Licenses > [licentie] > Groups (of Set-MgGroupLicense) | Done |
 | Bulk remove direct licenses | Exam 1: Users #2 | Users have E3 assigned directly while the group gives E5. Remove the direct E3 assignments in bulk. | M365 admin center > Billing > Licenses > [licentie] > Users > selecteer users > Unassign licenses | Done |
 | Restore a deleted user | Exam 1: Governance #5 | A user was deleted. Restore the account. Note the time limit and the minimum role. | Entra ID > Users > Deleted users > selecteer user > Restore user | Done |
-| Custom security attributes | Random: #38 | Create an attribute set and attributes, assign Attribute Definition Administrator on one set, and check what a Global Administrator can and cannot see. | | |
+| Custom security attributes | Random: #38 | Create an attribute set and attributes, assign Attribute Definition Administrator on one set, and check what a Global Administrator can and cannot see. | Entra admin center > Entra ID > Custom security attributes | Done |
 | Restrict self-service sign-up | Exam 1: Users #13 | Only allow accounts with the verified SMTP domains. | PowerShell only: `Set-MsolCompanySettings` (geen portal-instelling) | Done |
 
 ## 2. External identities and hybrid identity
