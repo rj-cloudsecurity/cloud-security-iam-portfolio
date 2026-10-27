@@ -80,6 +80,12 @@ Planned:
  - [Sandbox Configure external collaboration](/00-sandbox/05-configure-external-collaboration.md)
  - [Sandbox Invite external users](/00-sandbox/06-invite-external-users.md)
  - [Sandbox Create dynamic groups](/00-sandbox/07-jacobs-security-group.md)
+ - [Sandbox Create an administrative unit](/00-sandbox/08-administrative-unit-the-looking-glass.md)
+ - [Sandbox Activate an Entra Suite trial](/00-sandbox/09-entra-suite-trial-license.md)
+ - [Sandbox Reset a password as Global Administrator](/00-sandbox/10-password-reset-in-administrative-unit.md)
+ - [Sandbox Assign Entra Suite licenses to users](/00-sandbox/11-assign-entra-suite-licenses-to-users.md)
+ - [Sandbox Assign Entra Suite licenses to a group](/00-sandbox/12-assign-entra-suite-licenses-to-group.md)
+ - [Sandbox Unassign Entra Suite licenses from users](/00-sandbox/13-unassign-entra-suite-licenses-from-users.md)
 
 ---
 
