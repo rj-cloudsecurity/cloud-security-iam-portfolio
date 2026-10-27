@@ -1,6 +1,6 @@
 # SC-300 Hands-on Review
 
-Focus: not "which feature", but where and how it is configured. For every mistake from the practice exams: perform it in the portal (Microsoft Entra admin center, Microsoft Defender portal, PowerShell), write down the menu path, and mark it Done.
+Focus: not *which* feature, but *where* and *how* it is configured. Each item comes from a practice exam question: perform it in the portal (Microsoft Entra admin center, Microsoft 365 admin center, Microsoft Defender portal or PowerShell), write down the menu path, and mark it Done.
 
 The topics follow the SC-300 skills measured, not the order of an exam. The "Scenario and task" column summarizes what the question asked and what to do in the portal. The Dojo column shows where it came from: Exam 1 = Tutorials Dojo Practice Exam 1 (category and question number), Random = Tutorials Dojo Randomized Test (question number). A dash means the topic comes from a custom exam.
 
