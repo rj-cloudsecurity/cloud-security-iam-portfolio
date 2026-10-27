@@ -7,7 +7,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 ## 1. Tenant, roles, users and groups
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
-| Role scoped to an administrative unit | Exam 1: Users #1 | Liza is Password Administrator for the whole organization, Ramon only for AU-HR. Create an AU, add users, assign the role scoped to the AU, and test who can reset which user's password. | | |
+| Role scoped to an administrative unit | Exam 1: Users #1 | Liza is Password Administrator for the whole organization, Ramon only for AU-HR. Create an AU, add users, assign the role scoped to the AU, and test who can reset which user's password. | Entra ID > Administrative units > [AU] > Roles and administrators > Password Administrator > Add assignments | |
 | Group-based licensing | Exam 1: Governance #1 | Assign E5 to a group of all employees and remove the old E3 licenses. Do it in the portal and with `Set-MgGroupLicense`. | M365 admin center > Billing > Licenses > [licentie] > Groups (of Set-MgGroupLicense) | |
 | Bulk remove direct licenses | Exam 1: Users #2 | Users have E3 assigned directly while the group gives E5. Remove the direct E3 assignments in bulk. | | |
 | Restore a deleted user | Exam 1: Governance #5 | A user was deleted. Restore the account. Note the time limit and the minimum role. | | |
