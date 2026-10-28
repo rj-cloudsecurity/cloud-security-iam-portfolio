@@ -29,7 +29,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 | Block legacy authentication | Exam 1: Auth #11 | Create a Conditional Access policy that blocks legacy authentication clients. | ntra ID > Conditional Access > Policies > New policy > Conditions > Client apps | Done |
 | Global Secure Access web filtering | Exam 1: Auth #3 | Block social media for the Marketing group during business hours. Find the first step before the Conditional Access policy. | Entra ID > Global Secure Access > Secure > Web content filtering policies > Create | Done |
 | Global Secure Access: compliant network | — | Enable Conditional Access signaling and use the compliant network location in a policy. | | Skipped |
-| Terms of use | Random: #12, #43 | Create a ToU (PDF), require it through Conditional Access, and find who accepted or declined in the logs. | | |
+| Terms of use | Random: #12, #43 | Create a ToU (PDF), require it through Conditional Access, and find who accepted or declined in the logs. | Entra ID > Conditional Access > Terms of use > New terms | Done |
 
 ## 4. Applications and workload identities
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
