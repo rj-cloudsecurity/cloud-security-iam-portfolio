@@ -26,7 +26,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
 | SSPR authentication methods | Exam 1: Auth #5, Random: #50 | Require 1 method, then 2 methods. Check which methods are available each time (mobile app code, e-mail, notification). | Entra ID > Password reset > Authentication methods (aantal methoden) en Entra ID > Authentication methods > Policies (welke methoden)	 | Done |
-| Block legacy authentication | Exam 1: Auth #11 | Create a Conditional Access policy that blocks legacy authentication clients. | | |
+| Block legacy authentication | Exam 1: Auth #11 | Create a Conditional Access policy that blocks legacy authentication clients. | ntra ID > Conditional Access > Policies > New policy > Conditions > Client apps | Done |
 | Global Secure Access web filtering | Exam 1: Auth #3 | Block social media for the Marketing group during business hours. Find the first step before the Conditional Access policy. | | |
 | Global Secure Access: compliant network | — | Enable Conditional Access signaling and use the compliant network location in a policy. | | |
 | Terms of use | Random: #12, #43 | Create a ToU (PDF), require it through Conditional Access, and find who accepted or declined in the logs. | | |
