@@ -54,7 +54,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The colu
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
 | Entitlement management settings | Exam 1: Governance #9 | Remove external users automatically after 90 days. | Identity Governance > Entitlement management > Control configurations > Lifecycle of external users > View settings | Done |
-| Access package with expiration | Exam 1: Governance #14 | Give a group time-limited access (90 days) to a SharePoint site. | | |
+| Access package with expiration | Exam 1: Governance #14 | Give a group time-limited access (90 days) to a SharePoint site. | Identity Governance > Entitlement management > Access packages > New access package > Lifecycle > Access package assignments expire | Done |
 | Access review of a group with guests | Exam 1: Governance #15 | Review guest access monthly. Check whether failed guests can be blocked from signing in. | Identity Governance > Access reviews > New access review > Teams + Groups > Upon completion settings | |
 | What an access review can cover | Random: #48 | Create reviews for a group, an enterprise app, an Entra role and a service principal. Note the license needs. | | |
 | PIM scope | Random: #27 | Check which roles PIM can manage and which it cannot (classic administrator and billing roles). | | |
