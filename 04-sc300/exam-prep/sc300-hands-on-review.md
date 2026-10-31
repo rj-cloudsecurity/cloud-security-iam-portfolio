@@ -7,10 +7,10 @@ The topics follow the SC-300 skills measured, not the order of an exam. The colu
 - **Dojo question:** where the item came from. Exam 1 = Tutorials Dojo Practice Exam 1 (category and question number), Random = Tutorials Dojo Randomized Test (question number). A dash means the topic comes from a custom exam.
 - **Scenario and task:** what the question asked and what to do in the portal.
 - **Where in the portal:** the menu path.
-- **Status:** *Done* means I performed the scenario in my [sandbox](https://github.com/rj-cloudsecurity/cloud-security-iam-portfolio/tree/main/00-sandbox) tenant, where every lab is documented as a numbered entry. *Skipped* means I only looked up where it is configured and did not perform it.
+- **Sandbox:** *Done* means I performed the scenario in my [sandbox](https://github.com/rj-cloudsecurity/cloud-security-iam-portfolio/tree/main/00-sandbox) tenant, where every lab is documented as a numbered entry. *Skipped* means I only looked up where it is configured and did not perform it.
 
 ## 1. Tenant, roles, users and groups
-| Topic | Dojo question | Scenario and task | Where in the portal | Status |
+| Topic | Dojo question | Scenario and task | Where in the portal | Sandbox |
 |-------|---------------|-------------------|---------------------|--------|
 | Role scoped to an administrative unit | Exam 1: Users #1 | Liza is Password Administrator for the whole organization, Ramon only for AU-HR. Create an AU, add users, assign the role scoped to the AU, and test who can reset which user's password. | Entra ID > Administrative units > [AU] > Roles and administrators > Password Administrator > Add assignments | Done |
 | Group-based licensing | Exam 1: Governance #1 | Assign E5 to a group of all employees and remove the old E3 licenses. Do it in the portal and with `Set-MgGroupLicense`. | M365 admin center > Billing > Licenses > [licentie] > Groups (of Set-MgGroupLicense) | Done |
