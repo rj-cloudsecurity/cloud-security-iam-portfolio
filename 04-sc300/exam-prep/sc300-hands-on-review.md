@@ -1,8 +1,13 @@
 # SC-300 Hands-on Review
 
-Focus: not *which* feature, but *where* and *how* it is configured. Each item comes from a practice exam question: perform it in the portal (Microsoft Entra admin center, Microsoft 365 admin center, Microsoft Defender portal or PowerShell), write down the menu path, and mark it Done.
+Each item comes from a practice exam question. The focus is not on *which* feature is the answer, but on *where* and *how* it is configured: I perform the scenario in the portal (Microsoft Entra admin center, Microsoft 365 admin center, Microsoft Defender portal or PowerShell) and write down the menu path.
 
-The topics follow the SC-300 skills measured, not the order of an exam. The "Scenario and task" column summarizes what the question asked and what to do in the portal. The Dojo column shows where it came from: Exam 1 = Tutorials Dojo Practice Exam 1 (category and question number), Random = Tutorials Dojo Randomized Test (question number). A dash means the topic comes from a custom exam.
+The topics follow the SC-300 skills measured, not the order of an exam. The columns mean:
+
+- **Dojo question:** where the item came from. Exam 1 = Tutorials Dojo Practice Exam 1 (category and question number), Random = Tutorials Dojo Randomized Test (question number). A dash means the topic comes from a custom exam.
+- **Scenario and task:** what the question asked and what to do in the portal.
+- **Where in the portal:** the menu path.
+- **Status:** *Done* means I performed the scenario in my [sandbox](https://github.com/rj-cloudsecurity/cloud-security-iam-portfolio/tree/main/00-sandbox) tenant, where every lab is documented as a numbered entry. *Skipped* means I only looked up where it is configured and did not perform it.
 
 ## 1. Tenant, roles, users and groups
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
@@ -58,3 +63,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
 | Diagnostic settings to Log Analytics | Exam 1: Governance #7, Random: #5, #16 | Send Entra audit logs to a Log Analytics workspace. This is always the first step. | | |
+
+
+
+
