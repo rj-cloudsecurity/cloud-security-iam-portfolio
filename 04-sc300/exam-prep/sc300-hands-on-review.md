@@ -47,7 +47,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The colu
 | User provisioning to a SaaS app (SCIM) | Exam 1: Governance #8 | Set up automatic provisioning to a SaaS app. | Entra ID > Enterprise applications > [app] > Provisioning > Automatic (Tenant URL + Secret token) | Skipped |
 | Defender for Cloud Apps session control: first steps | Exam 1: Governance #12, Random: #1, #42, #49 | Third-party or SharePoint app, block downloads. Do the steps in order: SSO if needed, Conditional Access with Use Conditional Access App Control, then the session policy. | | Skipped |
 | Activity policy | Exam 1: Workload #4 | Alert on mass downloads or repeated deletions in a sanctioned app. | | Skipped |
-| App governance | Exam 1: Auth #9 | Give a user access to the dashboard with the least privilege and find where it is. | | |
+| App governance | Exam 1: Auth #9 | Give a user access to the dashboard with the least privilege and find where it is. | | Skipped |
 | Key Vault with Azure RBAC | Random: #26 | Check which role can read secret values at subscription, resource group or vault scope. | | |
 
 ## 5. Identity governance and privileged access
