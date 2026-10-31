@@ -62,7 +62,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The colu
 ## 6. Monitoring
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
-| Diagnostic settings to Log Analytics | Exam 1: Governance #7, Random: #5, #16 | Send Entra audit logs to a Log Analytics workspace. This is always the first step. | | |
+| Diagnostic settings to Log Analytics | Exam 1: Governance #7, Random: #5, #16 | Send Entra audit logs to a Log Analytics workspace. This is always the first step. | Entra ID > Monitoring & health > Diagnostic settings > Add diagnostic setting (Azure-subscription en Log Analytics workspace nodig) | Done |
 
 
 
