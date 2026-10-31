@@ -19,7 +19,7 @@ De access package Island Access als admin direct aan een user toewijzen en de ei
 
 ## Resultaat
 - De toewijzing staat op status **Delivered** met de einddatum **1/29/2027**
-- Niet bevestigd: dat Benjamin nu lid is van de group Island Resources
+- Bevestigd: dat Benjamin nu lid is van de group Island Resources
 
 ## Wat dit aantoont
 - Een admin kan een access package direct toewijzen zonder dat de user hem hoeft aan te vragen
