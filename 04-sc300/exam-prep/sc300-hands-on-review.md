@@ -45,7 +45,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The colu
 | User consent settings | — | Allow consent only for verified publishers and selected permissions. | Entra ID > Enterprise apps > Consent and permissions > User consent settings | Skipped |
 | SSO plus Conditional Access on device state | Exam 1: Auth #2 | A gallery app must use SSO and only be reachable from Entra-joined devices. | Entra ID > Enterprise apps > New application > [app] > Single sign-on, en Entra ID > Conditional Access > New policy > Conditions > Filter for devices | Done |
 | User provisioning to a SaaS app (SCIM) | Exam 1: Governance #8 | Set up automatic provisioning to a SaaS app. | Entra ID > Enterprise applications > [app] > Provisioning > Automatic (Tenant URL + Secret token) | Skipped |
-| Defender for Cloud Apps session control: first steps | Exam 1: Governance #12, Random: #1, #42, #49 | Third-party or SharePoint app, block downloads. Do the steps in order: SSO if needed, Conditional Access with Use Conditional Access App Control, then the session policy. | | |
+| Defender for Cloud Apps session control: first steps | Exam 1: Governance #12, Random: #1, #42, #49 | Third-party or SharePoint app, block downloads. Do the steps in order: SSO if needed, Conditional Access with Use Conditional Access App Control, then the session policy. | | Skipped |
 | Activity policy | Exam 1: Workload #4 | Alert on mass downloads or repeated deletions in a sanctioned app. | | |
 | App governance | Exam 1: Auth #9 | Give a user access to the dashboard with the least privilege and find where it is. | | |
 | Key Vault with Azure RBAC | Random: #26 | Check which role can read secret values at subscription, resource group or vault scope. | | |
