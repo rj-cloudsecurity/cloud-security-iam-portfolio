@@ -35,7 +35,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
 | Application Developer role | Exam 1: Users #9, Random: #11 | A developer must register apps while "Users can register applications" is No. Assign the role and test what the developer can and cannot do. | Entra ID > Roles & admins > Application Developer > Add assignments (Active) en Entra ID > Users > User settings (Users can register applications) | Done |
-| Daemon app to Microsoft Graph | Exam 1: Users #12 | Register the app, add Graph application permissions, grant admin consent. | | |
+| Daemon app to Microsoft Graph | Exam 1: Users #12 | Register the app, add Graph application permissions, grant admin consent. | Entra ID > App registrations > [app] > API permissions > Add a permission > Microsoft Graph > Application permissions > Grant admin consent | Done |
 | Admin consent workflow | Exam 1: Governance #13 | Set reviewers and see who can approve a request. | | |
 | User consent settings | — | Allow consent only for verified publishers and selected permissions. | | |
 | SSO plus Conditional Access on device state | Exam 1: Auth #2 | A gallery app must use SSO and only be reachable from Entra-joined devices. | | |
