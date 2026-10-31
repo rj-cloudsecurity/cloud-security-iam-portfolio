@@ -30,6 +30,8 @@
 | Test 6 — Custom Exam Mixed Domains | 80% | 24/30. Fouten: App registrations vs Enterprise applications, Lifecycle Workflows-licentie, B2B collaboration vs direct connect, Application Proxy-connectiviteit, compliant network vs compliant device, Sentinel data connector + analytics rule. |
 | Test 7 — Tutorials Dojo Practice Exam 1 | 55% | 26/50 vragen (31/56 punten). D1 50%, D2 59%, D3 86%, D4 44%. Fouten: PowerShell-cmdlets (licenties, sign-up, uitnodigingen), Connect Sync inbound rules, entitlement management settings en access packages, access reviews, Defender for Cloud Apps-policies, admin consent, SCIM. |
 | Test 8 — Tutorials Dojo Randomized Test | 75% | 37/50 vragen (42/56 punten). Users 79%, Authentication 81%, Governance 60%, Workload 83%. Fouten: Defender for Cloud Apps session control (eerste stap), diagnostic settings (2x), Application Developer, Terms of use (audit logs, PDF), PIM-scope, Key Vault RBAC, custom security attributes, access review-scope, SSPR-methode. |
+| Test 9 — Tutorials Dojo Diagnostic Test | 90% | 9/10 vragen. Users 100%, Authentication 100%, Governance 100%, Workload 0% (1 vraag). Fout: Defender for Cloud Apps activity policy. |
+| Test 10 — Tutorials Dojo Timed Mode Set 1 | 67% | 33/50 vragen (36/54 punten). Users 60%, Authentication 74%, Governance 56%, Workload 78%. Fouten: administrative unit (Password Administrator), cross-tenant credentials, Application Developer, rol voor helpdesk, Sentinel data connector, MFA zonder mobiel signaal, App governance, sign-in risk policy, Set-MgGroupLicense, PIM, diagnostic settings (2x), Terms of use (audit logs), entitlement management (catalog en settings), OAuth app policy, session policy. |
 
 ## Next Focus Areas after Test 1
 
@@ -149,3 +151,37 @@
 
 **Domain 4 — Plan and automate identity governance**
   - Access reviews kunnen op groepen, enterprise applications, Entra-rollen (via PIM) en service principals (vereist Workload ID Premium plus P2 of Governance)
+
+## Next Focus Areas after Test 9
+  - Domain 3 — Activity policy: alert bij een drempel van activiteit in een SaaS-app (bijv. meer dan 100 downloads in een minuut); session policy is real-time controle, anomaly detection is machine learning zonder vaste drempel
+
+## Next Focus Areas after Test 10
+
+**Terugkerende fouten (meerdere tests)**
+  - Application Developer: apps registreren als "Users can register applications = No" (fout in Test 4, 7, 8 en 10)
+  - Diagnostic settings: eerste stap om Entra-logs naar Log Analytics te sturen (fout in Test 7, 8 en 10)
+  - Defender for Cloud Apps session policy en session control (fout in Test 7, 8 en 10): zie Domain 3
+  - Terms of use: wie accepteerde of weigerde zie je in de audit logs (fout in Test 8 en 10)
+  - `Set-MgGroupLicense` voor licenties per groep (fout in Test 7 en 10)
+  - Entitlement management settings: externe gebruikers na 90 dagen verwijderen (fout in Test 7 en 10)
+  - App governance dashboard: Cloud Application Administrator via het Microsoft Defender portal (fout in Test 7 en 10)
+  - Password Administrator en scope: administrative unit (fout in Test 7 en 10)
+
+**Domain 1 — Implement and manage user identities**
+  - Password Administrator kan wachtwoorden resetten van users zonder beheerdersrol, Directory Readers, Guest Inviter en andere Password Administrators; met scope organisatie voor iedereen die daaronder valt, met scope administrative unit alleen voor leden van die AU
+  - App in tenant A naar app in tenant B: twee geldige credentials, secret én certificate; API key en token zijn geen credentials hiervoor
+  - Helpdesk die licenties toewijst, users en groepen aanmaakt en verwijdert en wachtwoorden van niet-beheerders reset: User Administrator; Helpdesk Administrator mag alleen wachtwoorden resetten
+
+**Domain 2 — Implement authentication and access management**
+  - Sentinel data connector voor Entra ID: de connector in Sentinel haalt de logs binnen; diagnostic settings alleen routeert logs en een user risk policy koppelt niets
+  - MFA zonder mobiel signaal of wifi: Windows Hello for Business werkt op het apparaat, ook offline; Windows Hello for Business is geen SSPR-methode
+  - Sign-in risk policy die niet blokkeert: eerst MFA voor gebruikers via een policy, zodat risicovolle aanmeldingen de MFA-vraag kunnen beantwoorden
+
+**Domain 3 — Plan and implement workload identities**
+  - OAuth app policy (Defender for Cloud Apps): alert als meer dan een aantal users een third-party app met hoge rechten autoriseren
+  - Session policy: real-time beperking tijdens de sessie, bijvoorbeeld printen of downloaden blokkeren in SharePoint; file policy en access policy doen dat niet
+
+**Domain 4 — Plan and automate identity governance**
+  - PIM: voor beheerders met brede rechten over meerdere subscriptions: just-in-time toegang, monitoring en access reviews
+  - Entra sign-in en activity logs naar Azure Monitor: diagnostic settings; een data collection rule alleen is niet genoeg omdat die geen logs uit Entra exporteert
+  - Entitlement management begint met een catalog; daarin voeg je de resources toe (SharePoint-site, team), daarna maak je de access packages
