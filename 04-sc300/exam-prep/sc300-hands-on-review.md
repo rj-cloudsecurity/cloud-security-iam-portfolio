@@ -34,7 +34,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The "Sce
 ## 4. Applications and workload identities
 | Topic | Dojo question | Scenario and task | Where in the portal | Status |
 |-------|---------------|-------------------|---------------------|--------|
-| Application Developer role | Exam 1: Users #9, Random: #11 | A developer must register apps while "Users can register applications" is No. Assign the role and test what the developer can and cannot do. | | |
+| Application Developer role | Exam 1: Users #9, Random: #11 | A developer must register apps while "Users can register applications" is No. Assign the role and test what the developer can and cannot do. | Entra ID > Roles & admins > Application Developer > Add assignments (Active) en Entra ID > Users > User settings (Users can register applications) | Done |
 | Daemon app to Microsoft Graph | Exam 1: Users #12 | Register the app, add Graph application permissions, grant admin consent. | | |
 | Admin consent workflow | Exam 1: Governance #13 | Set reviewers and see who can approve a request. | | |
 | User consent settings | — | Allow consent only for verified publishers and selected permissions. | | |
