@@ -18,7 +18,7 @@ In PIM kijken welke Entra-rollen te beheren zijn, met als voorbeeld de rollen Bi
 4. Op **Global Administrator** geklikt en **Add assignments** geopend (niets toegewezen, **Cancel**)
 
 ## Resultaat
-- Beide rollen staan in de PIM-lijst; Global Administrator had 2 en 0 in de twee aantalkolommen, Billing Administrator 0 en 0
+- Beide rollen staan in de PIM-lijst; Global Administrator, Billing Administrator
 - Bij Add assignments: Resource **Oceanic Airlines**, Resource type **Directory**, de gekozen rol en de keuze voor een member; ook groups zijn als member mogelijk
 
 ## Wat dit aantoont
