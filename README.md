@@ -18,7 +18,7 @@ cloud-security-iam-portfolio/
 
 ├── 00-sandbox/
 │   ├── 01-oceanic-airlines/
-│   ├── scenarios/
+│   ├── 02-scenarios/
 ├── 01-az900/
 │   ├── exam-prep/
 │   ├── labs/
