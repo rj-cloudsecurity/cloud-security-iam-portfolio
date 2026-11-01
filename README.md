@@ -74,7 +74,6 @@ Planned:
 ## Notes, Labs & Exam Prep
 
 ### 00 — Sandbox
-- My own hands-on environment in Microsoft Entra ID, in two parts. See the explanation.
  - [Oceanic Airlines](/00-sandbox/01-oceanic-airlines/) — Practice in my test tenant while studying for the SC-300, from Microsoft Learn and practice exams
  - [Scenarios](/00-sandbox/02-scenarios/) — Realistic work situations to prepare for jobs and applications
 
