@@ -3,7 +3,7 @@
 Hier staat wat ik zelf in Microsoft Entra ID heb gedaan. Er zijn twee aparte onderdelen met een verschillend doel.
 
 ## 1. Oceanic Airlines: oefenen voor de SC-300
-[Oceanic Airlines](/00-sandbox/01-oceanic-airlines/)
+[Oceanic Airlines 🔄 In Progress](/00-sandbox/01-oceanic-airlines/)
 
 Mijn persoonlijke test-tenant, ingericht als de fictieve organisatie Oceanic Airlines. Hier oefen ik en probeer ik alles uit wat ik tegenkom. Elke oefening is een genummerde entry. De entries komen uit twee bronnen:
 
@@ -13,7 +13,7 @@ Mijn persoonlijke test-tenant, ingericht als de fictieve organisatie Oceanic Air
 Voor de oefeningen uit oefenexamens staat het menupad in de [Hands-on Review](/04-sc300/exam-prep/sc300-hands-on-review.md). Wat niet kon in mijn tenant, staat erbij als beperking.
 
 ## 2. Scenarios: voorbereiding op werk
-[Scenarios](/00-sandbox/02-scenarios/)
+[Scenarios 📅 Planned ](/00-sandbox/02-scenarios/)
 
 Los van het oefenen voor het examen. Een certificaat laat zien dat ik de theorie ken, maar niet dat ik ermee kan werken. Scenarios vullen dat gat.
 
