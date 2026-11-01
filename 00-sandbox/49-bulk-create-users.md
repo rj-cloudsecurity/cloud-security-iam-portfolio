@@ -22,7 +22,7 @@ Drie users aanmaken met de bulk create-functie.
 - De eerste upload gaf een foutmelding. Ik had het bestand in OpenOffice opgeslagen; de oorzaak heb ik niet vastgesteld
 - Daarna het bestand opnieuw in Numbers ingevuld en als CSV geëxporteerd: die upload werkte
 - Alle drie de users staan in de tenant
-- De template markeert vier kolommen als verplicht: Name, User name, Initial password en Block sign in
+- De template markeert vier kolommen als verplicht: Name, User name, Initial password.
 
 ## Wat dit aantoont
 - Bulk create vraagt een CSV in het formaat van de template; de kolomnamen en de eerste regels moeten blijven staan
