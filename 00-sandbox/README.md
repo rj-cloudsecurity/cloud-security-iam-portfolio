@@ -1,24 +1,26 @@
-# Sandbox
+Sandbox
 
-Hier staat wat ik zelf in Microsoft Entra ID heb gedaan. Er zijn twee aparte onderdelen met een verschillend doel.
+This is what I have done myself in Microsoft Entra ID. It has two separate parts with different purposes.
 
-## 1. Oceanic Airlines: oefenen voor de SC-300
-[Oceanic Airlines ](/00-sandbox/01-oceanic-airlines/)🔄 In Progress
+1. Oceanic Airlines: practice for the SC-300
 
-Mijn persoonlijke test-tenant, ingericht als de fictieve organisatie Oceanic Airlines. Hier oefen ik en probeer ik alles uit wat ik tegenkom. Elke oefening is een genummerde entry. De entries komen uit twee bronnen:
+oceanic-airlines
 
-- **Microsoft Learn:** oefeningen die ik deed tijdens het doorwerken van de leerstof, om te zien hoe een functie werkt
-- **Oefenexamens:** vragen die omgezet konden worden naar een praktische oefening in de portal
+My personal test tenant, set up as the fictional organisation Oceanic Airlines. Here I practise and try out everything I come across. Each exercise is a numbered entry. The entries come from two sources:
 
-Voor de oefeningen uit oefenexamens staat het menupad in de [Hands-on Review](/04-sc300/exam-prep/sc300-hands-on-review.md). Wat niet kon in mijn tenant, staat erbij als beperking.
+Microsoft Learn: exercises I did while working through the course material, to see how a feature works
+Practice exams: questions that could be turned into a hands-on exercise in the portal
 
-## 2. Scenarios: voorbereiding op werk
-[Scenarios ](/00-sandbox/02-scenarios/)📅 Planned 
+For the exercises from practice exams, the portal path is in the Hands-on Review. What was not possible in my tenant is listed there as a limitation.
 
-Los van het oefenen voor het examen. Een certificaat laat zien dat ik de theorie ken, maar niet dat ik ermee kan werken. Scenarios vullen dat gat.
+2. Scenarios: preparation for work
 
-Het zijn realistische werksituaties zoals een IAM Specialist ze tegenkomt: toegang regelen voor aannemers, beheerdersrechten beperken, inactieve accounts opruimen, gasten beheren of een joiner-mover-leaver proces automatiseren. Ik werk ze uit alsof ze echt voorkomen. Zo bouw ik ervaring op voor mijn eerste functie in IAM, en kan ik in een sollicitatiegesprek laten zien wat ik heb gedaan, welke keuzes ik maakte en wat ik anders zou doen.
+scenarios
 
-- De opdrachten zijn opgesteld met hulp van AI, als realistische werksituaties
-- Ik voer ze zelf uit in mijn tenant en leg vast wat ik deed en wat het resultaat was
-- Ik beschrijf alleen wat echt gelukt is. Wat in mijn tenant niet kan, staat erbij als beperking
+Separate from exam practice. A certificate shows that I know the theory, but not that I can work with it. Scenarios close that gap.
+
+They are realistic work situations as an IAM Specialist meets them: arranging access for contractors, limiting administrator rights, cleaning up inactive accounts, managing guests or automating a joiner-mover-leaver process. I work them out as if they were real. This builds experience for my first IAM role, and in an interview I can show what I did, which choices I made and what I would do differently.
+
+The assignments are drafted with the help of AI, as realistic work situations
+I carry them out myself in my tenant and record what I did and what the result was
+I only describe what actually worked. What is not possible in my tenant is listed as a limitation
