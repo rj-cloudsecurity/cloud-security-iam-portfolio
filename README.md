@@ -74,8 +74,9 @@ Planned:
 ## Notes, Labs & Exam Prep
 
 ### 00 — Sandbox
- - [Oceanic Airlines](/00-sandbox/01-oceanic-airlines/) — Practice in my test tenant while studying for the SC-300, from Microsoft Learn and practice exams
- - [Scenarios](/00-sandbox/02-scenarios/) — Realistic work situations to prepare for jobs and applications
+- [Sandbox](/00-sandbox//) — Sandbox
+     - [Oceanic Airlines](/00-sandbox/01-oceanic-airlines/) — Practice in my test tenant while studying for the SC-300, from Microsoft Learn and practice exams
+     - [Scenarios](/00-sandbox/02-scenarios/) — Realistic work situations to prepare for jobs and applications
 
 ---
 
