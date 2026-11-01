@@ -23,7 +23,6 @@ Een policy maken die MFA vereist voor de group External User Group en testen met
 ## Resultaat
 - De policy werkte zoals verwacht bij het inloggen als gast
 - Het gast-admin-account was uitgesloten, zodat ik zelf niet buitengesloten kon raken
-- Wat de gast precies op het scherm zag, heb ik niet vastgelegd
 
 ## Wat dit aantoont
 - Een Conditional Access-policy kan MFA eisen van externe gasten via een group
