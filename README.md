@@ -17,6 +17,8 @@ Current:
 cloud-security-iam-portfolio/
 
 ├── 00-sandbox/
+│   ├── 01-oceanic-airlines/
+│   ├── scenarios/
 ├── 01-az900/
 │   ├── exam-prep/
 │   ├── labs/
@@ -72,20 +74,10 @@ Planned:
 ## Notes, Labs & Exam Prep
 
 ### 00 — Sandbox
- - [Sandbox Context: Oceanic Airlines](/00-sandbox/00-oceanic-airlines-context.md)
- - [Sandbox Company Branding](/00-sandbox/01-entra-id-company-branding.md)
- - [Sandbox Adding first users](/00-sandbox/02-adding-first-user.md)
- - [Sandbox Creating security groups and users](/00-sandbox/03-creating-security-group-and-users.md)
- - [Sandbox Add groups](/00-sandbox/04-add-groups-in-microsoft-entra-id.md)
- - [Sandbox Configure external collaboration](/00-sandbox/05-configure-external-collaboration.md)
- - [Sandbox Invite external users](/00-sandbox/06-invite-external-users.md)
- - [Sandbox Create dynamic groups](/00-sandbox/07-jacobs-security-group.md)
- - [Sandbox Create an administrative unit](/00-sandbox/08-administrative-unit-the-looking-glass.md)
- - [Sandbox Activate an Entra Suite trial](/00-sandbox/09-entra-suite-trial-license.md)
- - [Sandbox Reset a password as Global Administrator](/00-sandbox/10-password-reset-in-administrative-unit.md)
- - [Sandbox Assign Entra Suite licenses to users](/00-sandbox/11-assign-entra-suite-licenses-to-users.md)
- - [Sandbox Assign Entra Suite licenses to a group](/00-sandbox/12-assign-entra-suite-licenses-to-group.md)
- - [Sandbox Unassign Entra Suite licenses from users](/00-sandbox/13-unassign-entra-suite-licenses-from-users.md)
+My own hands-on environment in Microsoft Entra ID, in two parts. See the explanation.
+
+Oceanic Airlines — practice in my test tenant while studying for the SC-300, from Microsoft Learn and practice exams
+Scenarios — realistic work situations to prepare for jobs and applications
 
 ---
 
