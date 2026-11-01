@@ -9,16 +9,19 @@ certifications.
 ## Goal
 Become an IAM Specialist / Cloud Security Engineer.
 
+## Start here
+- [Sandbox](/00-sandbox/README.md) — what I built and tested myself in Microsoft Entra ID
+- [SC-300 Hands-on Review](/04-sc300/exam-prep/sc300-hands-on-review.md) — where each setting lives in the portal, and what I tried myself
+
 ---
 
 ## Repository Structure
 ```bash
 Current:
 cloud-security-iam-portfolio/
-
 ├── 00-sandbox/
 │   ├── 01-oceanic-airlines/
-│   ├── 02-scenarios/
+│   └── 02-scenarios/
 ├── 01-az900/
 │   ├── exam-prep/
 │   ├── labs/
@@ -30,10 +33,11 @@ cloud-security-iam-portfolio/
 │   ├── exam-prep/
 │   ├── labs/
 │   └── notes/
-├── 04-sc300/
-│   ├── exam-prep/
-│   ├── labs/
-│   └── notes/
+└── 04-sc300/
+    ├── exam-prep/
+    ├── labs/
+    └── notes/
+
 Planned:
 └── 05-sc200/
     ├── exam-prep/
@@ -74,9 +78,9 @@ Planned:
 ## Notes, Labs & Exam Prep
 
 ### 00 — Sandbox
-- [Sandbox](/00-sandbox//) — Sandbox
-     - [Oceanic Airlines](/00-sandbox/01-oceanic-airlines/) — Practice in my test tenant while studying for the SC-300, from Microsoft Learn and practice exams
-     - [Scenarios](/00-sandbox/02-scenarios/) — Realistic work situations to prepare for jobs and applications
+My own hands-on environment in Microsoft Entra ID. See the [explanation](/00-sandbox/README.md).
+- [Oceanic Airlines](/00-sandbox/01-oceanic-airlines/) — practice in my test tenant while studying for the SC-300, from Microsoft Learn and practice exams
+- [Scenarios](/00-sandbox/02-scenarios/) — realistic work situations to prepare for jobs and applications
 
 ---
 
@@ -105,7 +109,7 @@ Planned:
 **Exam Prep**
 - [Exam Preparation](/02-sc900/exam-prep/sc900-exam-prep.md) — Progress, scores and study approach
 - [Exam Strategy](/02-sc900/exam-prep/sc900-exam-strategy.md) — Quick reference for domains, products and comparisons for exam day
-- [Exam Last Push](/02-sc900/exam-prep/sc900-last-push.md) — Final study reference covering recurring weak areas, product distinctions, exam-style traps and wording pitfalls. Written the just before the exam.
+- [Exam Last Push](/02-sc900/exam-prep/sc900-last-push.md) — Final study reference covering recurring weak areas, product distinctions, exam-style traps and wording pitfalls. Written just before the exam.
 
 **Labs**
 - No hands-on labs — SC-900 is theory only.
@@ -134,11 +138,11 @@ Planned:
 ### 04 — SC-300: Identity and Access Administrator Associate
 **Notes**
 - [LP1 Explore identity in Microsoft Entra ID](/04-sc300/notes/lp1-explore-identity-in-microsoft-entra-id.md)
-- [LP2 Implement an identity management solution using Mircosoft Entra ID](/04-sc300/notes/lp2-implement-an-identity-management-solution-using-microsoft-entra-id.md)
+- [LP2 Implement an identity management solution using Microsoft Entra ID](/04-sc300/notes/lp2-implement-an-identity-management-solution-using-microsoft-entra-id.md)
 - [LP3 Implement an authentication and access management solution](/04-sc300/notes/lp3-implement-an-authentication-and-access-management-solution.md)
 - [LP4 Implement access management for apps](/04-sc300/notes/lp4-implement-access-management-for-apps.md)
-- [LP5 Implement access management for apps](/04-sc300/notes/lp5-plan-and-implement-and-identity-governance-strategy.md)
-- [Key Concepts](04-sc300/notes/z-key-concepts.md)
+- [LP5 Plan and implement an identity governance strategy](/04-sc300/notes/lp5-plan-and-implement-and-identity-governance-strategy.md)
+- [Key Concepts](/04-sc300/notes/z-key-concepts.md)
 
 **Exam Prep**
 - [Exam Preparation](/04-sc300/exam-prep/sc300-exam-prep.md) — Progress, scores and study approach
