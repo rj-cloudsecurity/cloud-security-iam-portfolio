@@ -20,7 +20,7 @@ The topics follow the SC-300 skills measured, not the order of an exam. The colu
 | Restrict self-service sign-up | Exam 1: Users #13 | Only allow accounts with the verified SMTP domains. | PowerShell only: `Set-MsolCompanySettings` (geen portal-instelling) | Done |
 | Helpdesk Administrator or User Administrator | Set 1: Users #9 | The helpdesk must assign licenses, create and delete users and groups, and reset passwords of non-administrators, with the least privilege. Give a test user each role in turn and check what they can and cannot do. | Entra ID > Roles & admins > Helpdesk Administrator of User Administrator > Add assignments | Done |
 | Bulk create users | Random 16: Users #2 | Create three users in bulk with the CSV template. Download the template and note which columns are required. | Entra ID > Users > Bulk operations > Bulk create | Done |
-| Bulk invite guests | Random 16: Users #3, Diagnostic: #9 | Invite external users in bulk with a CSV file. Note which columns are required and what happens at sign-in when Conditional Access requires MFA for guests. | | |
+| Bulk invite guests | Random 16: Users #3, Diagnostic: #9 | Invite external users in bulk with a CSV file. Note which columns are required and what happens at sign-in when Conditional Access requires MFA for guests. | Entra ID > Users > Bulk operations > Bulk invite en Entra ID > Conditional Access > Policies > New policy > Users > Include (group) > Grant > Require multifactor authentication | Done |
 | Sign-in page language | Random 16: Users #6 | Users whose browser is set to French must see a French sign-in page. Find where you add a language to the sign-in experience. | | |
 
 ## 2. External identities and hybrid identity
