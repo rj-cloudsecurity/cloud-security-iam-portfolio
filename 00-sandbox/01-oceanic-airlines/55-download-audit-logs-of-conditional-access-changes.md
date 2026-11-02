@@ -22,7 +22,7 @@ Een Conditional Access policy wijzigen, de audit logs op die wijziging filteren 
 - De wijziging verscheen in de audit logs om 10:35:21: Service Conditional Access, Category Policy, Activity **Update conditional access policy**, Status Success. Ongeveer een minuut na de wijziging
 - Dezelfde wijziging staat ook als twee regels "Update policy" met Service Core Directory
 - Onder **Modified Properties** staat de oude waarde (displayName `Sign-in risk: require MFA`) en de nieuwe waarde (`Require MFA for Sign-in risk`), elk als JSON van het hele beleid. Alleen displayName en modifiedDateTime verschillen; de rest (state, conditions, grantControls) is gelijk
-- Exportformaten in het Download-menu: <INVULLEN>
+- Exportformaten in het Download-menu: JSON of CSV
 
 ## Wat dit aantoont
 - Wijzigingen aan Conditional Access staan in **Audit logs** met Service Conditional Access en Activity Update conditional access policy
