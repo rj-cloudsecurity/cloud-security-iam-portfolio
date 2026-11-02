@@ -23,165 +23,165 @@
 | Platform | Score | Notes |
 |----------|-------|-------|
 | Test 1 — Official Microsoft Practice Assessment 1 | 54% | 27/50. Weakest: D1 (administrative units, dynamic groups, WS-Fed, PTA vs PHS), D2 (Identity Protection, CBA, Global Secure Access), D3 (App Proxy, scope, Cloud Discovery), D4 (entitlement management, PIM for Groups, audit logs). |
-| Test 2 — Custom Exam Domain 1 | 85% | 17/20. Fouten: B2B direct connect vs collaboration, licentie voor dynamic groups (P1), directory extensions voor custom attributen. |
-| Test 3 — Custom Exam Domain 2 | 80% | 16/20. Fouten: security defaults blokkeren Conditional Access, MFA fraud alert (automatisch blokkeren), Global Secure Access compliant network, Identity Protection vereist P2. |
-| Test 4 — Custom Exam Domain 3 | 70% | 14/20. Fouten: Enterprise applications vs App registrations, delegated vs application permissions, client credentials flow, snapshot report vs app connector, federated identity credential (GitHub Actions), Application Developer rol. |
-| Test 5 — Custom Exam Domain 4 | 95% | 19/20. Fout: Lifecycle Workflows vereist Entra ID Governance. |
-| Test 6 — Custom Exam Mixed Domains | 80% | 24/30. Fouten: App registrations vs Enterprise applications, Lifecycle Workflows-licentie, B2B collaboration vs direct connect, Application Proxy-connectiviteit, compliant network vs compliant device, Sentinel data connector + analytics rule. |
-| Test 7 — Tutorials Dojo Practice Exam 1 | 55% | 26/50 vragen (31/56 punten). D1 50%, D2 59%, D3 86%, D4 44%. Fouten: PowerShell-cmdlets (licenties, sign-up, uitnodigingen), Connect Sync inbound rules, entitlement management settings en access packages, access reviews, Defender for Cloud Apps-policies, admin consent, SCIM. |
-| Test 8 — Tutorials Dojo Randomized Test | 75% | 37/50 vragen (42/56 punten). Users 79%, Authentication 81%, Governance 60%, Workload 83%. Fouten: Defender for Cloud Apps session control (eerste stap), diagnostic settings (2x), Application Developer, Terms of use (audit logs, PDF), PIM-scope, Key Vault RBAC, custom security attributes, access review-scope, SSPR-methode. |
-| Test 9 — Tutorials Dojo Diagnostic Test | 90% | 9/10 vragen. Users 100%, Authentication 100%, Governance 100%, Workload 0% (1 vraag). Fout: Defender for Cloud Apps activity policy. |
-| Test 10 — Tutorials Dojo Timed Mode Set 1 | 67% | 33/50 vragen (36/54 punten). Users 60%, Authentication 74%, Governance 56%, Workload 78%. Fouten: administrative unit (Password Administrator), cross-tenant credentials, Application Developer, rol voor helpdesk, Sentinel data connector, MFA zonder mobiel signaal, App governance, sign-in risk policy, Set-MgGroupLicense, PIM, diagnostic settings (2x), Terms of use (audit logs), entitlement management (catalog en settings), OAuth app policy, session policy. |
+| Test 2 — Custom Exam Domain 1 | 85% | 17/20. Mistakes: B2B direct connect vs collaboration, license for dynamic groups (P1), directory extensions for custom attributes. |
+| Test 3 — Custom Exam Domain 2 | 80% | 16/20. Mistakes: security defaults block Conditional Access, MFA fraud alert (automatically block), Global Secure Access compliant network, Identity Protection requires P2. |
+| Test 4 — Custom Exam Domain 3 | 70% | 14/20. Mistakes: Enterprise applications vs App registrations, delegated vs application permissions, client credentials flow, snapshot report vs app connector, federated identity credential (GitHub Actions), Application Developer role. |
+| Test 5 — Custom Exam Domain 4 | 95% | 19/20. Mistake: Lifecycle Workflows requires Entra ID Governance. |
+| Test 6 — Custom Exam Mixed Domains | 80% | 24/30. Mistakes: App registrations vs Enterprise applications, Lifecycle Workflows license, B2B collaboration vs direct connect, Application Proxy connectivity, compliant network vs compliant device, Sentinel data connector + analytics rule. |
+| Test 7 — Tutorials Dojo Practice Exam 1 | 55% | 26/50 questions (31/56 points). D1 50%, D2 59%, D3 86%, D4 44%. Mistakes: PowerShell cmdlets (licenses, sign-up, invitations), Connect Sync inbound rules, entitlement management settings and access packages, access reviews, Defender for Cloud Apps policies, admin consent, SCIM. |
+| Test 8 — Tutorials Dojo Randomized Test | 75% | 37/50 questions (42/56 points). Users 79%, Authentication 81%, Governance 60%, Workload 83%. Mistakes: Defender for Cloud Apps session control (first step), diagnostic settings (2x), Application Developer, Terms of use (audit logs, PDF), PIM scope, Key Vault RBAC, custom security attributes, access review scope, SSPR method. |
+| Test 9 — Tutorials Dojo Diagnostic Test | 90% | 9/10 questions. Users 100%, Authentication 100%, Governance 100%, Workload 0% (1 question). Mistake: Defender for Cloud Apps activity policy. |
+| Test 10 — Tutorials Dojo Timed Mode Set 1 | 67% | 33/50 questions (36/54 points). Users 60%, Authentication 74%, Governance 56%, Workload 78%. Mistakes: administrative unit (Password Administrator), cross-tenant credentials, Application Developer, role for a helpdesk, Sentinel data connector, MFA without mobile signal, App governance, sign-in risk policy, Set-MgGroupLicense, PIM, diagnostic settings (2x), Terms of use (audit logs), entitlement management (catalog and settings), OAuth app policy, session policy. |
 
 ## Next Focus Areas after Test 1
 
 **Domain 1 — Implement and manage user identities**
-  - Administrative units: een groep in de AU geeft beheer over de groep en het lidmaatschap, niet over de leden; een gebruiker die zelf in de AU zit kun je wel beheren
-  - Dynamic groups: aanmaken in het Entra admin center en het Intune admin center, niet in het Microsoft 365 admin center
-  - WS-Fed federation: vereiste claims in het token zijn ImmutableID en emailaddress
-  - PTA vs PHS: PTA dwingt user-level AD-policies af, PHS niet
-  - Connect Health: Duplicate Attribute-rapport voor sync-fouten met self-service remediation
+  - Administrative units: a group in the AU gives management of the group and its membership, not of the members; a user who is in the AU itself can be managed
+  - Dynamic groups: created in the Entra admin center and the Intune admin center, not in the Microsoft 365 admin center
+  - WS-Fed federation: required claims in the token are ImmutableID and emailaddress
+  - PTA vs PHS: PTA enforces user-level AD policies, PHS does not
+  - Connect Health: Duplicate Attribute report for sync errors with self-service remediation
 
 **Domain 2 — Implement authentication and access management**
-  - Certificate-based authentication: high-affinity bindings zijn X509SKI, SHA1PublicKey en IssuerAndSerialNumber
-  - Identity Protection: Block access is de enige controle die in zowel de sign-in risk als de user risk policy zit
-  - Risk detections-rapport bewaart 90 dagen, Risky sign-ins 30 dagen
-  - Global Secure Access: web content filtering (bijv. gambling) = security profile gekoppeld aan een Conditional Access policy
-  - Global Secure Access client: Windows moet Entra joined of hybrid joined zijn, macOS mag registered zijn via Company Portal
-  - Licentie: Private Access én Internet Access samen = Microsoft Entra Suite
+  - Certificate-based authentication: high-affinity bindings are X509SKI, SHA1PublicKey and IssuerAndSerialNumber
+  - Identity Protection: Block access is the only control that is in both the sign-in risk and the user risk policy
+  - The Risk detections report keeps data for 90 days, Risky sign-ins for 30 days
+  - Global Secure Access: web content filtering (e.g. gambling) = security profile linked to a Conditional Access policy
+  - Global Secure Access client: Windows must be Entra joined or hybrid joined, macOS may be registered via Company Portal
+  - License: Private Access and Internet Access together = Microsoft Entra Suite
 
 **Domain 3 — Plan and implement workload identities**
-  - Federation-SSO methoden: SAML, OpenID Connect en OAuth
-  - Legacy on-prem webapp publiceren met MFA: eerste stap is Application Proxy
-  - Scope bij application permissions: `https://graph.microsoft.com/.default`
-  - Apps registreren bij "Users can register applications = No": Application Developer
-  - Cloud Discovery dashboard vullen: snapshot report (log upload), geen app connector
-  - Downloads blokkeren op unmanaged devices in third-party apps: Conditional Access App Control (session policy)
+  - Federation SSO methods: SAML, OpenID Connect and OAuth
+  - Publishing a legacy on-prem web app with MFA: the first step is Application Proxy
+  - Scope for application permissions: `https://graph.microsoft.com/.default`
+  - Registering apps when "Users can register applications = No": Application Developer
+  - Filling the Cloud Discovery dashboard: snapshot report (log upload), not an app connector
+  - Blocking downloads on unmanaged devices in third-party apps: Conditional Access App Control (session policy)
 
 **Domain 4 — Plan and automate identity governance**
-  - Connected organization: federation en one-time passcode als authenticatiemethoden
-  - Externe gebruikers die nog niet in de tenant staan: toegang aanvragen via een My Access portal-link
-  - Just-in-time toegang voor member/owner van een security group: PIM for Groups
-  - Alle PIM-activiteit voor een groep: Resource audit; My audit toont alleen eigen acties
-  - Entra-logs naar Azure Monitor vereist een Entra ID P1- of P2-licentie
+  - Connected organization: federation and one-time passcode as authentication methods
+  - External users who are not yet in the tenant: request access via a My Access portal link
+  - Just-in-time access for a member/owner of a security group: PIM for Groups
+  - All PIM activity for a group: Resource audit; My audit only shows your own actions
+  - Entra logs to Azure Monitor require an Entra ID P1 or P2 license
 
 ## Next Focus Areas after Test 2
-  - Domain 1 — B2B direct connect = Teams shared channels zonder guest-account; B2B collaboration = guest users
-  - Domain 1 — Dynamic groups vereisen Entra ID P1; de Intune admin center is een portal, geen licentie
-  - Domain 1 — Custom attribuut uit on-prem AD naar Entra synchroniseren: directory extensions (cloudFiltered is een uitsluit-markering, geen sync)
+  - Domain 1 — B2B direct connect = Teams shared channels without a guest account; B2B collaboration = guest users
+  - Domain 1 — Dynamic groups require Entra ID P1; the Intune admin center is a portal, not a license
+  - Domain 1 — Synchronizing a custom attribute from on-prem AD to Entra: directory extensions (cloudFiltered is an exclusion marker, not a sync)
 
 ## Next Focus Areas after Test 3
-  - Domain 2 — Security defaults staan standaard aan in een nieuwe tenant en blokkeren Conditional Access; eerst uitzetten, ook met P1
-  - Domain 2 — Fraud alert: gebruiker meldt een ongevraagde MFA-prompt; optie "Automatically block users who report fraud" blokkeert het account
-  - Domain 2 — Global Secure Access: Compliant network (onder Conditions > Locations) herkent verkeer via GSA; een named location met IP-ranges kan dat niet
-  - Domain 2 — Identity Protection (sign-in en user risk policies) vereist Entra ID P2; P1 geeft alleen Conditional Access
-  - Domain 2 — PTA smart lockout: Entra-drempel lager dan AD-drempel, zodat Entra eerder blokkeert dan AD
+  - Domain 2 — Security defaults are on by default in a new tenant and block Conditional Access; turn them off first, even with P1
+  - Domain 2 — Fraud alert: the user reports an unrequested MFA prompt; the option "Automatically block users who report fraud" blocks the account
+  - Domain 2 — Global Secure Access: Compliant network (under Conditions > Locations) recognizes traffic through GSA; a named location with IP ranges cannot do that
+  - Domain 2 — Identity Protection (sign-in and user risk policies) requires Entra ID P2; P1 only gives Conditional Access
+  - Domain 2 — PTA smart lockout: Entra threshold lower than the AD threshold, so Entra blocks before AD does
 
 ## Next Focus Areas after Test 4
-  - Domain 3 — SSO (SAML) configureer je in Enterprise applications; App registrations is voor eigen apps en API's
-  - Domain 3 — Delegated permissions: namens een ingelogde gebruiker; application permissions: zonder gebruiker, altijd admin consent
-  - Domain 3 — Daemon zonder gebruiker: client credentials flow; met gebruiker: authorization code flow
-  - Domain 3 — Cloud Discovery: snapshot report = eenmalig logbestand uploaden; continuous report = automatisch; app connector = SaaS-app via API koppelen
-  - Domain 3 — Workload identity federation (bijv. GitHub Actions zonder secrets): federated identity credential op de app registration; managed identities bestaan alleen voor Azure-resources
-  - Domain 3 — Apps registreren bij "Users can register applications = No": Application Developer (least privilege)
-  - Domain 3 — Consent: user consent instellen via verified publishers + selected permissions; admin consent workflow voor aanvragen
+  - Domain 3 — You configure SSO (SAML) in Enterprise applications; App registrations is for your own apps and APIs
+  - Domain 3 — Delegated permissions: on behalf of a signed-in user; application permissions: without a user, always admin consent
+  - Domain 3 — Daemon without a user: client credentials flow; with a user: authorization code flow
+  - Domain 3 — Cloud Discovery: snapshot report = upload a log file once; continuous report = automatic; app connector = connect a SaaS app via API
+  - Domain 3 — Workload identity federation (e.g. GitHub Actions without secrets): federated identity credential on the app registration; managed identities only exist for Azure resources
+  - Domain 3 — Registering apps when "Users can register applications = No": Application Developer (least privilege)
+  - Domain 3 — Consent: configure user consent via verified publishers + selected permissions; admin consent workflow for requests
 
 ## Next Focus Areas after Test 5
-  - Domain 4 — Lifecycle Workflows vereist Microsoft Entra ID Governance (of Entra Suite); Workload ID Premium is alleen voor workload identities
+  - Domain 4 — Lifecycle Workflows requires Microsoft Entra ID Governance (or Entra Suite); Workload ID Premium is only for workload identities
 
 ## Next Focus Areas after Test 6
-  - Domain 3 — App registrations: eigen app of API (app roles, API scopes, secrets); Enterprise applications: SSO, toewijzing en Conditional Access voor een bestaande app
-  - Domain 4 — Lifecycle Workflows (joiner, mover, leaver) vereisen Microsoft Entra ID Governance, niet P2
-  - Domain 1 — B2B collaboration: guest-object in de directory (SharePoint, apps, bestanden); B2B direct connect: alleen Teams shared channels, geen object
-  - Domain 3 — Application Proxy connector: alleen uitgaand verkeer op poort 80 en 443, geen inkomende poorten
-  - Domain 2 — Compliant network (Conditions > Locations, vereist CA-signalering in Global Secure Access) controleert het verkeer; compliant device (Intune) controleert het apparaat
-  - Domain 4 — Sentinel-detectie: data connector voor de logs plus een scheduled analytics rule; playbook is alleen de reactie
+  - Domain 3 — App registrations: your own app or API (app roles, API scopes, secrets); Enterprise applications: SSO, assignment and Conditional Access for an existing app
+  - Domain 4 — Lifecycle Workflows (joiner, mover, leaver) require Microsoft Entra ID Governance, not P2
+  - Domain 1 — B2B collaboration: guest object in the directory (SharePoint, apps, files); B2B direct connect: Teams shared channels only, no object
+  - Domain 3 — Application Proxy connector: outbound traffic only on ports 80 and 443, no inbound ports
+  - Domain 2 — Compliant network (Conditions > Locations, requires CA signaling in Global Secure Access) checks the traffic; compliant device (Intune) checks the device
+  - Domain 4 — Sentinel detection: data connector for the logs plus a scheduled analytics rule; a playbook is only the response
 
 ## Next Focus Areas after Test 7
 
 **Domain 1 — Implement and manage user identities**
-  - Group-based licensing: nieuwe licentie aan de groep toewijzen en oude verwijderen met `Set-MgGroupLicense`; directe licenties in bulk verwijderen via de Licenses blade
-  - Self-service sign-up beperken tot verified SMTP-domeinen: `Set-MsolCompanySettings`
-  - Gast uitnodigen met PowerShell: `New-AzureADMSInvitation`
-  - Connect Sync: gebruikers uitsluiten op attribuutwaarde (bijv. extensionAttribute15 = NoSync): inbound synchronization rule op de AD DS connector (scoping filter in de Synchronization Rules Editor); inbound = bron naar metaverse, outbound = naar de Entra ID connector
-  - Connect Sync: OU-filtering (Domain and OU filtering in de wizard) is voor een locatie of hele OU; een attribuutwaarde vraagt een inbound rule
-  - Verwijderde gebruiker herstellen: binnen 30 dagen, minimale rol User Administrator
-  - Password Administrator kan alleen wachtwoorden resetten binnen de scope waarop de rol is toegewezen (organisatie of administrative unit)
-  - SCIM 2.0: standaard voor automatische provisioning naar SaaS-apps; SAML, OIDC en OAuth zijn voor sign-in en autorisatie
+  - Group-based licensing: assign the new license to the group and remove the old one with `Set-MgGroupLicense`; remove direct licenses in bulk via the Licenses blade
+  - Restrict self-service sign-up to verified SMTP domains: `Set-MsolCompanySettings`
+  - Invite a guest with PowerShell: `New-AzureADMSInvitation`
+  - Connect Sync: exclude users by attribute value (e.g. extensionAttribute15 = NoSync): inbound synchronization rule on the AD DS connector (scoping filter in the Synchronization Rules Editor); inbound = source to metaverse, outbound = to the Entra ID connector
+  - Connect Sync: OU filtering (Domain and OU filtering in the wizard) is for a location or a whole OU; an attribute value needs an inbound rule
+  - Restore a deleted user: within 30 days, minimum role User Administrator
+  - Password Administrator can only reset passwords within the scope the role is assigned at (organization or administrative unit)
+  - SCIM 2.0: the standard for automatic provisioning to SaaS apps; SAML, OIDC and OAuth are for sign-in and authorization
 
 **Domain 2 — Implement authentication and access management**
-  - PTA dwingt on-prem account lockout af bij cloud sign-ins; smart lockout doet dat niet
-  - SSPR met 1 vereiste methode: mobile app code (de notificatie werkt alleen als 2 methoden nodig zijn)
-  - Legacy authentication blokkeren: Conditional Access, condition Client apps
-  - SSO via Enterprise application; toegang beperken tot Entra-joined devices via een Conditional Access policy
+  - PTA enforces on-prem account lockout for cloud sign-ins; smart lockout does not
+  - SSPR with 1 required method: mobile app code (the notification only works if 2 methods are required)
+  - Block legacy authentication: Conditional Access, condition Client apps
+  - SSO via Enterprise application; restrict access to Entra-joined devices with a Conditional Access policy
 
 **Domain 3 — Plan and implement workload identities**
-  - Defender for Cloud Apps session control voor een third-party SaaS-app: eerste stap is SSO instellen in het Entra admin center
-  - Activity policy: alerts bij risicovolle acties in SaaS-apps (mass downloads, herhaalde verwijderingen); session policy: real-time controle
-  - App governance dashboard: rol Cloud Application Administrator, via het Microsoft Defender portal
-  - Daemon-app naar Graph: app registreren, Graph permissions toewijzen, tenant-wide admin consent geven
-  - App in tenant A naar app in tenant B: certificate of secret; managed identity werkt niet over tenants
-  - Admin consent requests kan alleen een aangewezen reviewer goedkeuren die ook een rol met consent-rechten heeft (bijv. Cloud Application Administrator)
-  - Apps registreren bij "Users can register applications = No": Application Developer
+  - Defender for Cloud Apps session control for a third-party SaaS app: the first step is to set up SSO in the Entra admin center
+  - Activity policy: alerts on risky actions in SaaS apps (mass downloads, repeated deletions); session policy: real-time control
+  - App governance dashboard: role Cloud Application Administrator, via the Microsoft Defender portal
+  - Daemon app to Graph: register the app, assign Graph permissions, give tenant-wide admin consent
+  - App in tenant A to app in tenant B: certificate or secret; a managed identity does not work across tenants
+  - Admin consent requests can only be approved by a designated reviewer who also has a role with consent rights (e.g. Cloud Application Administrator)
+  - Registering apps when "Users can register applications = No": Application Developer
 
 **Domain 4 — Plan and automate identity governance**
-  - Entitlement management settings: externe gebruikers automatisch laten verwijderen na een periode (bijv. 90 dagen)
-  - Tijdelijke toegang tot groep en SharePoint-site (bijv. 90 dagen): access package met expiration in de policy
-  - Periodieke review van gasttoegang die via een groep loopt: access review van die groep
-  - Entra audit logs naar Azure Monitor: diagnostic settings naar een Log Analytics workspace
+  - Entitlement management settings: automatically remove external users after a period (e.g. 90 days)
+  - Temporary access to a group and SharePoint site (e.g. 90 days): access package with expiration in the policy
+  - Periodic review of guest access that comes through a group: access review of that group
+  - Entra audit logs to Azure Monitor: diagnostic settings to a Log Analytics workspace
 
 ## Next Focus Areas after Test 8
 
-**Terugkerende fouten (meerdere tests)**
-  - Diagnostic settings: eerste stap om Entra audit/sign-in logs naar Log Analytics te sturen (fout in Test 7 en 2x in Test 8)
-  - Application Developer: apps registreren als "Users can register applications = No" (fout in Test 4, 7 en 8)
-  - Defender for Cloud Apps session control (fout in Test 7 en 3x in Test 8): zie Domain 3
+**Recurring mistakes (multiple tests)**
+  - Diagnostic settings: the first step to send Entra audit/sign-in logs to Log Analytics (mistake in Test 7 and 2x in Test 8)
+  - Application Developer: registering apps when "Users can register applications = No" (mistake in Test 4, 7 and 8)
+  - Defender for Cloud Apps session control (mistake in Test 7 and 3x in Test 8): see Domain 3
 
 **Domain 1 — Implement and manage user identities**
-  - Terms of use: wie accepteerde of weigerde zie je in de audit logs (30 dagen bewaard); het ToU-document upload je als PDF
-  - Custom security attributes: Global Administrator heeft er standaard geen rechten op; eerst de rol Attribute Definition/Assignment Administrator of Reader toewijzen, per attribute set
+  - Terms of use: who accepted or declined is shown in the audit logs (kept for 30 days); you upload the ToU document as a PDF
+  - Custom security attributes: Global Administrator has no rights on them by default; first assign the role Attribute Definition/Assignment Administrator or Reader, per attribute set
 
 **Domain 2 — Implement authentication and access management**
-  - SSPR met 1 vereiste methode: verificatiecode naar extern e-mailadres is geldig (naast mobile app code); smartcard en Windows Hello for Business zijn geen SSPR-methoden
-  - PIM beheert Entra-rollen (bijv. SharePoint Administrator) en Azure resource-rollen; geen classic administrator-rollen (Account Administrator) en geen billing account-rollen (Billing Account Owner)
+  - SSPR with 1 required method: a verification code to an external email address is valid (besides mobile app code); smartcard and Windows Hello for Business are not SSPR methods
+  - PIM manages Entra roles (e.g. SharePoint Administrator) and Azure resource roles; not classic administrator roles (Account Administrator) and not billing account roles (Billing Account Owner)
 
 **Domain 3 — Plan and implement workload identities**
-  - Defender for Cloud Apps session control: is de app nog niet via Entra ingericht, dan eerst SSO; staat de app al in Entra, dan eerst een Conditional Access policy met Session > Use Conditional Access App Control; pas daarna de session policy in Defender
-  - Key Vault met Azure RBAC: Key Vault Administrator en Key Vault Secrets User lezen secret-waarden, Key Vault Reader alleen metadata; een rol op subscription-niveau geldt voor alle vaults eronder, een rol op één vault alleen voor die vault
+  - Defender for Cloud Apps session control: if the app is not yet set up via Entra, SSO first; if the app is already in Entra, first a Conditional Access policy with Session > Use Conditional Access App Control; only then the session policy in Defender
+  - Key Vault with Azure RBAC: Key Vault Administrator and Key Vault Secrets User read secret values, Key Vault Reader only metadata; a role at subscription level applies to all vaults below it, a role on a single vault only to that vault
 
 **Domain 4 — Plan and automate identity governance**
-  - Access reviews kunnen op groepen, enterprise applications, Entra-rollen (via PIM) en service principals (vereist Workload ID Premium plus P2 of Governance)
+  - Access reviews can target groups, enterprise applications, Entra roles (via PIM) and service principals (requires Workload ID Premium plus P2 or Governance)
 
 ## Next Focus Areas after Test 9
-  - Domain 3 — Activity policy: alert bij een drempel van activiteit in een SaaS-app (bijv. meer dan 100 downloads in een minuut); session policy is real-time controle, anomaly detection is machine learning zonder vaste drempel
+  - Domain 3 — Activity policy: alert on a threshold of activity in a SaaS app (e.g. more than 100 downloads in a minute); session policy is real-time control, anomaly detection is machine learning without a fixed threshold
 
 ## Next Focus Areas after Test 10
 
-**Terugkerende fouten (meerdere tests)**
-  - Application Developer: apps registreren als "Users can register applications = No" (fout in Test 4, 7, 8 en 10)
-  - Diagnostic settings: eerste stap om Entra-logs naar Log Analytics te sturen (fout in Test 7, 8 en 10)
-  - Defender for Cloud Apps session policy en session control (fout in Test 7, 8 en 10): zie Domain 3
-  - Terms of use: wie accepteerde of weigerde zie je in de audit logs (fout in Test 8 en 10)
-  - `Set-MgGroupLicense` voor licenties per groep (fout in Test 7 en 10)
-  - Entitlement management settings: externe gebruikers na 90 dagen verwijderen (fout in Test 7 en 10)
-  - App governance dashboard: Cloud Application Administrator via het Microsoft Defender portal (fout in Test 7 en 10)
-  - Password Administrator en scope: administrative unit (fout in Test 7 en 10)
+**Recurring mistakes (multiple tests)**
+  - Application Developer: registering apps when "Users can register applications = No" (mistake in Test 4, 7, 8 and 10)
+  - Diagnostic settings: the first step to send Entra logs to Log Analytics (mistake in Test 7, 8 and 10)
+  - Defender for Cloud Apps session policy and session control (mistake in Test 7, 8 and 10): see Domain 3
+  - Terms of use: who accepted or declined is shown in the audit logs (mistake in Test 8 and 10)
+  - `Set-MgGroupLicense` for licenses per group (mistake in Test 7 and 10)
+  - Entitlement management settings: remove external users after 90 days (mistake in Test 7 and 10)
+  - App governance dashboard: Cloud Application Administrator via the Microsoft Defender portal (mistake in Test 7 and 10)
+  - Password Administrator and scope: administrative unit (mistake in Test 7 and 10)
 
 **Domain 1 — Implement and manage user identities**
-  - Password Administrator kan wachtwoorden resetten van users zonder beheerdersrol, Directory Readers, Guest Inviter en andere Password Administrators; met scope organisatie voor iedereen die daaronder valt, met scope administrative unit alleen voor leden van die AU
-  - App in tenant A naar app in tenant B: twee geldige credentials, secret én certificate; API key en token zijn geen credentials hiervoor
-  - Helpdesk die licenties toewijst, users en groepen aanmaakt en verwijdert en wachtwoorden van niet-beheerders reset: User Administrator; Helpdesk Administrator mag alleen wachtwoorden resetten
+  - Password Administrator can reset passwords of users without an admin role, Directory Readers, Guest Inviter and other Password Administrators; with organization scope for everyone under it, with administrative unit scope only for members of that AU
+  - App in tenant A to app in tenant B: two valid credentials, secret and certificate; an API key and a token are not credentials for this
+  - A helpdesk that assigns licenses, creates and deletes users and groups and resets passwords of non-admins: User Administrator; Helpdesk Administrator may only reset passwords
 
 **Domain 2 — Implement authentication and access management**
-  - Sentinel data connector voor Entra ID: de connector in Sentinel haalt de logs binnen; diagnostic settings alleen routeert logs en een user risk policy koppelt niets
-  - MFA zonder mobiel signaal of wifi: Windows Hello for Business werkt op het apparaat, ook offline; Windows Hello for Business is geen SSPR-methode
-  - Sign-in risk policy die niet blokkeert: eerst MFA voor gebruikers via een policy, zodat risicovolle aanmeldingen de MFA-vraag kunnen beantwoorden
+  - Sentinel data connector for Entra ID: the connector in Sentinel brings in the logs; diagnostic settings only routes logs and a user risk policy connects nothing
+  - MFA without mobile signal or wifi: Windows Hello for Business works on the device, also offline; Windows Hello for Business is not an SSPR method
+  - A sign-in risk policy that does not block: first the MFA registration policy in ID Protection, so users can register for MFA and answer the MFA prompt of a risky sign-in. You now create the sign-in risk policy itself in Conditional Access (condition Sign-in risk); the legacy sign-in risk policy in ID Protection has been retired
 
 **Domain 3 — Plan and implement workload identities**
-  - OAuth app policy (Defender for Cloud Apps): alert als meer dan een aantal users een third-party app met hoge rechten autoriseren
-  - Session policy: real-time beperking tijdens de sessie, bijvoorbeeld printen of downloaden blokkeren in SharePoint; file policy en access policy doen dat niet
+  - OAuth app policy (Defender for Cloud Apps): alert when more than a number of users authorize a third-party app with high permissions
+  - Session policy: real-time restriction during the session, for example blocking printing or downloading in SharePoint; file policy and access policy do not do that
 
 **Domain 4 — Plan and automate identity governance**
-  - PIM: voor beheerders met brede rechten over meerdere subscriptions: just-in-time toegang, monitoring en access reviews
-  - Entra sign-in en activity logs naar Azure Monitor: diagnostic settings; een data collection rule alleen is niet genoeg omdat die geen logs uit Entra exporteert
-  - Entitlement management begint met een catalog; daarin voeg je de resources toe (SharePoint-site, team), daarna maak je de access packages
+  - PIM: for administrators with broad rights across multiple subscriptions: just-in-time access, monitoring and access reviews
+  - Entra sign-in and activity logs to Azure Monitor: diagnostic settings; a data collection rule alone is not enough because it does not export logs from Entra
+  - Entitlement management starts with a catalog; you add the resources to it (SharePoint site, team), then you create the access packages
