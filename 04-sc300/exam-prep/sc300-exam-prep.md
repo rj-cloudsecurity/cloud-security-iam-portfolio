@@ -23,11 +23,13 @@
 | Platform | Score | Notes |
 |----------|-------|-------|
 | Test 1 — Official Microsoft Practice Assessment 1 | 54% | 27/50. Weakest: D1 (administrative units, dynamic groups, WS-Fed, PTA vs PHS), D2 (Identity Protection, CBA, Global Secure Access), D3 (App Proxy, scope, Cloud Discovery), D4 (entitlement management, PIM for Groups, audit logs). |
+| **Custom exams** | | |
 | Test 2 — Custom Exam Domain 1 | 85% | 17/20. Mistakes: B2B direct connect vs collaboration, license for dynamic groups (P1), directory extensions for custom attributes. |
 | Test 3 — Custom Exam Domain 2 | 80% | 16/20. Mistakes: security defaults block Conditional Access, MFA fraud alert (automatically block), Global Secure Access compliant network, Identity Protection requires P2. |
 | Test 4 — Custom Exam Domain 3 | 70% | 14/20. Mistakes: Enterprise applications vs App registrations, delegated vs application permissions, client credentials flow, snapshot report vs app connector, federated identity credential (GitHub Actions), Application Developer role. |
 | Test 5 — Custom Exam Domain 4 | 95% | 19/20. Mistake: Lifecycle Workflows requires Entra ID Governance. |
 | Test 6 — Custom Exam Mixed Domains | 80% | 24/30. Mistakes: App registrations vs Enterprise applications, Lifecycle Workflows license, B2B collaboration vs direct connect, Application Proxy connectivity, compliant network vs compliant device, Sentinel data connector + analytics rule. |
+| **Tutorials Dojo practice exams** | | |
 | Test 7 — Tutorials Dojo Practice Exam 1 | 55% | 26/50 questions (31/56 points). D1 50%, D2 59%, D3 86%, D4 44%. Mistakes: PowerShell cmdlets (licenses, sign-up, invitations), Connect Sync inbound rules, entitlement management settings and access packages, access reviews, Defender for Cloud Apps policies, admin consent, SCIM. |
 | Test 8 — Tutorials Dojo Randomized Test | 75% | 37/50 questions (42/56 points). Users 79%, Authentication 81%, Governance 60%, Workload 83%. Mistakes: Defender for Cloud Apps session control (first step), diagnostic settings (2x), Application Developer, Terms of use (audit logs, PDF), PIM scope, Key Vault RBAC, custom security attributes, access review scope, SSPR method. |
 | Test 9 — Tutorials Dojo Diagnostic Test | 90% | 9/10 questions. Users 100%, Authentication 100%, Governance 100%, Workload 0% (1 question). Mistake: Defender for Cloud Apps activity policy. |
