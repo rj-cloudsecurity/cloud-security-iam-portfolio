@@ -33,7 +33,8 @@
 | Test 9 — Tutorials Dojo Diagnostic Test | 90% | 9/10 questions. Users 100%, Authentication 100%, Governance 100%, Workload 0% (1 question). Mistake: Defender for Cloud Apps activity policy. |
 | Test 10 — Tutorials Dojo Timed Mode Set 1 | 67% | 33/50 questions (36/54 points). Users 60%, Authentication 74%, Governance 56%, Workload 78%. Mistakes: administrative unit (Password Administrator), cross-tenant credentials, Application Developer, role for a helpdesk, Sentinel data connector, MFA without mobile signal, App governance, sign-in risk policy, Set-MgGroupLicense, PIM, diagnostic settings (2x), Terms of use (audit logs), entitlement management (catalog and settings), OAuth app policy, session policy. |
 | Test 11 — Tutorials Dojo Timed Mode Set 1 (second attempt) | 89% | 44/50 questions (48/54 points, 88.89%). Same questions as Test 10. Users 100%, Authentication 84%, Governance 88%, Workload 89%. Mistakes: Usage & insights (app sign-in success rate), access policy, Azure Monitor action group, App governance console (Microsoft Defender portal), Cloud Discovery, entitlement management catalog as first step. |
-| Test 12 — Tutorials Dojo Review Mode Set 1 | 96% | 48/50 questions (52/54 points, 96.30%). Users 100%, Authentication 100%, Governance 88%, Workload 100%. Mistakes: diagnostic settings (sign-in and activity logs are both needed), Azure Monitor action group. |
+| Test 12 — Tutorials Dojo Review Mode Set 1 (apparently, same as test 10 and 11) | 96% | 48/50 questions (52/54 points, 96.30%). Users 100%, Authentication 100%, Governance 88%, Workload 100%. Mistakes: diagnostic settings (sign-in and activity logs are both needed), Azure Monitor action group. |
+| Test 13 — Tutorials Dojo Review Mode Set 2 | 73% | 35/50 questions (40/55 points, 72.73%). Users 71%, Authentication 71%, Governance 56%, Workload 100%. Mistakes: access review scope (groups, apps, Entra roles, service principals), "Upon completion" setting of an access review, app governance (Microsoft Defender portal), modern authentication before tenant restrictions, ABAC (Azure Storage with blob index tags), Connect Sync inbound rule for extensionAttribute value, password writeback (not Conditional Access), PIM-manageable roles, Defender for Cloud Apps session control (SSO first), admin consent reviewer needs a role with consent rights, ABAC role conditions, access package for 90-day access, Identity Governance Administrator, collaboration restrictions, Application Proxy connector and Application Developer. |
 
 ## Next Focus Areas after Test 1
 
@@ -187,3 +188,30 @@
   - PIM: for administrators with broad rights across multiple subscriptions: just-in-time access, monitoring and access reviews
   - Entra sign-in and activity logs to Azure Monitor: diagnostic settings; a data collection rule alone is not enough because it does not export logs from Entra
   - Entitlement management starts with a catalog; you add the resources to it (SharePoint site, team), then you create the access packages
+
+## Next Focus Areas after Test 13
+
+**Recurring mistakes (multiple tests)**
+  - App governance: activate and manage it in the Microsoft Defender portal (mistake in Test 7, 10, 11 and 13)
+  - Defender for Cloud Apps session control: for an app that is not yet in Entra, the first step is SSO in the Entra admin center (mistake in Test 7, 8, 10 and 13)
+  - Application Developer vs Application Administrator: registering a new app = Application Developer; installing the Application Proxy connector or managing all apps = Application Administrator
+  - Admin consent reviewers: a designated reviewer can only approve with a role that has consent rights (e.g. Cloud Application Administrator); Authentication Administrator and a user without a role cannot (mistake in Test 7 and 13)
+
+**Domain 1 — Implement and manage user identities**
+  - Connect Sync: excluding users by attribute value (e.g. extensionAttribute15 = NoSync) = inbound synchronization rule on the AD DS connector; OU filtering is for locations (mistake in Test 7 and 13)
+  - Collaboration restrictions (External collaboration settings): allow or deny list of domains for B2B invitations; this is what blocks guests from a specific partner domain
+  - Identity Governance Administrator: creates and manages access packages, lifecycle policies and access reviews for entitlement management without global permissions
+
+**Domain 2 — Implement authentication and access management**
+  - Tenant restrictions only work with modern authentication (OAuth tokens); legacy clients such as Outlook 2013 need modern authentication enabled first
+  - Password writeback is configured in Microsoft Entra Connect; a Conditional Access policy does not write passwords back on-premises
+  - ABAC role assignment conditions: in the exam questions the answer is Azure Storage (blob data roles with blob index tags), and the role that supports conditions is Storage Blob Data Reader (Carlos), not Monitoring Reader, Contributor or Virtual Machine Contributor
+
+**Domain 3 — Plan and implement workload identities**
+  - Defender for Cloud Apps session control for a new SaaS app: SSO first, then Conditional Access with Conditional Access App Control, then the session policy
+
+**Domain 4 — Plan and automate identity governance**
+  - Access reviews can cover groups, enterprise applications, Entra roles and Azure resource roles (via PIM) and service principals (Workload ID Premium plus P2 or Governance)
+  - Access review: what happens when reviewers do not respond is set under Upon completion settings ("If reviewers don't respond")
+  - 90-day access to a group and SharePoint site: an access package with an expiration in the policy, not a group expiration policy or lifecycle workflow
+  - PIM manages Entra roles, Azure resource roles and groups; not the classic roles (Account Administrator, Service Administrator, Co-Administrator) and not billing roles. PIM can manage any Entra role; the Privileged label only marks the most sensitive roles
