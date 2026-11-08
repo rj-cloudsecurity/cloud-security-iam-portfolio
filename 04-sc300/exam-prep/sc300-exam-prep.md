@@ -219,3 +219,29 @@
   - Access review: what happens when reviewers do not respond is set under Upon completion settings ("If reviewers don't respond")
   - 90-day access to a group and SharePoint site: an access package with an expiration in the policy, not a group expiration policy or lifecycle workflow
   - PIM manages Entra roles, Azure resource roles and groups; not the classic roles (Account Administrator, Service Administrator, Co-Administrator) and not billing roles. PIM can manage any Entra role; the Privileged label only marks the most sensitive roles
+
+## Next Focus Areas after Test 14
+
+**Recurring mistakes (seen again in Test 1 and 14)**
+  - Dynamic groups: created in the Microsoft Entra admin center and the Microsoft Intune admin center, not in the Microsoft 365 admin center
+  - PTA vs PHS: pass-through authentication checks the on-premises account at sign-in, so a disabled AD account is blocked immediately; password hash synchronization does not
+  - Connect Health: the Duplicate Attribute report is the one with self-service remediation for sync errors
+  - Application Proxy is the first step to publish a legacy on-premises app with Entra MFA
+  - Conditional Access App Control (session policy) blocks downloads on unmanaged devices while allowing access
+  - PIM for Groups (the Groups option in PIM) for just-in-time member and owner access; Resource audit for all PIM activity of a group or role
+
+**Domain 1 — Implement and manage user identities**
+  - Smart lockout: the same wrong password entered repeatedly counts as one attempt, so the user can sign in at once with the correct password
+  - Security defaults are on in a new tenant; disable them before creating custom Conditional Access policies
+
+**Domain 2 — Implement authentication and access management**
+  - User risk policy: High minimizes user interruption; Low triggers the most often. Sign-in risk: Medium and High with MFA
+
+**Domain 3 — Plan and implement workload identities**
+  - Delegated permissions: the app acts on behalf of a signed-in user, but who may consent is a separate setting; when only administrators may consent (or the permission always needs it), grant admin consent
+  - Steps for a delegated Graph permission: app registration, add the delegated permission, grant admin consent; app roles belong to application permissions
+  - Federation-based SSO methods: SAML, OpenID Connect and OAuth; password-based and linked SSO are not federation-based
+  - Self-service access: lets a business owner approve access to an enterprise app; an app consent policy only defines which apps may be approved
+
+**Domain 4 — Plan and automate identity governance**
+  - Entra logs in Azure Monitor: you need a Microsoft Entra ID P1 or P2 license; a Log Analytics workspace is where logs go, not the prerequisite
