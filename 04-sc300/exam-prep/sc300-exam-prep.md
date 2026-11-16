@@ -39,6 +39,12 @@
 | Test 13 — Tutorials Dojo Review Mode Set 2 | 73% | 35/50 questions (40/55 points, 72.73%). Users 71%, Authentication 71%, Governance 56%, Workload 100%. Mistakes: access review scope (groups, apps, Entra roles, service principals), "Upon completion" setting of an access review, app governance (Microsoft Defender portal), modern authentication before tenant restrictions, ABAC (Azure Storage with blob index tags), Connect Sync inbound rule for extensionAttribute value, password writeback (not Conditional Access), PIM-manageable roles, Defender for Cloud Apps session control (SSO first), admin consent reviewer needs a role with consent rights, ABAC role conditions, access package for 90-day access, Identity Governance Administrator, collaboration restrictions, Application Proxy connector and Application Developer. |
 | **Official Microsoft Practice Assessment** | | |
 | Test 14 — Official Microsoft Practice Assessment 2 | 72% | 36/50 questions, 36 minutes. Weakest section: Plan and implement workload identities, then Plan and automate identity governance. Mistakes: self-service access for approving app access, federation-based SSO methods (OpenID Connect, OAuth, SAML), delegated permissions with admin consent, Application Proxy as first step, Conditional Access App Control, PIM for Groups, PIM Resource audit, Entra logs in Azure Monitor (P1 or P2 license), dynamic group portals, pass-through authentication for disabled accounts, Connect Health Duplicate Attribute report, smart lockout, security defaults, user risk level. |
+| **Tutorials Dojo practice exams (continued)** | | |
+| Test 15 — Tutorials Dojo Timed Mode Set 2 (apparently same as Review Mode Set 2, Test 13) | 87% | 44/50 questions (48/55 points, 87.27%). Users 86%, Authentication 86%, Governance 88%, Workload 91%. Mistakes: Defender for Cloud Apps session control (SSO first), PIM scope (classic and billing roles), Conditional Access template excludes its creator, certificate-based authentication (add the CA to the tenant), Graph daemon app steps (register, permissions, admin consent), Key Vault RBAC (subscription-level role). |
+| Test 16 — Tutorials Dojo Section-Based: Implement and Manage User Identities | 82% | 12/15 questions (14/17 points, 82.35%). Mistakes: Application Developer (misread as Application Administrator), Identity Governance Administrator, Billing Administrator. |
+| Test 17 — Tutorials Dojo Section-Based: Implement Authentication and Access Management | 88% | 13/15 questions (14/16 points, 87.5%). Mistakes: Sentinel data connector (not diagnostic settings), Defender for Cloud Apps session control for SharePoint Online (Conditional Access policy with Conditional Access App Control first). |
+| Test 18 — Tutorials Dojo Section-Based: Plan and Implement Workload Identities | 88% | 13/15 questions (14/16 points, 87.5%). Mistakes: Defender for Cloud Apps access policy (block a high-risk user), Defender for Cloud Apps OAuth app policy (alert when more than N users authorize an app with elevated permissions). |
+| Test 19 — Tutorials Dojo Section-Based: Plan and Automate Identity Governance | 94% | 14/15 questions (15/16 points, 93.75%). Mistake: role for the App governance dashboard (Cloud Application Administrator, least privilege; not Security Administrator). |
 
 ## Next Focus Areas after Test 1
 
@@ -108,7 +114,7 @@
 
 **Domain 1 — Implement and manage user identities**
   - Group-based licensing: assign the new license to the group and remove the old one with `Set-MgGroupLicense`; remove direct licenses in bulk via the Licenses blade
-  - Restrict self-service sign-up to verified SMTP domains: `Set-MsolCompanySettings`
+  - Restrict self-service sign-up to verified SMTP domains: `Update-MgOrganization` (the Msol cmdlets are retired)
   - Invite a guest with PowerShell: `New-AzureADMSInvitation`
   - Connect Sync: exclude users by attribute value (e.g. extensionAttribute15 = NoSync): inbound synchronization rule on the AD DS connector (scoping filter in the Synchronization Rules Editor); inbound = source to metaverse, outbound = to the Entra ID connector
   - Connect Sync: OU filtering (Domain and OU filtering in the wizard) is for a location or a whole OU; an attribute value needs an inbound rule
@@ -245,3 +251,44 @@
 
 **Domain 4 — Plan and automate identity governance**
   - Entra logs in Azure Monitor: you need a Microsoft Entra ID P1 or P2 license; a Log Analytics workspace is where logs go, not the prerequisite
+
+## Next Focus Areas after Test 15
+
+**Recurring mistakes (multiple tests)**
+  - Defender for Cloud Apps session control for a new SaaS app: SSO first in the Entra admin center, then Conditional Access with Conditional Access App Control, then the session policy (mistake in Test 7, 8, 10, 13 and 15)
+  - PIM scope: Entra roles, Azure resource roles and groups; classic roles (Account Administrator) and billing account roles (Billing account owner) are outside PIM (mistake in Test 8 and 15)
+  - Key Vault with Azure RBAC: Key Vault Administrator reads secrets, Key Vault Secrets User reads secrets only where assigned, Key Vault Reader sees metadata only; a role at subscription level covers every vault below it (mistake in Test 8 and 15)
+
+**Domain 2 — Implement authentication and access management**
+  - Certificate-based authentication: add the on-premises CA as a certificate authority in the Entra tenant first
+  - Conditional Access template "Require multifactor authentication for Azure management": excludes the account that created the policy
+
+**Domain 3 — Plan and implement workload identities**
+  - Daemon app to Microsoft Graph: register the app, assign Graph application permissions, grant tenant-wide admin consent
+
+## Next Focus Areas after Tests 16 to 19 (Section-Based)
+
+**Recurring mistakes (multiple tests)**
+  - Role questions with least privilege: read all role names fully, then choose the narrowest role that can do the task (Application Developer, Billing Administrator, Identity Governance Administrator, Cloud Application Administrator)
+  - Defender for Cloud Apps policy types (mistake in Test 7, 8, 9, 10, 11, 13, 14 and 18): see Domain 3
+  - Session control first step: app already in Entra (SharePoint Online, an app assigned through Entra) = Conditional Access policy with Conditional Access App Control first; app not yet in Entra = SSO first
+
+**Domain 1 — Implement and manage user identities**
+  - Billing Administrator: purchases licenses and manages subscriptions (e.g. Defender for Cloud permissions management); License Administrator only assigns licenses; Billing Reader is read-only
+  - Identity Governance Administrator: creates and manages access packages, lifecycle policies and access reviews without global permissions
+
+**Domain 2 — Implement authentication and access management**
+  - Entra data to Microsoft Sentinel: the Microsoft Sentinel data connector for Entra ID; to Log Analytics / Azure Monitor: diagnostic settings in Entra (sign-in and activity logs both)
+
+**Domain 3 — Plan and implement workload identities**
+  - Defender for Cloud Apps policy types:
+    - Access policy: block or allow user access to an app (e.g. a high-risk user)
+    - Session policy: limit actions during a session (e.g. blocking downloads)
+    - Activity policy: alert on activity thresholds (mass downloads, repeated deletions)
+    - OAuth app policy: alert when users authorize third-party apps with high permissions
+    - App discovery policy: newly discovered apps (category, risk score, number of users)
+    - Unsanctioned: block an app for everyone; cloud app catalog: risk score and MFA support of an app
+  - App governance dashboard: Cloud Application Administrator via the Microsoft Defender portal (the least privilege role; Security Administrator also has access but is broader)
+
+**Domain 4 — Plan and automate identity governance**
+  - Privileged Role Administrator: assigns and configures Entra roles without other broad rights
