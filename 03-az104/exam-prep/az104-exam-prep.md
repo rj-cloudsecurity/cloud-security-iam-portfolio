@@ -1,8 +1,8 @@
 # AZ-104 Exam Preparation
 ## Certification
   - Microsoft Certified: Microsoft Azure Administrator (AZ-104)
-  - Result: In preparation
-  - Date:
+  - Result: Passed
+  - Date: June 29, 2026
 ## Study Method
   - Completing all Microsoft Learn modules
   - Watching John Savill's Technical Training AZ-104
