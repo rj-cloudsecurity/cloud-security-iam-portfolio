@@ -2,8 +2,8 @@
 
 ## Certification
   - Microsoft Certified: Identity and Access Administrator Associate (SC-300)
-  - Result: In preparation
-  - Date:
+  - Result: Passed
+  - Date: November 20, 2026
 
 ## Study Method
   - Completing all Microsoft Learn modules
