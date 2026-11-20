@@ -2,7 +2,7 @@
 ## Learning Path 1: Explore identity in Microsoft Entra ID
 
   - **SC-300 Started:** 2 August, 2026
-  - **SC-300 Exam passed:** 🔄
+  - **SC-300 Exam passed:** Passed, November 20, 2026
 
 ---
 
