@@ -53,7 +53,7 @@ Planned:
 | 01 | AZ-900 – Azure Fundamentals | ✅ Passed | March 12, 2026 |
 | 02 | SC-900 – Security, Compliance & Identity Fundamentals | ✅ Passed | April 8, 2026 |
 | 03 | AZ-104 – Azure Administrator Associate | ✅ Passed | June 29, 2026 |
-| 04 | SC-300 – Identity and Access Administrator Associate | 🔄 In Progress | — |
+| 04 | SC-300 – Identity and Access Administrator Associate | ✅ Passed | November 20, 2026 |
 | 05 | SC-200 – Microsoft Security Operations Analyst | 📅 Planned | — |
 
 ---
@@ -66,7 +66,7 @@ Planned:
 
 **Phase 2 — Associate**
 - AZ-104 – Azure Administrator Associate ✅
-- SC-300 – Identity and Access Administrator Associate 🔄
+- SC-300 – Identity and Access Administrator Associate ✅
 
 **Phase 3 — Next Steps**
 - SC-200 – Microsoft Security Operations Analyst
